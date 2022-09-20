@@ -1,9 +1,9 @@
 import React from "react";
 
 function OrderView(){
-    return(
-        <div>OrderDetails</div>
-    );
+	return(
+		<div>OrderDetails</div>
+	);
 }
 
 export default OrderView;

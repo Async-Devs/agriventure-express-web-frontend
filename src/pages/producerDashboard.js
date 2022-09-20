@@ -1,9 +1,9 @@
 import React from "react";
 
 function ProducerDashboard(){
-    return(
-        <div>Producer Dashboard</div>
-    );
+	return(
+		<div>Producer Dashboard</div>
+	);
 }
 
 export default ProducerDashboard;

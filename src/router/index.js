@@ -10,19 +10,19 @@ import Dashboard from "../pages/dashboard/dashboard";
 
 function AppRouter(){
 
-    let userType = 1; //todo: usertype should get from jwt token
+	let userType = 1; //todo: usertype should get from jwt token
 
-    return(
-        <BrowserRouter>
-            <>
-                <Routes>
-                    <Route path = "" element={<Dashboard />} ></Route>
+	return(
+		<BrowserRouter>
+			<>
+				<Routes>
+					<Route path = "" element={<Dashboard />} ></Route>
 
 
-                </Routes>
-            </>
-        </BrowserRouter>
-    )
+				</Routes>
+			</>
+		</BrowserRouter>
+	);
 }
 
 export default AppRouter;
