@@ -1,7 +1,6 @@
 import React from "react";
 import {useState} from "react";
-import style from "./dashboard.module.css";
-import Navbar from "../../components/Navbar";
+import style from "./dashboard.module.css"
 
 function Dashboard(){
 
@@ -19,7 +18,6 @@ function Dashboard(){
 
     return(
         <div>
-            <Navbar/>
             <div>{name}</div>
             <div className={style}>
                 <button onClick={changeName}>Change Name</button>
