@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Grid} from "@mui/material";
+import {Alert, Grid} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -16,21 +16,37 @@ import Copyright from "../../components/copyright/copyright";
 
 function Login() {
 
-	const [email,setEmail] = useState();
+	const [username,setUsername] = useState();
 	const [password,setPassword] = useState();
+	const [error,setError] = useState();
+	const [hiddenError,setHiddenError] = useState(true);
+
+	function validateNonEmpty(text){
+		return text !== undefined && text !== "";
+	}
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
 
-		alert("email address: " + email + "\npassword: " + password);
+		if(validateNonEmpty(username) && validateNonEmpty(password)){
+			alert("username: " + username + "\npassword: " + password);
+			setHiddenError(true);
+		}else{
+			setError("Username or password can not be empty!");
+			setHiddenError(false);
+		}
+
+
 	};
 
 	const handleChange = (event) => {
-		if(event.target.id === "email"){
-			setEmail(event.target.value);
+		if(event.target.id === "username"){
+			setUsername(event.target.value);
 		}else if(event.target.id === "password"){
 			setPassword(event.target.value);
 		}
+
+		setHiddenError(true);
 	};
 
 	return (
@@ -52,6 +68,9 @@ function Login() {
 				}}
 			/>
 			<Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+				<div hidden={hiddenError}>
+					<Alert severity="error">{error}</Alert>
+				</div>
 				<Box
 					sx={{
 						my: 8,
@@ -72,11 +91,11 @@ function Login() {
 							margin="normal"
 							required
 							fullWidth
-							id="email"
-							label="Email Address"
-							name="email"
-							autoComplete="email"
-							value={email}
+							id="username"
+							label="Username"
+							name="username"
+							autoComplete="username"
+							value={username}
 							autoFocus
 						/>
 						<TextField
