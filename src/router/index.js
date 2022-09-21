@@ -10,8 +10,6 @@ import Dashboard from "../pages/dashboard/dashboard";
 
 function AppRouter(){
 
-	let userType = 1; //todo: usertype should get from jwt token
-
 	return(
 		<BrowserRouter>
 			<>
