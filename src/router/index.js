@@ -3,6 +3,8 @@ import {Routes,Route,BrowserRouter} from "react-router-dom";
 
 import Dashboard from "../pages/dashboard/dashboard";
 import Orders from "../pages/orders/orders";
+import Login from "../pages/login/login";
+import Signup from "../pages/signup/signup";
 /*
 * Order Inventory Subsystem - Achira
 * Account Management/ Support Subsystem - Toxic Supun
@@ -11,12 +13,16 @@ import Orders from "../pages/orders/orders";
 
 function AppRouter(){
 
+	//let userType = 1; //todo: usertype should get from jwt token
+
 	return(
 		<BrowserRouter>
 			<>
 				<Routes>
 					<Route path = "" element={<Dashboard />} ></Route>
 					<Route path = "/orders" element={<Orders/>} ></Route>
+					<Route path = "/login" element={<Login />}></Route>
+					<Route path = "/signup" element={<Signup />}></Route>
 
 
 				</Routes>
