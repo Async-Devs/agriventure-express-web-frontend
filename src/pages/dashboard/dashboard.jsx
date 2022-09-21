@@ -1,6 +1,7 @@
 import React from "react";
 import {useState} from "react";
 import style from "./dashboard.module.css";
+import Navbar from "../../components/Navbar";
 
 function Dashboard(){
 
@@ -15,9 +16,9 @@ function Dashboard(){
 		setName("Achira");
 	}
 
-
 	return(
 		<div>
+			<Navbar/>
 			<div>{name}</div>
 			<div className={style}>
 				<button onClick={changeName}>Change Name</button>
