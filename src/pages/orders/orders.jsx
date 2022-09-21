@@ -1,8 +1,12 @@
 import React from "react";
+import CustomTable from "../../components/table/customTable";
 
 function Orders(){
 	return(
-		<div>Orders page</div>
+		<div>
+			<h1>Orders</h1>
+			<CustomTable/>
+		</div>
 	);
 }
 
