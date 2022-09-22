@@ -152,6 +152,7 @@ function ResponsiveDrawer(props) {
 					{drawer}
 				</Drawer>
 			</Box>
+			
 		</Box>
 	);
 }
