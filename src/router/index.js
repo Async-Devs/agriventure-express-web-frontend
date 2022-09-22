@@ -13,7 +13,6 @@ import Profile from "../pages/profile/profile";
 
 function AppRouter(){
 
-	//let userType = 1; //todo: usertype should get from jwt token
 
 	return(
 		<BrowserRouter>
