@@ -16,10 +16,15 @@ import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import "../components/sidebar.module.css";
 
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import StoreIcon from '@mui/icons-material/Store';
+import EventIcon from '@mui/icons-material/Event';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
 const drawerWidth = 240;
 
@@ -55,7 +60,7 @@ function ResponsiveDrawer(props) {
 					<ListItem key={text} disablePadding>
 						<ListItemButton>
 							<ListItemIcon>
-								{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+								{text=="Dashboard"? <DashboardIcon /> : text=="Marketplace"? <StoreIcon />:text=="Orders"? <EventIcon />:<HelpOutlineIcon />}
 							</ListItemIcon>
 							<ListItemText primary={text} />
 						</ListItemButton>
@@ -70,14 +75,14 @@ function ResponsiveDrawer(props) {
 	return (
 		<Box sx={{ display: 'flex' }}>
 			<CssBaseline />
-			<AppBar
+			<AppBar color="primary"
 				position="static"
 				sx={{
 					width: { sm: `calc(100% - ${drawerWidth}px)` },
 					ml: { sm: `${drawerWidth}px` },
 				}}
 			>
-				<Toolbar>
+				<Toolbar style={{display:"flex",justifyContent:"space-between"}}>
 					<IconButton
 						color="inherit"
 						aria-label="open drawer"
