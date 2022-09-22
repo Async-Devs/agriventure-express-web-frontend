@@ -5,6 +5,7 @@ import Dashboard from "../pages/dashboard/dashboard";
 import Orders from "../pages/orders/orders";
 import Login from "../pages/login/login";
 import Signup from "../pages/signup/signup";
+import Profile from "../pages/profile/profile";
 /*
 * Order Inventory Subsystem - Achira
 * Account Management/ Support Subsystem - Toxic Supun
@@ -13,7 +14,6 @@ import Signup from "../pages/signup/signup";
 
 function AppRouter(){
 
-	//let userType = 1; //todo: usertype should get from jwt token
 
 	return(
 		<BrowserRouter>
@@ -23,6 +23,7 @@ function AppRouter(){
 					<Route path = "/orders" element={<Orders/>} ></Route>
 					<Route path = "/login" element={<Login />}></Route>
 					<Route path = "/signup" element={<Signup />}></Route>
+					<Route path= "/profile" element={<Profile />}></Route>
 
 
 				</Routes>
