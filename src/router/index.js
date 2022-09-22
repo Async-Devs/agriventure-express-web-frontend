@@ -4,6 +4,7 @@ import {Routes,Route,BrowserRouter} from "react-router-dom";
 import Dashboard from "../pages/dashboard/dashboard";
 import Login from "../pages/login/login";
 import Signup from "../pages/signup/signup";
+import Profile from "../pages/profile/profile";
 /*
 * Order Inventory Subsystem - Achira
 * Account Management/ Support Subsystem - Toxic Supun
@@ -21,6 +22,7 @@ function AppRouter(){
 					<Route path = "" element={<Dashboard />} ></Route>
 					<Route path = "/login" element={<Login />}></Route>
 					<Route path = "/signup" element={<Signup />}></Route>
+					<Route path= "/profile" element={<Profile />}></Route>
 
 
 				</Routes>
