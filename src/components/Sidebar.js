@@ -6,13 +6,11 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -36,12 +34,7 @@ function ResponsiveDrawer(props) {
 		setMobileOpen(!mobileOpen);
 	};
 
-	const [auth, setAuth] = React.useState(true);
 	const [anchorEl, setAnchorEl] = React.useState(null);
-
-	const handleChange = (event) => {
-		setAuth(event.target.checked);
-	};
 
 	const handleMenu = (event) => {
 		setAnchorEl(event.currentTarget);
@@ -60,7 +53,7 @@ function ResponsiveDrawer(props) {
 					<ListItem key={text} disablePadding>
 						<ListItemButton>
 							<ListItemIcon>
-								{text=="Dashboard"? <DashboardIcon /> : text=="Marketplace"? <StoreIcon />:text=="Orders"? <EventIcon />:<HelpOutlineIcon />}
+								{text==="Dashboard"? <DashboardIcon /> : text==="Marketplace"? <StoreIcon />:text==="Orders"? <EventIcon />:<HelpOutlineIcon />}
 							</ListItemIcon>
 							<ListItemText primary={text} />
 						</ListItemButton>
@@ -73,7 +66,7 @@ function ResponsiveDrawer(props) {
 	const container = window !== undefined ? () => window().document.body : undefined;
 
 	return (
-		<Box sx={{ display: 'flex' }}>
+		<Box sx={{ display: 'flex'}}>
 			<CssBaseline />
 			<AppBar color="primary"
 				position="static"
