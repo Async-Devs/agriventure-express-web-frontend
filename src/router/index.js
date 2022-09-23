@@ -33,8 +33,6 @@ function AppRouter(){
 					<Route path= "/profile" element={<Profile />}></Route>
 					<Route path= "/profile/edit" element={<EditProfile />}></Route>
 					<Route path="/helpcenter" element={<HelpCenter />}></Route>
-					<Route path="/orderView" element={<OrderView />}></Route>
-
 					<Route path = "/profile" element={<Profile />}></Route>
 					<Route path = "*" element={<ErrorPage/>}></Route>
 
