@@ -9,7 +9,7 @@ import Profile from "../pages/profile/profile";
 import EditProfile from "../pages/editProfile/editProfile";
 import HelpCenter from "../pages/helpCenter/helpCenter";
 import OrderView from "../pages/orderView/orderView";
-import ErrorPage from "../pages/404";
+import ErrorPage from "../pages/notFound";
 /*
 * Order Inventory Subsystem - Achira
 * Account Management/ Support Subsystem - Toxic Supun
