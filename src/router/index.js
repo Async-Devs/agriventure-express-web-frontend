@@ -6,6 +6,8 @@ import Orders from "../pages/orders/orders";
 import Login from "../pages/login/login";
 import Signup from "../pages/signup/signup";
 import Profile from "../pages/profile/profile";
+import OrderView from "../pages/orderView/orderView";
+import ErrorPage from "../pages/404";
 /*
 * Order Inventory Subsystem - Achira
 * Account Management/ Support Subsystem - Toxic Supun
@@ -20,11 +22,14 @@ function AppRouter(){
 			<>
 				<Routes>
 					<Route path = "" element={<Dashboard />} ></Route>
-					<Route path = "/orders" element={<Orders/>} ></Route>
+					<Route path = "/orders" >
+						<Route index element={<Orders/>} ></Route>
+						<Route path = ":id" element={<OrderView/>} ></Route>
+					</Route>
 					<Route path = "/login" element={<Login />}></Route>
 					<Route path = "/signup" element={<Signup />}></Route>
-					<Route path= "/profile" element={<Profile />}></Route>
-
+					<Route path = "/profile" element={<Profile />}></Route>
+					<Route path = "*" element={<ErrorPage/>}></Route>
 
 				</Routes>
 			</>
