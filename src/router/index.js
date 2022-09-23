@@ -8,6 +8,7 @@ import Signup from "../pages/signup/signup";
 import Profile from "../pages/profile/profile";
 import EditProfile from "../pages/editProfile/editProfile";
 import HelpCenter from "../pages/helpCenter/helpCenter";
+import OrderView from "../pages/orderView";
 /*
 * Order Inventory Subsystem - Achira
 * Account Management/ Support Subsystem - Toxic Supun
@@ -28,6 +29,7 @@ function AppRouter(){
 					<Route path= "/profile" element={<Profile />}></Route>
 					<Route path= "/profile/edit" element={<EditProfile />}></Route>
 					<Route path="/helpcenter" element={<HelpCenter />}></Route>
+					<Route path="/orderView" element={<OrderView />}></Route>
 
 
 				</Routes>
