@@ -2,6 +2,7 @@ import React from "react";
 import {Routes,Route,BrowserRouter} from "react-router-dom";
 
 import Dashboard from "../pages/dashboard/dashboard";
+import Orders from "../pages/orders/orders";
 import Login from "../pages/login/login";
 import Signup from "../pages/signup/signup";
 import Profile from "../pages/profile/profile";
@@ -15,13 +16,13 @@ import HelpCenter from "../pages/helpCenter/helpCenter";
 
 function AppRouter(){
 
-	//let userType = 1; //todo: usertype should get from jwt token
 
 	return(
 		<BrowserRouter>
 			<>
 				<Routes>
 					<Route path = "" element={<Dashboard />} ></Route>
+					<Route path = "/orders" element={<Orders/>} ></Route>
 					<Route path = "/login" element={<Login />}></Route>
 					<Route path = "/signup" element={<Signup />}></Route>
 					<Route path= "/profile" element={<Profile />}></Route>
