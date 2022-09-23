@@ -11,7 +11,7 @@ function Profile(){
 	const [open,setOpen] = useState(false);
 
 	function handleEdit(){
-		//todo: redirect to edit page
+		window.location.assign("/profile/edit");
 	}
 
 	function handleDelete(){
