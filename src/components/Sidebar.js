@@ -54,7 +54,7 @@ function ResponsiveDrawer(props) {
 					<ListItem key={text} disablePadding>
 						<ListItemButton>
 							<ListItemIcon>
-								{text=="Dashboard"? <DashboardIcon /> : text=="Marketplace"? <StoreIcon />:text=="Orders"? <EventIcon />:<HelpOutlineIcon />}
+								{text==="Dashboard"? <DashboardIcon /> : text==="Marketplace"? <StoreIcon />:text==="Orders"? <EventIcon />:<HelpOutlineIcon />}
 							</ListItemIcon>
 							<ListItemText primary={text} />
 						</ListItemButton>
