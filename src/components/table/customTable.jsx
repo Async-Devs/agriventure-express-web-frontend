@@ -4,10 +4,8 @@ import PropTypes from "prop-types";
 
 function CustomTable(props) {
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
 	const {rows, columns, enableSelectionOnRowClick, enableCheckBox} = props;
-	console.log(columns);
-	console.log(rows);
+
 	return (
 		<div style={{ height: 400, width: "100%"}}>
 			<DataGrid
@@ -22,7 +20,6 @@ function CustomTable(props) {
 				getRowHeight={() => "auto"}
 				disableColumnMenu={true}
 			/>
-			{/*<button onClick={handleChangeRowsPerPage}>ddd</button>*/}
 		</div>
 	);
 }

@@ -31,9 +31,9 @@ function AppRouter(){
 					</Route>
 					<Route path = "/login" element={<Login />}></Route>
 					<Route path = "/signup" element={<Signup />}></Route>
-					<Route path= "/profile" element={<Profile />}></Route>
-					<Route path= "/profile/edit" element={<EditProfile />}></Route>
-					<Route path="/helpcenter" element={<HelpCenter />}></Route>
+					<Route path = "/profile" element={<Profile />}></Route>
+					<Route path = "/profile/edit" element={<EditProfile />}></Route>
+					<Route path = "/helpcenter" element={<HelpCenter />}></Route>
 					<Route path = "/profile" element={<Profile />}></Route>
 					<Route path = "*" element={<ErrorPage/>}></Route>
 					<Route path = "/agridataentry" element={<AgriDataEntry />}></Route>
