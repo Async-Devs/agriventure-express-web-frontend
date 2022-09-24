@@ -1,9 +1,16 @@
 import * as React from "react";
-import { DataGrid } from "@mui/x-data-grid";
+import {DataGrid, GridToolbar} from "@mui/x-data-grid";
 import PropTypes from "prop-types";
 
+/**
+ * CustomTable component.
+ *
+ * @props Defined below in propTypes
+ * @returns {React.ReactElement} DataGrid Component.
+ */
 function CustomTable(props) {
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
+	const [filterModel, setFilterModel] = React.useState();
 	const {rows, columns, enableSelectionOnRowClick, enableCheckBox} = props;
 
 	return (
@@ -16,18 +23,26 @@ function CustomTable(props) {
 				rowsPerPageOptions={[5, 10, 25, 100]}
 				checkboxSelection = {enableCheckBox}
 				disableSelectionOnClick = {!enableSelectionOnRowClick}
-				// rowHeight={50}
 				getRowHeight={() => "auto"}
 				disableColumnMenu={true}
+				components={{
+					Toolbar: GridToolbar,
+				}}
+				filterModel={filterModel}
+				onFilterModelChange={(newFilterModel) => setFilterModel(newFilterModel)}
 			/>
 		</div>
 	);
 }
 // To define the data type of the prop for prop validation in react.
 CustomTable.propTypes = {
-	rows: PropTypes.array, // The row items of the table should come in the form of an array of objects.
+	/** The row items of the table should come in the form of an array of objects*/
+	rows: PropTypes.array,
+	/** The columns should be an array of objects */
 	columns: PropTypes.array,
+	/** The ability to make the row body clickable to make a selection*/
 	enableSelectionOnRowClick: PropTypes.bool,
+	/** Enable the checkbox column in the table*/
 	enableCheckBox: PropTypes.bool
 };
 
