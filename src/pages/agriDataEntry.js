@@ -7,25 +7,31 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+
+import Button from '@mui/material/Button';
+
 function AgriDataEntry(){
 
     // states
-	const [cropType, setCropType] = React.useState('');
+	const [crop, setCrop] = React.useState('');
 
 	const handleCrop = (event) => {
-		setCropType(event.target.value);
+	  setCrop(event.target.value);
 	};
 
 	const [location, setLocation] = React.useState('');
 
 	const handleLocation = (event) => {
-		setLocation(event.target.value);
+	  setLocation(event.target.value);
 	};
 
 	const [amount, setAmount] = React.useState('');
 
 	const handleAmount = (event) => {
-		setAmount(event.target.value);
+	  setAmount(event.target.value);
 	};
     //data access from axios
 
@@ -35,84 +41,73 @@ function AgriDataEntry(){
     return(
         <div>
             <Sidebar/>
-			<div className='form'>
+			    <Box sx={{ width: '100%' }}>
 				<h1>Add Agriculture Data</h1>
-			<div>
-			<FormControl sx={{ m: 1, minWidth: 200 }}>
-				<InputLabel id="demo-simple-select-autowidth-label">Crop Type</InputLabel>
-				<Select
-				labelId="demo-simple-select-autowidth-label"
-				id="demo-simple-select-autowidth"
-				value={cropType}
-				onChange={handleCrop}
-				autoWidth
-				label="Crop Type"
-				>
-				<MenuItem value="">
-					<em>None</em>
-				</MenuItem>
-				<MenuItem value={0}>Onion</MenuItem>
-				<MenuItem value={1}>Garlic</MenuItem>
-				<MenuItem value={2}>Beet</MenuItem>
-				<MenuItem value={3}>Leeks</MenuItem>
-				<MenuItem value={4}>Banana</MenuItem>
-				<MenuItem value={5}>Beet</MenuItem>
-				<MenuItem value={6}>Rice</MenuItem>
-				<MenuItem value={7}>Cabbage</MenuItem>
-				<MenuItem value={8}>Pumpkin</MenuItem>
-				</Select>
-			</FormControl>
-			</div>
-			<div>
-			<FormControl sx={{ m: 1, minWidth: 200 }}>
-				<InputLabel id="demo-simple-select-autowidth-label">Location</InputLabel>
-				<Select
-				labelId="demo-simple-select-autowidth-label"
-				id="demo-simple-select-autowidth"
-				value={location}
-				onChange={handleLocation}
-				autoWidth
-				label="Location"
-				>
-				<MenuItem value="">
-					<em>None</em>
-				</MenuItem>
-				<MenuItem value={0}>Anuradhapura</MenuItem>
-				<MenuItem value={1}>Polonnaruwa</MenuItem>
-				<MenuItem value={2}>Jaffna</MenuItem>
-				<MenuItem value={3}>Kalawana</MenuItem>
-				<MenuItem value={4}>Mahiyanganaya</MenuItem>
-				<MenuItem value={5}>Watareka</MenuItem>
-				<MenuItem value={6}>Rathnapura</MenuItem>
-				<MenuItem value={7}>Ambilipitiya</MenuItem>
-				<MenuItem value={8}>Hambanthota</MenuItem>
-				</Select>
-			</FormControl>
-			</div>
-			<div>
-			<FormControl sx={{ m: 1, minWidth: 200 }}>
-				<InputLabel id="demo-simple-select-autowidth-label">Amount</InputLabel>
-				<Select
-				labelId="demo-simple-select-autowidth-label"
-				id="demo-simple-select-autowidth"
-				value={amount}
-				onChange={handleAmount}
-				autoWidth
-				label="Amount"
-				>
-				<MenuItem value="">
-					<em>None</em>
-				</MenuItem>
-				<MenuItem value={0}>50</MenuItem>
-				<MenuItem value={1}>100</MenuItem>
-				<MenuItem value={2}>150</MenuItem>
-				<MenuItem value={3}>200</MenuItem>
-				<MenuItem value={4}>250</MenuItem>
-				<MenuItem value={5}>300</MenuItem>
-				</Select>
-			</FormControl>
-			</div>
-			</div>
+				<Grid container
+					direction="column"
+					alignItems="center"
+					justifyContent="center"
+					>
+					<Grid item  sx={{padding:'10px',minWidth:'260px'}}>
+						<Paper sx={{ maxWidth:'500px',minWidth:'150px', borderRadius:'20px'}}>
+						<Box sx={{ minWidth: 120, maxWidth: 250,paddingTop:'30px',marginBottom:'50px',padding:'10px' }}>
+							<FormControl fullWidth>
+								<InputLabel id="crop">Crop Type</InputLabel>
+								<Select
+								labelId="crop"
+								id="crop-select"
+								value={crop}
+								label="Crop Type"
+								onChange={handleCrop}
+								>
+								<MenuItem value={10}>Onion</MenuItem>
+								<MenuItem value={20}>Garlic</MenuItem>
+								<MenuItem value={30}>Beet</MenuItem>
+								<MenuItem value={40}>Carrots</MenuItem>
+								</Select>
+							</FormControl>
+							</Box>
+							<Box sx={{ minWidth: 120, maxWidth: 250,marginBottom:'50px',padding:'10px'}}>
+							<FormControl fullWidth>
+								<InputLabel id="location">Location</InputLabel>
+								<Select
+								labelId="location"
+								id="location-select"
+								value={location}
+								label="Location"
+								onChange={handleLocation}
+								>
+								<MenuItem value={10}>Anuradhapura</MenuItem>
+								<MenuItem value={20}>Mahiyanganaya</MenuItem>
+								<MenuItem value={30}>Jaffna</MenuItem>
+								<MenuItem value={10}>Hambanthota</MenuItem>
+								<MenuItem value={10}>Mahanuwara</MenuItem>
+								<MenuItem value={10}>Kalutara</MenuItem>
+								<MenuItem value={10}>Trincomalee</MenuItem>
+								</Select>
+							</FormControl>
+							</Box>
+							<Box sx={{ minWidth: 120, maxWidth: 250,marginBottom:'30px',padding:'10px'}}>
+							<FormControl fullWidth>
+								<InputLabel id="amount">Amount</InputLabel>
+								<Select
+								labelId="amount"
+								id="amount-select"
+								value={amount}
+								label="Amount"
+								onChange={handleAmount}
+								>
+								<MenuItem value={10}>Ten</MenuItem>
+								<MenuItem value={20}>Twenty</MenuItem>
+								<MenuItem value={30}>Thirty</MenuItem>
+								</Select>
+							</FormControl>
+							</Box>
+							<Button sx={{marginBottom:'30px',padding:'10px' }} variant="contained">Add Data</Button>
+						</Paper>
+					</Grid>
+				</Grid>
+				</Box>
 			</div>
 
     );
