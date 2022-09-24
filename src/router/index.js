@@ -10,6 +10,7 @@ import EditProfile from "../pages/editProfile/editProfile";
 import HelpCenter from "../pages/helpCenter/helpCenter";
 import OrderView from "../pages/orderView/orderView";
 import ErrorPage from "../pages/notFound";
+import AgriDataEntry from "../pages/agriDataEntry";
 /*
 * Order Inventory Subsystem - Achira
 * Account Management/ Support Subsystem - Toxic Supun
@@ -35,6 +36,7 @@ function AppRouter(){
 					<Route path="/helpcenter" element={<HelpCenter />}></Route>
 					<Route path = "/profile" element={<Profile />}></Route>
 					<Route path = "*" element={<ErrorPage/>}></Route>
+					<Route path = "/agridataentry" element={<AgriDataEntry />}></Route>
 
 				</Routes>
 			</>

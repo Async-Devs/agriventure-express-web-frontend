@@ -6,7 +6,6 @@ function Dashboard(){
 
 	// states
 
-
 	//data access from axios
 
 	//function
