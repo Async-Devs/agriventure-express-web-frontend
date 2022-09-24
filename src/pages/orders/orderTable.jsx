@@ -4,7 +4,6 @@ import {Button} from "@mui/material";
 import CustomTable from "../../components/table/customTable";
 
 function OrderTable(){
-
 	//Documentation => https://mui.com/x/react-data-grid/column-definition/
 	const columns = [
 		{ field: "id", headerName: "Order ID", width: 150 },
@@ -13,7 +12,8 @@ function OrderTable(){
 		{ field: "age", headerName: "Age", width: 90},
 		{ field: "view",
 			headerName: "View",
-			type:"actions",
+			sortable: false,
+			filterable: false,
 			align: "right",
 			headerAlign: "center",
 			renderCell: (params) => (
