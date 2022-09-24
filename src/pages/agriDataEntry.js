@@ -43,16 +43,16 @@ function AgriDataEntry(){
 		<div>
 			<Sidebar/>
 			    <Box sx={{ width: "100%" }}>
-				<h1>Add Agriculture Data</h1>
+				
 				<Grid container
 					direction="column"
 					alignItems="center"
 					justifyContent="center"
-				>
-					<Grid item  sx={{padding:"10px",minWidth:"260px"}}>
-						<Paper sx={{ maxWidth:"500px",minWidth:"150px", borderRadius:"20px"}}>
-							<Box sx={{ minWidth: 120, maxWidth: 250,paddingTop:"30px",marginBottom:"50px",padding:"10px" }}>
-								<FormControl fullWidth>
+				><h1>Add Agriculture Data</h1>
+					<Grid item  sx={{padding:"10px",minWidth:"260px",maxWidth:"600px"}}>
+						<Paper sx={{borderRadius:"20px"}}>
+							<Box sx={{ maxWidth:"500px",minWidth:"150px",paddingTop:"30px",marginBottom:"50px",padding:"10px" }}>
+								<FormControl fullWidth> 
 									<InputLabel id="crop">Crop Type</InputLabel>
 									<Select
 										labelId="crop"
