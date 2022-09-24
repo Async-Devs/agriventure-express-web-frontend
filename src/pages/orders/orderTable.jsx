@@ -10,12 +10,7 @@ function OrderTable(){
 		{ field: "id", headerName: "Order ID", width: 150 },
 		{ field: "firstName", headerName: "First name", width: 150 },
 		{ field: "lastName", headerName: "Last name", width: 150 },
-		{
-			field: "age",
-			headerName: "Age",
-			type: "number",
-			width: 90, align: "center"
-		},
+		{ field: "age", headerName: "Age", width: 90},
 		{ field: "view",
 			headerName: "View",
 			type:"actions",
@@ -68,9 +63,9 @@ function OrderTable(){
 	];
 
 	return(
-		<div>
-			<CustomTable rows = {orderArray} columns = {columns} enableCheckBox={true}/>
-		</div>
+		
+		<CustomTable rows = {orderArray} columns = {columns} enableCheckBox={true}/>
+
 	);
 }
 
