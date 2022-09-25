@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Box, ButtonGroup, Grid, Typography} from "@mui/material";
+import {Box, ButtonGroup, Grid, Paper, Typography} from "@mui/material";
 import Button from "@mui/material/Button";
 import RefundRequest from "../../components/refundRequest/refundRequest";
 import {useParams} from "react-router-dom";
@@ -46,7 +46,8 @@ function OrderView(){
 		}
 	}
 	return(
-		<Box sx={{ flexGrow: 1, p: 5, m:5, mx: "auto", width: "80%" }} bgcolor={"whitesmoke"} borderRadius={2} minHeight={300}>
+		<Paper elevation={3} sx={{ flexGrow: 1, p: 5, m:5, mx: "auto", width: "80%" }}>
+			
 			<Grid container alignItems="center" justifyContent={"left"}>
 				<Typography gutterBottom variant="h4" component="div">
 					Order Details
@@ -66,13 +67,15 @@ function OrderView(){
 					<CustomInformationListItem topMargin={topGap} height={itemHeight} infoTitle={"Payment Status"} infoValue={"PAID"}/>
 					<CustomInformationListItem topMargin={topGap} height={itemHeight} infoTitle={"Delivery Status"} infoValue={"OUT-FOR-DELIVERY"}/>
 
-					<Grid container item xs={8} mt={topGap} height={itemHeight} >
+					<Grid container item xs={10} mt={topGap} height={itemHeight} >
 						<ButtonGroup variant="outlined" aria-label="outlined button group" item xs={4}>
 							<Button onClick={onClickRefund} >Refund</Button>
-							<LinkedButton href={"/orders"} content={"Back"}/>
 							<Button onClick={onClickChat}>Chat</Button>
 							<SaveButton />
 						</ButtonGroup>
+					</Grid>
+					<Grid container item xs={2} mt={topGap} height={itemHeight} justifyContent={"right"}>
+						<LinkedButton href={"/orders"} content={"Back"}/>
 					</Grid>
 
 				</Grid>
@@ -83,8 +86,9 @@ function OrderView(){
 				</Grid>
 			</Grid >
 			<RefundRequest open={open} handleSubmit={handleSubmit} handleClose={handleClose} onChange={onChange} body={refundBody} value={refundValue}/>
-		</Box>
 			
+			
+		</Paper>
 	);
 }
 
