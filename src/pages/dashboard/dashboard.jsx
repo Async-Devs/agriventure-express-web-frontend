@@ -68,7 +68,7 @@ function Dashboard(){
 					</Grid>
 					<Grid item xs={12} md={4}>
 						<Paper>
-						
+						Disti didij
 						</Paper>
 					</Grid>
 					<Grid item xs={12} md={12}>

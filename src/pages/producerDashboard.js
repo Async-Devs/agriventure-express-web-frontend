@@ -8,7 +8,11 @@ function ProducerDashboard(){
         <div>
             <Sidebar/>
             <Grid container spacing={2.5}marginTop="20px" padding="20px">
-					<Grid item xs={12} md={2.2}>
+					<Grid item xs={12} md={6}>
+                    <Grid container>
+                        <Grid item xs={12} md={2.2}>
+                            </Grid>
+                            <Grid item xs={12} md={2.2}>
                             <ProductCard/>
 					</Grid>
                     <Grid item xs={12} md={2.2}>
@@ -34,6 +38,8 @@ function ProducerDashboard(){
 					</Grid>
                     <Grid item xs={12} md={2.2}>
                             <ProductCard/>
+					</Grid>
+                        </Grid>
 					</Grid>
                     <Grid item xs={12} md={2.2}>
                             <ProductCard/>
