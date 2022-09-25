@@ -12,7 +12,12 @@ import OrderView from "../pages/orderView/orderView";
 import ErrorPage from "../pages/notFound";
 import AgriDataEntry from "../pages/agriDataEntry";
 import ProducerDashboard from "../pages/producerDashboard";
-
+import Marketplace from "../pages/marketplace/marketplace";
+/*
+* Order Inventory Subsystem - Achira
+* Account Management/ Support Subsystem - Toxic Supun
+* Data Aggregation and Visualization - Ransika
+* */
 
 function AppRouter(){
 
@@ -22,6 +27,7 @@ function AppRouter(){
 			<>
 				<Routes>
 					<Route path = "" element={<Dashboard />} ></Route>
+					<Route path = "/marketplace" element={<Marketplace />} ></Route>
 					<Route path = "/orders" >
 						<Route index element={<Orders/>} ></Route>
 						<Route path = ":id" element={<OrderView/>} ></Route>
