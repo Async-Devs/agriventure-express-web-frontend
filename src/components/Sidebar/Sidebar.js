@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 
-import logo from '../img/logo.png';
+import logo from '../../img/logo.png';
 
 const pages = ['Dashboard', 'Marketplace', 'Orders','Support'];
 const settings = ['Account','Logout'];
