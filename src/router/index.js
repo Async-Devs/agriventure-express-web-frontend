@@ -11,11 +11,8 @@ import HelpCenter from "../pages/helpCenter/helpCenter";
 import OrderView from "../pages/orderView/orderView";
 import ErrorPage from "../pages/notFound";
 import AgriDataEntry from "../pages/agriDataEntry";
-/*
-* Order Inventory Subsystem - Achira
-* Account Management/ Support Subsystem - Toxic Supun
-* Data Aggregation and Visualization - Ransika
-* */
+import ProducerDashboard from "../pages/producerDashboard";
+
 
 function AppRouter(){
 
@@ -37,6 +34,7 @@ function AppRouter(){
 					<Route path = "/profile" element={<Profile />}></Route>
 					<Route path = "*" element={<ErrorPage/>}></Route>
 					<Route path = "/agridataentry" element={<AgriDataEntry />}></Route>
+					<Route path = "producerdashboard" element={<ProducerDashboard />} ></Route>
 
 				</Routes>
 			</>

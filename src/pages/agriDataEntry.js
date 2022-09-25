@@ -1,7 +1,7 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import React from "react";
 import "./agridataentry.module.css";
-import Sidebar from "../components/Sidebar.js";
+import Sidebar from "../components/Sidebar/Sidebar.js";
 
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
