@@ -1,7 +1,7 @@
 import React from "react";
-import Sidebar from "../../../components/Sidebar/Sidebar.js";
+import Sidebar from "../../components/Sidebar/Sidebar.js";
 import Grid from "@mui/material/Grid";
-import ProductCard from "../../../components/ProductCard/ProductCard.js";
+import ProductCard from "../../components/ProductCard/ProductCard.js";
 
 function ProducerDashboard(){
 	return(
