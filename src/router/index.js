@@ -13,6 +13,7 @@ import ErrorPage from "../pages/notFound";
 import AgriDataEntry from "../pages/agriDataEntry";
 import ProducerDashboard from "../pages/producerDashboard";
 import Marketplace from "../pages/marketplace/marketplace";
+import ItemView from "../pages/itemView/itemView";
 /*
 * Order Inventory Subsystem - Achira
 * Account Management/ Support Subsystem - Toxic Supun
@@ -20,14 +21,15 @@ import Marketplace from "../pages/marketplace/marketplace";
 * */
 
 function AppRouter(){
-
-
 	return(
 		<BrowserRouter>
 			<>
 				<Routes>
 					<Route path = "" element={<Dashboard />} ></Route>
-					<Route path = "/marketplace" element={<Marketplace />} ></Route>
+					<Route path = "/marketplace" >
+						<Route index element={<Marketplace />} ></Route>
+						<Route path = ":itemId" element={<ItemView/>} ></Route>
+					</Route>
 					<Route path = "/orders" >
 						<Route index element={<Orders/>} ></Route>
 						<Route path = ":id" element={<OrderView/>} ></Route>
@@ -41,7 +43,6 @@ function AppRouter(){
 					<Route path = "*" element={<ErrorPage/>}></Route>
 					<Route path = "/agridataentry" element={<AgriDataEntry />}></Route>
 					<Route path = "producerdashboard" element={<ProducerDashboard />} ></Route>
-
 				</Routes>
 			</>
 		</BrowserRouter>

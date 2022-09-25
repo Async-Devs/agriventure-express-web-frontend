@@ -1,6 +1,7 @@
 import React from "react";
-import {Box} from "@mui/material";
-import CardComponent from "../../components/cardComponent/cardComponent";
+import { Grid, Pagination} from "@mui/material";
+import MarketplaceCard from "./marketplaceCard";
+// import CardComponent from "../../components/cardComponent/cardComponent";
 
 // const Item = styled(Paper)(({ theme }) => ({
 // 	...theme.typography.body2,
@@ -12,18 +13,20 @@ import CardComponent from "../../components/cardComponent/cardComponent";
 function Marketplace(){
 
 	return(
-		<Box
-			sx={{
-				p: 1,
-				bgcolor: "background.default",
-				display: "grid",
-				gridTemplateColumns: { md: "1fr 1fr" },
-				gap: 1,
-			}}
-		>
-			<CardComponent/>
+		<Grid container  border={1} justifyContent={"center"} p={5} bgcolor={"lightgray"}>
+			<Pagination item count={10} shape="rounded" />
+			<Grid item container spacing={2} p={4} maxWidth={1200}  border={1} xs={12} minWidth={800}>
+				{[1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5].map((p)=>{
+					return(
+						<Grid container key={p} item xs={12} sm={6} lg={3} xl={2} alignItems={"center"} justifyContent={"center"} border={1}>
+							<MarketplaceCard/>
+						</Grid>
+					);
+				})}
+			</Grid>
+			<Pagination item count={10} shape="rounded" />
 
-		</Box>
+		</Grid>
 	);
 }
 
