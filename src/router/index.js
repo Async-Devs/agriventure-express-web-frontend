@@ -11,6 +11,7 @@ import HelpCenter from "../pages/helpCenter/helpCenter";
 import OrderView from "../pages/orderView/orderView";
 import ErrorPage from "../pages/notFound";
 import AgriDataEntry from "../pages/agriDataEntry";
+import Marketplace from "../pages/marketplace/marketplace";
 /*
 * Order Inventory Subsystem - Achira
 * Account Management/ Support Subsystem - Toxic Supun
@@ -25,6 +26,7 @@ function AppRouter(){
 			<>
 				<Routes>
 					<Route path = "" element={<Dashboard />} ></Route>
+					<Route path = "/marketplace" element={<Marketplace />} ></Route>
 					<Route path = "/orders" >
 						<Route index element={<Orders/>} ></Route>
 						<Route path = ":id" element={<OrderView/>} ></Route>
