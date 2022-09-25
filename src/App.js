@@ -1,11 +1,11 @@
 import React from "react";
-
 import AppRouter from "./router";
 import "./App.css";
 import theme from "./components/theme/theme";
 import {Grid, ThemeProvider} from "@mui/material";
-import Sidebar from "./components/Sidebar";
 import Footer from "./components/footer/footer";
+import Sidebar from "./components/Sidebar/Sidebar";
+
 
 function App() {
 	return (
