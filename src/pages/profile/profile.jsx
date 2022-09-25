@@ -5,6 +5,7 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import HowToRegIcon from "@mui/icons-material/HowToReg";
 
 function Profile(){
 
@@ -35,9 +36,12 @@ function Profile(){
 			</Grid>
 
 			<Grid item xs={12} md={6} mt={2}  align="center">
-				<Paper elevation={3} sx={{width: "50%", p: "5px"}}>
+				<Paper elevation={3} sx={{width: "75%", p: "5px"}}>
 					<Button variant="outlined" onClick={handleEdit} color="primary" startIcon={<EditIcon />} sx={{m: "5px"}}>
 						Edit
+					</Button>
+					<Button variant="outlined" onClick={handleEdit} color="primary" startIcon={<HowToRegIcon />} sx={{m: "5px"}}>
+						Approve
 					</Button>
 					<Button variant="outlined" onClick={handleDelete} color="error" startIcon={<DeleteIcon />}>
 						Delete

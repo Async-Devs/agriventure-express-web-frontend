@@ -13,6 +13,13 @@ import ErrorPage from "../pages/notFound";
 import AgriDataEntry from "../pages/agriDataEntry";
 import ProducerDashboard from "../pages/producerDashboard";
 import Marketplace from "../pages/marketplace/marketplace";
+import RefundRequests from "../pages/refundRequests/refundRequests";
+import RefundRequestBuyer from "../pages/refundRequestBuyer/refundRequestBuyer";
+import SupportRequests from "../pages/supportRequest/supportRequests";
+import MySupport from "../pages/supportRequestsBuyer/mySupport";
+import AddProducers from "../pages/addProducer/addProducers";
+import ManageProducers from "../pages/managePruducers/manageProducers";
+import ManageAccounts from "../pages/manageAccounts/manageAccounts";
 /*
 * Order Inventory Subsystem - Achira
 * Account Management/ Support Subsystem - Toxic Supun
@@ -37,11 +44,17 @@ function AppRouter(){
 					<Route path = "/profile" element={<Profile />}></Route>
 					<Route path = "/profile/edit" element={<EditProfile />}></Route>
 					<Route path = "/helpcenter" element={<HelpCenter />}></Route>
-					<Route path = "/profile" element={<Profile />}></Route>
 					<Route path = "*" element={<ErrorPage/>}></Route>
 					<Route path = "/agridataentry" element={<AgriDataEntry />}></Route>
 					<Route path = "producerdashboard" element={<ProducerDashboard />} ></Route>
-
+					<Route path="/orderView" element={<OrderView />}></Route>
+					<Route path="/refund" element={<RefundRequests />}></Route>
+					<Route path="myrefund" element={<RefundRequestBuyer />}></Route>
+					<Route path="supportManagement" element={<SupportRequests />}></Route>
+					<Route path="mySupport" element={<MySupport />}></Route>
+					<Route path="addProducer" element={<AddProducers />}></Route>
+					<Route path="manageProducers" element={<ManageProducers />}></Route>
+					<Route path="manageAccounts" element={<ManageAccounts />}></Route>
 				</Routes>
 			</>
 		</BrowserRouter>

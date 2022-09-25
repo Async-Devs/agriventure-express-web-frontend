@@ -3,8 +3,8 @@ import {Alert, Grid} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import style from "./helpCenter.module.css";
 import CardComponent from "../../components/cardComponent/cardComponent";
-import Footer from "../../components/footer/footer";
 import SupportForm from "./supportForm/supportForm";
+import Button from "@mui/material/Button";
 
 function helpCenter(){
 
@@ -18,6 +18,10 @@ function helpCenter(){
 		if(event.target.name === "body"){
 			setBody(event.target.value);
 		}
+	}
+
+	function myTickets(){
+		window.location.assign("/mySupport");
 	}
 
 	function handleSubmit(){
@@ -78,6 +82,9 @@ function helpCenter(){
 					<Alert severity="success">Your respond recorded successfully. our officer will reach you soon</Alert>
 				</Grid>
 
+				<Grid item xs={12} align="center" m={5}>
+					<Button variant="contained" onClick={myTickets}>My Tickets</Button>
+				</Grid>
 
 				<Grid item xs={12} md={6} lg={4} align="center">
 					<CardComponent heading={"Agricultural Support"} onClick={handleOnClick0} body={"Have any issues with your farm? We will help you to maximize the productivity and quality of your farm by providing expert bits of advice."} img={"https://tabmag2.objects.frb.io/kwsimage/_md/KWSImage_NT6.jpg"}></CardComponent>
@@ -101,9 +108,9 @@ function helpCenter(){
 				<SupportForm handleSubmit={handleSubmit}type={supportType} open={open} handleClose={handleClose}  value={body} onChange={handleChange}/>
 			</Grid>
 
-			<Grid item xs={12} mt={2}>
-				<Footer />
-			</Grid>
+			{/*<Grid item xs={12} mt={2}>*/}
+			{/*	<Footer />*/}
+			{/*</Grid>*/}
 
 		</Grid>
 

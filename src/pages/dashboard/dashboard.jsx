@@ -1,7 +1,5 @@
-/* eslint-disable no-mixed-spaces-and-tabs */
 import React from "react";
 import "./dashboard.module.css";
-import Sidebar from "../../components/Sidebar/Sidebar.js";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 
@@ -33,7 +31,6 @@ function Dashboard(){
 
 	return(
 		<div>
-			<Sidebar/>
 			<Grid container spacing={2} marginTop="20px" padding="10px">
 				<Grid item xs={12} md={8}>
 					<Paper>
@@ -70,7 +67,7 @@ function Dashboard(){
 				</Grid>
 				<Grid item xs={12} md={4}>
 					<Paper>
-						
+
 					</Paper>
 				</Grid>
 				<Grid item xs={12} md={12}>
