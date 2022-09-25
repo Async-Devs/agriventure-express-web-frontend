@@ -1,7 +1,7 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import {Button} from "@mui/material";
-import CustomTable from "../../components/table/customTable";
+import CustomTable from "../../components/customTable/customTable";
 
 function OrderTable(){
 	//Documentation => https://mui.com/x/react-data-grid/column-definition/
