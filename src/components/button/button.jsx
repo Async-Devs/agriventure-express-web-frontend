@@ -6,13 +6,17 @@ import PropTypes from "prop-types";
 
 export default function SaveButton() {
 	return (
-		<Button>Save{" "}<SaveOutlinedIcon/></Button>
+		<Button variant="outlined">Save{" "}<SaveOutlinedIcon/></Button>
 	);
 }
 
 export function LinkedButton(props){
 	return(
-		<Link to={props.href} style={{ textDecoration: "none" }}> <Button>{props.content}</Button></Link>
+		<Link to={props.href} style={{ textDecoration: "none" }}>
+			<Button variant="outlined">
+				{props.content}
+			</Button>
+		</Link>
 	);
 }
 
