@@ -1,45 +1,36 @@
 import React from "react";
-import Sidebar from "../../components/Sidebar/Sidebar.js";
 import Grid from "@mui/material/Grid";
-import ProductCard from "../../components/ProductCard/ProductCard.js";
+import Container from "@mui/material/Container";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import {Divider} from "@mui/material";
+import ProducerItems from "./producerItems";
+import ProducerSales from "./producerSales";
 
 function ProducerDashboard(){
 	return(
-		<div>
-			<Sidebar/>
-			<Grid container spacing={2.5}marginTop="20px" padding="20px">
-				<Grid item xs={12} md={2.2}>
-					<ProductCard/>
+		<Container >
+			<Grid container align={"center"}>
+				<Grid item xs={12}>
+					<Typography variant="h2"><span style={{color: "green"}}>My Crops</span></Typography>
+					<hr />
 				</Grid>
-				<Grid item xs={12} md={2.2}>
-					<ProductCard/>
+
+				<Grid item xs={12}>
+					<Paper>
+						<ProducerItems/>
+					</Paper>
 				</Grid>
-				<Grid item xs={12} md={2.2}>
-					<ProductCard/>
-				</Grid>
-				<Grid item xs={12} md={2.2}>
-					<ProductCard/>
-				</Grid>
-				<Grid item xs={12} md={2.2}>
-					<ProductCard/>
-				</Grid>
-				<Grid item xs={12} md={2.2}>
-					<ProductCard/>
-				</Grid>
-				<Grid item xs={12} md={2.2}>
-					<ProductCard/>
-				</Grid>
-				<Grid item xs={12} md={2.2}>
-					<ProductCard/>
-				</Grid>
-				<Grid item xs={12} md={2.2}>
-					<ProductCard/>
-				</Grid>
-				<Grid item xs={12} md={2.2}>
-					<ProductCard/>
+
+				<Grid item xs={12}>
+					<Typography variant="h5" m={1}>Crop sales</Typography>
+					<Divider />
+					<Paper>
+						<ProducerSales/>
+					</Paper>
 				</Grid>
 			</Grid>
-		</div>
+		</Container>
 	);
 }
 
