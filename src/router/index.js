@@ -20,6 +20,7 @@ import MySupport from "../pages/supportRequestsBuyer/mySupport";
 import AddProducers from "../pages/addProducer/addProducers";
 import ManageProducers from "../pages/managePruducers/manageProducers";
 import ManageAccounts from "../pages/manageAccounts/manageAccounts";
+import ItemView from "../pages/itemView/itemView";
 /*
 * Order Inventory Subsystem - Achira
 * Account Management/ Support Subsystem - Toxic Supun
@@ -27,14 +28,15 @@ import ManageAccounts from "../pages/manageAccounts/manageAccounts";
 * */
 
 function AppRouter(){
-
-
 	return(
 		<BrowserRouter>
 			<>
 				<Routes>
 					<Route path = "" element={<Dashboard />} ></Route>
-					<Route path = "/marketplace" element={<Marketplace />} ></Route>
+					<Route path = "/marketplace" >
+						<Route index element={<Marketplace />} ></Route>
+						<Route path = ":itemId" element={<ItemView/>} ></Route>
+					</Route>
 					<Route path = "/orders" >
 						<Route index element={<Orders/>} ></Route>
 						<Route path = ":id" element={<OrderView/>} ></Route>
