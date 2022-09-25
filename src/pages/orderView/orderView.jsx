@@ -3,7 +3,7 @@ import {Box, ButtonGroup, Grid, Typography} from "@mui/material";
 import Button from "@mui/material/Button";
 import RefundRequest from "../../components/refundRequest/refundRequest";
 import {useParams} from "react-router-dom";
-import SaveButton from "../../components/button/button";
+import SaveButton, {LinkedButton} from "../../components/button/button";
 import CustomInformationListItem from "../../components/customInformationListItem/customInformationListItem";
 
 function OrderView(){
@@ -59,14 +59,17 @@ function OrderView(){
 					<CustomInformationListItem topMargin={topGap} height={itemHeight} infoTitle={"Invoice Number"} infoValue={`${id}3eaa670f-1e05-4a1d-beea-d49dccd4eef6`}/>
 					<CustomInformationListItem topMargin={topGap} height={itemHeight} infoTitle={"Producer"} infoValue={"Producer Name"}/>
 					<CustomInformationListItem topMargin={topGap} height={itemHeight} infoTitle={"Item"} infoValue={"Carrot"}/>
-					<CustomInformationListItem topMargin={topGap} height={itemHeight} infoTitle={"Quantity"} infoValue={"2 mt"}/>
+					<CustomInformationListItem topMargin={topGap} height={itemHeight} infoTitle={"Quantity"} infoValue={"2 Metric Tons"}/>
 					<CustomInformationListItem topMargin={topGap} height={"auto"} infoTitle={"Description"} infoValue={"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ac libero luctus libero porta tristique eu eget mauris. In iaculis mattis tellus sit amet malesuada. Mauris non eros a augue lobortis feugiat a in dolor. Aliquam a elit sed mauris porta vestibulum. Suspendisse quam nisi, malesuada fringilla iaculis et, consectetur eget felis. Sed felis sapien, sagittis sed imperdiet eget, accumsan pellentesque leo. Fusce eu hendrerit dolor, vitae euismod ex. Nam leo libero, faucibus sed vehicula ut, efficitur ut lorem. Fusce accumsan ante vulputate, vulputate ante in, mattis risus. Mauris tincidunt et lectus vitae tempor. Nullam auctor ante ut mollis auctor. Fusce dignissim ultrices arcu ac cursus. Fusce lacinia viverra nisl in placerat. Donec auctor elit quis ante consectetur, non iaculis tellus cursus. Vivamus ut quam orci"}/>
 					<CustomInformationListItem topMargin={topGap} height={itemHeight} infoTitle={"Order Price"} infoValue={"LKR 2,000,000"}/>
+					<CustomInformationListItem topMargin={topGap} height={itemHeight} infoTitle={"Date Placed"} infoValue={"2022-10-15T13:36:46.000+05:30"}/>
+					<CustomInformationListItem topMargin={topGap} height={itemHeight} infoTitle={"Payment Status"} infoValue={"PAID"}/>
+					<CustomInformationListItem topMargin={topGap} height={itemHeight} infoTitle={"Delivery Status"} infoValue={"OUT-FOR-DELIVERY"}/>
 
 					<Grid container item xs={8} mt={topGap} height={itemHeight} >
 						<ButtonGroup variant="outlined" aria-label="outlined button group" item xs={4}>
 							<Button onClick={onClickRefund} >Refund</Button>
-							<Button>Back</Button>
+							<LinkedButton href={"/orders"} content={"Back"}/>
 							<Button onClick={onClickChat}>Chat</Button>
 							<SaveButton />
 						</ButtonGroup>
