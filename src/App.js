@@ -3,14 +3,29 @@ import React from "react";
 import AppRouter from "./router";
 import "./App.css";
 import theme from "./components/theme/theme";
-import {ThemeProvider} from "@mui/material";
+import {Grid, ThemeProvider} from "@mui/material";
+import Sidebar from "./components/Sidebar";
+import Footer from "./components/footer/footer";
 
 function App() {
 	return (
 
 		<ThemeProvider theme={theme}>
 			<div className="App">
-				<AppRouter/>
+				<Grid container spacing={2}>
+					<Grid item xs={12}>
+						<Sidebar/>
+					</Grid>
+					<Grid item xs={12}>
+						<AppRouter/>
+					</Grid>
+					<Grid item xs={12}>
+						<Footer />
+					</Grid>
+				</Grid>
+
+
+
 			</div>
 		</ThemeProvider>
 	);

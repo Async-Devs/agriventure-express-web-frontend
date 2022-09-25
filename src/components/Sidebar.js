@@ -14,7 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 
 import logo from "../img/logo.png";
 
-const pages = ["Dashboard", "Marketplace", "Orders","Support"];
+const pages = ["Dashboard", "Marketplace", "Orders","Help Center"];
 const settings = ["Account","Logout"];
 
 const ResponsiveAppBar = () => {
@@ -28,8 +28,11 @@ const ResponsiveAppBar = () => {
 		setAnchorElUser(event.currentTarget);
 	};
 
-	const handleCloseNavMenu = () => {
+	const handleCloseNavMenu = (event) => {
 		setAnchorElNav(null);
+		if(event.target.name === "Help Center"){
+			window.location.assign("/helpCenter");
+		}
 	};
 
 	const handleCloseUserMenu = () => {
@@ -91,7 +94,7 @@ const ResponsiveAppBar = () => {
 							}}
 						>
 							{pages.map((page) => (
-								<MenuItem key={page} onClick={handleCloseNavMenu}>
+								<MenuItem key={page} id={page} name={page} onClick={handleCloseNavMenu}>
 									<Typography textAlign="center">{page}</Typography>
 								</MenuItem>
 							))}
@@ -121,6 +124,8 @@ const ResponsiveAppBar = () => {
 						{pages.map((page) => (
 							<Button
 								key={page}
+								id={page}
+								name={page}
 								onClick={handleCloseNavMenu}
 								sx={{ my: 2, color: "white", display: "block" }}
 							>

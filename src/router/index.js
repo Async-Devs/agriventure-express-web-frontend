@@ -9,6 +9,13 @@ import Profile from "../pages/profile/profile";
 import EditProfile from "../pages/editProfile/editProfile";
 import HelpCenter from "../pages/helpCenter/helpCenter";
 import OrderView from "../pages/orderView";
+import RefundRequests from "../pages/refundRequests/refundRequests";
+import RefundRequestBuyer from "../pages/refundRequestBuyer/refundRequestBuyer";
+import SupportRequests from "../pages/supportRequest/supportRequests";
+import MySupport from "../pages/supportRequestsBuyer/mySupport";
+import AddProducers from "../pages/addProducer/addProducers";
+import ManageProducers from "../pages/managePruducers/manageProducers";
+import ManageAccounts from "../pages/manageAccounts/manageAccounts";
 /*
 * Order Inventory Subsystem - Achira
 * Account Management/ Support Subsystem - Toxic Supun
@@ -30,8 +37,13 @@ function AppRouter(){
 					<Route path= "/profile/edit" element={<EditProfile />}></Route>
 					<Route path="/helpcenter" element={<HelpCenter />}></Route>
 					<Route path="/orderView" element={<OrderView />}></Route>
-
-
+					<Route path="/refund" element={<RefundRequests />}></Route>
+					<Route path="myrefund" element={<RefundRequestBuyer />}></Route>
+					<Route path="supportManagement" element={<SupportRequests />}></Route>
+					<Route path="mySupport" element={<MySupport />}></Route>
+					<Route path="addProducer" element={<AddProducers />}></Route>
+					<Route path="manageProducers" element={<ManageProducers />}></Route>
+					<Route path="manageAccounts" element={<ManageAccounts />}></Route>
 				</Routes>
 			</>
 		</BrowserRouter>
