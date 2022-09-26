@@ -20,9 +20,35 @@ export function LinkedButton(props){
 	);
 }
 
+export function LinkedButtonRound(props){
+	return(
+		<Link to={props.href} style={{textDecoration:"none"}}>
+			<Button
+				variant={"contained"}
+				size={"large"}
+				sx={
+					{
+						color:"white",
+						fontWeight:"bold",
+						borderRadius: "100px"
+					}
+				}
+				color={"primary"}>
+				{props.content}
+			</Button>
+		</Link>
+	);
+}
+
 LinkedButton.propTypes = {
 	/** The href is the path that the button directs to*/
 	href: PropTypes.string,
+	/** The content is the Button Name */
+	content: PropTypes.string
+};
+LinkedButtonRound.propTypes = {
+	/** The href is the path that the button directs to*/
+	href: PropTypes.string.isRequired,
 	/** The content is the Button Name */
 	content: PropTypes.string
 };

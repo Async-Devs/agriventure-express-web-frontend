@@ -1,10 +1,10 @@
 import React from "react";
 import {Grid, Paper, Typography} from "@mui/material";
-import Button from "@mui/material/Button";
 import PropTypes from "prop-types";
+import {LinkedButtonRound} from "../../components/button/button";
 
 function MarketplaceCard(props){
-	const {imgSrc, itemName, minBid, quantity} = props;
+	const {imgSrc, itemName, minBid, quantity, itemId} = props;
 	return(
 		<Grid item width={300}>
 			<Paper elevation={4} sx={{borderRadius: "10px"}}>
@@ -12,12 +12,12 @@ function MarketplaceCard(props){
 					<Grid item xs={12} container justifyContent={"center"} mt={0.5}>
 						<Grid item xs={12} ml={0.5} mr={0.5}>
 							<Paper 
-								elevation={2} 
+								elevation={0}
 								style={
 									{
 										borderRadius:"10px",
 										backgroundImage: `url(${imgSrc})`,
-										backgroundSize: "auto", 
+										backgroundSize: "cover",
 										backgroundPosition: "center", 
 										backgroundRepeat:"no-repeat"
 									}
@@ -45,17 +45,7 @@ function MarketplaceCard(props){
 						</Grid>
 						<Grid item xs={12} mt={2} mb={2} container justifyContent={"center"}>
 							<Grid item >
-								<Button 
-									variant={"contained"} 
-									size={"large"} 
-									sx={
-										{
-											color:"white", 
-											fontWeight:"bold", 
-											borderRadius: "100px"
-										}
-									} 
-									color={"primary"}>Bid</Button>
+								<LinkedButtonRound href={`${itemId}`} content={"Bid"}/>
 							</Grid>
 						</Grid>
 					</Grid>
@@ -70,7 +60,8 @@ MarketplaceCard.propTypes = {
 	imgSrc: PropTypes.string.isRequired,
 	itemName: PropTypes.string.isRequired,
 	minBid: PropTypes.number.isRequired,
-	quantity: PropTypes.number.isRequired
+	quantity: PropTypes.number.isRequired,
+	itemId: PropTypes.string.isRequired
 };
 
 export default MarketplaceCard;
