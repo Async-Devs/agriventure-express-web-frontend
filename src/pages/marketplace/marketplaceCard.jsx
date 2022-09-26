@@ -16,7 +16,7 @@ function MarketplaceCard(props){
 								style={
 									{
 										borderRadius:"10px",
-										backgroundImage: `url(${imgSrc})`,
+										backgroundImage: imgSrc==null?`url(${"https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640"})`:`url(${imgSrc})`,
 										backgroundSize: "cover",
 										backgroundPosition: "center", 
 										backgroundRepeat:"no-repeat"
