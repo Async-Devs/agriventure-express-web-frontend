@@ -1,7 +1,8 @@
 import React, {useState} from "react";
-import { Grid, Pagination} from "@mui/material";
+import { Grid} from "@mui/material";
 import MarketplaceCard from "./marketplaceCard";
 import CustomPagination from "../../components/pagination/pagination";
+import {paginate} from "../../util/paginate";
 
 const itemArray = [
 	{
@@ -290,28 +291,33 @@ const itemArray = [
 
 function Marketplace(){
 	const [currentPage, setCurrentPage] = useState(1);
-
+	const pageSize = 12;
 	function handlePageChange(currentPage){
 		console.log(currentPage);
-		setCurrentPage(12);
+		setCurrentPage(currentPage);
 	}
-
+	let pagedData = paginate(itemArray, currentPage, pageSize);
 
 	return(
 		<Grid container justifyContent={"center"} p={5}>
 			<Grid item>
-				<CustomPagination itemsCount={itemArray.length+10000} currentPage={currentPage} pageSize={10} onPageChange={handlePageChange}/>
+				<CustomPagination itemsCount={itemArray.length} currentPage={currentPage} pageSize={pageSize} onPageChange={handlePageChange}/>
 			</Grid>
 			<Grid item container spacing={5} p={4} xs={12} >
-				{itemArray.map((p)=>{
+				{pagedData.map((p)=>{
 					return(
-						<Grid container key={p} item xs={12} sm={6} md={4} lg={3} xl={2} justifyContent={"center"}>
-							<MarketplaceCard itemId={p.itemId} imgSrc={"https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1287&q=80"} itemName={"Carrots"} minBid={4500000} quantity={1000}/>
+						<Grid container key={p.itemId} item xs={12} sm={6} md={4} lg={3} xl={2} justifyContent={"center"}>
+							<MarketplaceCard
+								itemId={p.itemId}
+								imgSrc={"https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1287&q=80"}
+								itemName={p.itemName}
+								minBid={p.price}
+								quantity={p.quantity}/>
 						</Grid>
 					);
 				})}
 			</Grid>
-			<Pagination item count={10} shape="rounded" />
+			<CustomPagination itemsCount={itemArray.length} currentPage={currentPage} pageSize={pageSize} onPageChange={handlePageChange}/>
 		</Grid>
 	);
 }
