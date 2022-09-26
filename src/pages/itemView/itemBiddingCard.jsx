@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {Button, Grid, Paper, Typography} from "@mui/material";
 import CountdownTimer from "../../components/countdownTimer/countdownTimer";
 import TextInput from "../../components/textInput/textInput";
+import BidTable from "./bidTable";
 
 export default function ItemBiddingCard(){
 	const [bidValue, setBidValue] = useState(123);
@@ -15,13 +16,13 @@ export default function ItemBiddingCard(){
 	}
 
 	function handleSubmit(){
-		
+		console.log(bidValue);
 	}
 
 	return(
 		<Grid item container>
 			<Paper elevation={0}>
-				<Grid container p={1} >
+				<Grid container >
 					<Grid item xs={12} container justifyContent={"center"} mt={2}>
 						<Grid item xs={12}>
 							<CountdownTimer endTime={endTime}/>
@@ -45,13 +46,18 @@ export default function ItemBiddingCard(){
 								:
 							</Typography>
 						</Grid>
-						<Grid item xs={4}>
+						<Grid item xs={6}>
 							<TextInput name="firstName" label="Bid Value" type={"number"} value={bidValue} onChange={handleBidChange} required={true}/>
 						</Grid>
 					</Grid>
 					<Grid item xs={12} container justifyContent={"center"} mt={2}>
 						<Grid item xs={12}>
 							<Button variant={"contained"} onClick={handleSubmit}>Bid</Button>
+						</Grid>
+					</Grid>
+					<Grid item xs={12} container justifyContent={"center"} mt={2}>
+						<Grid item xs={12}>
+							<BidTable/>
 						</Grid>
 					</Grid>
 
