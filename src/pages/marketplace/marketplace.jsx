@@ -1,8 +1,9 @@
 import React, {useState} from "react";
-import { Grid} from "@mui/material";
+import {Button, Grid} from "@mui/material";
 import MarketplaceCard from "./marketplaceCard";
 import CustomPagination from "../../components/pagination/pagination";
 import {paginate} from "../../util/paginate";
+
 
 const itemArray = [
 	{
@@ -300,6 +301,9 @@ function Marketplace(){
 
 	return(
 		<Grid container justifyContent={"center"} p={5}>
+			<Grid item >
+				<Button>Filter</Button>
+			</Grid>
 			<Grid item>
 				<CustomPagination itemsCount={itemArray.length} currentPage={currentPage} pageSize={pageSize} onPageChange={handlePageChange}/>
 			</Grid>
