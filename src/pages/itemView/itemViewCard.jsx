@@ -5,7 +5,7 @@ import Carousel from "../../components/carousel/carousel";
 export default function ItemViewCard(){
 	return(
 		<Grid item container>
-			<Paper elevation={2}>
+			<Paper elevation={4}>
 				<Grid container p={1} >
 					<Grid item xs={12} container justifyContent={"center"}>
 						<Grid item>
