@@ -1,5 +1,5 @@
 import React from "react";
-import {Grid} from "@mui/material";
+import {Grid, Paper} from "@mui/material";
 import ItemDetailsForm from "./itemDetailsForm";
 import SetBiddingCard from "./setBiddingCard";
 
@@ -11,11 +11,17 @@ function AddItem(){
 			{/*		{breadcrumbs}*/}
 			{/*	</Breadcrumbs>*/}
 			{/*</Grid>*/}
-			<Grid item md={6} xs={12}  minHeight={400} container>
-				<ItemDetailsForm/>
+			<Grid item md={6} xs={12} minHeight={400} container>
+				<Paper elevation={4}>
+					
+					<ItemDetailsForm/>
+				</Paper>
 			</Grid>
-			<Grid item md={6} xs={12} container>
-				<SetBiddingCard/>
+			<Grid item md={6} xs={12} minHeight={400} container>
+				<Paper elevation={4}>
+					
+					<SetBiddingCard/>
+				</Paper>
 			</Grid>
 		</Grid>
 	);
