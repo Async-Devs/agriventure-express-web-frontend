@@ -6,7 +6,7 @@ import BidTable from "./bidTable";
 
 export default function ItemBiddingCard(){
 	const [bidValue, setBidValue] = useState(123);
-	const endTime = "2022-09-27T04:52:03";
+	const endTime = "2022-09-28T04:52:03";
 
 	function handleBidChange(event){
 		let newValue = event.target.value;
