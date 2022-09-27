@@ -1,13 +1,13 @@
 import React from "react";
-import {Bar} from "react-chartjs-2";
+// import {Bar} from "react-chartjs-2";
 
-const Barchart = ()=> {
+function Barchart() {
 	return (
-		<div>
-			<Bar
-			/>
+		<div className="chart">
+
+			ane chart eka meee imhi
 		</div>
 	);
-};
+}
 
 export default Barchart;
