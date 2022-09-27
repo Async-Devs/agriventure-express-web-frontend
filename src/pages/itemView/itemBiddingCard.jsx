@@ -10,7 +10,7 @@ export default function ItemBiddingCard(){
 
 	function handleBidChange(event){
 		let newValue = event.target.value;
-		if(event.target.name === "firstName" && newValue>=0) {
+		if(event.target.name === "bidValue" && newValue>=0  && newValue <= 1000000000000) {
 			setBidValue(newValue);
 		}
 	}
@@ -31,7 +31,7 @@ export default function ItemBiddingCard(){
 					<Grid item xs={12} container justifyContent={"center"} mt={2}>
 						<Grid item xs={12}>
 							<Typography variant={"h6"} color={"green"} fontWeight={"bold"}>
-								Last bid : LKR 55,000
+								Last bid : {Intl.NumberFormat("si", { style: "currency", currency: "LKR" }).format(1000000) }
 							</Typography>
 						</Grid>
 					</Grid>
@@ -47,7 +47,7 @@ export default function ItemBiddingCard(){
 							</Typography>
 						</Grid>
 						<Grid item xs={6}>
-							<TextInput name="firstName" label="Bid Value" type={"number"} value={bidValue} onChange={handleBidChange} required={true}/>
+							<TextInput name="bidValue" label="Bid Value" type={"number"} value={bidValue} onChange={handleBidChange} required={true}/>
 						</Grid>
 					</Grid>
 					<Grid item xs={12} container justifyContent={"center"} mt={2}>
