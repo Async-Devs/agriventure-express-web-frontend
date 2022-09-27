@@ -21,6 +21,8 @@ import AddProducers from "../pages/addProducer/addProducers";
 import ManageProducers from "../pages/managePruducers/manageProducers";
 import ManageAccounts from "../pages/manageAccounts/manageAccounts";
 import ItemView from "../pages/itemView/itemView";
+import BuyMenu from "../pages/buyMenue/buyMenu";
+import AddItem from "../pages/addItem/addItem";
 /*
 * Order Inventory Subsystem - Achira
 * Account Management/ Support Subsystem - Toxic Supun
@@ -41,6 +43,11 @@ function AppRouter(){
 						<Route index element={<Orders/>} ></Route>
 						<Route path = ":id" element={<OrderView/>} ></Route>
 					</Route>
+					<Route path = "/buy-menu" >
+						<Route index element={<BuyMenu/>} ></Route>
+						<Route path = ":id" element={<OrderView/>} ></Route>
+					</Route>
+					<Route path = "/add-item" element={<AddItem />}></Route>
 					<Route path = "/login" element={<Login />}></Route>
 					<Route path = "/signup" element={<Signup />}></Route>
 					<Route path = "/profile" element={<Profile />}></Route>
@@ -49,14 +56,14 @@ function AppRouter(){
 					<Route path = "*" element={<ErrorPage/>}></Route>
 					<Route path = "/agridataentry" element={<AgriDataEntry />}></Route>
 					<Route path = "producerdashboard" element={<ProducerDashboard />} ></Route>
-					<Route path="/orderView" element={<OrderView />}></Route>
-					<Route path="/refund" element={<RefundRequests />}></Route>
-					<Route path="myrefund" element={<RefundRequestBuyer />}></Route>
-					<Route path="supportManagement" element={<SupportRequests />}></Route>
-					<Route path="mySupport" element={<MySupport />}></Route>
-					<Route path="addProducer" element={<AddProducers />}></Route>
-					<Route path="manageProducers" element={<ManageProducers />}></Route>
-					<Route path="manageAccounts" element={<ManageAccounts />}></Route>
+					<Route path ="/orderView" element={<OrderView />}></Route>
+					<Route path ="/refund" element={<RefundRequests />}></Route>
+					<Route path ="myrefund" element={<RefundRequestBuyer />}></Route>
+					<Route path ="supportManagement" element={<SupportRequests />}></Route>
+					<Route path ="mySupport" element={<MySupport />}></Route>
+					<Route path ="addProducer" element={<AddProducers />}></Route>
+					<Route path ="manageProducers" element={<ManageProducers />}></Route>
+					<Route path ="manageAccounts" element={<ManageAccounts />}></Route>
 				</Routes>
 			</>
 		</BrowserRouter>
