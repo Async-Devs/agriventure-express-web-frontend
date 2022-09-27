@@ -16,8 +16,8 @@ import SelectInput from "../../components/selectInput/selectInput";
 function AgriDataEntry(){
 
 	// states
-	const [fieldDistrict,setfieldDistrict] = useState();
-	const [fieldCity,setfieldCity] = useState();
+	const [fieldDistrict,setFieldDistrict] = useState();
+	const [fieldCity,setFieldCity] = useState();
 	const [cropTypes,setCropTypes] = useState();
 	const [cropAmount,setCropAmount] = useState();
 	const [error,setError] = useState();
@@ -30,9 +30,9 @@ function AgriDataEntry(){
 		if(event.target.name === "cropAmount"){
 			setCropAmount(event.target.value);
 		}else if(event.target.name === "fieldDistrict"){
-			setfieldDistrict(event.target.value);
+			setFieldDistrict(event.target.value);
 		}else if(event.target.name === "fieldCity"){
-			setfieldCity(event.target.value);
+			setFieldCity(event.target.value);
 		}else if(event.target.name === "cropTypes"){
 			setCropTypes(event.target.value);
 		}

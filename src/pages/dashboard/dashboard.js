@@ -5,8 +5,6 @@ import Paper from "@mui/material/Paper";
 import Barchart from "../../components/Barchart/Barchart";
 
 
-
-
 function Dashboard(){
 
 	// states
@@ -19,14 +17,14 @@ function Dashboard(){
 	return(
 		<div>
 			<Grid container spacing={2} marginTop="20px" padding="10px">
-				<Grid item xs={12} md={8}>
+				<Grid item xs={12} md={8} padding="5px">
 					<Paper>
 						<Barchart/>
 					</Paper>
 				</Grid>
 				<Grid item xs={12} md={4}>
 					<Paper>
-						sdklfdksfbsdj
+						Sri Lanka Map
 					</Paper>
 				</Grid>
 				<Grid item xs={12} md={12}>
