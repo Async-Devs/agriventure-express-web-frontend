@@ -321,7 +321,9 @@ function Marketplace(){
 					);
 				})}
 			</Grid>
-			<CustomPagination itemsCount={itemArray.length} currentPage={currentPage} pageSize={pageSize} onPageChange={handlePageChange}/>
+			<Grid item>
+				<CustomPagination itemsCount={itemArray.length} currentPage={currentPage} pageSize={pageSize} onPageChange={handlePageChange}/>
+			</Grid>
 		</Grid>
 	);
 }
