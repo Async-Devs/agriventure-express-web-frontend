@@ -13,8 +13,10 @@ function convertMsToTime(milliseconds) {
 	let hours = Math.floor(minutes / 60);
 	seconds = seconds % 60;
 	minutes = minutes % 60;
-	return `${padTo2Digits(hours)}h 
-	${padTo2Digits(minutes)}m ${padTo2Digits(seconds)}s`;
+	if (!Number.isNaN(hours) && !Number.isNaN(seconds) && !Number.isNaN(minutes)){
+		return `${padTo2Digits(hours)}h ${padTo2Digits(minutes)}m ${padTo2Digits(seconds)}s  Left`;
+	}
+	return "Invalid Date and Time";
 }
 
 function CountdownTimer(props){
@@ -31,11 +33,12 @@ function CountdownTimer(props){
 }
 
 function renderer(props){
+	if (props.total>0)props.api.start();
 	return(
 		<Grid container justifyContent={"center"}>
 			<Grid item>
 				<Typography variant={"h4"} color={props.total>20000?"primary":"error"}>
-					{convertMsToTime(props.total)} Left
+					{convertMsToTime(props.total)}
 				</Typography>
 			</Grid>
 		</Grid>
@@ -43,7 +46,7 @@ function renderer(props){
 }
 
 CountdownTimer.propTypes = {
-	endTime: PropTypes.string
+	endTime: PropTypes.object
 };
 
 renderer.propTypes = {
