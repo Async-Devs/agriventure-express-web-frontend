@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-export default function RecipeReviewCard() {
+export default function ProductCard() {
 
 	return (
 		<Card sx={{ maxWidth: 345 }}>
