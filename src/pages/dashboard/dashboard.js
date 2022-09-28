@@ -2,8 +2,9 @@ import React from "react";
 import "./dashboard.module.css";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import Barchart from "../../components/Charts/Barchart";
+// import Barchart from "../../components/Charts/Barchart";
 import PieChart from "../../components/Charts/Piechart";
+import Barchart from "../../components/Charts/Barchart";
 
 
 
