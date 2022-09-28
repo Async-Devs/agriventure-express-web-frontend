@@ -14,11 +14,12 @@ import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import Axios from "axios";
 import ProfileView from "./profileView/profileView";
 import Container from "@mui/material/Container";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
+import {Alert} from "@mui/lab";
 
 function Profile(){
 
@@ -35,13 +36,26 @@ function Profile(){
 	const [address,setAddress] = useState();
 	const [cropTypes,setCropTypes] = useState([]);
 	const [location,setLocation] = useState();
+	const [id,setId] = useState();
+	const [isExsist,setIsExsist] = useState();
 
 	useEffect(() => {
+
+		async function isUser(){
+			// eslint-disable-next-line no-undef
+			const isExist = await Axios.get(`${process.env.REACT_APP_API_URL}/users/isExist/${user_id}`);
+			setIsExsist(isExist.data.success);
+		}
+
+		isUser();
+
+
 		async function getUser() {
 			// eslint-disable-next-line no-undef
 			const user = await Axios.get(`${process.env.REACT_APP_API_URL}/users/getById/`,{params: {id: user_id}});
 			if (user.data.success) {
 				setUserType(user.data.user.userType);
+				setId(user.data.typeDetails._id);
 				setFirstName(user.data.typeDetails.firstName);
 				setLastName(user.data.typeDetails.lastName);
 				setNic(user.data.typeDetails.nic);
@@ -80,7 +94,23 @@ function Profile(){
 	}
 
 	function handleConDelete(){
-		//todo: delete account
+		if(userType === 0){
+			// eslint-disable-next-line no-undef
+			Axios.delete(`${process.env.REACT_APP_API_URL}/producers/deleteById/${id}`).then( async (res ) => {
+				if(!res.data.success){
+					alert("Error occured!");
+				}
+			});
+			window.location.assign("/");
+		}else if(userType === 1){
+			// eslint-disable-next-line no-undef
+			Axios.delete(`${process.env.REACT_APP_API_URL}/buyers/deleteById/${id}`).then( async (res ) => {
+				if(!res.data.success){
+					alert("Error occured!");
+				}
+			});
+			window.location.assign("/");
+		}
 		handleClose();
 	}
 
@@ -92,7 +122,12 @@ function Profile(){
 				</Grid>
 			):(
 				<Grid container justifyContent="center">
-					<Grid item xs={12}>
+
+					<Grid item xs={12} hidden={isExsist}>
+						<Alert severity="error" >User not found!</Alert>
+					</Grid>
+
+					<Grid item xs={12} hidden={!isExsist}>
 						<ProfileView firstName = {firstName}
 							lastName={lastName}
 							email={email} nic={nic}
@@ -103,11 +138,13 @@ function Profile(){
 							userType={userType}/>
 					</Grid>
 
-					<Grid item xs={12} md={6} mt={2}  align="center">
+					<Grid item xs={12} md={6} mt={2}  align="center" hidden={!isExsist}>
 						<Paper elevation={3} sx={{width: "100%", p: "5px"}}>
-							<Button variant="outlined" onClick={handleEdit} color="primary" startIcon={<EditIcon />} sx={{m: "5px"}}>
-								Edit
-							</Button>
+							<Link to={"/profile/edit/" + user_id}  style={{ textDecoration: "none" }}>
+								<Button variant="outlined" color="primary" startIcon={<EditIcon />} sx={{m: "5px"}}>
+									Edit
+								</Button>
+							</Link>
 							<Button variant="outlined" onClick={handleEdit} color="primary" startIcon={<HowToRegIcon />} sx={{m: "5px"}}>
 								Approve
 							</Button>

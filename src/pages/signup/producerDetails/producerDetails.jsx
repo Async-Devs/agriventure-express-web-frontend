@@ -52,7 +52,6 @@ function ProducerDetails(props){
 				{/* eslint-disable-next-line react/prop-types */}
 				<SelectInput name="cropTypes" label="Crop Types" value={props.cropTypes} onChange={props.handleChange} required={true} options={props.cropList} multi={true}/>
 				{/* eslint-disable-next-line react/prop-types */}
-				{JSON.stringify(props.cropTypes)}
 			</Grid>
 
 		</Grid>

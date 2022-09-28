@@ -9,7 +9,7 @@ import TextInput from "../../../components/textInput/textInput";
 import SelectInput from "../../../components/selectInput/selectInput";
 import SaveIcon from "@mui/icons-material/Save";
 import Axios from "axios";
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import {Alert} from "@mui/lab";
 
 function EditProfileForm(){
@@ -19,20 +19,21 @@ function EditProfileForm(){
 	const [telNo,setTelNo] = useState();
 	const [address,setAddress] = useState();
 	const [userType,setUserType] = useState(1);
-	const [emailOrg] = useState();
-	const [telNoOrg] = useState();
-	const [addressOrg] = useState();
-	const [cropTypesOrg] = useState();
+	const [emailOrg,setEmailOrg] = useState();
+	const [telNoOrg,setTelNoOrg] = useState();
+	const [cropTypesOrg,setCropTypesOrg] =useState();
 	const [error,setError] = useState();
 	const [errorHidden,setErrorHidden] = useState(true);
 	const [firstName,setFirstName] = useState();
 	const [lastName,setLastName] = useState();
 	const [nic,setNic] = useState();
 	const [location,setLocation] = useState();
+	const [addressOrg,setAddressOrg] = useState();
 	const [isLoading,setIsLoading] = useState(true);
 	const [userName,setUserName] = useState();
 	const [cropList,setCropList] = useState([]);
 	const [allCropList,setAllCropList] = useState([]);
+	const [id,setId] = useState();
 
 
 	useEffect(()=> {
@@ -40,17 +41,23 @@ function EditProfileForm(){
 			// eslint-disable-next-line no-undef
 			const user = await Axios.get(`${process.env.REACT_APP_API_URL}/users/getById/`,{params: {id: user_id}});
 			if (user.data.success) {
+				console.log(user.data.typeDetails);
 				setUserType(user.data.user.userType);
+				setId(user.data.typeDetails._id);
 				setUserName(user.data.user.userName);
 				setFirstName(user.data.typeDetails.firstName);
 				setLastName(user.data.typeDetails.lastName);
 				setNic(user.data.typeDetails.nic);
 				setEmail(user.data.typeDetails.email);
+				setEmailOrg(user.data.typeDetails.email);
+				setTelNoOrg(user.data.typeDetails.telNum);
 				setTelNo(user.data.typeDetails.telNum);
 				setAddress(user.data.typeDetails.address);
+				setAddressOrg(user.data.typeDetails.address);
 				if(user.data.user.userType === 0){
 					setLocation(user.data.typeDetails.location.name);
 					setCropList(user.data.typeDetails.cropTypes.map(a => a._id));
+					setCropTypesOrg(user.data.typeDetails.cropTypes.map(a => a._id));
 				}
 			} else {
 				alert("Error occurred!");
@@ -103,10 +110,6 @@ function EditProfileForm(){
 		return (email === emailOrg && telNo === telNoOrg && address === addressOrg && JSON.stringify(cropList) === JSON.stringify(cropTypesOrg));
 	}
 
-	function handleCancel(){
-		window.location.assign("/profile");
-	}
-
 	function handleSubmit(event){
 		event.preventDefault();
 		if(validateNonEmpty(email) && validateNonEmpty(telNo) && validateNonEmpty(address) && (validateNonEmptyArray(cropList) || userType === 1)){
@@ -121,7 +124,35 @@ function EditProfileForm(){
 				setErrorHidden(false);
 			}else{
 				//todo: update profile
-				window.location.assign("/profile");
+				if(userType === 0){
+					const editValues = {
+						id: id,
+						email: email,
+						telNum: telNo,
+						address: address,
+						cropTypes: cropList
+					};
+					// eslint-disable-next-line no-undef
+					Axios.put(`${process.env.REACT_APP_API_URL}/producers/updateMyProfile`,editValues).then( async (res)=>{
+						if(!res.data.success){
+							alert("Error occured!");
+						}
+					});
+				}else if(userType === 1){
+					const editValues = {
+						id: id,
+						email: email,
+						telNum: telNo,
+						address: address
+					};
+					// eslint-disable-next-line no-undef
+					Axios.put(`${process.env.REACT_APP_API_URL}/buyers/updateMyProfile`,editValues).then( async (res)=>{
+						if(!res.data.success){
+							alert("Error occured!");
+						}
+					});
+				}
+				window.location.assign("/profile/"+user_id);
 			}
 		}else{
 			setError("All fields should be completed!");
@@ -211,7 +242,9 @@ function EditProfileForm(){
 							</Grid>
 
 							<Grid item xs={12} align="center">
-								<Button type="button" variant="outlined" onClick={handleCancel} sx={{m:"2pt"}}>Cancel</Button>
+								<Link to={"/profile/"+ user_id} style={{ textDecoration: "none" }}>
+									<Button type="button" variant="outlined" sx={{m:"2pt"}}>Cancel</Button>
+								</Link>
 								<Button type="submit" variant="outlined" onClick={handleSubmit} sx={{m:"2pt"}} startIcon={<SaveIcon />}>Update Profile</Button>
 							</Grid>
 						</Grid>
