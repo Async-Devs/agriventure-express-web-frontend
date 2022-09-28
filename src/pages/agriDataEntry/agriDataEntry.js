@@ -12,6 +12,7 @@ import {Alert} from "@mui/lab";
 import {Divider} from "@mui/material";
 import SelectInput from "../../components/selectInput/selectInput";
 import Location from "../../components/Location/location.json";
+import TextInput from "../../components/textInput/textInput";
 
 function AgriDataEntry(){
 
@@ -19,7 +20,8 @@ function AgriDataEntry(){
 	const [fieldDistrict,setFieldDistrict] = useState([]);
 	const [fieldCity,setFieldCity] = useState([]);
 	const [cropTypes,setCropTypes] = useState([]);
-	const [cropAmount,setCropAmount] = useState([]);
+	const [cropAmount,setCropAmount] = useState();
+	const [year,setYear] = useState();
 	const [error,setError] = useState();
 	const [hidden,setHidden] = useState(true);
 	const district = Object.keys(Location);
@@ -47,7 +49,9 @@ function AgriDataEntry(){
 		}else if(event.target.name === "cropTypes"){
 			setCropTypes(event.target.value);
 		}
-
+		else if(event.target.name === "year"){
+			setYear(event.target.value);
+		}
 		setHidden(true);
 	}
 
@@ -62,11 +66,15 @@ function AgriDataEntry(){
 		return list;
 	}
 
+	function validateNonEmpty(text){
+		return text !== undefined && text !== "";
+	}
+
 	function validateNonEmptyArray(list){
 		return list.length !== 0;
 	}
 	function handleSubmit(){
-		if (!validateNonEmptyArray(cropTypes) || !validateNonEmptyArray(fieldDistrict) || !validateNonEmptyArray(cropAmount) || !validateNonEmptyArray(fieldCity) ){
+		if (!validateNonEmptyArray(cropTypes) || !validateNonEmptyArray(fieldDistrict) || !validateNonEmptyArray(fieldCity) || !validateNonEmpty(cropAmount) || !validateNonEmpty(year) ){
 			setError("Fill all fields!");
 			setHidden(false);
 		}
@@ -89,22 +97,26 @@ function AgriDataEntry(){
 					<Divider />
 					<Paper variant="elevation" elevation={3}>
 						<Grid container mt={2} spacing={2} padding={2}>
-							<Grid item xs={12} md={6}>
+							<Grid item xs={12} >
 								{/* eslint-disable-next-line react/prop-types */}
 
 								<SelectInput name="fieldDistrict" label="Field District" value={fieldDistrict} onChange={onChange} required={true} options={generateDistrict()} multi={false}/>
 							</Grid>
-							<Grid item xs={12} md={6}>
+							<Grid item xs={12} >
 								{/* eslint-disable-next-line react/prop-types */}
 								<SelectInput name="fieldCity" label="Field City" value={fieldCity} onChange={onChange} required={true} options={cityList} multi={false}/>
 							</Grid>
-							<Grid item xs={12} md={6}>
+							<Grid item xs={12} >
 								{/* eslint-disable-next-line react/prop-types */}
 								<SelectInput name="cropTypes" label="Crop Type" value={cropTypes} onChange={onChange} required={true} options={[{value :0,name:"carrot"}, {value :1,name:"rice"}]} multi={false}/>
 							</Grid>
-							<Grid item xs={12} md={6}>
+							<Grid item xs={12} >
 								{/* eslint-disable-next-line react/prop-types */}
-								<SelectInput name="cropAmount" label="Crop Amount" value={cropAmount} onChange={onChange} required={true} options={[{value :0,name:"100"}, {value :1,name:"200"}]} multi={false}/>
+								<TextInput name="cropAmount" label="Crop Amount" value={cropAmount} onChange={onChange} required={true}/>
+							</Grid>
+							<Grid item xs={12} >
+								{/* eslint-disable-next-line react/prop-types */}
+								<TextInput name="year" label="Year" value={year} onChange={onChange} required={true}/>
 							</Grid>
 						</Grid>
 					</Paper>
