@@ -6,10 +6,11 @@ const data = {
 		"Rice", "Cabbage", "Ginger", "Garlic"],
 	datasets: [
 		{
-			label: "Crop types",
+			label: "Crop amount",
 			data: [65, 59, 80, 81, 56, 78, 56],
 			backgroundColor: "rgba(96,255,3,0.65)"}
-	]
+
+	],
 };
 
 
