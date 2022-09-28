@@ -39,7 +39,7 @@ export const data = {
 	datasets: [
 		{
 			label: "Last year amount",
-			data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
+			data: [100,200,300,400,500,600,700],
 			backgroundColor: "rgba(255, 99, 132, 0.5)",
 		},
 		{
