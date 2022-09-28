@@ -29,7 +29,6 @@ const Highcharts = require("highcharts-react-official");
 		title: {
 			text: "Highcharts Maps basic demo"
 		},
-
 		subtitle: {
 			text: "Source map: <a href=\"http://code.highcharts.com/mapdata/countries/lk/lk-all.topo.json\">Sri Lanka</a>"
 		},
