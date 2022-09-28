@@ -10,7 +10,7 @@ function userType(props){
 			<Grid item sm={12}>
 				<Typography variant="h5">Select User Type</Typography>
 				<hr />
-				<SelectInput name="userType" label="User Type" value={props.userType} onChange={props.handleChange} options={[{value:0,name:"Producer"}, {value:1,name:"Buyer"}]} multi={false}/>
+				<SelectInput name="userType" label="User Type" value={props.userType} onChange={props.handleChange} options={[{_id:0,name:"Producer"}, {_id:1,name:"Buyer"}]} multi={false}/>
 			</Grid>
 
 		</Grid>

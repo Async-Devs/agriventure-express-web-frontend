@@ -45,12 +45,14 @@ function ProducerDetails(props){
 
 			<Grid item xs={12} md={6}>
 				{/* eslint-disable-next-line react/prop-types */}
-				<SelectInput name="location" label="Field Location" value={props.location} onChange={props.handleChange} required={true} options={[{value :0,name:"seeduwa"}, {value :1,name:"katubedda"}]} multi={false}/>
+				<SelectInput name="location" label="Field Location" value={props.location} onChange={props.handleChange} required={true} options={props.locationList} multi={false}/>
 			</Grid>
 
 			<Grid item xs={12} md={6}>
 				{/* eslint-disable-next-line react/prop-types */}
-				<SelectInput name="cropTypes" label="Crop Types" value={props.cropTypes} onChange={props.handleChange} required={true} options={[{value :0,name:"carrot"}, {value :1,name:"rice"}]} multi={true}/>
+				<SelectInput name="cropTypes" label="Crop Types" value={props.cropTypes} onChange={props.handleChange} required={true} options={props.cropList} multi={true}/>
+				{/* eslint-disable-next-line react/prop-types */}
+				{JSON.stringify(props.cropTypes)}
 			</Grid>
 
 		</Grid>

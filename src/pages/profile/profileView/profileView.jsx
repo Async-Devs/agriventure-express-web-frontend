@@ -1,11 +1,19 @@
 import React from "react";
-import {Chip, Grid} from "@mui/material";
+import {Chip, Divider, Grid, List, ListItem, ListItemAvatar, ListItemText} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
+import DnsRoundedIcon from "@mui/icons-material/DnsRounded";
+import BadgeRoundedIcon from "@mui/icons-material/BadgeRounded";
+import MailRoundedIcon from "@mui/icons-material/MailRounded";
+import PhoneRoundedIcon from "@mui/icons-material/PhoneRounded";
+import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
+import ShareLocationIcon from "@mui/icons-material/ShareLocation";
+import YardIcon from "@mui/icons-material/Yard";
 
-function ProfileView(){
+function ProfileView(props){
+
 
 	return(
 		<Container>
@@ -14,84 +22,160 @@ function ProfileView(){
 					<Paper elevation={3} sx={{backgroundColor: "#acc5a7"}}>
 						<Grid item xs={12}>
 							<Avatar
-								alt="Sample User"
+								alt="Profile picture"
 								src="https://scontent.fcmb2-2.fna.fbcdn.net/v/t1.6435-9/57402301_2442775932439604_5030131054145437696_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=174925&_nc_ohc=zzDTAqXehJ0AX85Z8Bx&_nc_ht=scontent.fcmb2-2.fna&oh=00_AT_PFF4lBDfe1k3PYYrNep5W-GdL0-UyIAiOyZiKSSv-iw&oe=6352AA3F"
 								sx={{ width: 150, height: 150 }}
 							/>
 						</Grid>
 						<Grid item xs={12}>
 							<Paper elevation={2} sx={{backgroundColor: "#9cf192"}}>
-								<Typography mt={2}>Sample User</Typography>
-								<Typography mt={2}>Buyer</Typography>
+								{/* eslint-disable-next-line react/prop-types */}
+								<Typography mt={2}>{props.firstName + " " + props.lastName}</Typography>
+								{/* eslint-disable-next-line react/prop-types */}
+								<Typography mt={2}>{props.userType === 0 ? "Producer" : "Buyer"}</Typography>
 							</Paper>
 						</Grid>
 					</Paper>
 				</Grid>
 				<Grid item xs={12} mt={2}>
 					<Paper elevation={3}>
-						<Grid container xs={12} p={1}>
-							<Grid item xs={4}  ml={1}>
-								<Typography >First Name: </Typography>
-								<hr/>
-							</Grid>
-							<Grid item xs={7} >
-								<Typography>Sample</Typography>
-								<hr/>
-							</Grid>
-							<Grid item xs={4}  ml={1}>
-								<Typography>Last Name: </Typography>
-								<hr/>
-							</Grid>
-							<Grid item xs={7} >
-								<Typography>User</Typography>
-								<hr/>
-							</Grid>
+						<List sx={{ width: "100%", bgcolor: "background.paper"}}>
+							<ListItem alignItems="flex-start">
+								<ListItemAvatar>
+									<DnsRoundedIcon />
+								</ListItemAvatar>
+								<ListItemText
+									primary="First Name"
+									secondary={
+										<React.Fragment>
+											{/* eslint-disable-next-line react/prop-types */}
+											{props.firstName}
+										</React.Fragment>
+									}
+								/>
+							</ListItem>
 
-							<Grid item xs={4}  ml={1}>
-								<Typography>Address: </Typography>
-								<hr/>
-							</Grid>
-							<Grid item xs={7} >
-								<Typography>No 404, Temple road, Nugegoda</Typography>
-								<hr/>
-							</Grid>
+							<Divider variant="inset" component="li" />
 
-							<Grid item xs={4}  ml={1}>
-								<Typography>NIC: </Typography>
-								<hr/>
-							</Grid>
-							<Grid item xs={7} >
-								<Typography>991394567J</Typography>
-								<hr/>
-							</Grid>
+							<ListItem alignItems="flex-start">
+								<ListItemAvatar>
+									<DnsRoundedIcon />
+								</ListItemAvatar>
+								<ListItemText
+									primary="Last Name"
+									secondary={
+										<React.Fragment>
+											{/* eslint-disable-next-line react/prop-types */}
+											{props.lastName}
+										</React.Fragment>
+									}
+								/>
+							</ListItem>
 
-							<Grid item xs={4} ml={1}>
-								<Typography>Telephone Number: </Typography>
-								<hr/>
-							</Grid>
-							<Grid item xs={7}>
-								<Typography>0111234567</Typography>
-								<hr/>
-							</Grid>
+							<Divider variant="inset" component="li" />
+							<ListItem alignItems="flex-start">
+								<ListItemAvatar>
+									<BadgeRoundedIcon />
+								</ListItemAvatar>
+								<ListItemText
+									primary="NIC"
+									secondary={
+										<React.Fragment>
+											{/* eslint-disable-next-line react/prop-types */}
+											{props.nic}
+										</React.Fragment>
+									}
+								/>
+							</ListItem>
 
-							<Grid item xs={4} ml={1}>
-								<Typography>Field Location: </Typography>
-								<hr/>
-							</Grid>
-							<Grid item xs={7}>
-								<Typography>Nugegoda</Typography>
-								<hr/>
-							</Grid>
+							<Divider variant="inset" component="li" />
+							<ListItem alignItems="flex-start">
+								<ListItemAvatar>
+									<MailRoundedIcon />
+								</ListItemAvatar>
+								<ListItemText
+									primary="Email Address"
+									secondary={
+										<React.Fragment>
+											{/* eslint-disable-next-line react/prop-types */}
+											{props.email}
+										</React.Fragment>
+									}
+								/>
+							</ListItem>
 
-							<Grid item xs={4} ml={1}>
-								<Typography>Crop Types: </Typography>
-							</Grid>
-							<Grid item xs={7}>
-								<Chip label="Carrot" sx={{mr: "3px"}}/>
-								<Chip label="Mango" />
-							</Grid>
+							<Divider variant="inset" component="li" />
+							<ListItem alignItems="flex-start">
+								<ListItemAvatar>
+									<PhoneRoundedIcon />
+								</ListItemAvatar>
+								<ListItemText
+									primary="Telephone Number"
+									secondary={
+										<React.Fragment>
+											{/* eslint-disable-next-line react/prop-types */}
+											{props.telephoneNumber}
+										</React.Fragment>
+									}
+								/>
+							</ListItem>
 
-						</Grid>
+							<Divider variant="inset" component="li" />
+							<ListItem alignItems="flex-start">
+								<ListItemAvatar>
+									<HomeRoundedIcon />
+								</ListItemAvatar>
+								<ListItemText
+									primary="Postal Address"
+									secondary={
+										<React.Fragment>
+											{/* eslint-disable-next-line react/prop-types */}
+											{props.address}
+										</React.Fragment>
+									}
+								/>
+							</ListItem>
+
+							{/* eslint-disable-next-line react/prop-types */}
+							<div hidden={props.userType === 1}>
+								<Divider variant="inset" component="li" />
+								{/* eslint-disable-next-line react/prop-types */}
+								<ListItem alignItems="flex-start">
+									<ListItemAvatar>
+										<ShareLocationIcon />
+									</ListItemAvatar>
+									<ListItemText
+										primary="Field Location"
+										secondary={
+											<React.Fragment>
+												{/* eslint-disable-next-line react/prop-types */}
+												{props.location}
+											</React.Fragment>
+										}
+									/>
+								</ListItem>
+
+								<Divider variant="inset" component="li" />
+								{/* eslint-disable-next-line react/prop-types */}
+								<ListItem alignItems="flex-start">
+									<ListItemAvatar>
+										<YardIcon />
+									</ListItemAvatar>
+									<ListItemText
+										primary="Crop Types"
+										secondary={
+											<React.Fragment>
+												{/* eslint-disable-next-line react/prop-types */}
+												{props.cropTypes.map(cropType => (
+													<Chip sx={{mr:1}} key={cropType.name} label={cropType.name} variant="outlined" />
+												))}
+											</React.Fragment>
+										}
+									/>
+								</ListItem>
+							</div>
+
+						</List>
 					</Paper>
 
 				</Grid>

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
@@ -8,11 +8,13 @@ import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import UserType from "../userType/userType";
-import {Alert} from "@mui/material";
+import {Alert, CircularProgress, Grid} from "@mui/material";
 import ProducerDetails from "../producerDetails/producerDetails";
 import BuyerDetails from "../buyerDetails/buyerDetails";
 import LoginDetails from "../loginDetails/loginDetails";
 import Finish from "../finish/finish";
+import Axios from "axios";
+
 
 function SignupNavigation() {
 
@@ -32,9 +34,38 @@ function SignupNavigation() {
 	const [confirmPassword,setConfirmPassword] = useState();
 	const [success,setSuccess] = useState(false);
 	const [fail,setFail] = useState(false);
+	const [cropList,setCropList] = useState([]);
+	const [locationList,setLocationList] = useState([]);
+	const [isLoading,setIsLoading] = useState(true);
+	const [userNames,setUsernames] = useState([]);
 
 	const [activeStep, setActiveStep] = React.useState(0);
 	const steps = ["User Type", "User Details", "Login Details", "Finish"];
+
+	useEffect(()=>{
+		async function getCropList(){
+			// eslint-disable-next-line no-undef
+			const crops = await Axios.get(`${process.env.REACT_APP_API_URL}/cropTypes`);
+			setCropList(crops.data);
+		}
+		getCropList();
+
+		async function getLocations(){
+			// eslint-disable-next-line no-undef
+			const locations = await Axios.get(`${process.env.REACT_APP_API_URL}/locations`);
+			setLocationList(locations.data);
+		}
+		getLocations();
+
+		async function getUserNames(){
+			// eslint-disable-next-line no-undef
+			const userNames = await Axios.get(`${process.env.REACT_APP_API_URL}/users/getUserNames`);
+			setUsernames(userNames.data.map(data => data.userName));
+		}
+		getUserNames();
+
+		setIsLoading(false);
+	},[]);
 
 	function validateEmail(email)
 	{
@@ -65,8 +96,29 @@ function SignupNavigation() {
 		}
 	}
 
+	function getLocationName(){
+		for(let i = 0; i < locationList.length ; i++){
+			if(locationList[i]._id === fieldLocation){
+				return locationList[i].name;
+			}
+		}
+		return null;
+	}
+
+	function getCropNames(){
+		const names = [];
+		for(let i = 0; i < cropList.length ; i++){
+			if(cropTypes.includes(cropList[i]._id)){
+				names.push({name: cropList[i].name});
+			}
+		}
+		return names;
+	}
+
 	function validateUsername(){
-		//todo: need to check uniquness
+		if(userNames.includes(username)){
+			return false;
+		}
 		return (username !== undefined && username !== "");
 	}
 
@@ -81,10 +133,82 @@ function SignupNavigation() {
 	function handleSubmit(){
 		/*
 		Check and create account or forward account request to the officer.
-		output true if sucess, false if fail
+		output true if success, false if fail
 		 */
-		alert(userType + " " + firstName + " " + lastName);
-		return true;
+
+		if(userType === 0){
+			const userReqestBody = {
+				userName: username,
+				password: password,
+				userType: 0,
+				isActive: false
+			};
+
+			// eslint-disable-next-line no-undef
+			Axios.post(`${process.env.REACT_APP_API_URL}/users`, userReqestBody ).then(async (res) => {
+				if(!res.data.success){
+					alert("Error occured!");
+				}else{
+					const producerRequestBody = {
+						firstName: firstName,
+						lastName: lastName,
+						email: email,
+						address: address,
+						nic: nic,
+						telNum: telephoneNumber,
+						userName: username,
+						cropTypes: cropTypes,
+						location: fieldLocation,
+						login: res.data.user._id
+					};
+					// eslint-disable-next-line no-undef
+					Axios.post(`${process.env.REACT_APP_API_URL}/producers`,producerRequestBody).then(async (res)=>{
+						if(!res.data.success){
+							alert("Error occured!");
+						}else{
+							alert(userType + " " + firstName + " " + lastName);
+							setSuccess(true);
+							setFail(false);
+						}
+					});
+				}
+			});
+
+		}else if(userType === 1){
+			const userReqestBody = {
+				userName: username,
+				password: password,
+				userType: 1,
+				isActive: true
+			};
+
+			// eslint-disable-next-line no-undef
+			Axios.post(`${process.env.REACT_APP_API_URL}/users`, userReqestBody ).then(async (res) => {
+				if(!res.data.success){
+					alert("Error occured!");
+				}else{
+					const buyerRequestBody = {
+						firstName: firstName,
+						lastName: lastName,
+						email: email,
+						address: address,
+						nic: nic,
+						telNum: telephoneNumber,
+						userName: username,
+						login: res.data.user._id
+					};
+					// eslint-disable-next-line no-undef
+					Axios.post(`${process.env.REACT_APP_API_URL}/buyers`,buyerRequestBody).then(async (res)=>{
+						if(!res.data.success){
+							alert("Error occured!");
+						}else{
+							setSuccess(true);
+							setFail(false);
+						}
+					});
+				}
+			});
+		}
 	}
 
 	const handleNext = () => {
@@ -132,9 +256,7 @@ function SignupNavigation() {
 				setErrorHidden(true);
 			}
 		}else{
-			const result = handleSubmit();
-			setSuccess(result);
-			setFail(!result);
+			handleSubmit();
 		}
 	};
 
@@ -197,7 +319,9 @@ function SignupNavigation() {
 					address={address}
 					location = {fieldLocation}
 					cropTypes = {cropTypes}
-					handleChange={handleUserDetailsChange}/>;
+					handleChange={handleUserDetailsChange}
+					cropList = {cropList}
+					locationList = {locationList}/>;
 			}else{
 				return <BuyerDetails
 					firstName={firstName}
@@ -212,7 +336,7 @@ function SignupNavigation() {
 			return <LoginDetails username={username} password={password} conPassword={confirmPassword} handleChange={handleLoginDetailsChange} />;
 
 		case 3:
-			return <Finish userType={userType} success={success} fail={fail}/> ;
+			return <Finish firstName={firstName} lastName={lastName} email={email} nic={nic} address={address} telephoneNumber={telephoneNumber} location={getLocationName()} cropTypes={getCropNames()} userType={userType} success={success} fail={fail}/> ;
 		}
 
 
@@ -222,72 +346,80 @@ function SignupNavigation() {
 	return (
 
 		<Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
-			<Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-				<Typography component="h1" variant="h4" align="center">
-					Sign Up
-				</Typography>
-				<Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
-					{steps.map((label) => (
-						<Step key={label}>
-							<StepLabel>{label}</StepLabel>
-						</Step>
-					))}
-				</Stepper>
-				<div hidden={isErrorHidden}>
-					<Alert severity="error">{error}</Alert>
-				</div>
-				<React.Fragment>
-					{activeStep === steps.length ? (
-						<React.Fragment>
-							<Typography variant="h5" gutterBottom>
-								Thank you for your order.
-							</Typography>
-							<Typography variant="subtitle1">
-								Your order number is #2001539. We have emailed your order
-								confirmation, and will send you an update when your order has
-								shipped.
-							</Typography>
-						</React.Fragment>
-					) : (
+			{isLoading ? (
+				<Grid item align="center">
+					<CircularProgress />
+				</Grid>
+			):(
+				<Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
+					<Typography component="h1" variant="h4" align="center">
+						{/* eslint-disable-next-line no-undef */}
+							Sign Up
+					</Typography>
+					<Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
+						{steps.map((label) => (
+							<Step key={label}>
+								<StepLabel>{label}</StepLabel>
+							</Step>
+						))}
+					</Stepper>
+					<div hidden={isErrorHidden}>
+						<Alert severity="error">{error}</Alert>
+					</div>
+					<React.Fragment>
+						{activeStep === steps.length ? (
+							<React.Fragment>
+								<Typography variant="h5" gutterBottom>
+										Thank you for your order.
+								</Typography>
+								<Typography variant="subtitle1">
+										Your order number is #2001539. We have emailed your order
+										confirmation, and will send you an update when your order has
+										shipped.
+								</Typography>
+							</React.Fragment>
+						) : (
 
-						<div>
-							{getStepContent(activeStep)}
-							<div hidden={success}>
-								<React.Fragment>
-									<Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-										{activeStep !== 0 && (
-											<Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-												Back
+							<div>
+								{getStepContent(activeStep)}
+								<div hidden={success}>
+									<React.Fragment>
+										<Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+											{activeStep !== 0 && (
+												<Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
+														Back
+												</Button>
+											)}
+
+											<Button
+												variant="contained"
+												onClick={handleNext}
+												sx={{ mt: 3, ml: 1 }}
+											>
+												{activeStep === steps.length - 1 ? "Submit Details" : "Next"}
 											</Button>
-										)}
+										</Box>
+									</React.Fragment>
+								</div>
 
-										<Button
-											variant="contained"
-											onClick={handleNext}
-											sx={{ mt: 3, ml: 1 }}
-										>
-											{activeStep === steps.length - 1 ? "Submit Details" : "Next"}
-										</Button>
-									</Box>
-								</React.Fragment>
+								<div hidden={!success}>
+									<React.Fragment>
+										<Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+											<Button onClick={changeWindow} sx={{ mt: 3, ml: 1 }}>
+													Back To Dashboard
+											</Button>
+										</Box>
+									</React.Fragment>
+								</div>
 							</div>
 
-							<div hidden={!success}>
-								<React.Fragment>
-									<Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-										<Button onClick={changeWindow} sx={{ mt: 3, ml: 1 }}>
-										Back To Dashboard
-										</Button>
-									</Box>
-								</React.Fragment>
-							</div>
-						</div>
 
-
-					)}
-				</React.Fragment>
-			</Paper>
+						)}
+					</React.Fragment>
+				</Paper>
+			)}
 		</Container>
+
 
 	);
 }

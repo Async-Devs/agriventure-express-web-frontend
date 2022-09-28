@@ -21,7 +21,8 @@ function Finish(props){
 				<Alert severity="error">Something went wrong! Try again or contact an officer</Alert>
 			</div>
 
-			<ProfileView />
+			{/* eslint-disable-next-line react/prop-types */}
+			<ProfileView firstName={props.firstName} lastName={props.lastName} email={props.email} nic={props.nic} address={props.address} telephoneNumber={props.telephoneNumber} location={props.location} cropTypes={props.cropTypes} userType={props.userType}/>
 		</div>
 
 	);

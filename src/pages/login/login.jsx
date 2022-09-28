@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Alert, Grid} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -12,6 +12,7 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Copyright from "../../components/copyright/copyright";
+import axios from "axios";
 
 
 function Login() {
@@ -20,6 +21,15 @@ function Login() {
 	const [password,setPassword] = useState();
 	const [error,setError] = useState();
 	const [hiddenError,setHiddenError] = useState(true);
+	const [producers,setProducers] = useState();
+
+	useEffect(()=>{
+		async function getProducers() {
+			const producers = await axios("http://localhost:3001/api/v1/producers/");
+			setProducers(producers.data);
+		}
+		getProducers();
+	},[]);
 
 	function validateNonEmpty(text){
 		return text !== undefined && text !== "";
@@ -68,6 +78,9 @@ function Login() {
 				}}
 			/>
 			<Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+				<div>
+					{JSON.stringify(producers)}
+				</div>
 				<div hidden={hiddenError}>
 					<Alert severity="error">{error}</Alert>
 				</div>
