@@ -1,3 +1,5 @@
+// eslint-disable-next-line no-undef
+const Highcharts = require("highcharts-react-official");
 
 (async () => {
 
@@ -25,7 +27,7 @@
 		},
 
 		title: {
-			text: "Crop details in Sri Lanka"
+			text: "Highcharts Maps basic demo"
 		},
 
 		subtitle: {

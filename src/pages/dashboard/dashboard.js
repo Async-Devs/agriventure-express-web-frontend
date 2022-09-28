@@ -2,10 +2,9 @@ import React from "react";
 import "./dashboard.module.css";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-// import Barchart from "../../components/Charts/Barchart";
 import PieChart from "../../components/Charts/Piechart";
 import Barchart from "../../components/Charts/Barchart";
-
+import {Helmet} from "react-helmet";
 
 
 function Dashboard(){
@@ -20,10 +19,14 @@ function Dashboard(){
 	return(
 
 		<div>
-			<Grid container spacing={2} marginTop="20px" margin="10px">
+			<Grid container spacing={2} marginTop="20px">
 				<Grid item xs={6} md={8}>
-					<Paper>
-						Sri Lanka Map
+					<Paper >
+						<Helmet>
+							<script src="https://code.highcharts.com/maps/highmaps.js"></script>
+							<script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
+						</Helmet>
+						<div id="container"></div>
 					</Paper>
 				</Grid>
 				<Grid item xs={12} md={4} >
@@ -31,7 +34,7 @@ function Dashboard(){
 						<PieChart/>
 					</Paper>
 				</Grid>
-				<Grid item xs={12} md={8} padding="10px">
+				<Grid item xs={12} md={8}>
 					<Paper>
 						<Barchart/>
 					</Paper>
