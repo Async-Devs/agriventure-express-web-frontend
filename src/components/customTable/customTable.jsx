@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 function CustomTable(props) {
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
 	const [filterModel, setFilterModel] = React.useState();
-	const {rows, columns, enableSelectionOnRowClick, enableCheckBox} = props;
+	const {rows, columns, enableSelectionOnRowClick, enableCheckBox, disableToolBar, preSortUsing} = props;
 
 	return (
 		<div style={{ height: 400, width: "100%"}}>
@@ -31,10 +31,15 @@ function CustomTable(props) {
 				}}
 				disableColumnMenu={true}
 				components={{
-					Toolbar: GridToolbar,
+					Toolbar: disableToolBar?null:GridToolbar,
 				}}
 				filterModel={filterModel}
 				onFilterModelChange={(newFilterModel) => setFilterModel(newFilterModel)}
+				initialState={preSortUsing!=null?{
+					sorting: {
+						sortModel: [preSortUsing],
+					},
+				}:null}
 			/>
 		</div>
 	);
@@ -42,13 +47,17 @@ function CustomTable(props) {
 // To define the data type of the prop for prop validation in react.
 CustomTable.propTypes = {
 	/** The row items of the customTable should come in the form of an array of objects*/
-	rows: PropTypes.array,
+	rows: PropTypes.array.isRequired,
 	/** The columns should be an array of objects */
-	columns: PropTypes.array,
+	columns: PropTypes.array.isRequired,
 	/** The ability to make the row body clickable to make a selection*/
 	enableSelectionOnRowClick: PropTypes.bool,
 	/** Enable the checkbox column in the customTable*/
-	enableCheckBox: PropTypes.bool
+	enableCheckBox: PropTypes.bool,
+	/** Disable the toolbar above the customTable*/
+	disableToolBar: PropTypes.bool,
+	/** Pass an object to presort the table in initial condition*/
+	preSortUsing: PropTypes.object
 };
 
 export default CustomTable;
