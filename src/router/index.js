@@ -27,6 +27,8 @@ import AgriDataManage from "../pages/agriDataManage/agriDataManage";
 import MyProfile from "../pages/profile/myProfile";
 import EditMyProfileForm from "../pages/editProfile/editProfileForm/editMyProfileForm";
 
+import EditItem from "../pages/editItem/edititem";
+import OrderCheckout from "../pages/orderCheckout/orderCheckout";
 /*
 * Order Inventory Subsystem - Achira
 * Account Management/ Support Subsystem - Toxic Supun

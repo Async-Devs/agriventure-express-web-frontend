@@ -13,7 +13,7 @@ export default function SaveButton() {
 export function LinkedButton(props){
 	return(
 		<Link to={props.href} style={{ textDecoration: "none" }}>
-			<Button variant="outlined">
+			<Button variant={props.variant?props.variant:"outlined"} sx={props.sx}>
 				{props.content}
 			</Button>
 		</Link>
@@ -44,7 +44,9 @@ LinkedButton.propTypes = {
 	/** The href is the path that the button directs to*/
 	href: PropTypes.string,
 	/** The content is the Button Name */
-	content: PropTypes.string
+	content: PropTypes.string,
+	variant: PropTypes.string,
+	sx: PropTypes.object
 };
 LinkedButtonRound.propTypes = {
 	/** The href is the path that the button directs to*/

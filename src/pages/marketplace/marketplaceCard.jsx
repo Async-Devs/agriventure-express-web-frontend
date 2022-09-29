@@ -11,14 +11,14 @@ function MarketplaceCard(props){
 				<Grid container border={0} borderRadius={2} >
 					<Grid item xs={12} container justifyContent={"center"} mt={0.5}>
 						<Grid item xs={12} ml={0.5} mr={0.5}>
-							<Paper 
+							<Paper
 								elevation={0}
 								style={
 									{
 										borderRadius:"10px",
 										backgroundImage: imgSrc==null?`url(${"https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640"})`:`url(${imgSrc})`,
 										backgroundSize: "cover",
-										backgroundPosition: "center", 
+										backgroundPosition: "center",
 										backgroundRepeat:"no-repeat"
 									}
 								} >
@@ -29,7 +29,7 @@ function MarketplaceCard(props){
 					</Grid>
 					<Grid item xs={12} container justifyContent={"center"}>
 						<Grid item xs={12} mt={1}>
-							<Typography variant={"h4"} align={"center"}>
+							<Typography variant={"h5"} align={"center"}>
 								{itemName}
 							</Typography>
 						</Grid>
@@ -52,7 +52,7 @@ function MarketplaceCard(props){
 				</Grid>
 			</Paper>
 		</Grid>
-		
+
 	);
 }
 
