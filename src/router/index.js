@@ -23,6 +23,7 @@ import ManageAccounts from "../pages/manageAccounts/manageAccounts";
 import ItemView from "../pages/itemView/itemView";
 import BuyMenu from "../pages/buyMenue/buyMenu";
 import AddItem from "../pages/addItem/addItem";
+import AgriDataManage from "../pages/agriDataManage/agriDataManage";
 /*
 * Order Inventory Subsystem - Achira
 * Account Management/ Support Subsystem - Toxic Supun
@@ -65,6 +66,7 @@ function AppRouter(){
 					<Route path ="addProducer" element={<AddProducers />}></Route>
 					<Route path ="manageProducers" element={<ManageProducers />}></Route>
 					<Route path ="manageAccounts" element={<ManageAccounts />}></Route>
+					<Route path ="agriDataManage" element={<AgriDataManage />}></Route>
 				</Routes>
 			</>
 		</BrowserRouter>
