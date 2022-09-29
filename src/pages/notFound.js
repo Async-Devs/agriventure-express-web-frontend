@@ -4,7 +4,7 @@ import {Grid, Typography} from "@mui/material";
 function ErrorPage(){
 	return(
 		<Grid xs={12} container justifyContent={"center"} bgcolor={"lightyellow"}>
-			<Grid xs={6} item height={500}>
+			<Grid xs={6}>
 				<Typography variant={"h1"} color={"warning"}>
 					Oops!
 				</Typography>
