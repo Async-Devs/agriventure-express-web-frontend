@@ -96,7 +96,7 @@ function Profile(){
 	function handleConDelete(){
 		if(userType === 0){
 			// eslint-disable-next-line no-undef
-			Axios.delete(`${process.env.REACT_APP_API_URL}/producers/deleteById/${id}`).then( async (res ) => {
+			Axios.delete(`${process.env.REACT_APP_API_URL}/producers/deleteById/${id}/${user_id}`).then( async (res ) => {
 				if(!res.data.success){
 					alert("Error occured!");
 				}
@@ -104,7 +104,7 @@ function Profile(){
 			window.location.assign("/");
 		}else if(userType === 1){
 			// eslint-disable-next-line no-undef
-			Axios.delete(`${process.env.REACT_APP_API_URL}/buyers/deleteById/${id}`).then( async (res ) => {
+			Axios.delete(`${process.env.REACT_APP_API_URL}/buyers/deleteById/${id}/${user_id}`).then( async (res ) => {
 				if(!res.data.success){
 					alert("Error occured!");
 				}
