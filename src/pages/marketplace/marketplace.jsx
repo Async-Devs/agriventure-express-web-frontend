@@ -307,13 +307,14 @@ function Marketplace(){
 			const items = await Axios.get(`${process.env.REACT_APP_API_URL}/items`);
 			console.log(items.data);
 			setItemData(items.data);
-			setPaginateData(paginate(rawItemData, currentPage, pageSize));
 		}
 		getItemList();
+		setPaginateData(paginate(rawItemData, currentPage, pageSize));
 		console.log("Effect run!d");
 
 		setLoading(false);
 	},[]);
+
 	function handlePageChange(currentPage){
 		console.log(currentPage);
 		setCurrentPage(currentPage);
