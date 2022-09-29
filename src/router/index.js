@@ -24,6 +24,8 @@ import ItemView from "../pages/itemView/itemView";
 import BuyMenu from "../pages/buyMenue/buyMenu";
 import AddItem from "../pages/addItem/addItem";
 import AgriDataManage from "../pages/agriDataManage/agriDataManage";
+import EditItem from "../pages/editItem/edititem";
+import OrderCheckout from "../pages/orderCheckout/orderCheckout";
 /*
 * Order Inventory Subsystem - Achira
 * Account Management/ Support Subsystem - Toxic Supun
@@ -47,6 +49,11 @@ function AppRouter(){
 					<Route path = "/buy-menu" >
 						<Route index element={<BuyMenu/>} ></Route>
 						<Route path = ":id" element={<OrderView/>} ></Route>
+						<Route path = "checkout/:id" element={<OrderCheckout/>} ></Route>
+					</Route>
+					<Route path = "/items" >
+						<Route index element={<BuyMenu/>} ></Route>
+						<Route path = "edit-item/:id" element={<EditItem/>} ></Route>
 					</Route>
 					<Route path = "/add-item" element={<AddItem />}></Route>
 					<Route path = "/login" element={<Login />}></Route>

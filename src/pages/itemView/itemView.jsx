@@ -5,6 +5,8 @@ import ItemViewCard from "./itemViewCard";
 import ItemBiddingCard from "./itemBiddingCard";
 
 function ItemView(){
+	// const [item, setItem] = useState();
+	// useEffect()
 
 	const itemId = useParams().itemId;
 	const breadcrumbs = [
