@@ -26,7 +26,6 @@ import AddItem from "../pages/addItem/addItem";
 import AgriDataManage from "../pages/agriDataManage/agriDataManage";
 import MyProfile from "../pages/profile/myProfile";
 import EditMyProfileForm from "../pages/editProfile/editProfileForm/editMyProfileForm";
-
 import EditItem from "../pages/editItem/edititem";
 import OrderCheckout from "../pages/orderCheckout/orderCheckout";
 /*
@@ -38,7 +37,7 @@ import OrderCheckout from "../pages/orderCheckout/orderCheckout";
 function AppRouter(){
 
 	// eslint-disable-next-line no-undef
-	let type = 3;
+	let type = 1;
 
 
 	return(
@@ -80,12 +79,20 @@ function AppRouter(){
 								<Route index element={<MyProfile />}></Route>
 								<Route exact path = "edit" element={<EditMyProfileForm />}></Route>
 							</Route>
-							<Route path ="orderView" element={<OrderView />}></Route>
 							<Route path ="myrefund" element={<RefundRequestBuyer />}></Route>
+							<Route path = "items" >
+								<Route index element={<BuyMenu/>} ></Route>
+								<Route path = "edit-item/:id" element={<EditItem/>} ></Route>
+							</Route>
+							<Route path = "buy-menu" >
+								<Route index element={<BuyMenu/>} ></Route>
+								<Route path = ":id" element={<OrderView/>} ></Route>
+								<Route path = "checkout/:id" element={<OrderCheckout/>} ></Route>
+							</Route>
 						</Route>
 
 
-					): type === 3 ?(
+					): type === 2 ?(
 
 						<Route path = "/officer" >
 							<Route index element={<ManageProducers />}></Route>
@@ -100,7 +107,7 @@ function AppRouter(){
 							<Route path ="orderView" element={<OrderView />}></Route>
 						</Route>
 
-					):type === 4 ?(
+					):type === 3 ?(
 						<Route path = "/admin">
 							<Route index element={<ManageAccounts />}></Route>
 						</Route>
