@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {Link, useParams} from "react-router-dom";
 import {Breadcrumbs, Grid, Typography} from "@mui/material";
 import ItemViewCard from "./itemViewCard";
 import ItemBiddingCard from "./itemBiddingCard";
 
 function ItemView(){
-	const [item, setItem] = useState();
-	useEffect()
+	// const [item, setItem] = useState();
+	// useEffect()
 
 	const itemId = useParams().itemId;
 	const breadcrumbs = [

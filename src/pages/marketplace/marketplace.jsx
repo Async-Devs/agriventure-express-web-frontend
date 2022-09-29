@@ -305,11 +305,12 @@ function Marketplace(){
 		async function getItemList(){
 			// eslint-disable-next-line no-undef
 			const items = await Axios.get(`${process.env.REACT_APP_API_URL}/items`);
+			console.log(items.data);
 			setItemData(items.data);
 			setPaginateData(paginate(rawItemData, currentPage, pageSize));
 		}
 		getItemList();
-		console.log("Effect run!");
+		console.log("Effect run!d");
 
 		setLoading(false);
 	},[]);
@@ -317,6 +318,7 @@ function Marketplace(){
 		console.log(currentPage);
 		setCurrentPage(currentPage);
 	}
+
 	console.log(pagedData);
 	if (isLoading){
 		return (
