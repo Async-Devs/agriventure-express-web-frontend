@@ -79,6 +79,9 @@ function AgriDataEntry(){
 			setHidden(false);
 		}
 	}
+	function handleCancel(){
+		window.location.assign("/agridatamanage");
+	}
 
 	return(
 		<Container>
@@ -122,8 +125,7 @@ function AgriDataEntry(){
 					</Paper>
 				</Grid>
 				<Grid item xs={12} mt={1} align="right">
-					<Button type="submit" sx={{m:1}} variant="contained">Cancel</Button>
-
+					<Button type="submit" sx={{m:1}} variant="contained" onClick={handleCancel}>Cancel</Button>
 					<Button type="submit" sx={{m:1}} variant="contained" onClick={handleSubmit} >Submit</Button>
 				</Grid>
 			</Grid>
