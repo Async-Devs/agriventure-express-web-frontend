@@ -4,7 +4,17 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import PieChart from "../../components/Charts/Piechart";
 import Barchart from "../../components/Charts/Barchart";
-import {Helmet} from "react-helmet";
+
+
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+import { CardActionArea } from "@mui/material";
+import buyerimg from "../../img/buyer.jpg";
+import farmerimg from "../../img/farmer.jpg";
+import mapimg from "../../img/map.png";
+import CarouselComponent from "./carouselAgri";
 
 
 function Dashboard(){
@@ -19,29 +29,82 @@ function Dashboard(){
 	return(
 
 		<div>
-			<Grid container spacing={2} marginTop="20px">
-				<Grid item xs={6} md={8}>
-					<Paper >
-						<Helmet>
-							<script src="https://code.highcharts.com/maps/highmaps.js"></script>
-							<script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
-						</Helmet>
-						<div id="container"></div>
-					</Paper>
+			<div className="carousel">
+				<CarouselComponent />
+			</div>
+			<Grid container spacing={5} justifyContent="center">
+				<Grid item xs={12} md={3} align="center">
+					<Card sx={{ maxWidth: 345 }}>
+						<CardActionArea>
+							<CardMedia
+								component="img"
+								height="160"
+								image={farmerimg}
+								alt="farmer"
+							/>
+							<CardContent >
+								<Typography gutterBottom variant="h5" component="div">
+									Over 1500 Farmers
+								</Typography>
+								<Typography variant="body2" color="text.secondary">
+									Lizards are a widespread group of squamate reptiles, with over 6,000
+									species, ranging across all continents except Antarctica
+								</Typography>
+							</CardContent>
+						</CardActionArea>
+					</Card>
 				</Grid>
-				<Grid item xs={12} md={4} >
+				<Grid item xs={12} md={3} align="center">
+					<Card sx={{ maxWidth: 345 }}>
+						<CardActionArea>
+							<CardMedia
+								component="img"
+								height="160"
+								image={buyerimg}
+								alt="buyer"
+							/>
+							<CardContent>
+								<Typography gutterBottom variant="h5" component="div">
+									Over 100,000 Buyers
+								</Typography>
+								<Typography variant="body2" color="text.secondary">
+									Lizards are a widespread group of squamate reptiles, with over 6,000
+									species, ranging across all continents except Antarctica
+								</Typography>
+							</CardContent>
+						</CardActionArea>
+					</Card>
+				</Grid>
+				<Grid item xs={12} md={3} align="center">
+					<Card sx={{ maxWidth: 345 }}>
+						<CardActionArea>
+							<CardMedia
+								component="img"
+								height="160"
+								marginTop="20"
+								image={mapimg}
+								alt="map"
+							/>
+							<CardContent>
+								<Typography gutterBottom variant="h5" component="div">
+									67% Coverage
+								</Typography>
+								<Typography variant="body2" color="text.secondary">
+									Lizards are a widespread group of squamate reptiles, with over 6,000
+									species, ranging across all continents except Antarctica.
+								</Typography>
+							</CardContent>
+						</CardActionArea>
+					</Card>
+				</Grid>
+				<Grid item xs={12} md={4}>
 					<Paper >
 						<PieChart/>
 					</Paper>
 				</Grid>
-				<Grid item xs={12} md={8}>
+				<Grid item xs={12} md={7}>
 					<Paper>
 						<Barchart/>
-					</Paper>
-				</Grid>
-				<Grid item xs={6} md={4}>
-					<Paper>
-						skjdsakda
 					</Paper>
 				</Grid>
 			</Grid>
