@@ -30,16 +30,15 @@ const columns = [
 ];
 
 const rows = [
-	{ id: 1, lastName: "Snow", firstName: "Jon", age: 35, userName: "king of the north", email: "winterfell@gmail.com" },
-	{ id: 2, lastName: "Lannister", firstName: "Cersei", age: 42, userName: "queen", email: "kingslanding@gmail.com"},
-	{ id: 3, lastName: "Lannister", firstName: "Jaime", age: 45, userName: "he he", email: "kingslanding@gmail.com" },
-	{ id: 4, lastName: "Stark", firstName: "Arya", age: 16, userName: "many face", email: "winterfell@gmail.com" },
-	{ id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null, userName: "Mother of dragons", email: "dragonstone@gmail.com" },
-	{ id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-	{ id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-	{ id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-	{ id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-	{ id: 10, lastName: "Targaryen", firstName: "Daenerys", age: null, userName: "Mother of dragons", fieldLocation: "dragonstone" },
+	{ id: 1, lastName: "Snow", firstName: "Jon",  userName: "jon99", email: "Jon@gmail.com" },
+	{ id: 2, lastName: "Lannister", firstName: "Cersei",  userName: "Cersei45", email: "Cersei@gmail.com"},
+	{ id: 3, lastName: "Lannister", firstName: "Jaime",  userName: "Jaime88", email: "Jaime@gmail.com" },
+	{ id: 4, lastName: "Stark", firstName: "Arya", age: 16, userName: "Arya44", email: "Arya@gmail.com" },
+	{ id: 5, lastName: "Targaryen", firstName: "Daenerys",  userName: "Daenerys44", email: "Daenerys@gmail.com" },
+	{ id: 6, lastName: "Melisandre", firstName: null,  },
+	{ id: 7, lastName: "Clifford", firstName: "Ferrara"},
+	{ id: 8, lastName: "Frances", firstName: "Rossini" },
+	{ id: 9, lastName: "Roxie", firstName: "Harvey" }
 ];
 
 function AccountResults() {

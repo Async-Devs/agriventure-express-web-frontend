@@ -29,6 +29,7 @@ function Login() {
 			setProducers(producers.data);
 		}
 		getProducers();
+		console.log(producers);
 	},[]);
 
 	function validateNonEmpty(text){
@@ -78,9 +79,6 @@ function Login() {
 				}}
 			/>
 			<Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-				<div>
-					{JSON.stringify(producers)}
-				</div>
 				<div hidden={hiddenError}>
 					<Alert severity="error">{error}</Alert>
 				</div>

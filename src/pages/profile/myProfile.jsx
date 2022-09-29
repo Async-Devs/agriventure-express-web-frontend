@@ -13,21 +13,18 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import HowToRegIcon from "@mui/icons-material/HowToReg";
-import {Link, useParams} from "react-router-dom";
+import {Link} from "react-router-dom";
 import Axios from "axios";
 import ProfileView from "./profileView/profileView";
 import Container from "@mui/material/Container";
-import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 import {Alert} from "@mui/lab";
 
-function Profile(){
+function MyProfile(){
 
-	const {user_id} = useParams();
-
-
+	//todo: get user_id from jwt token
+	const user_id = "6332ce3d59479ac6785d6647";
 	const [open,setOpen] = useState(false);
-	// const [username,setUsername] = useState();
+	// const [username,setUsername]' = useState();
 	const [userType,setUserType] = useState();
 	const [isLoading,setIsLoading] = useState(true);
 	const [firstName,setFirstName] = useState();
@@ -80,11 +77,6 @@ function Profile(){
 
 		setIsLoading(false);
 	},[]);
-
-
-	function handleEdit(){
-		window.location.assign("/profile/edit");
-	}
 
 	function handleDelete(){
 		//todo: check validity
@@ -142,17 +134,11 @@ function Profile(){
 
 					<Grid item xs={12} md={6} mt={2}  align="center" hidden={!isExsist}>
 						<Paper elevation={3} sx={{width: "100%", p: "5px"}}>
-							<Link to={"/profile/edit/" + user_id}  style={{ textDecoration: "none" }}>
+							<Link to={"edit"}  style={{ textDecoration: "none" }}>
 								<Button variant="outlined" color="primary" startIcon={<EditIcon />} sx={{m: "5px"}}>
 									Edit
 								</Button>
 							</Link>
-							<Button variant="outlined" onClick={handleEdit} color="primary" startIcon={<HowToRegIcon />} sx={{m: "5px"}}>
-								Approve
-							</Button>
-							<Button variant="outlined" onClick={handleEdit} color="warning" startIcon={<ThumbDownAltIcon />} sx={{m: "5px"}}>
-								Reject
-							</Button>
 							<Button variant="outlined" onClick={handleDelete} color="error" startIcon={<DeleteIcon />}>
 								Delete
 							</Button>
@@ -188,4 +174,4 @@ function Profile(){
 	);
 }
 
-export default Profile;
+export default MyProfile;
