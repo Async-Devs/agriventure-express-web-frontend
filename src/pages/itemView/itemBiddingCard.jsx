@@ -3,10 +3,13 @@ import {Button, Grid, Paper, Typography} from "@mui/material";
 import CountdownTimer from "../../components/countdownTimer/countdownTimer";
 import TextInput from "../../components/textInput/textInput";
 import BidTable from "./bidTable";
+import _ from "lodash";
+import PropTypes from "prop-types";
 
-export default function ItemBiddingCard(){
-	const [bidValue, setBidValue] = useState(123);
-	const endTime = "2022-09-28T04:52:03";
+function ItemBiddingCard(props){
+	const { endTime, bidArray, minimumBid } = props.biddingData;
+	const [bidValue, setBidValue] = useState(0);
+	const [ lastBid, setLastBid ] = useState(_.last(bidArray).bid_amount);
 
 	function handleBidChange(event){
 		let newValue = event.target.value;
@@ -17,6 +20,11 @@ export default function ItemBiddingCard(){
 
 	function handleSubmit(){
 		console.log(bidValue);
+		if (bidValue<lastBid){
+			return;
+		}
+		setLastBid(bidValue);
+		// submit to server
 	}
 
 	return(
@@ -31,7 +39,14 @@ export default function ItemBiddingCard(){
 					<Grid item xs={12} container justifyContent={"center"} mt={2}>
 						<Grid item xs={12}>
 							<Typography variant={"h6"} color={"green"} fontWeight={"bold"}>
-								Last bid : {Intl.NumberFormat("si", { style: "currency", currency: "LKR" }).format(1000000) }
+								Last bid : {Intl.NumberFormat("si", { style: "currency", currency: "LKR" }).format(lastBid) }
+							</Typography>
+						</Grid>
+					</Grid>
+					<Grid item xs={12} container justifyContent={"center"} mt={2}>
+						<Grid item xs={12}>
+							<Typography variant={"h7"}  fontWeight={"bold"}>
+								Starting bid : {Intl.NumberFormat("si", { style: "currency", currency: "LKR" }).format(minimumBid) }
 							</Typography>
 						</Grid>
 					</Grid>
@@ -57,7 +72,7 @@ export default function ItemBiddingCard(){
 					</Grid>
 					<Grid item xs={12} container justifyContent={"center"} mt={2}>
 						<Grid item xs={12}>
-							<BidTable/>
+							<BidTable bidderArray={bidArray}/>
 						</Grid>
 					</Grid>
 
@@ -66,3 +81,9 @@ export default function ItemBiddingCard(){
 		</Grid>
 	);
 }
+
+ItemBiddingCard.propTypes = {
+	biddingData: PropTypes.object.isRequired
+};
+
+export default ItemBiddingCard;
