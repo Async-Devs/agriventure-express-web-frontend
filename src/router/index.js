@@ -37,7 +37,7 @@ import OrderCheckout from "../pages/orderCheckout/orderCheckout";
 function AppRouter(){
 
 	// eslint-disable-next-line no-undef
-	let type = undefined;
+	let type = 2;
 
 
 	return(
