@@ -28,6 +28,7 @@ import MyProfile from "../pages/profile/myProfile";
 import EditMyProfileForm from "../pages/editProfile/editProfileForm/editMyProfileForm";
 import EditItem from "../pages/editItem/edititem";
 import OrderCheckout from "../pages/orderCheckout/orderCheckout";
+import OfficerDashboard from "../pages/officerDashboard/officerDashboard";
 /*
 * Order Inventory Subsystem - Achira
 * Account Management/ Support Subsystem - Toxic Supun
@@ -108,6 +109,7 @@ function AppRouter(){
 							</Route>
 
 							<Route path ="supportManagement" element={<SupportRequests/>}/>
+							<Route path ="officerDashboard" element={<OfficerDashboard/>}/>
 
 
 							<Route path = "agriDataManage">
