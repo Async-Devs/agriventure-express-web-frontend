@@ -18,3 +18,8 @@ export function setBidForItem(itemId, data){
 	const itemData = Axios.put(`${apiEndpoint}/set-bid/${itemId}`, {data});
 	return itemData;
 }
+
+export function addItem(data){
+	const itemData = Axios.post(`${apiEndpoint}/add-item`, {data});
+	return itemData;
+}
