@@ -18,8 +18,6 @@ function Item(props)
 }
 
 function CustomCarousel(props){
-
-	console.log(props.images);
 	return(
 		<Carousel autoPlay={false} height={300}>
 			{
