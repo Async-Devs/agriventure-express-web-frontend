@@ -28,7 +28,6 @@ import MyProfile from "../pages/profile/myProfile";
 import EditMyProfileForm from "../pages/editProfile/editProfileForm/editMyProfileForm";
 import EditItem from "../pages/editItem/edititem";
 import OrderCheckout from "../pages/orderCheckout/orderCheckout";
-import OfficerDashboard from "../pages/officerDashboard/officerDashboard";
 /*
 * Order Inventory Subsystem - Achira
 * Account Management/ Support Subsystem - Toxic Supun
@@ -38,7 +37,7 @@ import OfficerDashboard from "../pages/officerDashboard/officerDashboard";
 function AppRouter(){
 
 	// eslint-disable-next-line no-undef
-	let type = 2;
+	let type = undefined;
 
 
 	return(
@@ -103,12 +102,12 @@ function AppRouter(){
 								<Route index element={<ManageProducers/>}/>
 								<Route path = "profile/:user_id">
 									<Route index element={<Profile/>}/>
-									<Route exact path = "edit" element={<EditProfile/>}/>
+									<Route path = "edit" element={<EditProfile/>}/>
 								</Route>
+								<Route path ="addProducer" element={<AddProducers/>}/>
 							</Route>
-							<Route path ="addProducer" element={<AddProducers/>}/>
+
 							<Route path ="supportManagement" element={<SupportRequests/>}/>
-							<Route path ="officerDashboard" element={<OfficerDashboard/>}/>
 
 
 							<Route path = "agriDataManage">

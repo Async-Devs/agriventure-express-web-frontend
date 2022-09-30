@@ -7,6 +7,7 @@ import TextInput from "../../components/textInput/textInput";
 import SelectInput from "../../components/selectInput/selectInput";
 import Button from "@mui/material/Button";
 import {Alert} from "@mui/lab";
+import {Link} from "react-router-dom";
 
 function AddProducers(){
 
@@ -204,7 +205,9 @@ function AddProducers(){
 				</Grid>
 
 				<Grid item xs={12} mt={1} align="right">
-					<Button type="submit" sx={{m:1}} variant="contained">Cancel</Button>
+					<Link to=".." style={{ textDecoration: "none" }}>
+						<Button type="submit" sx={{m:1}} variant="contained">Cancel</Button>
+					</Link>
 					<Button type="submit" sx={{m:1}} variant="contained" onClick={handleSubmit}>Submit</Button>
 				</Grid>
 
