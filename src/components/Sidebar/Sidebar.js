@@ -14,8 +14,25 @@ import MenuItem from "@mui/material/MenuItem";
 
 import logo from "../../img/logo.png";
 
-const pages = ["Dashboard", "Marketplace", "Orders","Help Center"];
-const settings = ["Account","Logout"];
+var pages = ["Dashboard", "Marketplace", "Orders","Help Center"];
+var settings = ["Account","Logout"];
+const userType = 3;
+
+if(userType === 0){
+	pages = ["Dashboard", "My Dashboard", "Orders","Help Center"];
+	settings = ["My Profile","Logout"];
+}else if(userType === 1){
+	pages = ["Dashboard", "Marketplace", "My Refunds"];
+	settings = ["My Profile","Logout"];
+}else if(userType === 2){
+	pages = ["Dashboard", "Manage Producers", "Support Management","Agri Data"];
+	settings = ["Logout"];
+}else if(userType === 3){
+	pages = ["Dashboard", "Manage Accounts"];
+	settings = ["Logout"];
+}
+
+
 
 const ResponsiveAppBar = () => {
 	const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -31,7 +48,25 @@ const ResponsiveAppBar = () => {
 	const handleCloseNavMenu = (event) => {
 		setAnchorElNav(null);
 		if(event.target.name === "Help Center"){
-			window.location.assign("/helpCenter");
+			window.location.assign("/producer/helpCenter");
+		}else if(event.target.name === "My Dashboard"){
+			window.location.assign("/producer");
+		}else if(event.target.name === "Orders"){
+			window.location.assign("/producer/orders");
+		}else if(event.target.name === "Dashboard"){
+			window.location.assign("/");
+		}else if(event.target.name === "Marketplace"){
+			window.location.assign("/buyer/marketplace");
+		}else if(event.target.name === "My Refunds"){
+			window.location.assign("/buyer/myRefund");
+		}else if(event.target.name === "Manage Producers"){
+			window.location.assign("/officer");
+		}else if(event.target.name === "Support Management"){
+			window.location.assign("/officer/supportManagement");
+		}else if(event.target.name === "Agri Data"){
+			window.location.assign("/officer/agriDataManage");
+		}else if(event.target.name === "Manage Accounts"){
+			window.location.assign("/admin");
 		}
 	};
 
