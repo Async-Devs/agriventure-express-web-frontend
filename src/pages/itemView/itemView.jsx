@@ -3,8 +3,8 @@ import {Link, useParams} from "react-router-dom";
 import {Breadcrumbs, CircularProgress, Grid, Typography} from "@mui/material";
 import ItemViewCard from "./itemViewCard";
 import ItemBiddingCard from "./itemBiddingCard";
-import Axios from "axios";
 import NotFound from "../notFound";
+import {getItemById} from "../../services/itemServices";
 
 function ItemView(){
 	const [isLoading, setLoading] = useState(true);
@@ -13,7 +13,7 @@ function ItemView(){
 	useEffect(()=>{
 		async function getItem(){
 		// eslint-disable-next-line no-undef
-			const data = await Axios.get(`${process.env.REACT_APP_API_URL}/items/${itemId}`);
+			const data = await getItemById(itemId);
 			setItem(data.data);
 			setLoading(false);
 		}
