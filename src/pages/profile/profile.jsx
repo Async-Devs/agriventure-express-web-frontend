@@ -40,6 +40,7 @@ function Profile(){
 	const [location,setLocation] = useState();
 	const [id,setId] = useState();
 	const [isExsist,setIsExsist] = useState();
+	const [isActive,setIsActive] = useState();
 
 	useEffect(() => {
 
@@ -57,6 +58,7 @@ function Profile(){
 			const user = await Axios.get(`${process.env.REACT_APP_API_URL}/users/getById/`,{params: {id: user_id}});
 			if (user.data.success) {
 				setUserType(user.data.user.userType);
+				setIsActive(user.data.user.isActive);
 				setId(user.data.typeDetails._id);
 				setFirstName(user.data.typeDetails.firstName);
 				setLastName(user.data.typeDetails.lastName);
@@ -142,20 +144,26 @@ function Profile(){
 
 					<Grid item xs={12} md={6} mt={2}  align="center" hidden={!isExsist}>
 						<Paper elevation={3} sx={{width: "100%", p: "5px"}}>
-							<Link to={"/profile/edit/" + user_id}  style={{ textDecoration: "none" }}>
-								<Button variant="outlined" color="primary" startIcon={<EditIcon />} sx={{m: "5px"}}>
-									Edit
+							<div hidden={!isActive}>
+								<Link to={"edit/"}  style={{ textDecoration: "none" }}>
+									<Button variant="outlined" color="primary" startIcon={<EditIcon />} sx={{m: "5px"}}>
+										Edit
+									</Button>
+								</Link>
+								<Button variant="outlined" onClick={handleDelete} color="error" startIcon={<DeleteIcon />}>
+									Delete
 								</Button>
-							</Link>
-							<Button variant="outlined" onClick={handleEdit} color="primary" startIcon={<HowToRegIcon />} sx={{m: "5px"}}>
-								Approve
-							</Button>
-							<Button variant="outlined" onClick={handleEdit} color="warning" startIcon={<ThumbDownAltIcon />} sx={{m: "5px"}}>
-								Reject
-							</Button>
-							<Button variant="outlined" onClick={handleDelete} color="error" startIcon={<DeleteIcon />}>
-								Delete
-							</Button>
+							</div>
+							<div hidden={isActive}>
+								<Button variant="outlined" onClick={handleEdit} color="primary" startIcon={<HowToRegIcon />} sx={{m: "5px"}}>
+									Approve
+								</Button>
+								<Button variant="outlined" onClick={handleEdit} color="warning" startIcon={<ThumbDownAltIcon />} sx={{m: "5px"}}>
+									Reject
+								</Button>
+							</div>
+
+
 						</Paper>
 					</Grid>
 

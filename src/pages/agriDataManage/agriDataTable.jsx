@@ -3,10 +3,30 @@ import {Link} from "react-router-dom";
 import {Button} from "@mui/material";
 import CustomTable from "../../components/customTable/customTable";
 
+import {CircularProgress} from "@mui/material";
+import Grid from "@mui/material/Grid";
+import Axios from "axios";
+import {useEffect, useState} from "react";
+
 function agriDataTable(){
 	//Documentation => https://mui.com/x/react-data-grid/column-definition/
+
+	const [agriDataList,setAgriDataList] = useState([]);
+	const [isLoading,setIsLoading] = useState(true);
+
+	useEffect(()=>{
+		async function getAgriDataList(){
+			// eslint-disable-next-line no-undef
+			const agriData = await Axios.get(`${process.env.REACT_APP_API_URL}/dataEntry`);
+			setAgriDataList(agriData.data);
+		}
+		getAgriDataList();
+
+		setIsLoading(false);
+	},[]);
+
 	const columns = [
-		{ field: "id", headerName: "Crop ID", width: 150 },
+		{ field: "id", headerName: "Order ID", width: 150 },
 		{ field: "cropName", headerName: "Crop name", width: 150 },
 		{ field: "fieldLocation", headerName: "Field Location", width: 150 },
 		{ field: "amount", headerName: "Amount", width: 90},
@@ -54,38 +74,32 @@ function agriDataTable(){
 
 
 	// Back end API call here
-	const orderArray = [
-		{ id: 1, cropName: "Beet", fieldLocation: "Mahanuwara", amount: 35, year:"2022" },
-		{ id: 2, cropName: "Carrot", fieldLocation: "Kolonnawa", amount: 42 , year:"2022"},
-		{ id: 3, cropName: "Leeks", fieldLocation: "Mahiyanganaya", amount: 45, year:"2022" },
-		{ id: 4, cropName: "Tomato", fieldLocation: "Nuwara eliya", amount: 16 , year:"2022"},
-		{ id: 5, cropName: "Rice", fieldLocation: "Panadura", amount: 88, year:"2022" },
-		{ id: 6, cropName: "Beet", fieldLocation: "Jaffna", amount: 150 , year:"2022"},
-		{ id: 7, cropName: "Beet", fieldLocation: "Anuradhapura", amount: 44 , year:"2022"},
-		{ id: 8, cropName: "Tomato", fieldLocation: "Katharagama", amount: 36 , year:"2022"},
-		{ id: 9, cropName: "Cabbage", fieldLocation: "Maharagama", amount: 65 , year:"2022"},
-		{ id: 10, cropName: "Cabbage", fieldLocation: "Maharagama", amount: 65 , year:"2022"},
-		{ id: 11, cropName: "Cabbage", fieldLocation: "Maharagama", amount: 65 , year:"2022"},
-		{ id: 12, cropName: "Cabbage", fieldLocation: "Maharagama", amount: 65 , year:"2022"},
-		{ id: 13, cropName: "Cabbage", fieldLocation: "Maharagama", amount: 65 , year:"2022"},
-		{ id: 14, cropName: "Cabbage", fieldLocation: "Maharagama", amount: 65 , year:"2022"},
-		{ id: 15, cropName: "Cabbage", fieldLocation: "Maharagama", amount: 65 , year:"2022"},
-		{ id: 16, cropName: "Cabbage", fieldLocation: "Maharagama", amount: 65 , year:"2022"},
-		{ id: 17, cropName: "Cabbage", fieldLocation: "Maharagama", amount: 65 , year:"2022"},
-		{ id: 18, cropName: "Cabbage", fieldLocation: "Maharagama", amount: 65 , year:"2022"},
-		{ id: 19, cropName: "Cabbage", fieldLocation: "Maharagama", amount: 65 , year:"2022"},
-		{ id: 20, cropName: "Cabbage", fieldLocation: "Maharagama", amount: 65 , year:"2022"},
-		{ id: 21, cropName: "Cabbage", fieldLocation: "Maharagama", amount: 65 , year:"2022"},
-		{ id: 22, cropName: "Cabbage", fieldLocation: "Maharagama", amount: 65 , year:"2022"},
-		{ id: 23, cropName: "Cabbage", fieldLocation: "Maharagama", amount: 65 , year:"2022"},
-		{ id: 24, cropName: "Cabbage", fieldLocation: "Maharagama", amount: 65 , year:"2022"},
-		{ id: 25, cropName: "Cabbage", fieldLocation: "Maharagama", amount: 65 , year:"2022"},
-		{ id: 26, cropName: "Cabbage", fieldLocation: "Maharagama", amount: 65 , year:"2022"},
-	];
+	// const orderArray = [
+	// 	{ cropName: "Beet", fieldLocation: "Mahanuwara", amount: 35, year:"2022" },
+	// 	{ cropName: "Carrot", fieldLocation: "Kolonnawa", amount: 42 , year:"2022"},
+	// 	{ cropName: "Leeks", fieldLocation: "Mahiyanganaya", amount: 45, year:"2022" },
+	// 	{ cropName: "Tomato", fieldLocation: "Nuwara eliya", amount: 16 , year:"2022"},
+	// 	{ cropName: "Rice", fieldLocation: "Panadura", amount: 88, year:"2022" },
+	// 	{ cropName: "Beet", fieldLocation: "Jaffna", amount: 150 , year:"2022"}
+	// ];
+	const agriData = agriDataList.map((agriData) => {
+		console.log(agriData);
+		return {id:agriData._id, cropName:agriData.cropType.name, fieldLocation:agriData.location.name, amount:agriData.cropAmount, year:agriData.year};});
+	console.log(agriData);
 
 	return(
+		<div>
+			{isLoading ? (
+				<Grid item align="center">
+					<CircularProgress />
+				</Grid>
+			):(
+				<div>
 
-		<CustomTable rows = {orderArray} columns = {columns} enableCheckBox={true}/>
+					<CustomTable rows = {agriData} columns = {columns} enableCheckBox={true}/>
+				</div>
+			)}
+		</div>
 
 	);
 }

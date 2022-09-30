@@ -14,9 +14,11 @@ import MenuItem from "@mui/material/MenuItem";
 
 import logo from "../../img/logo.png";
 
-var pages = ["Dashboard", "Marketplace", "Orders","Help Center"];
-var settings = ["Account","Logout"];
-const userType = 3;
+var pages = ["Dashboard"];
+var settings = ["sign in","sign up"];
+
+
+const userType = 3; //todo: use jwt token to identify the user type
 
 if(userType === 0){
 	pages = ["Dashboard", "My Dashboard", "Orders","Help Center"];
@@ -60,18 +62,28 @@ const ResponsiveAppBar = () => {
 		}else if(event.target.name === "My Refunds"){
 			window.location.assign("/buyer/myRefund");
 		}else if(event.target.name === "Manage Producers"){
-			window.location.assign("/officer");
+			window.location.assign("/officer/manageProducers");
 		}else if(event.target.name === "Support Management"){
 			window.location.assign("/officer/supportManagement");
 		}else if(event.target.name === "Agri Data"){
 			window.location.assign("/officer/agriDataManage");
 		}else if(event.target.name === "Manage Accounts"){
-			window.location.assign("/admin");
+			window.location.assign("/admin/manageAccounts");
 		}
 	};
 
-	const handleCloseUserMenu = () => {
+	const handleCloseUserMenu = (event) => {
 		setAnchorElUser(null);
+		if(event.target.name === "My Profile" && userType === 0){
+			window.location.assign("/producer/myProfile");
+		}else if(event.target.name === "My Profile" && userType === 1){
+			window.location.assign("/buyer/myProfile");
+		}else if(event.target.name === "sign in"){
+			window.location.assign("/login");
+		}else if(event.target.name === "sign up"){
+			window.location.assign("/signup");
+		}
+		console.log(event);
 	};
 
 	return (
@@ -192,8 +204,8 @@ const ResponsiveAppBar = () => {
 							onClose={handleCloseUserMenu}
 						>
 							{settings.map((setting) => (
-								<MenuItem key={setting} onClick={handleCloseUserMenu}>
-									<Typography textAlign="center">{setting}</Typography>
+								<MenuItem  key={setting}>
+									<Button id={setting} name={setting} onClick={handleCloseUserMenu} textAlign="center">{setting}</Button>
 								</MenuItem>
 							))}
 						</Menu>

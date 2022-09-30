@@ -28,6 +28,8 @@ import MyProfile from "../pages/profile/myProfile";
 import EditMyProfileForm from "../pages/editProfile/editProfileForm/editMyProfileForm";
 import EditItem from "../pages/editItem/edititem";
 import OrderCheckout from "../pages/orderCheckout/orderCheckout";
+import OfficerDashboard from "../pages/officerDashboard/officerDashboard";
+import AddOfficer from "../pages/addOfficer/addOfficer";
 /*
 * Order Inventory Subsystem - Achira
 * Account Management/ Support Subsystem - Toxic Supun
@@ -37,7 +39,7 @@ import OrderCheckout from "../pages/orderCheckout/orderCheckout";
 function AppRouter(){
 
 	// eslint-disable-next-line no-undef
-	let type = 3;
+	let type = 3; //todo: use jwt token to identify the user type
 
 
 	return(
@@ -57,8 +59,11 @@ function AppRouter(){
 								<Route index element={<Orders/>} />
 								<Route path = ":id" element={<OrderView/>} />
 							</Route>
-							<Route path = "helpcenter" element={<HelpCenter/>}/>
-							<Route path ="mySupport" element={<MySupport/>}/>
+							<Route path = "helpCenter">
+								<Route index element={<HelpCenter/>}/>
+								<Route path ="mySupport" element={<MySupport/>}/>
+							</Route>
+
 							<Route path = "myProfile">
 								<Route index element={<MyProfile/>}/>
 								<Route exact path = "edit" element={<EditMyProfileForm/>}/>
@@ -95,11 +100,19 @@ function AppRouter(){
 					): type === 2 ?(
 
 						<Route path = "/officer" >
-							<Route index element={<ManageProducers/>}/>
-							<Route path ="addProducer" element={<AddProducers/>}/>
+							<Route path="manageProducers">
+								<Route index element={<ManageProducers/>}/>
+								<Route path = "profile/:user_id">
+									<Route index element={<Profile/>}/>
+									<Route path = "edit" element={<EditProfile/>}/>
+								</Route>
+								<Route path ="addProducer" element={<AddProducers/>}/>
+							</Route>
+
 							<Route path ="supportManagement" element={<SupportRequests/>}/>
-							<Route exact path = "profile/edit/:user_id" element={<EditProfile/>}/>
-							<Route path = "profile/:user_id" element={<Profile/>}/>
+							<Route path ="officerDashboard" element={<OfficerDashboard/>}/>
+
+
 							<Route path = "agriDataManage">
 								<Route index element={<AgriDataManage/>}/>
 								<Route path = "agridataentry" element={<AgriDataEntry/>}/>
@@ -109,7 +122,10 @@ function AppRouter(){
 
 					):type === 3 ?(
 						<Route path = "/admin">
-							<Route index element={<ManageAccounts/>}/>
+							<Route path = "manageAccounts">
+								<Route index element={<ManageAccounts/>}/>
+								<Route path ="addOfficer" element={<AddOfficer />} />
+							</Route>
 						</Route>
 					):(
 						<Route path = "*" element={<ErrorPage/>}/>

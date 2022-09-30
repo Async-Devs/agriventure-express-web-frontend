@@ -90,7 +90,7 @@ function RefundRequestList(props){
 								<Divider variant="inset" component="li" />
 								<ListItem alignItems="flex-start">
 									<ListItemAvatar>
-										<Avatar alt="Remy Sharp" src="https://scontent.fcmb1-2.fna.fbcdn.net/v/t39.30808-6/305652696_2017821475071738_1772119493642692274_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=VyggVEEtIPYAX_i6OtN&_nc_oc=AQkFP1RgAfzw6BF30IuXIxnfQEjYUTXbIowJPQKssFlx5icdRFPM4yerIo3ucjJ3kM7RN77MV89GzK6Rt-nwf7Z3&_nc_ht=scontent.fcmb1-2.fna&oh=00_AT9EbQR5mHbaMF2qvPB1lvXgh_ZfGjHse90t0m6fnMTQyw&oe=6334D685" />
+										<Avatar alt="Nipun Pramuditha" src="https://scontent.fcmb1-2.fna.fbcdn.net/v/t39.30808-6/305652696_2017821475071738_1772119493642692274_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=VyggVEEtIPYAX_i6OtN&_nc_oc=AQkFP1RgAfzw6BF30IuXIxnfQEjYUTXbIowJPQKssFlx5icdRFPM4yerIo3ucjJ3kM7RN77MV89GzK6Rt-nwf7Z3&_nc_ht=scontent.fcmb1-2.fna&oh=00_AT9EbQR5mHbaMF2qvPB1lvXgh_ZfGjHse90t0m6fnMTQyw&oe=6334D685" />
 									</ListItemAvatar>
 									<ListItemText
 										primary="12/09/2022"
@@ -101,7 +101,7 @@ function RefundRequestList(props){
 													component="span"
 													variant="body2"
 													color="text.primary"
-												>Toxic Nipun <br/>
+												>Nipun <br/>
 												</Typography>
 												{"Sample Chat Message.blaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
 												<br/>
