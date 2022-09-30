@@ -242,7 +242,7 @@ function EditProfileForm(){
 							</Grid>
 
 							<Grid item xs={12} align="center">
-								<Link to={"/profile/"+ user_id} style={{ textDecoration: "none" }}>
+								<Link to={".."} style={{ textDecoration: "none" }}>
 									<Button type="button" variant="outlined" sx={{m:"2pt"}}>Cancel</Button>
 								</Link>
 								<Button type="submit" variant="outlined" onClick={handleSubmit} sx={{m:"2pt"}} startIcon={<SaveIcon />}>Update Profile</Button>

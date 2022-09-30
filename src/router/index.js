@@ -37,7 +37,7 @@ import OrderCheckout from "../pages/orderCheckout/orderCheckout";
 function AppRouter(){
 
 	// eslint-disable-next-line no-undef
-	let type = 3;
+	let type = undefined;
 
 
 	return(
@@ -57,8 +57,11 @@ function AppRouter(){
 								<Route index element={<Orders/>} />
 								<Route path = ":id" element={<OrderView/>} />
 							</Route>
-							<Route path = "helpcenter" element={<HelpCenter/>}/>
-							<Route path ="mySupport" element={<MySupport/>}/>
+							<Route path = "helpCenter">
+								<Route index element={<HelpCenter/>}/>
+								<Route path ="mySupport" element={<MySupport/>}/>
+							</Route>
+
 							<Route path = "myProfile">
 								<Route index element={<MyProfile/>}/>
 								<Route exact path = "edit" element={<EditMyProfileForm/>}/>
@@ -95,11 +98,18 @@ function AppRouter(){
 					): type === 2 ?(
 
 						<Route path = "/officer" >
-							<Route index element={<ManageProducers/>}/>
-							<Route path ="addProducer" element={<AddProducers/>}/>
+							<Route path="manageProducers">
+								<Route index element={<ManageProducers/>}/>
+								<Route path = "profile/:user_id">
+									<Route index element={<Profile/>}/>
+									<Route path = "edit" element={<EditProfile/>}/>
+								</Route>
+								<Route path ="addProducer" element={<AddProducers/>}/>
+							</Route>
+
 							<Route path ="supportManagement" element={<SupportRequests/>}/>
-							<Route exact path = "profile/edit/:user_id" element={<EditProfile/>}/>
-							<Route path = "profile/:user_id" element={<Profile/>}/>
+
+
 							<Route path = "agriDataManage">
 								<Route index element={<AgriDataManage/>}/>
 								<Route path = "agridataentry" element={<AgriDataEntry/>}/>
