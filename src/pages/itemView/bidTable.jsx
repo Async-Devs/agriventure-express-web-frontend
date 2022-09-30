@@ -10,7 +10,6 @@ function BidTable(props){
 		{ field: "bidderName", headerName: "Bidder", width: 200 },
 		{ field: "bidAmount", headerName: "Bid Amount", width: 200}
 	];
-	console.log(bidderArray);
 	const rows = bidderArray.map((item)=>{
 		return {
 			"id": item._id,
