@@ -21,14 +21,14 @@ import CarouselComponent from "./carouselAgri";
 function Dashboard(){
 
 	// states
-	
+
 	//data access from axios
 
 	//function
 	// eslint-disable-next-line no-mixed-spaces-and-tabs
 
 	return(
-		
+
 		<div>
 			<div className="carousel">
 				<CarouselComponent />
@@ -49,8 +49,8 @@ function Dashboard(){
 												Over 1500 Farmers
 									</Typography>
 									<Typography variant="body2" color="text.secondary">
-												Lizards are a widespread group of squamate reptiles, with over 6,000
-												species, ranging across all continents except Antarctica
+												Agriventure Express already has more than 1500 farmers who are
+										selling crops and making profits. Still growing the number of farmers.
 									</Typography>
 								</CardContent>
 							</CardActionArea>
@@ -70,8 +70,8 @@ function Dashboard(){
 												Over 100,000 Buyers
 									</Typography>
 									<Typography variant="body2" color="text.secondary">
-												Lizards are a widespread group of squamate reptiles, with over 6,000
-												species, ranging across all continents except Antarctica
+												Agriventure Express users all around the world are rapidly increasing.
+										With more than 100,000 buyers Agriventure Express is still growing large.
 									</Typography>
 								</CardContent>
 							</CardActionArea>
@@ -92,19 +92,19 @@ function Dashboard(){
 												67% Coverage
 									</Typography>
 									<Typography variant="body2" color="text.secondary">
-												Lizards are a widespread group of squamate reptiles, with over 6,000
-												species, ranging across all continents except Antarctica.
+												Agriventure Express has been used to collect data from all around the country.
+										Coverage will be increased within the next months.
 									</Typography>
 								</CardContent>
 							</CardActionArea>
 						</Card>
 					</Grid>
-					<Grid item xs={12} md={4}>
+					<Grid item xs={12} md={3.9}>
 						<Paper >
 							<PieChart/>
 						</Paper>
 					</Grid>
-					<Grid item xs={12} md={7}>
+					<Grid item xs={12} md={7.5}>
 						<Paper>
 							<Barchart/>
 						</Paper>

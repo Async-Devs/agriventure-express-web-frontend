@@ -40,12 +40,12 @@ export const data = {
 		{
 			label: "Last year amount",
 			data: [100,200,300,400,500,600,700],
-			backgroundColor: "rgba(255, 99, 132, 0.5)",
+			backgroundColor: "rgb(0,21,255)",
 		},
 		{
 			label: "Current year amount",
 			data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-			backgroundColor: "rgba(53, 162, 235, 0.5)",
+			backgroundColor: "rgb(0,224,11)",
 		},
 	],
 };
