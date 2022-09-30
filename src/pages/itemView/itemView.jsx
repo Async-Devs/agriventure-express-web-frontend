@@ -19,6 +19,7 @@ function ItemView(){
 		}
 		getItem();
 	},[]);
+
 	const breadcrumbs = [
 		<Link to={"/marketplace"} key={1} style={{textDecoration: "none" ,color:"black"}}>
 			MARKETPLACE
