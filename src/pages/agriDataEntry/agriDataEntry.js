@@ -13,6 +13,7 @@ import {Divider} from "@mui/material";
 import SelectInput from "../../components/selectInput/selectInput";
 import Location from "../../components/Location/location.json";
 import TextInput from "../../components/textInput/textInput";
+import Axios from "axios";
 
 function AgriDataEntry(){
 
@@ -25,6 +26,9 @@ function AgriDataEntry(){
 	const [error,setError] = useState();
 	const [hidden,setHidden] = useState(true);
 	const district = Object.keys(Location);
+
+	const [success,setSuccess] = useState(false);
+	const [fail,setFail] = useState(false);
 
 	const [cityList,setCityList]=useState([]);
 
@@ -73,14 +77,33 @@ function AgriDataEntry(){
 	function validateNonEmptyArray(list){
 		return list.length !== 0;
 	}
+	function handleCancel(){
+		window.location.assign("/agridatamanage");
+	}
+
 	function handleSubmit(){
 		if (!validateNonEmptyArray(cropTypes) || !validateNonEmptyArray(fieldDistrict) || !validateNonEmptyArray(fieldCity) || !validateNonEmpty(cropAmount) || !validateNonEmpty(year) ){
 			setError("Fill all fields!");
 			setHidden(false);
 		}
-	}
-	function handleCancel(){
-		window.location.assign("/agridatamanage");
+		else{
+			const agriDataBody = {
+				cropType: cropTypes,
+				cropAmount: cropAmount,
+				location: fieldCity,
+				year:year
+			};
+			// eslint-disable-next-line no-undef
+			Axios.post(`${process.env.REACT_APP_API_URL}/producers`,agriDataBody).then(async (res)=>{
+				if(!res.data.success){
+					alert("Error occured!");
+				}else{
+					setSuccess(true);
+					setFail(false);
+				}
+			});
+		}
+
 	}
 
 	return(
@@ -126,7 +149,7 @@ function AgriDataEntry(){
 				</Grid>
 				<Grid item xs={12} mt={1} align="right">
 					<Button type="submit" sx={{m:1}} variant="contained" onClick={handleCancel}>Cancel</Button>
-					<Button type="submit" sx={{m:1}} variant="contained" onClick={handleSubmit} >Submit</Button>
+					<Button type="submit" sx={{m:1}} variant="contained" onClick={handleSubmit} success={success} fail={fail}>Submit</Button>
 				</Grid>
 			</Grid>
 		</Container>
