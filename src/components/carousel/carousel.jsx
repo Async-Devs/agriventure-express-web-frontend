@@ -27,7 +27,6 @@ function CustomCarousel(props){
 	);
 }
 
-
 Item.propTypes = {
 	imagesrc: PropTypes.string
 };
