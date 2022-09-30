@@ -57,7 +57,7 @@ function MarketplaceCard(props){
 }
 
 MarketplaceCard.propTypes = {
-	imgSrc: PropTypes.string.isRequired,
+	imgSrc: PropTypes.string,
 	itemName: PropTypes.string.isRequired,
 	minBid: PropTypes.number.isRequired,
 	quantity: PropTypes.number.isRequired,
