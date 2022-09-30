@@ -28,6 +28,7 @@ import MyProfile from "../pages/profile/myProfile";
 import EditMyProfileForm from "../pages/editProfile/editProfileForm/editMyProfileForm";
 import EditItem from "../pages/editItem/edititem";
 import OrderCheckout from "../pages/orderCheckout/orderCheckout";
+import AddOfficer from "../pages/addOfficer/addOfficer";
 /*
 * Order Inventory Subsystem - Achira
 * Account Management/ Support Subsystem - Toxic Supun
@@ -37,7 +38,7 @@ import OrderCheckout from "../pages/orderCheckout/orderCheckout";
 function AppRouter(){
 
 	// eslint-disable-next-line no-undef
-	let type = undefined;
+	let type = 3; //todo: use jwt token to identify the user type
 
 
 	return(
@@ -119,7 +120,10 @@ function AppRouter(){
 
 					):type === 3 ?(
 						<Route path = "/admin">
-							<Route index element={<ManageAccounts/>}/>
+							<Route path = "manageAccounts">
+								<Route index element={<ManageAccounts/>}/>
+								<Route path ="addOfficer" element={<AddOfficer />} />
+							</Route>
 						</Route>
 					):(
 						<Route path = "*" element={<ErrorPage/>}/>

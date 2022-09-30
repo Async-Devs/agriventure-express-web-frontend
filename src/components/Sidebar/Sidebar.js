@@ -16,7 +16,9 @@ import logo from "../../img/logo.png";
 
 var pages = ["Dashboard"];
 var settings = ["sign in","sign up"];
-const userType = undefined;
+
+
+const userType = 3; //todo: use jwt token to identify the user type
 
 if(userType === 0){
 	pages = ["Dashboard", "My Dashboard", "Orders","Help Center"];
@@ -66,7 +68,7 @@ const ResponsiveAppBar = () => {
 		}else if(event.target.name === "Agri Data"){
 			window.location.assign("/officer/agriDataManage");
 		}else if(event.target.name === "Manage Accounts"){
-			window.location.assign("/admin");
+			window.location.assign("/admin/manageAccounts");
 		}
 	};
 
