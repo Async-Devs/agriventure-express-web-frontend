@@ -19,7 +19,7 @@ function AgriDataManage(){
 
 	//function
 	function handleAddData(){
-		window.location.assign("/agridataentry");
+		window.location.assign("agridatamanage/agridataentry");
 	}
 
 

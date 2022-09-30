@@ -78,7 +78,7 @@ function AgriDataEntry(){
 		return list.length !== 0;
 	}
 	function handleCancel(){
-		window.location.assign("/agridatamanage");
+		window.location.assign("/officer/agridatamanage");
 	}
 
 	function handleSubmit(){
