@@ -11,8 +11,12 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
+import PhoneInTalkOutlinedIcon from "@mui/icons-material/PhoneInTalkOutlined";
+import MailOutlineIcon from "@mui/icons-material/MailOutline";
+import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 
 import logo from "../../img/logo.png";
+import "./sidebar.module.css";
 
 var pages = ["Dashboard"];
 var settings = ["sign in","sign up"];
@@ -87,31 +91,76 @@ const ResponsiveAppBar = () => {
 	};
 
 	return (
-		<AppBar position="static" color="primary">
+		<AppBar position="static" style={{ background: "white" }}>
 			<Container maxWidth="xl">
 				<Toolbar disableGutters>
 					<Box sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}>
-						<img src={logo} alt="logo"  width={90}/>
+						<img src={logo} alt="logo"  width={100}/>
 					</Box>
-					<Typography
-						variant="h6"
-						noWrap
-						component="a"
-						href="/"
-						sx={{
-							mr: 2,
-							display: { xs: "none", md: "flex" },
-							fontFamily: "monospace",
-							fontWeight: 700,
-							letterSpacing: ".3rem",
-							color: "white",
-							textDecoration: "none",
-						}}
-					>
+					<Box sx={{ flexGrow: 1,display: { xs: "none", md: "flex" }}}>
+						<div>
+							<Typography
+								variant="h6"
+								noWrap
+								component="a"
+								href="/"
+								sx={{
+									mr: 2,
+									display: { xs: "none", md: "flex" },
+									fontFamily: "Segoe ui,cursive",
+									fontWeight: 700,
+									color: "black",
+									textDecoration: "none",
+								}}
+							>
 						Agriventure Express
-					</Typography>
+							</Typography>
+							<div style={{fontSize:10,color:"green"}}>Let us go green</div>
+						</div>
+					</Box>
 
-					<Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+					<Box sx={{ display: { xs:"none",sm:"none",md: "none", lg: "flex" }}}>
+						<div style={{display:"flex",marginTop:"8px"}}>
+							<div style={{marginRight:"10px"}}>
+								<PhoneInTalkOutlinedIcon style={{fontSize:"37px",color:"green"}}/>
+							</div>
+							<div style={{fontFamily:"Roboto,sans-serif",fontSize:16,color:"black",fontWeight:600}}>
+							Telephone
+								<div style={{fontFamily:"Arial, Helvetica, sans-serif",fontSize:14,color:"grey",fontWeight:500}}>
+							+94 112 536228 / 29
+								</div>
+							</div>
+						</div>
+
+						<div style={{display:"flex",marginLeft:"30px",marginTop:"8px"}}>
+							<div style={{marginRight:"10px"}}>
+								<MailOutlineIcon style={{fontSize:"37px",color:"green"}}/>
+							</div>
+							<div style={{fontFamily:"Roboto,sans-serif",fontSize:16,color:"black",fontWeight:600}}>
+							Email
+								<div style={{fontFamily:"Arial, Helvetica, sans-serif",fontSize:14,color:"grey",fontWeight:500}}>
+								agriventureexpress@gmail.com
+								</div>
+							</div>
+						</div>
+
+						<div style={{display:"flex", marginLeft:"30px"}}>
+							<div style={{marginRight:"10px",marginTop:"8px"}}>
+								<LocationOnOutlinedIcon style={{fontSize:"37px",color:"green"}}/>
+							</div>
+							<div style={{fontFamily:"Roboto,sans-serif",fontSize:16,color:"black",fontWeight:600}}>
+							Office Address
+								<div style={{fontFamily:"Arial, Helvetica, sans-serif",fontSize:14,color:"grey",fontWeight:500}}>
+								Agriventure express, Katubedda
+								</div>
+								<div style={{fontFamily:"Arial, Helvetica, sans-serif",fontSize:14,color:"grey",fontWeight:500}}>
+								Moratuwa
+								</div>
+							</div>
+						</div>
+					</Box>
+
+					<Box sx={{ display: { xs: "flex", md: "none" }}}>
 						<IconButton
 							size="large"
 							aria-label="account of current user"
@@ -147,71 +196,86 @@ const ResponsiveAppBar = () => {
 							))}
 						</Menu>
 					</Box>
-					<Box sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}>
-						<img src={logo} alt="logo"  width={90}/>
-					</Box>
-					<Typography
-						variant="h5"
-						noWrap
-						component="a"
-						href=""
-						sx={{
-							mr: 2,
-							display: { xs: "flex", md: "none" },
-							flexGrow: 1,
-							fontFamily: "monospace",
-							fontWeight: 700,
-							letterSpacing: ".3rem",
-							color: "inherit",
-							textDecoration: "none",
-						}}
-					>
-					</Typography>
-					<Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-						{pages.map((page) => (
-							<Button
-								key={page}
-								id={page}
-								name={page}
-								onClick={handleCloseNavMenu}
-								sx={{ my: 2, color: "white", display: "block" }}
-							>
-								{page}
-							</Button>
-						))}
-					</Box>
+					<div style={{ justifyContent:"space-between",display:"flex",flexGrow:1}}>
+						<div style={{display:"flex",flexGrow:1,marginLeft:"25%"}} >
+							<div>
+								<Box sx={{display: { xs: "flex", md: "none" }, mr: 1 }}>
+									<img src={logo} alt="logo"  width={100}/>
+								</Box>
+							</div>
+							<div>
+								<Box sx={{display: { sm: "flex", xs:"none",md: "none" }}}>
+									<div>
+										<Typography
+											variant="h6"
+											noWrap
+											component="a"
+											href="/"
+											sx={{
+												mr: 2,
+												display: { xs: "flex", md: "none" },
+												fontFamily: "Segoe ui",
+												fontWeight: 700,
+												color: "black",
+												textDecoration: "none",
+											}}
+										>
+								Agriventure Express
+										</Typography>
+										<div style={{fontSize:10,color:"green"}}>Let us go green</div>
+									</div>
+								</Box>
+							</div>
+						</div>
 
-					<Box sx={{ flexGrow: 0 }}>
-						<Tooltip title="Open settings">
-							<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-								<Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-							</IconButton>
-						</Tooltip>
-						<Menu
-							sx={{ mt: "45px" }}
-							id="menu-appbar"
-							anchorEl={anchorElUser}
-							anchorOrigin={{
-								vertical: "top",
-								horizontal: "right",
-							}}
-							keepMounted
-							transformOrigin={{
-								vertical: "top",
-								horizontal: "right",
-							}}
-							open={Boolean(anchorElUser)}
-							onClose={handleCloseUserMenu}
-						>
-							{settings.map((setting) => (
-								<MenuItem  key={setting}>
-									<Button id={setting} name={setting} onClick={handleCloseUserMenu} textAlign="center">{setting}</Button>
-								</MenuItem>
-							))}
-						</Menu>
-					</Box>
+						<div>
+							<Box sx={{ marginTop:{lg:"4px",md:"8px",sm:"8px",xs:"8px"}}}>
+								<Tooltip title="Open settings">
+									<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+										<Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+									</IconButton>
+								</Tooltip>
+								<Menu
+									sx={{ mt: "45px" }}
+									id="menu-appbar"
+									anchorEl={anchorElUser}
+									anchorOrigin={{
+										vertical: "top",
+										horizontal: "right",
+									}}
+									keepMounted
+									transformOrigin={{
+										vertical: "top",
+										horizontal: "right",
+									}}
+									open={Boolean(anchorElUser)}
+									onClose={handleCloseUserMenu}
+								>
+									{settings.map((setting) => (
+										<MenuItem key={setting} onClick={handleCloseUserMenu}>
+											<Typography textAlign="center">{setting}</Typography>
+										</MenuItem>
+									))}
+								</Menu>
+							</Box>
+						</div>
+					</div>
 				</Toolbar>
 			</Container>
+			<Box className="click" sx={{ display: { xs: "none", md: "flex" }, backgroundColor: "green",justifyContent: "space-around"}}>
+				{pages.map((page) => (
+					<Button
+						key={page}
+						id={page}
+						name={page}
+						onClick={handleCloseNavMenu}
+						sx={{ my: 2, color: "white", display: "block" ,fontWeight:500,margin:"3px"}}
+					>
+						{page}
+					</Button>
+
+				))}
+			</Box>
 		</AppBar>
 	);
 };
