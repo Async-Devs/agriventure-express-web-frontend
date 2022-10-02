@@ -30,7 +30,7 @@ function Dashboard(){
 	return(
 
 		<div>
-			<div className="carousel">
+			<div className="carousel" style={{ marginTop:"-18px"}}>
 				<CarouselComponent />
 			</div>
 			<div>
