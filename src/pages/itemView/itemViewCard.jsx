@@ -35,7 +35,7 @@ function ItemViewCard(props){
 					<Grid item xs={12} container justifyContent={"center"} mt={2}>
 						<Grid item xs={12}>
 							<Typography variant={"h6"}>
-								Quantity: {quantity}
+								Quantity: {quantity} kg
 							</Typography>
 						</Grid>
 					</Grid>
