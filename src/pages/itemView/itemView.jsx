@@ -21,7 +21,7 @@ function ItemView(){
 	},[]);
 
 	const breadcrumbs = [
-		<Link to={"/marketplace"} key={1} style={{textDecoration: "none" ,color:"black"}}>
+		<Link to={"/buyer/marketplace"} key={1} style={{textDecoration: "none" ,color:"black"}}>
 			MARKETPLACE
 		</Link>,
 		<Typography key="3" color="primary">
