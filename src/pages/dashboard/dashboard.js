@@ -3,7 +3,7 @@ import "./dashboard.module.css";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import PieChart from "../../components/Charts/Piechart";
-import Barchart from "../../components/Charts/Barchart";
+import Map from "../../components/map/map";
 
 
 import Card from "@mui/material/Card";
@@ -14,7 +14,9 @@ import {CardActionArea} from "@mui/material";
 import buyerimg from "../../img/buyer.jpg";
 import farmerimg from "../../img/farmer.jpg";
 import mapimg from "../../img/map.png";
-import CarouselComponent from "./carouselAgri";
+
+import Video from "./video";
+
 
 
 
@@ -30,8 +32,8 @@ function Dashboard(){
 	return(
 
 		<div>
-			<div className="carousel" style={{ marginTop:"-18px"}}>
-				<CarouselComponent />
+			<div className="carousel">
+				<Video/>
 			</div>
 			<div>
 				<Grid container spacing={5} justifyContent="center">
@@ -106,7 +108,7 @@ function Dashboard(){
 					</Grid>
 					<Grid item xs={12} md={7.5}>
 						<Paper>
-							<Barchart/>
+							<Map/>
 						</Paper>
 					</Grid>
 				</Grid>
