@@ -3,7 +3,7 @@ import "./dashboard.module.css";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import PieChart from "../../components/Charts/Piechart";
-import Barchart from "../../components/Charts/Barchart";
+import Map from "../../components/map/map";
 
 
 import Card from "@mui/material/Card";
@@ -14,7 +14,9 @@ import {CardActionArea} from "@mui/material";
 import buyerimg from "../../img/buyer.jpg";
 import farmerimg from "../../img/farmer.jpg";
 import mapimg from "../../img/map.png";
-import CarouselComponent from "./carouselAgri";
+
+import Video from "./video";
+
 
 
 
@@ -31,7 +33,7 @@ function Dashboard(){
 
 		<div>
 			<div className="carousel">
-				<CarouselComponent />
+				<Video/>
 			</div>
 			<div>
 				<Grid container spacing={5} justifyContent="center">
@@ -49,7 +51,7 @@ function Dashboard(){
 												Over 1500 Farmers
 									</Typography>
 									<Typography variant="body2" color="text.secondary">
-										Agriventure Express already has more than 1500 farmers who are
+												Agriventure Express already has more than 1500 farmers who are
 										selling crops and making profits. Still growing the number of farmers.
 									</Typography>
 								</CardContent>
@@ -70,7 +72,7 @@ function Dashboard(){
 												Over 100,000 Buyers
 									</Typography>
 									<Typography variant="body2" color="text.secondary">
-										Agriventure Express users all around the world are rapidly increasing.
+												Agriventure Express users all around the world are rapidly increasing.
 										With more than 100,000 buyers Agriventure Express is still growing large.
 									</Typography>
 								</CardContent>
@@ -92,21 +94,21 @@ function Dashboard(){
 												67% Coverage
 									</Typography>
 									<Typography variant="body2" color="text.secondary">
-										Agriventure Express has been used to collect data from all around the country.
+												Agriventure Express has been used to collect data from all around the country.
 										Coverage will be increased within the next months.
 									</Typography>
 								</CardContent>
 							</CardActionArea>
 						</Card>
 					</Grid>
-					<Grid item xs={12} md={4}>
+					<Grid item xs={12} md={3.9}>
 						<Paper >
 							<PieChart/>
 						</Paper>
 					</Grid>
-					<Grid item xs={12} md={7}>
+					<Grid item xs={12} md={7.5}>
 						<Paper>
-							<Barchart/>
+							<Map/>
 						</Paper>
 					</Grid>
 				</Grid>
