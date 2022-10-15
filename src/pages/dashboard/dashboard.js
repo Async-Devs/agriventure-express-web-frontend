@@ -2,7 +2,7 @@ import React from "react";
 import "./dashboard.module.css";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import PieChart from "../../components/Charts/Piechart";
+import BarChart from "../../components/Charts/Barchart";
 import Map from "../../components/map/map";
 
 
@@ -101,12 +101,12 @@ function Dashboard(){
 							</CardActionArea>
 						</Card>
 					</Grid>
-					<Grid item xs={12} md={3.9}>
+					<Grid item xs={12} md={8}>
 						<Paper >
-							<PieChart/>
+							<BarChart/>
 						</Paper>
 					</Grid>
-					<Grid item xs={12} md={7.5}>
+					<Grid item xs={12} md={4}>
 						<Paper>
 							<Map/>
 						</Paper>
