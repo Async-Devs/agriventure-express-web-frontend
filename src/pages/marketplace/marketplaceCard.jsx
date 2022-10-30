@@ -2,30 +2,16 @@ import React from "react";
 import {Grid, Paper, Typography} from "@mui/material";
 import PropTypes from "prop-types";
 import {LinkedButtonRound} from "../../components/button/button";
+// import {Blurhash} from "react-blurhash";
 
 function MarketplaceCard(props){
-	const {imgSrc, itemName, minBid, quantity, itemId} = props;
+	const { imgSrc, itemName, minBid, quantity, itemId, city} = props;
 	return(
 		<Grid item width={300}>
 			<Paper elevation={4} sx={{borderRadius: "10px"}}>
 				<Grid container border={0} borderRadius={2} >
 					<Grid item xs={12} container justifyContent={"center"} mt={0.5}>
-						<Grid item xs={12} ml={0.5} mr={0.5}>
-							<Paper
-								elevation={0}
-								style={
-									{
-										borderRadius:"10px",
-										backgroundImage: imgSrc==null?`url(${"https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640"})`:`url(${imgSrc})`,
-										backgroundSize: "cover",
-										backgroundPosition: "center",
-										backgroundRepeat:"no-repeat"
-									}
-								} >
-								<Grid height={300}>
-								</Grid>
-							</Paper>
-						</Grid>
+
 					</Grid>
 					<Grid item xs={12} container justifyContent={"center"}>
 						<Grid item xs={12} mt={1}>
@@ -41,6 +27,11 @@ function MarketplaceCard(props){
 						<Grid item xs={12} mt={1} mb={1}>
 							<Typography variant={"body1"} align={"center"} fontWeight={"bold"}>
 								Quantity : {quantity} kg
+							</Typography>
+						</Grid>
+						<Grid item xs={12} mt={1} mb={1}>
+							<Typography variant={"body1"} align={"center"} fontWeight={"bold"}>
+								Location : {city}
 							</Typography>
 						</Grid>
 						<Grid item xs={12} mt={2} mb={2} container justifyContent={"center"}>
@@ -59,6 +50,7 @@ function MarketplaceCard(props){
 MarketplaceCard.propTypes = {
 	imgSrc: PropTypes.string,
 	itemName: PropTypes.string.isRequired,
+	city: PropTypes.string.isRequired,
 	minBid: PropTypes.number.isRequired,
 	quantity: PropTypes.number.isRequired,
 	itemId: PropTypes.string.isRequired

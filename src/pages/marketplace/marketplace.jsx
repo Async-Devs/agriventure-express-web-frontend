@@ -45,8 +45,8 @@ function Marketplace(){
 			</Grid>
 		);
 	}
-
-	if (rawItemData==null){
+	console.log(rawItemData);
+	if (rawItemData==null || rawItemData.length == 0){
 		return (
 			<Grid item align="center" height={500} xs={12}>
 				<Typography variant={"h4"}>
@@ -57,29 +57,33 @@ function Marketplace(){
 		);
 	}
 	return(
-		<Grid container justifyContent={"center"} p={5}>
-			<Grid item >
-				<Button>Filter</Button>
-			</Grid>
-			<Grid item>
-				<CustomPagination itemsCount={rawItemData.length} currentPage={currentPage} pageSize={pageSize} onPageChange={handlePageChange}/>
-			</Grid>
-			<Grid item container spacing={5} p={4} xs={12} >
-				{pagedData.map((p)=>{
-					return(
-						<Grid container key={p._id} item xs={12} sm={6} md={4} lg={3} xl={2} justifyContent={"center"}>
-							<MarketplaceCard
-								itemId={p._id}
-								imgSrc={p.images[0].src}
-								itemName={p.name}
-								minBid={p.minimum_bid}
-								quantity={p.quantity}/>
-						</Grid>
-					);
-				})}
-			</Grid>
-			<Grid item>
-				<CustomPagination itemsCount={rawItemData.length} currentPage={currentPage} pageSize={pageSize} onPageChange={handlePageChange}/>
+		<Grid container justifyContent={"center"}>
+			<Grid item container justifyContent={"center"} p={5} maxWidth={1400}>
+				<Grid item >
+					<Button>Filter</Button>
+				</Grid>
+				<Grid item>
+					<CustomPagination itemsCount={rawItemData.length} currentPage={currentPage} pageSize={pageSize} onPageChange={handlePageChange}/>
+				</Grid>
+				<Grid item container spacing={5} p={4} xs={12} >
+					{pagedData.map((p)=>{ console.log();
+						return(
+							<Grid container key={p._id} item sm={12} md={4} lg={3} xl={3} justifyContent={"center"}>
+								<MarketplaceCard
+									itemId={p._id}
+									imgSrc={p.images[0].src}
+									itemName={p.name}
+									minBid={p.minimum_bid}
+									quantity={p.quantity}
+									city={p.location.city}
+								/>
+							</Grid>
+						);
+					})}
+				</Grid>
+				<Grid item>
+					<CustomPagination itemsCount={rawItemData.length} currentPage={currentPage} pageSize={pageSize} onPageChange={handlePageChange}/>
+				</Grid>
 			</Grid>
 		</Grid>
 	);
