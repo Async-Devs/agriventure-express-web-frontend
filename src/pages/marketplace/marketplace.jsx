@@ -229,7 +229,7 @@ function Marketplace(){
 									itemId={p._id}
 									imgSrc={p.images[0].src}
 									itemName={p.name}
-									minBid={p.minimum_bid}
+									minBid={+p.minimum_bid}
 									quantity={p.quantity}
 									city={p.location.city}
 								/>
