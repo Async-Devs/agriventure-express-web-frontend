@@ -14,7 +14,9 @@ import PropTypes from "prop-types";
 // import FormLabel from "@mui/material/FormLabel";
 
 function MarketPlaceFilters(props){
-	const districts = ["Ampara",
+	// WIP Fetch from DB
+	const districts = [
+		"Ampara",
 		"Anuradhapura",
 		"Badulla",
 		"Batticaloa",

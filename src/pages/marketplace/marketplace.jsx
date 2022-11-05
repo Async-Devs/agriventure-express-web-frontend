@@ -58,10 +58,8 @@ function Marketplace(){
 
 	function costFilter(range, dataArray){
 		const data = dataArray;
-		console.log(data);
 		const filteredData = data.filter(
 			(ele)=>{
-				console.log(ele.minimum_bid);
 				if(range == "0"){
 					return ele;
 				}
@@ -82,7 +80,6 @@ function Marketplace(){
 		const data = dataArray;
 		const filteredData = data.filter(
 			(ele)=>{
-				console.log(ele.minimum_bid);
 				if(range == "0"){
 					return ele;
 				}
@@ -99,20 +96,42 @@ function Marketplace(){
 			});
 		return filteredData;
 	}
-	function onFilterChange(data){
-		if(rawItemData !=undefined){
-			let filteredData = rawItemData;
-			const {minBid, quantity, district, crops} = data;
-			filteredData = costFilter(filteredData);
-			filteredData = quantityFilter(filteredData);
-			console.log("Filter changed", minBid, quantity, district, crops);
-			setCurrentPage(1);
-			setFilterData(filteredData);
+	function districtFilter(range, dataArray){
+		const data = dataArray;
+		const filteredData = data.filter(
+			(ele)=>{
+				if(range.has(ele.location.district)){
+					return ele;
+				}
+				return;
+			});
+		return filteredData;
+	}
 
-		}
+	function cropFilter(range, dataArray){
+		const data = dataArray;
+		const filteredData = data.filter(
+			(ele)=>{
+				if(range.has(ele.name)){
+					return ele;
+				}
+				return;
+			});
+		return filteredData;
+	}
+	function onFilterChange(data){
+		let filteredData = rawItemData;
+		const {minBid, quantity, district, crops} = data;
+		filteredData = costFilter(minBid, filteredData);
+		filteredData = quantityFilter(quantity, filteredData);
+		filteredData = districtFilter(district, filteredData);
+		filteredData = cropFilter(crops, filteredData);
+		setCurrentPage(1);
+		setFilterData(filteredData);
+
 
 	}
-	console.log(rawItemData);
+	// console.log("raw data - ", rawItemData);
 	if (rawItemData==null || rawItemData.length == 0){
 		return (
 			<Grid container justifyContent={"center"}>
@@ -136,7 +155,7 @@ function Marketplace(){
 								<Typography variant={"h4"}>
 								No Items Available
 								</Typography>
-								<img width={300} height={300} src={"https://media.istockphoto.com/vectors/black-cute-sad-grumpy-cat-kitten-bad-emotion-cartoon-kitty-character-vector-id1135080317?k=20&m=1135080317&s=612x612&w=0&h=Gvus8WCVGpUpyXOJOZO0FGaMOfa_Tc2Liy-IK-3b4ik="}/>
+								<img height={300} src={"https://www.creativefabrica.com/wp-content/uploads/2021/01/04/Mustard-Sad-Vegetable-Cute-Kawaii-Graphics-7557389-1.jpg"}/>
 							</Grid>
 						</Grid>
 						<Grid item container xs={12} justifyContent={"center"}>
@@ -173,7 +192,7 @@ function Marketplace(){
 								<Typography variant={"h4"}>
 								No Items Available
 								</Typography>
-								<img width={300} height={300} src={"https://media.istockphoto.com/vectors/black-cute-sad-grumpy-cat-kitten-bad-emotion-cartoon-kitty-character-vector-id1135080317?k=20&m=1135080317&s=612x612&w=0&h=Gvus8WCVGpUpyXOJOZO0FGaMOfa_Tc2Liy-IK-3b4ik="}/>
+								<img height={300} src={"https://www.creativefabrica.com/wp-content/uploads/2021/01/04/Mustard-Sad-Vegetable-Cute-Kawaii-Graphics-7557389-1.jpg"}/>
 							</Grid>
 						</Grid>
 						<Grid item container xs={12} justifyContent={"center"}>
