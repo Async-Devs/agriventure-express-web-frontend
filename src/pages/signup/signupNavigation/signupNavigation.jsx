@@ -166,7 +166,6 @@ function SignupNavigation() {
 						if(!res.data.success){
 							alert("Error occured!");
 						}else{
-							alert(userType + " " + firstName + " " + lastName);
 							setSuccess(true);
 							setFail(false);
 						}

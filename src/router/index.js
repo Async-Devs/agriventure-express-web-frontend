@@ -39,7 +39,7 @@ import AddOfficer from "../pages/addOfficer/addOfficer";
 function AppRouter(){
 
 	// eslint-disable-next-line no-undef
-	let type = 3; //todo: use jwt token to identify the user type
+	let type = 0; //todo: use jwt token to identify the user type
 
 
 	return(
@@ -100,6 +100,7 @@ function AppRouter(){
 					): type === 2 ?(
 
 						<Route path = "/officer" >
+							<Route index element={<OfficerDashboard />} />
 							<Route path="manageProducers">
 								<Route index element={<ManageProducers/>}/>
 								<Route path = "profile/:user_id">

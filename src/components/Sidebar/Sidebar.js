@@ -23,7 +23,7 @@ var pages = ["Dashboard"];
 var settings = ["sign in","sign up"];
 
 
-const userType = 3; //todo: use jwt token to identify the user type
+const userType = 0; //todo: use jwt token to identify the user type
 
 if(userType === 0){
 	pages = ["Dashboard", "My Dashboard", "Orders","Help Center"];
