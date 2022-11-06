@@ -50,7 +50,7 @@ function Marketplace(){
 
 	if (isLoading){
 		return (
-			<Grid item align="center" height={500} xs={12}>
+			<Grid item align='center' height={500} xs={12}>
 				<CircularProgress />
 			</Grid>
 		);
@@ -134,7 +134,7 @@ function Marketplace(){
 	// console.log("raw data - ", rawItemData);
 	if (rawItemData==null || rawItemData.length == 0){
 		return (
-			<Grid container justifyContent={"center"}>
+			<Grid container justifyContent={"center"} data-testid={"Marketplace"}>
 				<Grid item container p={3} maxWidth={1600} justifyContent={"center"}>
 					<Grid item container xs={12} justifyContent={"center"}>
 						<Grid item xs={12}>
@@ -142,12 +142,12 @@ function Marketplace(){
 						</Grid>
 					</Grid>
 					<Grid item container xs={12} xl={3} mt={1} >
-						<Grid container item mt={3} mr={3}>
-							<MarketPlaceFilters filterOnchange={onFilterChange}/>
+						<Grid container item mt={3} mr={3} data-testid={"MarketplaceFilters"}>
+							<MarketPlaceFilters filterOnchange={onFilterChange} />
 						</Grid>
 					</Grid>
 					<Grid item container spacing={3} mt={1} mb={5} xs={12} xl={9}>
-						<Grid item xs={12} >
+						<Grid item xs={12} data-testid={"MarketplaceSearchbar"}>
 							<SearchBar/>
 						</Grid>
 						<Grid item container spacing={3} mt={5} mb={5} xs={12}>
@@ -171,7 +171,7 @@ function Marketplace(){
 
 	if (rawItemData!=null && filteredData !=null && filteredData.length == 0){
 		return (
-			<Grid container justifyContent={"center"}>
+			<Grid container justifyContent={"center"} data-testid={"Marketplace"}>
 				<Grid item container p={3} maxWidth={1600} justifyContent={"center"}>
 					<Grid item container xs={12} justifyContent={"center"}>
 						<Grid item xs={12}>
@@ -179,12 +179,12 @@ function Marketplace(){
 						</Grid>
 					</Grid>
 					<Grid item container xs={12} xl={3} mt={1} >
-						<Grid container item mt={3} mr={3}>
-							<MarketPlaceFilters filterOnchange={onFilterChange}/>
+						<Grid container item mt={3} mr={3}  data-testid={"MarketplaceFilters"}>
+							<MarketPlaceFilters filterOnchange={onFilterChange} data-testid={"MarketplaceFilters"}/>
 						</Grid>
 					</Grid>
 					<Grid item container spacing={3} mt={1} mb={5} xs={12} xl={9}>
-						<Grid item xs={12} >
+						<Grid item xs={12} data-testid={"MarketplaceSearchbar"}>
 							<SearchBar/>
 						</Grid>
 						<Grid item container spacing={3} mt={5} mb={5} xs={12}>
@@ -206,7 +206,7 @@ function Marketplace(){
 		);
 	}
 	return(
-		<Grid container justifyContent={"center"}>
+		<Grid container justifyContent={"center"} data-testid={"Marketplace"}>
 			<Grid item container p={3} maxWidth={1600} justifyContent={"center"}>
 				<Grid item container xs={12} justifyContent={"center"}>
 					<Grid item xs={12}>
@@ -214,12 +214,12 @@ function Marketplace(){
 					</Grid>
 				</Grid>
 				<Grid item container xs={12} xl={3} mt={1} >
-					<Grid container item mt={3} mr={3}>
+					<Grid container item mt={3} mr={3}  data-testid={"MarketplaceFilters"}>
 						<MarketPlaceFilters filterOnchange={onFilterChange}/>
 					</Grid>
 				</Grid>
 				<Grid item container spacing={3} mt={1} mb={5} xs={12} xl={9}>
-					<Grid item xs={12} >
+					<Grid item xs={12} data-testid={"MarketplaceSearchbar"}>
 						<SearchBar/>
 					</Grid>
 					{pagedData.map((p)=>{ console.log();

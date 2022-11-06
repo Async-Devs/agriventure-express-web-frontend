@@ -16,7 +16,7 @@ function RefundRequests() {
 	};
 
 	return (
-		<Grid container>
+		<Grid container data-testid={"RefundRequests"}>
 			<Grid item xs={12} ml={5}>
 				<Typography variant="h2"><b>REFUND REQUESTS</b></Typography>
 				<Typography variant="body2">Make sure to handle refund requests before the refund deadline.
