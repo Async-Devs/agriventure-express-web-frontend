@@ -90,11 +90,11 @@ function AgriDataEntry(){
 			const agriDataBody = {
 				cropType: cropTypes,
 				cropAmount: cropAmount,
-				location: fieldCity,
+				location: fieldDistrict,
 				year:year
 			};
 			// eslint-disable-next-line no-undef
-			Axios.post(`${process.env.REACT_APP_API_URL}/producers`,agriDataBody).then(async (res)=>{
+			Axios.post(`${process.env.REACT_APP_API_URL}/dataEntries`,agriDataBody).then(async (res)=>{
 				if(!res.data.success){
 					alert("Error occured!");
 				}else{
