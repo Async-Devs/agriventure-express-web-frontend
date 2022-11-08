@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {Button, Grid, TextField, Typography} from "@mui/material";
 import CountdownTimer from "../../components/countdownTimer/countdownTimer";
 import {AdapterMoment} from "@mui/x-date-pickers/AdapterMoment";
@@ -7,9 +7,18 @@ import moment from "moment/moment";
 import "react-image-crop/dist/ReactCrop.css";
 // import {CropImage} from "../../components/cropImage/CropImage";
 import TextInput from "../../components/textInput/textInput";
-import PropTypes from "prop-types";
 
-function SetBiddingCard(props){
+export default function EditBiddingSettings(){
+
+	const [value, setValue] = useState(moment());
+	const [minimumBid, setMinimumBid] = useState(0);
+
+	function handleBidChange(event){
+		let newValue = event.target.value;
+		if(event.target.name === "minBid" && newValue>=0 && newValue <= 1000000000) {
+			setMinimumBid(newValue);
+		}
+	}
 
 	return(
 		<Grid item container xs={12}>
@@ -68,13 +77,13 @@ function SetBiddingCard(props){
 					</Grid>
 					<Grid item xs={12} container justifyContent={"center"} mt={3}>
 						<Grid item xs={12}>
-							<CountdownTimer endTime={props.endTime}/>
+							<CountdownTimer endTime={value}/>
 						</Grid>
 					</Grid>
 					<Grid item xs={12} container justifyContent={"center"} mt={3} ml={3} mr={3}>
 						<Grid item xs={12}>
 							<Typography variant={"h6"} color={"green"} fontWeight={"bold"} sx={{overflow:"hidden"}}>
-									Minimum Bidding Price : {Intl.NumberFormat("si", { style: "currency", currency: "LKR" }).format(props.minimumBid) }
+								Minimum Bidding Price : {Intl.NumberFormat("si", { style: "currency", currency: "LKR" }).format(minimumBid) }
 							</Typography>
 						</Grid>
 					</Grid>
@@ -97,9 +106,9 @@ function SetBiddingCard(props){
 											(params) => <TextField {...params} />
 										}
 										label="Bidding End Date and Time"
-										value={props.endTime}
+										value={value}
 										onChange={(newValue) => {
-											props.setTime(newValue);
+											setValue(newValue);
 										}}
 										minDateTime={moment()}
 									/>
@@ -110,22 +119,22 @@ function SetBiddingCard(props){
 					<Grid item xs={12} container justifyContent={"center"} mt={3} ml={3} mr={3}>
 						<Grid item xs={5}>
 							<Typography variant={"body1"}>
-									Minimum Bidding Price
+								Minimum Bidding Price
 							</Typography>
 						</Grid>
 						<Grid item xs={1}>
 							<Typography variant={"body1"} fontWeight={"bold"} >
-									:
+								:
 							</Typography>
 						</Grid>
 						<Grid item xs={6}>
-							<TextInput name="minBid" label="Minimum Bidding Price" value={props.minimumBid} type={"number"} onChange={props.onChange} required={true}/>
+							<TextInput name="minBid" label="Minimum Bidding Price" value={minimumBid} type={"number"} onChange={handleBidChange} required={true}/>
 						</Grid>
 					</Grid>
 
 					<Grid item xs={12} container justifyContent={"right"} m={3}>
 						<Grid item >
-							<Button variant={"contained"} color={"warning"} onClick={props.onSubmit}>Submit</Button>
+							<Button variant={"contained"} color={"warning"}>Submit</Button>
 						</Grid>
 					</Grid>
 
@@ -134,13 +143,3 @@ function SetBiddingCard(props){
 		</Grid>
 	);
 }
-
-SetBiddingCard.propTypes = {
-	onChange: PropTypes.func,
-	onSubmit: PropTypes.func,
-	minimumBid: PropTypes.number,
-	endTime: PropTypes.object,
-	setTime: PropTypes.func
-};
-
-export default SetBiddingCard;

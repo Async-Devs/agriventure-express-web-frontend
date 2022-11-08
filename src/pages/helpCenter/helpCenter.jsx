@@ -5,6 +5,7 @@ import style from "./helpCenter.module.css";
 import CardComponent from "../../components/cardComponent/cardComponent";
 import SupportForm from "./supportForm/supportForm";
 import Button from "@mui/material/Button";
+import {Link} from "react-router-dom";
 
 function helpCenter(){
 
@@ -18,10 +19,6 @@ function helpCenter(){
 		if(event.target.name === "body"){
 			setBody(event.target.value);
 		}
-	}
-
-	function myTickets(){
-		window.location.assign("/mySupport");
 	}
 
 	function handleSubmit(){
@@ -83,7 +80,10 @@ function helpCenter(){
 				</Grid>
 
 				<Grid item xs={12} align="center" m={5}>
-					<Button variant="contained" onClick={myTickets}>My Tickets</Button>
+					<Link to="mySupport" style={{ textDecoration: "none" }} >
+						<Button variant="contained">My Tickets</Button>
+					</Link>
+
 				</Grid>
 
 				<Grid item xs={12} md={6} lg={4} align="center">

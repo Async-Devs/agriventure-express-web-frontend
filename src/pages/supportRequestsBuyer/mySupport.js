@@ -8,6 +8,7 @@ import {Grid} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import ChatWindow from "../../components/chatWindow/chatWindow";
 import Button from "@mui/material/Button";
+import {Link} from "react-router-dom";
 
 function MySupport() {
 	const [value, setValue] = React.useState("1");
@@ -16,9 +17,6 @@ function MySupport() {
 		setValue(newValue);
 	};
 
-	function helpCenter(){
-		window.location.assign("/helpCenter");
-	}
 
 	return (
 		<Grid container>
@@ -41,7 +39,9 @@ function MySupport() {
 				</Box>
 			</Grid>
 			<Grid item xs={12} align="center" m={3}>
-				<Button variant="contained" onClick={helpCenter}>Back</Button>
+				<Link to=".." style={{ textDecoration: "none" }}>
+					<Button variant="contained">Back</Button>
+				</Link>
 			</Grid>
 		</Grid>
 

@@ -1,8 +1,10 @@
 import React from "react";
-import {Grid, Typography} from "@mui/material";
+import {Grid, TextField, Typography} from "@mui/material";
 import TextInput from "../../components/textInput/textInput";
+import PropTypes from "prop-types";
 
-export default function ItemDetailsForm(){
+function ItemDetailsForm(props){
+
 	return(
 		<Grid item container>
 			{/*<Paper elevation={4}>*/}
@@ -16,34 +18,52 @@ export default function ItemDetailsForm(){
 				</Grid>
 				<Grid item xs={12} container justifyContent={"center"} mt={3} ml={3} mr={3}>
 					<Grid item xs={12}>
-						<TextInput name="cropType" label="Crop Type" required={true}/>
+						<TextInput name="cropType" label="Crop Type" required={true} value={props.cropType} onChange={props.onChange}/>
 					</Grid>
 				</Grid>
 				<Grid item xs={12} container justifyContent={"center"} mt={3} ml={3} mr={3}>
 					<Grid item xs={12}>
-						<TextInput name="quantity" label="Quantity" type={"number"} required={true}/>
+						<TextInput name="quantity" label="Quantity" type={"number"} required={true} value={props.quantity} onChange={props.onChange}/>
 					</Grid>
 				</Grid>
 				<Grid item xs={12} container justifyContent={"center"} mt={3} ml={3} mr={3}>
 					<Grid item xs={12}>
-						<TextInput name="location" label="Location" required={true}/>
+						<TextInput name="location" label="Location" required={true} value={props.location} onChange={props.onChange}/>
 					</Grid>
 				</Grid>
 				<Grid item xs={12} container justifyContent={"center"} mt={3} ml={3} mr={3}>
 					<Grid item xs={12}>
-						<TextInput name="contactNumber" label="Contact Number" required={true}/>
+						<TextInput name="contactNumber" label="Contact Number" required={true} value={props.contact} onChange={props.onChange}/>
 					</Grid>
 				</Grid>
-				<Grid item xs={12} container justifyContent={"center"} mt={3} ml={3} mr={3}>
-					<Grid item xs={6}>
-
+				<Grid item xs={12} container justifyContent={"center"} m={3} >
+					<Grid item xs={12}>
+						<TextField
+							name="description"
+							id="outlined-multiline-flexible"
+							label="Description"
+							multiline
+							maxRows={6}
+							value={props.description}
+							onChange={props.onChange}
+							required={true}
+							fullWidth={true}
+						/>
 					</Grid>
-				</Grid>
-				<Grid item xs={12} container justifyContent={"center"} mt={3} ml={3} mr={3}>
-
 				</Grid>
 			</Grid>
 			{/*</Paper>*/}
 		</Grid>
 	);
 }
+
+ItemDetailsForm.propTypes={
+	onChange: PropTypes.func,
+	cropType: PropTypes.string,
+	quantity: PropTypes.number,
+	location: PropTypes.string,
+	contact: PropTypes.string,
+	description: PropTypes.string
+};
+
+export default ItemDetailsForm;

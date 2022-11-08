@@ -14,12 +14,32 @@ import MenuItem from "@mui/material/MenuItem";
 import PhoneInTalkOutlinedIcon from "@mui/icons-material/PhoneInTalkOutlined";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
+import Divider from "@mui/material/Divider";
 
 import logo from "../../img/logo.png";
 import "./sidebar.module.css";
 
-const pages = ["Dashboard", "Marketplace", "Orders","Help Center"];
-const settings = ["Account","Logout"];
+var pages = ["Dashboard"];
+var settings = ["sign in","sign up"];
+
+
+const userType = 0; //todo: use jwt token to identify the user type
+
+if(userType === 0){
+	pages = ["Dashboard", "My Dashboard", "Orders","Help Center"];
+	settings = ["My Profile","Logout"];
+}else if(userType === 1){
+	pages = ["Dashboard", "Marketplace", "My Refunds"];
+	settings = ["My Profile","Logout"];
+}else if(userType === 2){
+	pages = ["Dashboard", "Manage Producers", "Support Management","Agri Data"];
+	settings = ["Logout"];
+}else if(userType === 3){
+	pages = ["Dashboard", "Manage Accounts"];
+	settings = ["Logout"];
+}
+
+
 
 const ResponsiveAppBar = () => {
 	const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -35,12 +55,40 @@ const ResponsiveAppBar = () => {
 	const handleCloseNavMenu = (event) => {
 		setAnchorElNav(null);
 		if(event.target.name === "Help Center"){
-			window.location.assign("/helpCenter");
+			window.location.assign("/producer/helpCenter");
+		}else if(event.target.name === "My Dashboard"){
+			window.location.assign("/producer");
+		}else if(event.target.name === "Orders"){
+			window.location.assign("/producer/orders");
+		}else if(event.target.name === "Dashboard"){
+			window.location.assign("/");
+		}else if(event.target.name === "Marketplace"){
+			window.location.assign("/buyer/marketplace");
+		}else if(event.target.name === "My Refunds"){
+			window.location.assign("/buyer/myRefund");
+		}else if(event.target.name === "Manage Producers"){
+			window.location.assign("/officer/manageProducers");
+		}else if(event.target.name === "Support Management"){
+			window.location.assign("/officer/supportManagement");
+		}else if(event.target.name === "Agri Data"){
+			window.location.assign("/officer/agriDataManage");
+		}else if(event.target.name === "Manage Accounts"){
+			window.location.assign("/admin/manageAccounts");
 		}
 	};
 
-	const handleCloseUserMenu = () => {
+	const handleCloseUserMenu = (event) => {
 		setAnchorElUser(null);
+		if(event.target.name === "My Profile" && userType === 0){
+			window.location.assign("/producer/myProfile");
+		}else if(event.target.name === "My Profile" && userType === 1){
+			window.location.assign("/buyer/myProfile");
+		}else if(event.target.name === "sign in"){
+			window.location.assign("/login");
+		}else if(event.target.name === "sign up"){
+			window.location.assign("/signup");
+		}
+		console.log(event);
 	};
 
 	return (
@@ -72,18 +120,19 @@ const ResponsiveAppBar = () => {
 						</div>
 					</Box>
 
-					<Box sx={{ display: { xs:"none",sm:"none",md: "none", lg: "flex" }}}>
+					<Box sx={{ display: { xs:"none",sm:"none",md: "none", lg: "flex",marginTop:"8px",marginBottom:"8px" }}}>
 						<div style={{display:"flex",marginTop:"8px"}}>
 							<div style={{marginRight:"10px"}}>
 								<PhoneInTalkOutlinedIcon style={{fontSize:"37px",color:"green"}}/>
 							</div>
 							<div style={{fontFamily:"Roboto,sans-serif",fontSize:16,color:"black",fontWeight:600}}>
 							Telephone
-								<div style={{fontFamily:"Arial, Helvetica, sans-serif",fontSize:14,color:"grey",fontWeight:500}}>
+								<div style={{fontFamily:"Arial, Helvetica, sans-serif",fontSize:14,color:"grey",fontWeight:500,marginTop:"5px"}}>
 							+94 112 536228 / 29
 								</div>
 							</div>
 						</div>
+						<Divider orientation="vertical" flexItem sx={{ margin:"4px",marginLeft:"8px"}}/>
 
 						<div style={{display:"flex",marginLeft:"30px",marginTop:"8px"}}>
 							<div style={{marginRight:"10px"}}>
@@ -91,11 +140,12 @@ const ResponsiveAppBar = () => {
 							</div>
 							<div style={{fontFamily:"Roboto,sans-serif",fontSize:16,color:"black",fontWeight:600}}>
 							Email
-								<div style={{fontFamily:"Arial, Helvetica, sans-serif",fontSize:14,color:"grey",fontWeight:500}}>
+								<div style={{fontFamily:"Arial, Helvetica, sans-serif",fontSize:14,color:"grey",fontWeight:500,marginTop:"5px"}}>
 								agriventureexpress@gmail.com
 								</div>
 							</div>
 						</div>
+						<Divider orientation="vertical" flexItem sx={{ margin:"4px",marginLeft:"8px"}}/>
 
 						<div style={{display:"flex", marginLeft:"30px"}}>
 							<div style={{marginRight:"10px",marginTop:"8px"}}>
@@ -103,10 +153,10 @@ const ResponsiveAppBar = () => {
 							</div>
 							<div style={{fontFamily:"Roboto,sans-serif",fontSize:16,color:"black",fontWeight:600}}>
 							Office Address
-								<div style={{fontFamily:"Arial, Helvetica, sans-serif",fontSize:14,color:"grey",fontWeight:500}}>
+								<div style={{fontFamily:"Arial, Helvetica, sans-serif",fontSize:14,color:"grey",fontWeight:500,marginTop:"5px"}}>
 								Agriventure express, Katubedda
 								</div>
-								<div style={{fontFamily:"Arial, Helvetica, sans-serif",fontSize:14,color:"grey",fontWeight:500}}>
+								<div style={{fontFamily:"Arial, Helvetica, sans-serif",fontSize:14,color:"grey",fontWeight:500,marginTop:"2px"}}>
 								Moratuwa
 								</div>
 							</div>

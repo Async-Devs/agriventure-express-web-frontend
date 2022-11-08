@@ -24,7 +24,12 @@ import ItemView from "../pages/itemView/itemView";
 import BuyMenu from "../pages/buyMenue/buyMenu";
 import AddItem from "../pages/addItem/addItem";
 import AgriDataManage from "../pages/agriDataManage/agriDataManage";
+import MyProfile from "../pages/profile/myProfile";
+import EditMyProfileForm from "../pages/editProfile/editProfileForm/editMyProfileForm";
+import EditItem from "../pages/editItem/edititem";
+import OrderCheckout from "../pages/orderCheckout/orderCheckout";
 import OfficerDashboard from "../pages/officerDashboard/officerDashboard";
+import AddOfficer from "../pages/addOfficer/addOfficer";
 /*
 * Order Inventory Subsystem - Achira
 * Account Management/ Support Subsystem - Toxic Supun
@@ -32,43 +37,100 @@ import OfficerDashboard from "../pages/officerDashboard/officerDashboard";
 * */
 
 function AppRouter(){
+
+	// eslint-disable-next-line no-undef
+	let type = 0; //todo: use jwt token to identify the user type
+
+
 	return(
 		<BrowserRouter>
 			<>
 				<Routes>
-					<Route path = "" element={<Dashboard />} ></Route>
-					<Route path = "/marketplace" >
-						<Route index element={<Marketplace />} ></Route>
-						<Route path = ":itemId" element={<ItemView/>} ></Route>
-					</Route>
-					<Route path = "/orders" >
-						<Route index element={<Orders/>} ></Route>
-						<Route path = ":id" element={<OrderView/>} ></Route>
-					</Route>
-					<Route path = "/buy-menu" >
-						<Route index element={<BuyMenu/>} ></Route>
-						<Route path = ":id" element={<OrderView/>} ></Route>
-					</Route>
-					<Route path = "/add-item" element={<AddItem />}></Route>
-					<Route path = "/login" element={<Login />}></Route>
-					<Route path = "/signup" element={<Signup />}></Route>
-					<Route exact path = "/profile/edit/:user_id" element={<EditProfile />}></Route>
-					<Route path = "/profile/:user_id" element={<Profile />}></Route>
+					<Route path = "" element={<Dashboard/>} />
+					<Route path = "/login" element={<Login/>}/>
+					<Route path = "/signup" element={<Signup/>}/>
+					<Route path = "*" element={<ErrorPage/>}/>
 
-					<Route path = "/helpcenter" element={<HelpCenter />}></Route>
-					<Route path = "*" element={<ErrorPage/>}></Route>
-					<Route path = "/agridataentry" element={<AgriDataEntry />}></Route>
-					<Route path = "producerdashboard" element={<ProducerDashboard />} ></Route>
-					<Route path ="/orderView" element={<OrderView />}></Route>
-					<Route path ="/refund" element={<RefundRequests />}></Route>
-					<Route path ="myrefund" element={<RefundRequestBuyer />}></Route>
-					<Route path ="supportManagement" element={<SupportRequests />}></Route>
-					<Route path ="mySupport" element={<MySupport />}></Route>
-					<Route path ="addProducer" element={<AddProducers />}></Route>
-					<Route path ="manageProducers" element={<ManageProducers />}></Route>
-					<Route path ="manageAccounts" element={<ManageAccounts />}></Route>
-					<Route path ="agriDataManage" element={<AgriDataManage />}></Route>
-					<Route path ="officerDashboard" element={<OfficerDashboard />}></Route>
+					{type === 0 ? (
+						<Route path = "/producer" >
+							<Route index element={<ProducerDashboard />}/>
+							<Route path = "add-item" element={<AddItem/>}/>
+							<Route path = "orders" >
+								<Route index element={<Orders/>} />
+								<Route path = ":id" element={<OrderView/>} />
+							</Route>
+							<Route path = "helpCenter">
+								<Route index element={<HelpCenter/>}/>
+								<Route path ="mySupport" element={<MySupport/>}/>
+							</Route>
+
+							<Route path = "myProfile">
+								<Route index element={<MyProfile/>}/>
+								<Route exact path = "edit" element={<EditMyProfileForm/>}/>
+							</Route>
+							<Route path ="refund" element={<RefundRequests/>}/>
+						</Route>
+					): type === 1 ? (
+						<Route path = "/buyer">
+							<Route path = "marketplace" >
+								<Route index element={<Marketplace/>} />
+								<Route path = ":itemId" element={<ItemView/>} />
+							</Route>
+							<Route path = "buy-menu" >
+								<Route index element={<BuyMenu/>} />
+								<Route path = ":id" element={<OrderView/>} />
+							</Route>
+							<Route path = "myProfile">
+								<Route index element={<MyProfile/>}/>
+								<Route exact path = "edit" element={<EditMyProfileForm/>}/>
+							</Route>
+							<Route path ="myRefund" element={<RefundRequestBuyer/>}/>
+							<Route path = "items" >
+								<Route index element={<BuyMenu/>} />
+								<Route path = "edit-item/:id" element={<EditItem/>} />
+							</Route>
+							<Route path = "buy-menu" >
+								<Route index element={<BuyMenu/>} />
+								<Route path = ":id" element={<OrderView/>} />
+								<Route path = "checkout/:id" element={<OrderCheckout/>} />
+							</Route>
+						</Route>
+
+
+					): type === 2 ?(
+
+						<Route path = "/officer" >
+							<Route index element={<OfficerDashboard />} />
+							<Route path="manageProducers">
+								<Route index element={<ManageProducers/>}/>
+								<Route path = "profile/:user_id">
+									<Route index element={<Profile/>}/>
+									<Route path = "edit" element={<EditProfile/>}/>
+								</Route>
+								<Route path ="addProducer" element={<AddProducers/>}/>
+							</Route>
+
+							<Route path ="supportManagement" element={<SupportRequests/>}/>
+							<Route path ="officerDashboard" element={<OfficerDashboard/>}/>
+
+
+							<Route path = "agriDataManage">
+								<Route index element={<AgriDataManage/>}/>
+								<Route path = "agridataentry" element={<AgriDataEntry/>}/>
+							</Route>
+							<Route path ="orderView" element={<OrderView/>}/>
+						</Route>
+
+					):type === 3 ?(
+						<Route path = "/admin">
+							<Route path = "manageAccounts">
+								<Route index element={<ManageAccounts/>}/>
+								<Route path ="addOfficer" element={<AddOfficer />} />
+							</Route>
+						</Route>
+					):(
+						<Route path = "*" element={<ErrorPage/>}/>
+					)}
 				</Routes>
 			</>
 		</BrowserRouter>

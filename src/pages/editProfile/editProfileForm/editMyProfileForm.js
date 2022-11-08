@@ -9,12 +9,14 @@ import TextInput from "../../../components/textInput/textInput";
 import SelectInput from "../../../components/selectInput/selectInput";
 import SaveIcon from "@mui/icons-material/Save";
 import Axios from "axios";
-import {Link, useParams} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {Alert} from "@mui/lab";
 
-function EditProfileForm(){
+function EditMyProfileForm(){
 
-	const {user_id} = useParams();
+	//todo: get user_id from jwt token
+	const user_id = "6332ce3d59479ac6785d6647";
+
 	const [email,setEmail] = useState();
 	const [telNo,setTelNo] = useState();
 	const [address,setAddress] = useState();
@@ -255,4 +257,4 @@ function EditProfileForm(){
 	);
 }
 
-export default EditProfileForm;
+export default EditMyProfileForm;

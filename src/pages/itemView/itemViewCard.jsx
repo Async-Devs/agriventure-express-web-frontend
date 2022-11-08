@@ -1,8 +1,11 @@
 import React from "react";
 import {Grid, Paper, Typography} from "@mui/material";
 import Carousel from "../../components/carousel/carousel";
+import PropTypes from "prop-types";
 
-export default function ItemViewCard(){
+function ItemViewCard(props){
+	const cropData = props.cropData;
+	const {name, description, images, location, quantity} = cropData;
 	return(
 		<Grid item container>
 			<Paper elevation={4}>
@@ -10,13 +13,13 @@ export default function ItemViewCard(){
 					<Grid item xs={12} container justifyContent={"center"}>
 						<Grid item>
 							<Typography variant={"h4"}>
-								Crop Name
+								{name}
 							</Typography>
 						</Grid>
 					</Grid>
 					<Grid item xs={12} container justifyContent={"center"} mt={2}>
 						<Grid item xs={12}>
-							<Carousel/>
+							<Carousel images={images}/>
 						</Grid>
 					</Grid>
 					<Grid item xs={12} container justifyContent={"center"} mt={2}>
@@ -25,24 +28,21 @@ export default function ItemViewCard(){
 								Description
 							</Typography>
 							<Typography variant={"body1"} align={"justify"}>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aliquam,
-								assumenda debitis deserunt dicta dolore dolorum eos fugiat magni maiores
-								minima modi non officia porro, quaerat, quis reprehenderit ullam
-								voluptatem!
+								{description}
 							</Typography>
 						</Grid>
 					</Grid>
 					<Grid item xs={12} container justifyContent={"center"} mt={2}>
 						<Grid item xs={12}>
 							<Typography variant={"h6"}>
-								Quantity: 12 mt
+								Quantity: {quantity} kg
 							</Typography>
 						</Grid>
 					</Grid>
 					<Grid item xs={12} container justifyContent={"center"} mt={2}>
 						<Grid item xs={12}>
 							<Typography variant={"h6"}>
-								Location: Colombo
+								Location: {location.city}
 							</Typography>
 						</Grid>
 					</Grid>
@@ -52,3 +52,9 @@ export default function ItemViewCard(){
 		</Grid>
 	);
 }
+
+ItemViewCard.propTypes = {
+	cropData: PropTypes.object.isRequired
+};
+
+export default ItemViewCard;

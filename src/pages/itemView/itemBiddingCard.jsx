@@ -3,21 +3,32 @@ import {Button, Grid, Paper, Typography} from "@mui/material";
 import CountdownTimer from "../../components/countdownTimer/countdownTimer";
 import TextInput from "../../components/textInput/textInput";
 import BidTable from "./bidTable";
+import _ from "lodash";
+import PropTypes from "prop-types";
+import {setBidForItem} from "../../services/itemServices";
 
-export default function ItemBiddingCard(){
-	const [bidValue, setBidValue] = useState(123);
-	const endTime = "2022-09-28T04:52:03";
+function ItemBiddingCard(props){
+	const { endTime, bidArray, minimumBid, itemId } = props.biddingData;
+	const [bidValue, setBidValue] = useState(0);
+	const [ lastBid, setLastBid ] = useState(_.last(bidArray).bid_amount);
 
 	function handleBidChange(event){
 		let newValue = event.target.value;
-		if(event.target.name === "bidValue" && newValue>=0  && newValue <= 1000000000000) {
-			setBidValue(newValue);
+		const x = parseInt(newValue);
+		if(event.target.name === "bidValue" && x>=0  && x <= 1000000000000) {
+			setBidValue(x);
 		}
 	}
 
-	function handleSubmit(){
-		console.log(bidValue);
-	}
+	const handleSubmit=async ()=>{
+		if (bidValue<=lastBid){
+			return;
+		}
+		setLastBid(bidValue);
+		const dataObject = { itemId: itemId, userId: 0, bidValue: bidValue };
+		await setBidForItem(itemId, dataObject);
+		// Add Submitted Alert Here or Error
+	};
 
 	return(
 		<Grid item container>
@@ -31,7 +42,14 @@ export default function ItemBiddingCard(){
 					<Grid item xs={12} container justifyContent={"center"} mt={2}>
 						<Grid item xs={12}>
 							<Typography variant={"h6"} color={"green"} fontWeight={"bold"}>
-								Last bid : {Intl.NumberFormat("si", { style: "currency", currency: "LKR" }).format(1000000) }
+								Last bid : {Intl.NumberFormat("si", { style: "currency", currency: "LKR" }).format(lastBid) }
+							</Typography>
+						</Grid>
+					</Grid>
+					<Grid item xs={12} container justifyContent={"center"} mt={2}>
+						<Grid item xs={12}>
+							<Typography variant={"h7"}  fontWeight={"bold"}>
+								Starting bid : {Intl.NumberFormat("si", { style: "currency", currency: "LKR" }).format(minimumBid) }
 							</Typography>
 						</Grid>
 					</Grid>
@@ -52,12 +70,12 @@ export default function ItemBiddingCard(){
 					</Grid>
 					<Grid item xs={12} container justifyContent={"center"} mt={2}>
 						<Grid item xs={12}>
-							<Button variant={"contained"} onClick={handleSubmit}>Bid</Button>
+							<Button variant={"contained"} color={"warning"} onClick={handleSubmit}>Place Bid</Button>
 						</Grid>
 					</Grid>
 					<Grid item xs={12} container justifyContent={"center"} mt={2}>
 						<Grid item xs={12}>
-							<BidTable/>
+							<BidTable bidderArray={bidArray}/>
 						</Grid>
 					</Grid>
 
@@ -66,3 +84,9 @@ export default function ItemBiddingCard(){
 		</Grid>
 	);
 }
+
+ItemBiddingCard.propTypes = {
+	biddingData: PropTypes.object.isRequired
+};
+
+export default ItemBiddingCard;

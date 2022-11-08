@@ -9,7 +9,7 @@ import Button from "@mui/material/Button";
 import {Alert} from "@mui/lab";
 import {Link} from "react-router-dom";
 
-function AddProducers(){
+function AddOfficer(){
 
 	const [firstName,setFirstName] = useState();
 	const [lastName,setLastName] = useState();
@@ -18,7 +18,7 @@ function AddProducers(){
 	const [nic,setNic] = useState();
 	const [address,setAddress] = useState();
 	const [fieldLocation,setFieldLocation] = useState();
-	const [cropTypes,setCropTypes] = useState([]);
+	const [officerType,setOfficerTypes] = useState([]);
 	const [username,setUsername] = useState();
 	const [password,setPassword] = useState();
 	const [confirmPassword,setConfirmPassword] = useState();
@@ -40,8 +40,8 @@ function AddProducers(){
 			setAddress(event.target.value);
 		}else if(event.target.name === "location"){
 			setFieldLocation(event.target.value);
-		}else if(event.target.name === "cropTypes"){
-			setCropTypes(event.target.value);
+		}else if(event.target.name === "officerType"){
+			setOfficerTypes(event.target.value);
 		}else if(event.target.name === "username"){
 			setUsername(event.target.value);
 		}else if(event.target.name === "password"){
@@ -93,10 +93,10 @@ function AddProducers(){
 
 	function handleSubmit(){
 		if(validateNonEmpty(firstName) && validateNonEmpty(lastName)
-		&& validateNonEmpty(email) && validateNonEmpty(telephoneNumber)
-		&& validateNonEmpty(nic) && validateNonEmpty(address)
-		&& validateNonEmptyArray(fieldLocation) && validateNonEmptyArray(cropTypes)
-		&& validateNonEmpty(username) && validateNonEmpty(password) && validateNonEmpty(confirmPassword)){
+			&& validateNonEmpty(email) && validateNonEmpty(telephoneNumber)
+			&& validateNonEmpty(nic) && validateNonEmpty(address)
+			&& validateNonEmptyArray(fieldLocation) && validateNonEmpty(officerType)
+			&& validateNonEmpty(username) && validateNonEmpty(password) && validateNonEmpty(confirmPassword)){
 			if(!validateEmail(email)){
 				setError("Invalid Email!");
 				setHidden(false);
@@ -125,7 +125,7 @@ function AddProducers(){
 		<Container>
 			<Grid container>
 				<Grid item xs={12}>
-					<Typography variant="h2"><span style={{color: "green"}}>Producer</span> Form</Typography>
+					<Typography variant="h2"><span style={{color: "green"}}>Officer</span> Form</Typography>
 					<hr />
 				</Grid>
 
@@ -175,7 +175,7 @@ function AddProducers(){
 
 							<Grid item xs={12} md={6}>
 								{/* eslint-disable-next-line react/prop-types */}
-								<SelectInput name="cropTypes" label="Crop Types" value={cropTypes} onChange={onChange} required={true} options={[{value :0,name:"carrot"}, {value :1,name:"rice"}]} multi={true}/>
+								<SelectInput name="officerType" label="Officer Types" value={officerType} onChange={onChange} required={true} options={[{value :0,name:"agricultural"}, {value :1,name:"technical"}]} multi={true}/>
 							</Grid>
 						</Grid>
 					</Paper>
@@ -217,4 +217,4 @@ function AddProducers(){
 	);
 }
 
-export default AddProducers;
+export default AddOfficer;

@@ -5,6 +5,8 @@ import Typography from "@mui/material/Typography";
 import Results from "./results/results";
 import Paper from "@mui/material/Paper";
 import PendingAccounts from "./pendingAccounts/pendingAccounts";
+import {Link} from "react-router-dom";
+import Button from "@mui/material/Button";
 
 function ManageProducers(){
 
@@ -24,6 +26,11 @@ function ManageProducers(){
 								<Divider />
 							</Grid>
 
+							<Grid item xs={12} mt={1}>
+								<Link to = "addProducer"  style={{ textDecoration: "none" }}>
+									<Button variant="contained" color="success">Add New Producer</Button>
+								</Link>
+							</Grid>
 							<Grid item xs={12} mt={1}>
 								<Results />
 								<Divider sx={{mt:1}} />
