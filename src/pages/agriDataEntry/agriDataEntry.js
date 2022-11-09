@@ -1,5 +1,5 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import "./agridataentry.module.css";
 
 import Grid from "@mui/material/Grid";
@@ -14,6 +14,7 @@ import SelectInput from "../../components/selectInput/selectInput";
 import Location from "../../components/Location/location.json";
 import TextInput from "../../components/textInput/textInput";
 import Axios from "axios";
+import {getAllItems} from "../../services/itemServices";
 
 function AgriDataEntry(){
 
