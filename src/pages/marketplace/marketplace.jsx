@@ -71,8 +71,10 @@ function Marketplace(){
 					return ele;
 				}else if(range == "4" && ele.minimum_bid >= 10000000){
 					return ele;
+				}else if(range == "5"){
+					return ele;
 				}
-				return;
+				return ele;
 			});
 		return filteredData;
 	}
@@ -91,8 +93,10 @@ function Marketplace(){
 					return ele;
 				}else if(range == "4" && ele.minimum_bid >= 10000){
 					return ele;
+				}else if(range == "5"){
+					return ele;
 				}
-				return;
+				return ele;
 			});
 		return filteredData;
 	}
@@ -222,7 +226,7 @@ function Marketplace(){
 					<Grid item xs={12} data-testid={"MarketplaceSearchbar"}>
 						<SearchBar/>
 					</Grid>
-					{pagedData.map((p)=>{ console.log();
+					{pagedData.map((p)=>{
 						return(
 							<Grid container key={p._id} item xs={12} sm={6} md={4} lg={3} xl={3}>
 								<MarketplaceCard

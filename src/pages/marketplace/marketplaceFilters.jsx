@@ -11,6 +11,9 @@ import Checkbox from "@mui/material/Checkbox";
 import Box from "@mui/material/Box";
 import _ from "lodash";
 import PropTypes from "prop-types";
+import TextInput from "../../components/textInput/textInput";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
 // import FormLabel from "@mui/material/FormLabel";
 
 function MarketPlaceFilters(props){
@@ -41,7 +44,7 @@ function MarketPlaceFilters(props){
 		"Ratnapura",
 		"Trincomalee",
 		"Vavuniya"];
-	const crops = ["Carrots", "Beet", "Leaks", "potato"];
+	const crops = ["Carrots", "Beet", "Leaks", "potato", "Pumpkin"];
 	let cropsSet = new Set(crops);
 	let districtSet = new Set(districts);
 
@@ -52,6 +55,11 @@ function MarketPlaceFilters(props){
 	const [miniMumBid, setMinimumBid] = useState("0");
 	const [quantity, setQuantity] = useState("0");
 	const [change, setChange] = useState(false);
+	const [isCustomBidRange, setIsCustomBidRange] = useState(false);
+	const [isCustomQuantityRange, setIsCustomQuantityRange] = useState(false);
+	const [customBidRange, setCustomBidRange] = useState(["", ""]);
+	const [customQuantityRange, setCustomQuantityRange] = useState(["", ""]);
+	const [customFilterWarning, setCustomFilterWarning ] = useState([false, false]);
 
 
 	useEffect(()=>{
@@ -126,13 +134,66 @@ function MarketPlaceFilters(props){
 	};
 
 	const handleBid = (event) => {
+		if (event.target.value == "5"){
+			setIsCustomBidRange(true);
+		}else {
+			setIsCustomBidRange(false);
+		}
 		setMinimumBid(event.target.value);
 		setChange(!change);
 	};
 
 	const handleQuantity = (event) => {
+		if (event.target.value == "5"){
+			setIsCustomQuantityRange(true);
+		}else {
+			setIsCustomQuantityRange(false);
+		}
 		setQuantity(event.target.value);
 		setChange(!change);
+	};
+
+	const handleBidMin = (event)=>{
+		const value = event.target.value;
+		if(value>=0 && value <= 1000000000000){
+			setCustomBidRange([value, customBidRange[1]]);}
+	};
+	const handleBidMax = (event)=>{
+		const value = event.target.value;
+		if(value>=0 && value <= 1000000000000){
+			setCustomBidRange([customBidRange[0], value]);}
+	};
+	const handleQuantityMin = (event)=>{
+		const value = event.target.value;
+		if(value>=0 && value <= 1000000000000){
+			setCustomQuantityRange([value, customQuantityRange[1]]);}
+	};
+	const handleQuantityMax = (event)=>{
+		const value = event.target.value;
+		if(value>=0 && value <= 1000000000000){
+			setCustomQuantityRange([customQuantityRange[0], value]);
+		}
+	};
+	const handleBidRangeSubmit = ()=>{
+		console.log(customBidRange);
+		if(+customBidRange[0]>+customBidRange[1]){
+			setCustomFilterWarning([true, customFilterWarning[1]]);
+			setCustomBidRange(["", ""]);
+		}
+		else {
+			setCustomFilterWarning([false, customFilterWarning[1]]);
+		}
+	};
+
+	const handleQuantityRangeSubmit=()=>{
+		console.log(customQuantityRange);
+		if(+customQuantityRange[0]>+customQuantityRange[1]){
+			setCustomFilterWarning([customFilterWarning[0], true]);
+			setCustomQuantityRange(["", ""]);
+		}
+		else {
+			setCustomFilterWarning([customFilterWarning[0], false]);
+		}
 	};
 
 	const districtChildren = (
@@ -210,7 +271,28 @@ function MarketPlaceFilters(props){
 									<FormControlLabel value="2" control={<Radio />} label="LKR 100,000 - 1,000,000" />
 									<FormControlLabel value="3" control={<Radio />} label="LKR 1,000,000 - 10,000,000" />
 									<FormControlLabel value="4" control={<Radio />} label="More than LKR 10,000,000" />
+									<FormControlLabel value="5" control={<Radio />} label="Custom"/>
 								</RadioGroup>
+								{isCustomBidRange?(
+									<Grid container spacing={2} alignItems={"center"}>
+										<Grid item xs={4}>
+											<TextInput name={"min"} type={"number"} label={"min"} onChange={handleBidMin} value={customBidRange[0]}/>
+										</Grid>
+										<Grid item xs={4}>
+											<TextInput name={"max"} type={"number"} label={"max"} onChange={handleBidMax} value={customBidRange[1]}/>
+										</Grid>
+										<Grid item xs={4} >
+											<Button color={customFilterWarning[0]==true?"warning":"primary"} variant={"contained"} sx={
+												{
+													color:"white",
+													borderRadius: "100px"
+												}
+											}
+											onClick={handleBidRangeSubmit}
+											>Filter</Button>
+										</Grid>
+									</Grid>
+								):""}
 							</FormControl>
 						</AccordionDetails>
 					</Accordion>
@@ -236,7 +318,30 @@ function MarketPlaceFilters(props){
 									<FormControlLabel value="2" control={<Radio />} label="100 - 1,000 kg" />
 									<FormControlLabel value="3" control={<Radio />} label="1,000 - 10,000 kg" />
 									<FormControlLabel value="4" control={<Radio />} label="More than 10,000 kg" />
+									<FormControlLabel value="5" control={<Radio />} label="Custom"/>
 								</RadioGroup>
+								{isCustomQuantityRange?(
+									<Grid container spacing={2} alignItems={"center"}>
+										<Grid item xs={4}>
+											{/*<TextInput name={"min"} type={"number"} label={"min"} onChange={handleQuantityMin} value={customQuantityRange[0]}/>*/}
+											<TextField name={"min"} type={"number"} label={"min"} onChange={handleQuantityMin} value={customQuantityRange[0]}/>
+										</Grid>
+										<Grid item xs={4}>
+											{/*<TextInput name={"max"} type={"number"} label={"max"} onChange={handleQuantityMax} value={customQuantityRange[1]}/>*/}
+											<TextField name={"max"} type={"number"} label={"max"} onChange={handleQuantityMax} value={customQuantityRange[1]}/>
+										</Grid>
+										<Grid item xs={4} >
+											<Button color={customFilterWarning[1]==true?"warning":"primary"} variant={"contained"} sx={
+												{
+													color:"white",
+													borderRadius: "100px"
+												}
+											}
+											onClick={handleQuantityRangeSubmit}
+											>Filter</Button>
+										</Grid>
+									</Grid>
+								):""}
 							</FormControl>
 						</AccordionDetails>
 					</Accordion>
