@@ -175,24 +175,26 @@ function MarketPlaceFilters(props){
 		}
 	};
 	const handleBidRangeSubmit = ()=>{
-		console.log(customBidRange);
-		if(+customBidRange[0]>+customBidRange[1]){
+		if(+customBidRange[0]>+customBidRange[1] || customBidRange[0] == "" || customBidRange[1] == ""){
 			setCustomFilterWarning([true, customFilterWarning[1]]);
 			setCustomBidRange(["", ""]);
 		}
 		else {
 			setCustomFilterWarning([false, customFilterWarning[1]]);
+			props.rangeBid(customBidRange);
+			setChange(!change);
 		}
 	};
 
 	const handleQuantityRangeSubmit=()=>{
-		console.log(customQuantityRange);
-		if(+customQuantityRange[0]>+customQuantityRange[1]){
+		if(+customQuantityRange[0] > +customQuantityRange[1] || customQuantityRange[0] == "" || customQuantityRange[1] == ""){
 			setCustomFilterWarning([customFilterWarning[0], true]);
 			setCustomQuantityRange(["", ""]);
 		}
 		else {
 			setCustomFilterWarning([customFilterWarning[0], false]);
+			props.rangeQuantity(customQuantityRange);
+			setChange(!change);
 		}
 	};
 
@@ -406,7 +408,9 @@ function MarketPlaceFilters(props){
 }
 
 MarketPlaceFilters.propTypes = {
-	filterOnchange: PropTypes.func.isRequired
+	filterOnchange: PropTypes.func.isRequired,
+	rangeBid: PropTypes.func.isRequired,
+	rangeQuantity: PropTypes.func.isRequired
 };
 
 export default MarketPlaceFilters;
