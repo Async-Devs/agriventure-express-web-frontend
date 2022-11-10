@@ -14,6 +14,7 @@ function Marketplace(){
 	const [pagedData, setPaginateData] = useState([]);
 	const [filteredData, setFilterData] = useState([]);
 	const [filteredCustomData, setFilterCustomData] = useState([-1,-1,-1,-1]);
+	const [sortedData, setSortedData] = useState([]);
 	const pageSize = 12;
 
 	// Mount Data
@@ -151,80 +152,56 @@ function Marketplace(){
 
 
 	}
-	// console.log("raw data - ", rawItemData);
-	if (rawItemData==null || rawItemData.length == 0){
-		return (
-			<Grid container justifyContent={"center"} data-testid={"Marketplace"}>
-				<Grid item container p={3} maxWidth={1600} justifyContent={"center"}>
-					<Grid item container xs={12} justifyContent={"center"}>
-						<Grid item xs={12}>
-							<Typography variant={"h3"}>Marketplace</Typography>
-						</Grid>
-					</Grid>
-					<Grid item container xs={12} xl={3} mt={1} >
-						<Grid container item mt={3} mr={3} data-testid={"MarketplaceFilters"}>
-							<MarketPlaceFilters filterOnchange={onFilterChange} rangeQuantity={customQuantityFilter} rangeBid={customBidFilter}/>
-						</Grid>
-					</Grid>
-					<Grid item container spacing={3} mt={1} mb={5} xs={12} xl={9}>
-						<Grid item xs={12} data-testid={"MarketplaceSearchbar"}>
-							<SearchBar/>
-						</Grid>
-						<Grid item container spacing={3} mt={5} mb={5} xs={12}>
-							<Grid item align="center" height={500} xs={12} minHeight={1200}>
-								<Typography variant={"h4"}>
-								No Items Available
-								</Typography>
-								<img height={300} src={"https://www.creativefabrica.com/wp-content/uploads/2021/01/04/Mustard-Sad-Vegetable-Cute-Kawaii-Graphics-7557389-1.jpg"}/>
-							</Grid>
-						</Grid>
-						<Grid item container xs={12} justifyContent={"center"}>
-							<Grid item>
-								<CustomPagination itemsCount={filteredData.length} currentPage={currentPage} pageSize={pageSize} onPageChange={handlePageChange}/>
-							</Grid>
-						</Grid>
-					</Grid>
+
+	function sortBid(val){
+		console.log("sort Bid", val);
+	}
+	function sortQuantity(val){
+		console.log("sort Quantity", val);
+	}
+
+	function renderMain(){
+		if (rawItemData==null || rawItemData.length == 0){
+			return(
+				<Grid item align="center" height={500} xs={12} minHeight={1200}>
+					<Typography variant={"h4"}>
+						No Items Available
+					</Typography>
+					<img height={300} src={"https://www.creativefabrica.com/wp-content/uploads/2021/01/04/Mustard-Sad-Vegetable-Cute-Kawaii-Graphics-7557389-1.jpg"}/>
 				</Grid>
+			);
+		}
+		else if(rawItemData!=null && filteredData !=null && filteredData.length == 0){
+			return (
+				<Grid item align="center" height={500} xs={12}>
+					<Typography variant={"h4"}>
+						No Items Available
+					</Typography>
+					<img height={300} src={"https://www.creativefabrica.com/wp-content/uploads/2021/01/04/Mustard-Sad-Vegetable-Cute-Kawaii-Graphics-7557389-1.jpg"}/>
+				</Grid>
+			);
+		}
+		return (
+			<Grid container item spacing={3}>
+				{pagedData.map((p)=>{
+					return(
+						<Grid item container key={p._id} xs={12} sm={6} md={4} lg={3} xl={3}>
+							<MarketplaceCard
+								itemId={p._id}
+								imgSrc={p.images[0].src}
+								itemName={p.name}
+								minBid={+p.minimum_bid}
+								quantity={p.quantity}
+								city={p.location.city}
+							/>
+						</Grid>
+					);
+				})}
 			</Grid>
 		);
 	}
 
-	if (rawItemData!=null && filteredData !=null && filteredData.length == 0){
-		return (
-			<Grid container justifyContent={"center"} data-testid={"Marketplace"}>
-				<Grid item container p={3} maxWidth={1600} justifyContent={"center"}>
-					<Grid item container xs={12} justifyContent={"center"}>
-						<Grid item xs={12}>
-							<Typography variant={"h3"}>Marketplace</Typography>
-						</Grid>
-					</Grid>
-					<Grid item container xs={12} xl={3} mt={1} >
-						<Grid container item mt={3} mr={3}  data-testid={"MarketplaceFilters"}>
-							<MarketPlaceFilters filterOnchange={onFilterChange} rangeQuantity={customQuantityFilter} rangeBid={customBidFilter}/>
-						</Grid>
-					</Grid>
-					<Grid item container spacing={3} mt={1} mb={5} xs={12} xl={9}>
-						<Grid item xs={12} data-testid={"MarketplaceSearchbar"}>
-							<SearchBar/>
-						</Grid>
-						<Grid item container spacing={3} mt={5} mb={5} xs={12}>
-							<Grid item align="center" height={500} xs={12}>
-								<Typography variant={"h4"}>
-								No Items Available
-								</Typography>
-								<img height={300} src={"https://www.creativefabrica.com/wp-content/uploads/2021/01/04/Mustard-Sad-Vegetable-Cute-Kawaii-Graphics-7557389-1.jpg"}/>
-							</Grid>
-						</Grid>
-						<Grid item container xs={12} justifyContent={"center"}>
-							<Grid item>
-								<CustomPagination itemsCount={filteredData.length} currentPage={currentPage} pageSize={pageSize} onPageChange={handlePageChange}/>
-							</Grid>
-						</Grid>
-					</Grid>
-				</Grid>
-			</Grid>
-		);
-	}
+	// console.log("raw data - ", rawItemData);
 	return(
 		<Grid container data-testid={"Marketplace"} justifyContent={"center"} p={3}>
 			<Grid item container maxWidth={1600} justifyContent={"center"}>
@@ -235,7 +212,7 @@ function Marketplace(){
 				</Grid>
 				<Grid item container xs={12} xl={3} mt={1}>
 					<Grid container item mt={3} mr={3} data-testid={"MarketplaceFilters"}>
-						<MarketPlaceFilters filterOnchange={onFilterChange} rangeQuantity={customQuantityFilter} rangeBid={customBidFilter}/>
+						<MarketPlaceFilters filterOnchange={onFilterChange} rangeQuantity={customQuantityFilter} rangeBid={customBidFilter} sortBid={sortBid} sortQuantity={sortQuantity}/>
 					</Grid>
 				</Grid>
 				<Grid item container spacing={3} mt={1} mb={5} xs={12} xl={9} direction={"column"} justifyContent={"flex-start"} alignItems={"stretch"}>
@@ -243,20 +220,7 @@ function Marketplace(){
 						<SearchBar/>
 					</Grid>
 					<Grid container item spacing={3}>
-						{pagedData.map((p)=>{
-							return(
-								<Grid item container key={p._id} xs={12} sm={6} md={4} lg={3} xl={3}>
-									<MarketplaceCard
-										itemId={p._id}
-										imgSrc={p.images[0].src}
-										itemName={p.name}
-										minBid={+p.minimum_bid}
-										quantity={p.quantity}
-										city={p.location.city}
-									/>
-								</Grid>
-							);
-						})}
+						{renderMain()}
 					</Grid>
 					<Grid item container justifyContent={"center"}>
 						<Grid item>

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Accordion, AccordionDetails, AccordionSummary, FormGroup, Grid, Typography} from "@mui/material";
+import {Accordion, AccordionDetails, AccordionSummary, FormGroup, FormLabel, Grid, Typography} from "@mui/material";
 // import CustomeSlider from "../../components/slider/Slider";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 // import PropTypes from "prop-types";
@@ -60,6 +60,11 @@ function MarketPlaceFilters(props){
 	const [customBidRange, setCustomBidRange] = useState(["", ""]);
 	const [customQuantityRange, setCustomQuantityRange] = useState(["", ""]);
 	const [customFilterWarning, setCustomFilterWarning ] = useState([false, false]);
+
+	// eslint-disable-next-line no-unused-vars
+	const [sortBidState, setSortBidState] = useState();
+	// eslint-disable-next-line no-unused-vars
+	const [sortQuantityState, setSortQuantityState] = useState();
 
 
 	useEffect(()=>{
@@ -198,6 +203,14 @@ function MarketPlaceFilters(props){
 		}
 	};
 
+	const handleSortBidState = (event)=>{
+		props.sortBid(event.target.value);
+	};
+
+	const handleSortQuantityState = (event)=>{
+		props.sortQuantity(event.target.value);
+	};
+
 	const districtChildren = (
 		<Grid mr={1}>
 			<Box sx={{ display: "flex", flexDirection: "column", ml: 3, overflow: "auto", maxHeight: 200, width:1}}>
@@ -260,7 +273,23 @@ function MarketPlaceFilters(props){
 							<Typography variant={"h6"} align={"center"}>Minimum Bid</Typography>
 						</AccordionSummary>
 						<AccordionDetails>
+
 							<FormControl>
+								<FormLabel id="demo-row-radio-buttons-group-label">Sort</FormLabel>
+								<RadioGroup
+									row
+									aria-labelledby="demo-row-radio-buttons-group-label"
+									name="row-radio-buttons-group"
+									value={sortBidState}
+									onChange={handleSortBidState}
+								>
+									<FormControlLabel value="asc" control={<Radio />} label="Ascending" />
+									<FormControlLabel value="dsc" control={<Radio />} label="Descending" />
+								</RadioGroup>
+							</FormControl>
+
+							<FormControl>
+								<FormLabel id="demo-row-radio-buttons-group-label">Filter</FormLabel>
 								<RadioGroup
 									aria-labelledby="demo-radio-buttons-group-label"
 									defaultValue="0"
@@ -307,7 +336,23 @@ function MarketPlaceFilters(props){
 							<Typography variant={"h6"} align={"center"}>Quantity</Typography>
 						</AccordionSummary>
 						<AccordionDetails>
+
 							<FormControl>
+								<FormLabel id="demo-row-radio-buttons-group-label">Sort</FormLabel>
+								<RadioGroup
+									row
+									aria-labelledby="demo-row-radio-buttons-group-label"
+									name="row-radio-buttons-group"
+									value={sortQuantityState}
+									onChange={handleSortQuantityState}
+								>
+									<FormControlLabel value="asc" control={<Radio />} label="Ascending" />
+									<FormControlLabel value="dsc" control={<Radio />} label="Descending" />
+								</RadioGroup>
+							</FormControl>
+
+							<FormControl>
+								<FormLabel id="demo-row-radio-buttons-group-label">Filter</FormLabel>
 								<RadioGroup
 									aria-labelledby="demo-radio-buttons-group-label"
 									defaultValue="0"
@@ -410,7 +455,9 @@ function MarketPlaceFilters(props){
 MarketPlaceFilters.propTypes = {
 	filterOnchange: PropTypes.func.isRequired,
 	rangeBid: PropTypes.func.isRequired,
-	rangeQuantity: PropTypes.func.isRequired
+	rangeQuantity: PropTypes.func.isRequired,
+	sortBid: PropTypes.func.isRequired,
+	sortQuantity: PropTypes.func.isRequired
 };
 
 export default MarketPlaceFilters;
