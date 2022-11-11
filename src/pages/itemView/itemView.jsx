@@ -40,14 +40,14 @@ function ItemView(){
 
 	if (isLoading){
 		return (
-			<Grid item align="center" height={500} xs={12}>
+			<Grid item align="center" height={500} xs={12} data-testid={"Itemview"}>
 				<CircularProgress />
 			</Grid>
 		);
 	}
 
 	return(
-		<Grid container spacing={2} p={5}>
+		<Grid container spacing={2} p={5} data-testid={"Itemview"}>
 			<Grid item md={12} maxHeight={50}>
 				<Breadcrumbs separator="›" aria-label="breadcrumb">
 					{breadcrumbs}

@@ -44,7 +44,7 @@ function MarketplaceCard(props){
 						</Grid>
 						<Grid item xs={12} mt={1}>
 							<Typography variant={"h5"} align={"center"} fontWeight={"bolder"}>
-								LKR {minBid}
+								{Intl.NumberFormat("si", {style: "currency", currency: "LKR"}).format(minBid)}
 							</Typography>
 						</Grid>
 						<Grid item xs={12} mt={2} mb={2} container justifyContent={"center"}>
