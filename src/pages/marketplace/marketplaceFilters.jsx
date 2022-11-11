@@ -63,7 +63,7 @@ function MarketPlaceFilters(props){
 
 	const [sortBidState, setSortBidState] = useState(-1);
 	const [sortQuantityState, setSortQuantityState] = useState(-1);
-	const [sortParams, setSortParams] = useState([-1,-1]);
+	const [sortParams, setSortParams] = useState({bid:-1, quantity:-1});
 
 
 	useEffect(()=>{
@@ -77,8 +77,9 @@ function MarketPlaceFilters(props){
 	}, [change]);
 
 	useEffect(()=>{
-		console.log(sortParams);
+		props.sortParams(sortParams);
 	},[sortParams]);
+
 	const handleChange1 = (event) => {
 		let currentCheckedState = event.target.checked;
 		if(currentCheckedState){
@@ -210,16 +211,34 @@ function MarketPlaceFilters(props){
 		const value = event.target.value;
 		setSortQuantityState(-1);
 		setSortBidState(value);
-		setSortParams([value, -1]);
-		props.sortBid(value);
+		setSortParams({bid:value, quantity:-1});
 	};
 
 	const handleSortQuantityState = (event)=>{
 		const value = event.target.value;
 		setSortBidState(-1);
 		setSortQuantityState(value);
-		setSortParams([-1, value]);
-		props.sortQuantity(value);
+		setSortParams({bid:-1, quantity:value});
+	};
+
+	const handleOnPageReset=()=>{
+		setChecked1([true, true]);
+		setChecked2([true, true]);
+		districtSetTickState(districtSet);
+		cropSetTickState(cropsSet);
+		setMinimumBid("0");
+		setQuantity("0");
+		setChange(false);
+		setIsCustomBidRange(false);
+		setIsCustomQuantityRange(false);
+		setCustomBidRange(["", ""]);
+		setCustomQuantityRange(["", ""]);
+		setCustomFilterWarning ([false, false]);
+
+		setSortBidState(-1);
+		setSortQuantityState(-1);
+		setSortParams({bid:-1, quantity:-1});
+		props.onFilterReset();
 	};
 
 	const districtChildren = (
@@ -272,7 +291,13 @@ function MarketPlaceFilters(props){
 			{/*<Paper elevation={2} sx={{borderRadius: "10px"}}>*/}
 			<Grid container mt={2}>
 				<Grid item xs={12} mb={3}>
-					<Typography variant={"h5"} align={"center"}>Filters</Typography>
+					<Typography variant={"h5"} align={"center"}>Filters<Button color={"warning"} variant={"contained"} sx={
+						{
+							color:"white",
+							borderRadius: "100px"
+						}
+					}
+					onClick={handleOnPageReset}>Reset</Button></Typography>
 				</Grid>
 				<Grid item xs={12}>
 					<Accordion>
@@ -467,8 +492,8 @@ MarketPlaceFilters.propTypes = {
 	filterOnchange: PropTypes.func.isRequired,
 	rangeBid: PropTypes.func.isRequired,
 	rangeQuantity: PropTypes.func.isRequired,
-	sortBid: PropTypes.func.isRequired,
-	sortQuantity: PropTypes.func.isRequired
+	sortParams: PropTypes.func.isRequired,
+	onFilterReset: PropTypes.func.isRequired
 };
 
 export default MarketPlaceFilters;

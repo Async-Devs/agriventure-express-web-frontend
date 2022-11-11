@@ -6,8 +6,10 @@ import {paginate} from "../../util/paginate";
 import {getAllItems} from "../../services/itemServices";
 import SearchBar from "../../components/searchBar/searchBar";
 import MarketPlaceFilters from "./marketplaceFilters";
+import _ from "lodash";
 
 function Marketplace(){
+	const [isPageChange, setIsPageChange] = useState(false);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [isLoading, setLoading] = useState(true);
 	const [rawItemData, setItemData] = useState([]);
@@ -24,12 +26,17 @@ function Marketplace(){
 			setItemData(items.data);
 		}
 		getItemList();
-	},[]);
+	},[isPageChange]);
+
+	// Sort Data
+	useEffect(()=>{
+		setPaginateData(paginate(sortedData, currentPage, pageSize));
+		setLoading(false);
+	}, [sortedData]);
 
 	// Paginate Data
 	useEffect(()=>{
-		setPaginateData(paginate(filteredData, currentPage, pageSize));
-		setLoading(false);
+		sortData();
 	},[filteredData]);
 
 	// setupFiltered Data
@@ -40,7 +47,7 @@ function Marketplace(){
 	// On change page
 	useEffect(()=>{
 		setLoading(true);
-		setPaginateData(paginate(filteredData, currentPage, pageSize));
+		setPaginateData(paginate(sortedData, currentPage, pageSize));
 		setLoading(false);
 	}, [currentPage]);
 
@@ -153,11 +160,36 @@ function Marketplace(){
 
 	}
 
-	function sortBid(val){
-		console.log("sort Bid", val);
+	function sortData(param = -1){
+		let data = filteredData;
+		if(param==-1){
+			setSortedData(data);
+			return;
+		}
+		if(param.bid != -1){
+			let sortedData = _.sortBy(data, ["minimum_bid"]);
+			if(param.bid == "dsc"){
+				sortedData = _.reverse(sortedData);
+			}
+			setSortedData(sortedData);
+			return;
+		}
+
+		if(param.quantity != -1){
+			let sortedData = _.sortBy(data, ["quantity"]);
+			if(param.quantity == "dsc"){
+				sortedData = _.reverse(sortedData);
+			}
+			setSortedData(sortedData);
+			return;
+		}
 	}
-	function sortQuantity(val){
-		console.log("sort Quantity", val);
+	function sortParams(val){
+		sortData(val);
+	}
+
+	function handleOnFilterReset(){
+		setIsPageChange(!isPageChange);
 	}
 
 	function renderMain(){
@@ -201,7 +233,6 @@ function Marketplace(){
 		);
 	}
 
-	// console.log("raw data - ", rawItemData);
 	return(
 		<Grid container data-testid={"Marketplace"} justifyContent={"center"} p={3}>
 			<Grid item container maxWidth={1600} justifyContent={"center"}>
@@ -212,7 +243,7 @@ function Marketplace(){
 				</Grid>
 				<Grid item container xs={12} xl={3} mt={1}>
 					<Grid container item mt={3} mr={3} data-testid={"MarketplaceFilters"}>
-						<MarketPlaceFilters filterOnchange={onFilterChange} rangeQuantity={customQuantityFilter} rangeBid={customBidFilter} sortBid={sortBid} sortQuantity={sortQuantity}/>
+						<MarketPlaceFilters filterOnchange={onFilterChange} rangeQuantity={customQuantityFilter} rangeBid={customBidFilter} sortParams={sortParams} onFilterReset={handleOnFilterReset}/>
 					</Grid>
 				</Grid>
 				<Grid item container spacing={3} mt={1} mb={5} xs={12} xl={9} direction={"column"} justifyContent={"flex-start"} alignItems={"stretch"}>
