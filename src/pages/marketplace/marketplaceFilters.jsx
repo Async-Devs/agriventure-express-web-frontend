@@ -61,10 +61,9 @@ function MarketPlaceFilters(props){
 	const [customQuantityRange, setCustomQuantityRange] = useState(["", ""]);
 	const [customFilterWarning, setCustomFilterWarning ] = useState([false, false]);
 
-	// eslint-disable-next-line no-unused-vars
-	const [sortBidState, setSortBidState] = useState();
-	// eslint-disable-next-line no-unused-vars
-	const [sortQuantityState, setSortQuantityState] = useState();
+	const [sortBidState, setSortBidState] = useState(-1);
+	const [sortQuantityState, setSortQuantityState] = useState(-1);
+	const [sortParams, setSortParams] = useState([-1,-1]);
 
 
 	useEffect(()=>{
@@ -76,6 +75,10 @@ function MarketPlaceFilters(props){
 		};
 		props.filterOnchange(data);
 	}, [change]);
+
+	useEffect(()=>{
+		console.log(sortParams);
+	},[sortParams]);
 	const handleChange1 = (event) => {
 		let currentCheckedState = event.target.checked;
 		if(currentCheckedState){
@@ -204,11 +207,19 @@ function MarketPlaceFilters(props){
 	};
 
 	const handleSortBidState = (event)=>{
-		props.sortBid(event.target.value);
+		const value = event.target.value;
+		setSortQuantityState(-1);
+		setSortBidState(value);
+		setSortParams([value, -1]);
+		props.sortBid(value);
 	};
 
 	const handleSortQuantityState = (event)=>{
-		props.sortQuantity(event.target.value);
+		const value = event.target.value;
+		setSortBidState(-1);
+		setSortQuantityState(value);
+		setSortParams([-1, value]);
+		props.sortQuantity(value);
 	};
 
 	const districtChildren = (
