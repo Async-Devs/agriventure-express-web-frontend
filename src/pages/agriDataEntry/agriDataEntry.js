@@ -11,64 +11,67 @@ import Button from "@mui/material/Button";
 import {Alert} from "@mui/lab";
 import {Divider} from "@mui/material";
 import SelectInput from "../../components/selectInput/selectInput";
-import Location from "../../components/Location/location.json";
 import TextInput from "../../components/textInput/textInput";
-import Axios from "axios";
-import {getAllItems} from "../../services/itemServices";
+import {getAllDistricts, getDistrictById} from "../../services/districtServices";
+import {getCropTypes} from "../../services/croptypeServices";
+import {addData} from "../../services/agridataServices";
 
 function AgriDataEntry(){
 
 	// states
-	const [fieldDistrict,setFieldDistrict] = useState([]);
-	const [fieldCity,setFieldCity] = useState([]);
+	const [fieldDistrict,setFieldDistrict] = useState();
+	const [districts,setDistricts] = useState([]);
+	const [fieldCity,setFieldCity] = useState();
 	const [cropTypes,setCropTypes] = useState([]);
+	const [croptype,setCroptype] = useState([]);
 	const [cropAmount,setCropAmount] = useState();
 	const [year,setYear] = useState();
 	const [error,setError] = useState();
-	const [hidden,setHidden] = useState(true);
-	const district = Object.keys(Location);
+	const [success,setSuccess] = useState();
+	const [errhidden,setErrHidden] = useState(true);
+	const [suchidden,setSucHidden] = useState(true);
 
-	const [success,setSuccess] = useState(false);
-	const [fail,setFail] = useState(false);
+	// const [success,setSuccess] = useState(false);
+	// const [fail,setFail] = useState(false);
 
 	const [cityList,setCityList]=useState([]);
 
+
 	//data access from axios
+	useEffect(()=>{
+		async function getDistrictList(){
+			const district_names = await getAllDistricts();
+			setDistricts(district_names.data);
+		}
+		getDistrictList();
+		async function getCrops(){
+			const crop_names = await getCropTypes();
+			setCropTypes(crop_names.data);
+		}
+		getCrops();
+	},[]);
 
 	//function
-	function onChange(event){
-		if(event.target.name === "cropAmount"){
+	async function onChange(event) {
+		if (event.target.name === "cropAmount") {
 			setCropAmount(event.target.value);
-		}else if(event.target.name === "fieldDistrict"){
+		} else if (event.target.name === "fieldDistrict") {
 			setFieldDistrict(event.target.value);
-			const list = [];
-			for (let i =0; i<=Location[event.target.value].cities.length;i++){
-				list.push({
-					value:Location[event.target.value].cities[i],
-					name: Location[event.target.value].cities[i]
-				});
-			}
-			setCityList(list);
-		}else if(event.target.name === "fieldCity"){
+			const cities = await getDistrictById(event.target.value);
+			const city_list = cities.data.cities.map((city,index) => ({
+				_id: index,
+				name: city,
+			}));
+			setCityList(city_list);
+
+		} else if (event.target.name === "fieldCity") {
 			setFieldCity(event.target.value);
-		}else if(event.target.name === "cropTypes"){
-			setCropTypes(event.target.value);
-		}
-		else if(event.target.name === "year"){
+		} else if (event.target.name === "cropTypes") {
+			setCroptype(event.target.value);
+		} else if (event.target.name === "year") {
 			setYear(event.target.value);
 		}
-		setHidden(true);
-	}
-
-	function generateDistrict(){
-		const list=[];
-		for (let i =0; i<=district.length;i++){
-			list.push({
-				value:district[i],
-				name: district[i]
-			});
-		}
-		return list;
+		setErrHidden(true);
 	}
 
 	function validateNonEmpty(text){
@@ -81,28 +84,34 @@ function AgriDataEntry(){
 	function handleCancel(){
 		window.location.assign("/officer/agridatamanage");
 	}
+	async function postData(data){
+		const agriData = await addData(data);
+		return agriData;
+	}
 
 	function handleSubmit(){
 		if (!validateNonEmptyArray(cropTypes) || !validateNonEmptyArray(fieldDistrict) || !validateNonEmptyArray(fieldCity) || !validateNonEmpty(cropAmount) || !validateNonEmpty(year) ){
 			setError("Fill all fields!");
-			setHidden(false);
+			setErrHidden(false);
 		}
 		else{
 			const agriDataBody = {
-				cropType: cropTypes,
-				cropAmount: cropAmount,
+				year:year,
+				cropType: croptype,
 				location: fieldDistrict,
-				year:year
+				cropAmount: cropAmount
 			};
 			// eslint-disable-next-line no-undef
-			Axios.post(`${process.env.REACT_APP_API_URL}/dataEntries`,agriDataBody).then(async (res)=>{
-				if(!res.data.success){
-					alert("Error occured!");
-				}else{
-					setSuccess(true);
-					setFail(false);
-				}
-			});
+			postData(agriDataBody);
+			setSuccess("Data added successfully!");
+			setSucHidden(false);
+
+			setCropAmount([]);
+			setYear([]);
+
+			setFieldDistrict(null);
+			setFieldCity(null);
+			setCroptype(null);
 		}
 
 	}
@@ -115,8 +124,11 @@ function AgriDataEntry(){
 					<hr />
 				</Grid>
 
-				<Grid item xs={12} hidden={hidden}>
-					<Alert severity="error">{error}</Alert>
+				<Grid item xs={12} hidden={errhidden}>
+					<Alert severity="error" >{error}</Alert>
+				</Grid>
+				<Grid item xs={12} hidden={suchidden}>
+					<Alert severity="success">{success}</Alert>
 				</Grid>
 
 				<Grid item xs={12}>
@@ -127,7 +139,7 @@ function AgriDataEntry(){
 							<Grid item xs={12} >
 								{/* eslint-disable-next-line react/prop-types */}
 
-								<SelectInput name="fieldDistrict" label="Field District" value={fieldDistrict} onChange={onChange} required={true} options={generateDistrict()} multi={false}/>
+								<SelectInput name="fieldDistrict" label="Field District" value={fieldDistrict} onChange={onChange} required={true} options={districts} multi={false}/>
 							</Grid>
 							<Grid item xs={12} >
 								{/* eslint-disable-next-line react/prop-types */}
@@ -135,7 +147,7 @@ function AgriDataEntry(){
 							</Grid>
 							<Grid item xs={12} >
 								{/* eslint-disable-next-line react/prop-types */}
-								<SelectInput name="cropTypes" label="Crop Type" value={cropTypes} onChange={onChange} required={true} options={[{value :0,name:"carrot"}, {value :1,name:"rice"}]} multi={false}/>
+								<SelectInput name="cropTypes" label="Crop Type" value={croptype} onChange={onChange} required={true} options={cropTypes} multi={false}/>
 							</Grid>
 							<Grid item xs={12} >
 								{/* eslint-disable-next-line react/prop-types */}
@@ -150,7 +162,7 @@ function AgriDataEntry(){
 				</Grid>
 				<Grid item xs={12} mt={1} align="right">
 					<Button type="submit" sx={{m:1}} variant="contained" onClick={handleCancel}>Cancel</Button>
-					<Button type="submit" sx={{m:1}} variant="contained" onClick={handleSubmit} success={success} fail={fail}>Submit</Button>
+					<Button type="submit" sx={{m:1}} variant="contained" onClick={handleSubmit}>Submit</Button>
 				</Grid>
 			</Grid>
 		</Container>

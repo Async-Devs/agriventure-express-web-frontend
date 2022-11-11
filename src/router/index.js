@@ -39,7 +39,7 @@ import AddOfficer from "../pages/addOfficer/addOfficer";
 function AppRouter(){
 
 	// eslint-disable-next-line no-undef
-	let type = 0; //todo: use jwt token to identify the user type
+	let type = 2; //todo: use jwt token to identify the user type
 
 
 	return(
