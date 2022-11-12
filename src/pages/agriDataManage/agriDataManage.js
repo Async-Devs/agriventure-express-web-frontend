@@ -8,28 +8,18 @@ import "reactjs-popup/dist/index.css";
 import {Divider} from "@mui/material";
 import AgriDataTable from "./agriDataTable";
 import Button from "@mui/material/Button";
-import {getAgriData} from "../../services/agridataServices";
+
 
 function AgriDataManage(){
 
 	// states
-	const [agriData,setAgriData] = useState([]);
 
 
 	//data access from axios
-	useEffect(()=>{
-		async function getagridata(){
-			const agri_data = await getAgriData();
-			setAgriData(agri_data.data);
-		}
-		getagridata();
-
-	},[]);
 
 	//function
 	function handleAddData(){
-		// window.location.assign("agridatamanage/agridataentry");
-		console.log(agriData);
+		window.location.assign("agridatamanage/agridataentry");
 
 	}
 

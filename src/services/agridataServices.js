@@ -12,3 +12,7 @@ export function addData(data){
 	const Data = Axios.post(`${apiEndpoint}`, {data});
 	return Data;
 }
+export function deleteData(id){
+	Axios.delete(`${apiEndpoint}/${id}`);
+}
+
