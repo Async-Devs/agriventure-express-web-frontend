@@ -22,6 +22,7 @@ function AgriDataEntry(){
 	const [fieldDistrict,setFieldDistrict] = useState();
 	const [districts,setDistricts] = useState([]);
 	const [fieldCity,setFieldCity] = useState();
+	const [f_City,setF_City] = useState();
 	const [cropTypes,setCropTypes] = useState([]);
 	const [croptype,setCroptype] = useState([]);
 	const [cropAmount,setCropAmount] = useState();
@@ -30,9 +31,6 @@ function AgriDataEntry(){
 	const [success,setSuccess] = useState();
 	const [errhidden,setErrHidden] = useState(true);
 	const [suchidden,setSucHidden] = useState(true);
-
-	// const [success,setSuccess] = useState(false);
-	// const [fail,setFail] = useState(false);
 
 	const [cityList,setCityList]=useState([]);
 
@@ -66,6 +64,8 @@ function AgriDataEntry(){
 
 		} else if (event.target.name === "fieldCity") {
 			setFieldCity(event.target.value);
+			setF_City(cityList[event.target.value].name);
+			console.log(cityList[event.target.value].name);
 		} else if (event.target.name === "cropTypes") {
 			setCroptype(event.target.value);
 		} else if (event.target.name === "year") {
@@ -98,7 +98,8 @@ function AgriDataEntry(){
 			const agriDataBody = {
 				year:year,
 				cropType: croptype,
-				location: fieldDistrict,
+				district: fieldDistrict,
+				city: f_City,
 				cropAmount: cropAmount
 			};
 			// eslint-disable-next-line no-undef
@@ -112,6 +113,7 @@ function AgriDataEntry(){
 			setFieldDistrict(null);
 			setFieldCity(null);
 			setCroptype(null);
+
 		}
 
 	}
