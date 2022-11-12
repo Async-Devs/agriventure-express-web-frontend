@@ -15,6 +15,20 @@ function SupportForm(props){
 				<DialogContentText>
 					Describe the issue. our officers will reach you soon
 				</DialogContentText>
+
+				{/* eslint-disable-next-line react/prop-types */}
+				<TextField onChange={props.onChange} autoFocus margin="dense"
+					/* eslint-disable-next-line react/prop-types */
+					id="subject"
+					label="Subject"
+					type="email"
+					name="subject"
+					fullWidth
+					/* eslint-disable-next-line react/prop-types */
+					value={props.subject}
+					variant="standard"
+				/>
+
 				{/* eslint-disable-next-line react/prop-types */}
 				<TextField onChange={props.onChange}
 					autoFocus

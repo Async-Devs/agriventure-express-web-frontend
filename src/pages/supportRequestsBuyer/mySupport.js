@@ -4,14 +4,40 @@ import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import {Grid} from "@mui/material";
+import {CircularProgress, Grid} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import ChatWindow from "../../components/chatWindow/chatWindow";
 import Button from "@mui/material/Button";
 import {Link} from "react-router-dom";
+import {useEffect, useState} from "react";
+import Axios from "axios";
+import authService from "../../services/auth.service";
 
 function MySupport() {
-	const [value, setValue] = React.useState("1");
+	const [value, setValue] = useState("1");
+	const [activeRequest,setActiveRequest] = useState([]);
+	const [oldRequest,setOldRequest] = useState([]);
+	const [isLoading,setIsLoading] = useState(true);
+
+	useEffect(()=>{
+
+		async function getMyRequests() {
+			// eslint-disable-next-line no-undef
+			const requests = await Axios.get(`${process.env.REACT_APP_API_URL}/producerUsers/mySupportRequest`,{
+				headers: { "x-auth-token": authService.getCurrentUser()
+				}});
+			if(requests.data.success){
+				setActiveRequest(requests.data.supportRequests.filter(request=>request.isActive));
+				setOldRequest(requests.data.supportRequests.filter(request=>!request.isActive));
+			}else{
+				alert("Error occured!");
+			}
+		}
+
+		getMyRequests();
+		setIsLoading(false);
+	},[]);
+
 
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
@@ -20,29 +46,37 @@ function MySupport() {
 
 	return (
 		<Grid container>
-			<Grid item xs={12} ml={5}>
-				<Typography variant="h2"><b>MY SUPPORT REQUESTS</b></Typography>
-				<Typography variant="body2">Our officers will help you to make life easier</Typography>
-			</Grid>
-			<Grid item xs={12} ml={2} align="center">
-				<Box sx={{ width: "100%", maxWidth:"sm", typography: "body1" }}>
-					<TabContext value={value}>
-						<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-							<TabList onChange={handleChange} aria-label="lab API tabs example">
-								<Tab label="Support Requests" value="1" />
-								<Tab label="Old Requests" value="3" />
-							</TabList>
+			{isLoading ? (
+				<Grid item align="center">
+					<CircularProgress />
+				</Grid>
+			):(
+				<div>
+					<Grid item xs={12} ml={5}>
+						<Typography variant="h2"><b>MY SUPPORT REQUESTS</b></Typography>
+						<Typography variant="body2">Our officers will help you to make life easier</Typography>
+					</Grid>
+					<Grid item xs={12} ml={2} align="center">
+						<Box sx={{ width: "100%", maxWidth:"sm", typography: "body1" }}>
+							<TabContext value={value}>
+								<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+									<TabList onChange={handleChange} aria-label="lab API tabs example">
+										<Tab label="Support Requests" value="1" />
+										<Tab label="Old Requests" value="3" />
+									</TabList>
+								</Box>
+								<TabPanel value="1"><ChatWindow requests={activeRequest} mode={value} userType={1}/></TabPanel>
+								<TabPanel value="3"><ChatWindow requests={oldRequest} mode={value} userType={1}/></TabPanel>
+							</TabContext>
 						</Box>
-						<TabPanel value="1"><ChatWindow mode={value} userType={1}/></TabPanel>
-						<TabPanel value="3"><ChatWindow mode={value} userType={1}/></TabPanel>
-					</TabContext>
-				</Box>
-			</Grid>
-			<Grid item xs={12} align="center" m={3}>
-				<Link to=".." style={{ textDecoration: "none" }}>
-					<Button variant="contained">Back</Button>
-				</Link>
-			</Grid>
+					</Grid>
+					<Grid item xs={12} align="center" m={3}>
+						<Link to=".." style={{ textDecoration: "none" }}>
+							<Button variant="contained">Back</Button>
+						</Link>
+					</Grid>
+				</div>
+			)}
 		</Grid>
 
 	);
