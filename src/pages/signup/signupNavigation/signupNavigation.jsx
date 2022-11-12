@@ -145,7 +145,7 @@ function SignupNavigation() {
 			};
 
 			// eslint-disable-next-line no-undef
-			Axios.post(`${process.env.REACT_APP_API_URL}/users`, userReqestBody ).then(async (res) => {
+			Axios.post(`${process.env.REACT_APP_API_URL}/auth/addUser`, userReqestBody ).then(async (res) => {
 				if(!res.data.success){
 					alert("Error occured!");
 				}else{
@@ -162,11 +162,12 @@ function SignupNavigation() {
 						login: res.data.user._id
 					};
 					// eslint-disable-next-line no-undef
-					Axios.post(`${process.env.REACT_APP_API_URL}/producers`,producerRequestBody).then(async (res)=>{
+					Axios.post(`${process.env.REACT_APP_API_URL}/auth/addProducer`,producerRequestBody).then(async (res)=>{
 						if(!res.data.success){
 							alert("Error occured!");
 						}else{
 							setSuccess(true);
+							console.log(res.data);
 							setFail(false);
 						}
 					});
@@ -182,7 +183,7 @@ function SignupNavigation() {
 			};
 
 			// eslint-disable-next-line no-undef
-			Axios.post(`${process.env.REACT_APP_API_URL}/users`, userReqestBody ).then(async (res) => {
+			Axios.post(`${process.env.REACT_APP_API_URL}/auth/addUser`, userReqestBody ).then(async (res) => {
 				if(!res.data.success){
 					alert("Error occured!");
 				}else{
@@ -197,11 +198,12 @@ function SignupNavigation() {
 						login: res.data.user._id
 					};
 					// eslint-disable-next-line no-undef
-					Axios.post(`${process.env.REACT_APP_API_URL}/buyers`,buyerRequestBody).then(async (res)=>{
+					Axios.post(`${process.env.REACT_APP_API_URL}/auth/addBuyer`,buyerRequestBody).then(async (res)=>{
 						if(!res.data.success){
 							alert("Error occured!");
 						}else{
 							setSuccess(true);
+							console.log(res.data);
 							setFail(false);
 						}
 					});
@@ -392,7 +394,7 @@ function SignupNavigation() {
 
 											<Button
 												variant="contained"
-												onClick={handleNext}
+												onClick={activeStep === steps.length - 1 ? handleSubmit : handleNext}
 												sx={{ mt: 3, ml: 1 }}
 											>
 												{activeStep === steps.length - 1 ? "Submit Details" : "Next"}
