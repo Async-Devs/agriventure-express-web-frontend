@@ -1,11 +1,12 @@
 import React, {useState} from "react";
-import {Button, Grid, Paper, Typography} from "@mui/material";
+import {Button, Grid, Typography} from "@mui/material";
 import CountdownTimer from "../../components/countdownTimer/countdownTimer";
 import TextInput from "../../components/textInput/textInput";
 import BidTable from "./bidTable";
 import _ from "lodash";
 import PropTypes from "prop-types";
 import {setBidForItem} from "../../services/itemServices";
+import Divider from "@mui/material/Divider";
 
 function ItemBiddingCard(props){
 	const { endTime, bidArray, minimumBid, itemId } = props.biddingData;
@@ -30,63 +31,94 @@ function ItemBiddingCard(props){
 		// Add Submitted Alert Here or Error
 	};
 
-	return(
-		<Grid item container>
-			<Paper elevation={0}>
-				<Grid container >
-					<Grid item xs={12} container justifyContent={"center"} mt={2}>
-						<Grid item xs={12}>
-							<CountdownTimer endTime={endTime}/>
-						</Grid>
-					</Grid>
-					<Grid item xs={12} container justifyContent={"center"} mt={2}>
-						<Grid item xs={12}>
-							<Typography variant={"h6"} color={"green"} fontWeight={"bold"}>
-								Last bid : {Intl.NumberFormat("si", { style: "currency", currency: "LKR" }).format(lastBid) }
-							</Typography>
-						</Grid>
-					</Grid>
-					<Grid item xs={12} container justifyContent={"center"} mt={2}>
-						<Grid item xs={12}>
-							<Typography variant={"h7"}  fontWeight={"bold"}>
-								Starting bid : {Intl.NumberFormat("si", { style: "currency", currency: "LKR" }).format(minimumBid) }
-							</Typography>
-						</Grid>
-					</Grid>
-					<Grid item xs={12} container justifyContent={"left"} mt={2}>
-						<Grid item xs={5}>
-							<Typography variant={"h6"} fontWeight={"bold"}>
-								Place your Bid
-							</Typography>
-						</Grid>
-						<Grid item xs={1}>
-							<Typography variant={"h6"} fontWeight={"bold"}>
-								:
-							</Typography>
-						</Grid>
-						<Grid item xs={6}>
-							<TextInput name="bidValue" label="Bid Value" type={"number"} value={bidValue} onChange={handleBidChange} required={true}/>
-						</Grid>
-					</Grid>
-					<Grid item xs={12} container justifyContent={"center"} mt={2}>
-						<Grid item xs={12}>
-							<Button variant={"contained"} color={"warning"} onClick={handleSubmit}>Place Bid</Button>
-						</Grid>
-					</Grid>
-					<Grid item xs={12} container justifyContent={"center"} mt={2}>
-						<Grid item xs={12}>
-							<BidTable bidderArray={bidArray}/>
-						</Grid>
-					</Grid>
+	const {name, description, location, quantity } = props.biddingData;
 
+	return(
+		<Grid item container direction={"column"} justifyContent={"flex-end"} alignItems={"stretch"} spacing={2} >
+			<Grid item container justifyContent={"left"} mt={2}>
+				<Grid item>
+					<Typography variant={"h4"}>
+						{name}
+					</Typography>
 				</Grid>
-			</Paper>
+			</Grid>
+			<Grid item container justifyContent={"center"} mt={2}>
+				<Grid item xs={12}>
+					<Typography variant={"h6"}>
+						Description
+					</Typography>
+					<Typography variant={"body1"} align={"justify"}>
+						{description}
+					</Typography>
+				</Grid>
+			</Grid>
+			<Grid item container justifyContent={"center"} mt={2}>
+				<Grid item xs={12}>
+					<Typography variant={"h6"}>
+						Quantity: {quantity} kg
+					</Typography>
+				</Grid>
+			</Grid>
+			<Grid item container justifyContent={"center"} mt={2}>
+				<Grid item xs={12}>
+					<Typography variant={"h6"}>
+						Location: {location.city}
+					</Typography>
+				</Grid>
+			</Grid>
+			<Divider sx={{marginLeft:"15px", marginTop:"30px"}}>Bidding Details</Divider>
+			<Grid item container justifyContent={"center"} >
+				<Grid item xs={12}>
+					<CountdownTimer endTime={endTime}/>
+				</Grid>
+			</Grid>
+			<Grid item container justifyContent={"center"} mt={2}>
+				<Grid item xs={12}>
+					<Typography variant={"h6"} color={"green"} fontWeight={"bold"}>
+								Last bid : {Intl.NumberFormat("si", { style: "currency", currency: "LKR" }).format(lastBid) }
+					</Typography>
+				</Grid>
+			</Grid>
+			<Grid item  container justifyContent={"center"} mt={2}>
+				<Grid item xs={12}>
+					<Typography variant={"h7"}  fontWeight={"bold"}>
+								Starting bid : {Intl.NumberFormat("si", { style: "currency", currency: "LKR" }).format(minimumBid) }
+					</Typography>
+				</Grid>
+			</Grid>
+			<Grid item container justifyContent={"left"} mt={2}>
+				<Grid item xs={5}>
+					<Typography variant={"h6"} fontWeight={"bold"}>
+								Place your Bid
+					</Typography>
+				</Grid>
+				<Grid item xs={1}>
+					<Typography variant={"h6"} fontWeight={"bold"}>
+								:
+					</Typography>
+				</Grid>
+				<Grid item xs={6}>
+					<TextInput name="bidValue" label="Bid Value" type={"number"} value={bidValue} onChange={handleBidChange} required={true}/>
+				</Grid>
+			</Grid>
+			<Grid item container justifyContent={"center"} mt={2}>
+				<Grid item xs={12}>
+					<Button variant={"contained"} color={"warning"} onClick={handleSubmit}>Place Bid</Button>
+				</Grid>
+			</Grid>
+			<Grid item container justifyContent={"center"} mt={2}>
+				<Grid item xs={12}>
+					<BidTable bidderArray={bidArray} user={props.user}/>
+				</Grid>
+			</Grid>
+
 		</Grid>
 	);
 }
 
 ItemBiddingCard.propTypes = {
-	biddingData: PropTypes.object.isRequired
+	biddingData: PropTypes.object.isRequired,
+	user: PropTypes.number.isRequired
 };
 
 export default ItemBiddingCard;

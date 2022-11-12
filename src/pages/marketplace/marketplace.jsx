@@ -6,8 +6,10 @@ import {paginate} from "../../util/paginate";
 import {getAllItems} from "../../services/itemServices";
 import SearchBar from "../../components/searchBar/searchBar";
 import MarketPlaceFilters from "./marketplaceFilters";
+import _ from "lodash";
 
 function Marketplace(){
+	const [isPageChange, setIsPageChange] = useState(false);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [isLoading, setLoading] = useState(true);
 	const [rawItemData, setItemData] = useState([]);
@@ -24,12 +26,18 @@ function Marketplace(){
 			setItemData(items.data);
 		}
 		getItemList();
-	},[]);
+	},[isPageChange]);
+
+	// Sort Data
+	useEffect(()=>{
+		setPaginateData(paginate(sortedData, currentPage, pageSize));
+		setLoading(false);
+	}, [sortedData]);
+
 
 	// Paginate Data
 	useEffect(()=>{
-		setPaginateData(paginate(filteredData, currentPage, pageSize));
-		setLoading(false);
+		sortData();
 	},[filteredData]);
 
 	// setupFiltered Data
@@ -39,21 +47,11 @@ function Marketplace(){
 
 	// On change page
 	useEffect(()=>{
-		setLoading(true);
-		setPaginateData(paginate(filteredData, currentPage, pageSize));
-		setLoading(false);
+		setPaginateData(paginate(sortedData, currentPage, pageSize));
 	}, [currentPage]);
 
 	function handlePageChange(currentPage){
 		setCurrentPage(currentPage);
-	}
-
-	if (isLoading){
-		return (
-			<Grid item align='center' height={500} xs={12}>
-				<CircularProgress />
-			</Grid>
-		);
 	}
 
 	function costFilter(range, dataArray){
@@ -153,15 +151,51 @@ function Marketplace(){
 
 	}
 
-	function sortBid(val){
-		console.log("sort Bid", val);
+	function sortData(param = -1){
+		let data = filteredData;
+		if(param==-1){
+			setSortedData(data);
+			return;
+		}
+		if(param.bid != -1){
+			let sortedData = _.sortBy(data, ["minimum_bid"]);
+			if(param.bid == "dsc"){
+				sortedData = _.reverse(sortedData);
+			}
+			setSortedData(sortedData);
+			return;
+		}
+
+		if(param.quantity != -1){
+			let sortedData = _.sortBy(data, ["quantity"]);
+			if(param.quantity == "dsc"){
+				sortedData = _.reverse(sortedData);
+			}
+			setSortedData(sortedData);
+			return;
+		}
 	}
-	function sortQuantity(val){
-		console.log("sort Quantity", val);
+	function sortParams(val){
+		sortData(val);
+	}
+
+	function handleOnFilterReset(){
+		setIsPageChange(!isPageChange);
 	}
 
 	function renderMain(){
-		if (rawItemData==null || rawItemData.length == 0){
+		if (isLoading){
+			return (
+				<Grid container item height={500} xs={12}>
+					<Grid container xs={12} item direction={"column"} justifyContent={"center"} alignItems={"center"}>
+						<Grid item >
+							<CircularProgress />
+						</Grid>
+					</Grid>
+				</Grid>
+			);
+		}
+		else if ((rawItemData==null) && isLoading!=true){
 			return(
 				<Grid item align="center" height={500} xs={12} minHeight={1200}>
 					<Typography variant={"h4"}>
@@ -171,7 +205,7 @@ function Marketplace(){
 				</Grid>
 			);
 		}
-		else if(rawItemData!=null && filteredData !=null && filteredData.length == 0){
+		else if( isLoading!=true && sortedData.length == 0){
 			return (
 				<Grid item align="center" height={500} xs={12}>
 					<Typography variant={"h4"}>
@@ -201,7 +235,6 @@ function Marketplace(){
 		);
 	}
 
-	// console.log("raw data - ", rawItemData);
 	return(
 		<Grid container data-testid={"Marketplace"} justifyContent={"center"} p={3}>
 			<Grid item container maxWidth={1600} justifyContent={"center"}>
@@ -212,7 +245,7 @@ function Marketplace(){
 				</Grid>
 				<Grid item container xs={12} xl={3} mt={1}>
 					<Grid container item mt={3} mr={3} data-testid={"MarketplaceFilters"}>
-						<MarketPlaceFilters filterOnchange={onFilterChange} rangeQuantity={customQuantityFilter} rangeBid={customBidFilter} sortBid={sortBid} sortQuantity={sortQuantity}/>
+						<MarketPlaceFilters filterOnchange={onFilterChange} rangeQuantity={customQuantityFilter} rangeBid={customBidFilter} sortParams={sortParams} onFilterReset={handleOnFilterReset}/>
 					</Grid>
 				</Grid>
 				<Grid item container spacing={3} mt={1} mb={5} xs={12} xl={9} direction={"column"} justifyContent={"flex-start"} alignItems={"stretch"}>
