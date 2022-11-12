@@ -10,16 +10,19 @@ function Item(props)
 			<Paper>
 				<Skeleton variant="rectangular" width={"auto"} height={300} animation="wave"/>
 			</Paper>:
-			<Paper style={{backgroundImage: `url(${props.imagesrc})`,backgroundSize: "auto", backgroundPosition: "center", backgroundRepeat:"no-repeat"}} >
-				<Grid height={300}>
+			<Grid container justifyContent={"center"}>
+				<Grid item>
+					<img height={300} src={props.imagesrc}/>
 				</Grid>
-			</Paper>
+
+			</Grid>
+
 	);
 }
 
 function CustomCarousel(props){
 	return(
-		<Carousel autoPlay={false} height={300}>
+		<Carousel autoPlay={false} height={300} >
 			{
 				props.images.map( (key) => <Item key={key._id} imagesrc ={key.src} /> )
 			}

@@ -34,6 +34,7 @@ function Marketplace(){
 		setLoading(false);
 	}, [sortedData]);
 
+
 	// Paginate Data
 	useEffect(()=>{
 		sortData();
@@ -46,21 +47,11 @@ function Marketplace(){
 
 	// On change page
 	useEffect(()=>{
-		setLoading(true);
 		setPaginateData(paginate(sortedData, currentPage, pageSize));
-		setLoading(false);
 	}, [currentPage]);
 
 	function handlePageChange(currentPage){
 		setCurrentPage(currentPage);
-	}
-
-	if (isLoading){
-		return (
-			<Grid item align='center' height={500} xs={12}>
-				<CircularProgress />
-			</Grid>
-		);
 	}
 
 	function costFilter(range, dataArray){
@@ -193,7 +184,18 @@ function Marketplace(){
 	}
 
 	function renderMain(){
-		if (rawItemData==null || rawItemData.length == 0){
+		if (isLoading){
+			return (
+				<Grid container item height={500} xs={12}>
+					<Grid container xs={12} item direction={"column"} justifyContent={"center"} alignItems={"center"}>
+						<Grid item >
+							<CircularProgress />
+						</Grid>
+					</Grid>
+				</Grid>
+			);
+		}
+		else if ((rawItemData==null) && isLoading!=true){
 			return(
 				<Grid item align="center" height={500} xs={12} minHeight={1200}>
 					<Typography variant={"h4"}>
@@ -203,7 +205,7 @@ function Marketplace(){
 				</Grid>
 			);
 		}
-		else if(rawItemData!=null && filteredData !=null && filteredData.length == 0){
+		else if( isLoading!=true && sortedData.length == 0){
 			return (
 				<Grid item align="center" height={500} xs={12}>
 					<Typography variant={"h4"}>

@@ -5,14 +5,14 @@ import ItemViewCard from "./itemViewCard";
 import ItemBiddingCard from "./itemBiddingCard";
 import NotFound from "../notFound";
 import {getItemById} from "../../services/itemServices";
+import PropTypes from "prop-types";
 
-function ItemView(){
+function ItemView(props){
 	const [isLoading, setLoading] = useState(true);
 	const [item, setItem] = useState();
 	const itemId = useParams().itemId;
 	useEffect(()=>{
 		async function getItem(){
-		// eslint-disable-next-line no-undef
 			const data = await getItemById(itemId);
 			setItem(data.data);
 			setLoading(false);
@@ -47,36 +47,43 @@ function ItemView(){
 	}
 
 	return(
-		<Grid container spacing={2} p={5} data-testid={"Itemview"}>
-			<Grid item md={12} maxHeight={50}>
-				<Breadcrumbs separator="›" aria-label="breadcrumb">
-					{breadcrumbs}
-				</Breadcrumbs>
-			</Grid>
-			<Grid item md={6} xs={12}  minHeight={400} container>
-				<ItemViewCard cropData = {
-					{
-						name: item.name,
-						images: item.images,
-						description: item.description,
-						quantity: item.quantity,
-						location: item.location
-					}
-				}/>
-			</Grid>
-			<Grid item md={6} xs={12} container>
-				<ItemBiddingCard biddingData={
-					{
-						endTime: item.bid_end_time,
-						bidArray: item.bidding_array,
-						itemId: item._id,
-						minimumBid: item.minimum_bid
-					}
+		<Grid container data-testid={"Itemview"} justifyContent={"center"}>
+			<Grid item container spacing={3}  maxWidth={1200} p={3}>
+				<Grid item md={12} maxHeight={50}>
+					<Breadcrumbs separator="›" aria-label="breadcrumb">
+						{breadcrumbs}
+					</Breadcrumbs>
+				</Grid>
+				<Grid item md={6} xs={12}  minHeight={400} container>
+					<ItemViewCard cropData = {
+						{
+							images: item.images
+						}
+					}/>
+				</Grid>
+				<Grid item md={6} xs={12}>
+					<ItemBiddingCard biddingData={
+						{
+							name: item.name,
+							endTime: item.bid_end_time,
+							bidArray: item.bidding_array,
+							itemId: item._id,
+							minimumBid: item.minimum_bid,
+							description: item.description,
+							quantity: item.quantity,
+							location: item.location,
+							user: props.user
+						}
 
-				}/>
+					}/>
+				</Grid>
 			</Grid>
 		</Grid>
 	);
 }
+
+ItemView.propTypes = {
+	user: PropTypes.number.isRequired
+};
 
 export default ItemView;

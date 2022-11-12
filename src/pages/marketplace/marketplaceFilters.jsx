@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Accordion, AccordionDetails, AccordionSummary, FormGroup, FormLabel, Grid, Typography} from "@mui/material";
-// import CustomeSlider from "../../components/slider/Slider";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-// import PropTypes from "prop-types";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -14,7 +12,6 @@ import PropTypes from "prop-types";
 import TextInput from "../../components/textInput/textInput";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-// import FormLabel from "@mui/material/FormLabel";
 
 function MarketPlaceFilters(props){
 	// WIP Fetch from DB
