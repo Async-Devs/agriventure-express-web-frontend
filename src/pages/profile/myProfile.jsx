@@ -18,11 +18,11 @@ import Axios from "axios";
 import ProfileView from "./profileView/profileView";
 import Container from "@mui/material/Container";
 import {Alert} from "@mui/lab";
+import authService from "../../services/auth.service";
+// eslint-disable-next-line no-undef
 
 function MyProfile(){
 
-	//todo: get user_id from jwt token
-	const user_id = "6332ce3d59479ac6785d6647";
 	const [open,setOpen] = useState(false);
 	// const [username,setUsername]' = useState();
 	const [userType,setUserType] = useState();
@@ -40,34 +40,29 @@ function MyProfile(){
 
 	useEffect(() => {
 
-		async function isUser(){
-			// eslint-disable-next-line no-undef
-			const isExist = await Axios.get(`${process.env.REACT_APP_API_URL}/users/isExist/${user_id}`);
-			setIsExsist(isExist.data.success);
-		}
-
-		isUser();
-
-
 		async function getUser() {
 			// eslint-disable-next-line no-undef
-			const user = await Axios.get(`${process.env.REACT_APP_API_URL}/users/getById/`,{params: {id: user_id}});
+			const user = await Axios.get(`${process.env.REACT_APP_API_URL}/publicUsers/myProfile/`,
+				{
+					headers: { "x-auth-token": authService.getCurrentUser()
+					}
+				});
 			if (user.data.success) {
-				setUserType(user.data.user.userType);
-				setId(user.data.typeDetails._id);
-				setFirstName(user.data.typeDetails.firstName);
-				setLastName(user.data.typeDetails.lastName);
-				setNic(user.data.typeDetails.nic);
-				setEmail(user.data.typeDetails.email);
-				setTelNum(user.data.typeDetails.telNum);
-				setAddress(user.data.typeDetails.address);
-				if(user.data.user.userType === 0){
-					setCropTypes(user.data.typeDetails.cropTypes);
-					setLocation(user.data.typeDetails.location.name);
+				setUserType(user.data.user.login.userType);
+				setId(user.data.user.login._id);
+				setFirstName(user.data.user.firstName);
+				setLastName(user.data.user.lastName);
+				setNic(user.data.user.nic);
+				setEmail(user.data.user.email);
+				setTelNum(user.data.user.telNum);
+				setAddress(user.data.user.address);
+				if(user.data.user.login.userType === 0){
+					setCropTypes(user.data.user.cropTypes);
+					setLocation(user.data.user.location.name);
 				}
-
-				// setUsername(user.data.typeDetails.userName);
+				setIsExsist(true);
 			} else {
+				setIsExsist(false);
 				alert("Error occurred!");
 			}
 		}

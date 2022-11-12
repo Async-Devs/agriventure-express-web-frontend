@@ -7,6 +7,8 @@ import Footer from "./components/footer/footer";
 import Sidebar from "./components/Sidebar/Sidebar";
 
 function App() {
+
+
 	return (
 
 		<ThemeProvider theme={theme}>

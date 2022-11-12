@@ -30,24 +30,31 @@ import EditItem from "../pages/editItem/edititem";
 import OrderCheckout from "../pages/orderCheckout/orderCheckout";
 import OfficerDashboard from "../pages/officerDashboard/officerDashboard";
 import AddOfficer from "../pages/addOfficer/addOfficer";
+import authService from "../services/auth.service";
 /*
 * Order Inventory Subsystem - Achira
 * Account Management/ Support Subsystem - Toxic Supun
 * Data Aggregation and Visualization - Ransika
+*
+*
+* type 0 - producer
+* type 1 - buyer
+* type 2 - officer
+* type 3 - admin
 * */
 
-function AppRouter(){
+function AppRouter(props){
 
 	// eslint-disable-next-line no-undef
-	let type = 0; //todo: use jwt token to identify the user type
-
+	let type = authService.getCurrentUserType();
 
 	return(
 		<BrowserRouter>
 			<>
 				<Routes>
 					<Route path = "" element={<Dashboard/>} />
-					<Route path = "/login" element={<Login/>}/>
+					{/* eslint-disable-next-line react/prop-types */}
+					<Route path = "/login" element={<Login setUser={props.setUser}/>}/>
 					<Route path = "/signup" element={<Signup/>}/>
 					<Route path = "*" element={<ErrorPage/>}/>
 

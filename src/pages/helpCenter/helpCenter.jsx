@@ -6,11 +6,14 @@ import CardComponent from "../../components/cardComponent/cardComponent";
 import SupportForm from "./supportForm/supportForm";
 import Button from "@mui/material/Button";
 import {Link} from "react-router-dom";
+import Axios from "axios";
+import authService from "../../services/auth.service";
 
 function helpCenter(){
 
 	const [supportType,setSupportType] = useState();
 	const [open,setOpen] = useState(false);
+	const [subject,setSubject] = useState("");
 	const [body,setBody] = useState("");
 	const [errorHidden,setErrorHidden] = useState(true);
 	const [successHidden,setSuccessHidden] = useState(true);
@@ -18,17 +21,38 @@ function helpCenter(){
 	function handleChange(event){
 		if(event.target.name === "body"){
 			setBody(event.target.value);
+		}else if(event.target.name === "subject"){
+			setSubject(event.target.value);
 		}
 	}
 
 	function handleSubmit(){
-		if(body !== ""){
+		if(body !== "" && subject !== ""){
 			//todo: send support request to officer
-			setOpen(false);
-			setSuccessHidden(false);
+			const requestBody = {
+				description: body,
+				type: supportType,
+				subject: subject
+			};
+			// eslint-disable-next-line no-undef
+			Axios.post(`${process.env.REACT_APP_API_URL}/producerUsers/addSupportRequest`,requestBody,{
+				headers: {"x-auth-token": authService.getCurrentUser()}
+			}).then(async (res)=>{
+				if(!res.data.success){
+					alert("Error Occured!");
+					setOpen(false);
+					setErrorHidden(false);
+				}else{
+					setOpen(false);
+					setBody("");
+					setSubject("");
+					setSuccessHidden(false);
+				}
+			});
 		}else{
 			setOpen(false);
 			setErrorHidden(false);
+
 		}
 	}
 
@@ -105,7 +129,7 @@ function helpCenter(){
 			</Grid>
 
 			<Grid item xs={12}>
-				<SupportForm handleSubmit={handleSubmit}type={supportType} open={open} handleClose={handleClose}  value={body} onChange={handleChange}/>
+				<SupportForm handleSubmit={handleSubmit}type={supportType} open={open} handleClose={handleClose} subject={subject}  value={body} onChange={handleChange}/>
 			</Grid>
 
 			{/*<Grid item xs={12} mt={2}>*/}

@@ -18,32 +18,37 @@ import Divider from "@mui/material/Divider";
 
 import logo from "../../img/logo.png";
 import "./sidebar.module.css";
-
-var pages = ["Dashboard"];
-var settings = ["sign in","sign up"];
-
-
-const userType = 0; //todo: use jwt token to identify the user type
-
-if(userType === 0){
-	pages = ["Dashboard", "My Dashboard", "Orders","Help Center"];
-	settings = ["My Profile","Logout"];
-}else if(userType === 1){
-	pages = ["Dashboard", "Marketplace", "My Refunds"];
-	settings = ["My Profile","Logout"];
-}else if(userType === 2){
-	pages = ["Dashboard", "Manage Producers", "Support Management","Agri Data"];
-	settings = ["Logout"];
-}else if(userType === 3){
-	pages = ["Dashboard", "Manage Accounts"];
-	settings = ["Logout"];
-}
+import authService from "../../services/auth.service";
 
 
 
 const ResponsiveAppBar = () => {
 	const [anchorElNav, setAnchorElNav] = React.useState(null);
 	const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+	var pages = ["Dashboard"];
+	var settings = ["sign in","sign up"];
+
+
+	// eslint-disable-next-line react/prop-types
+	const userType = authService.getCurrentUserType();
+
+	if(userType === 0){
+		pages = ["Dashboard", "My Dashboard", "Orders","Help Center"];
+		settings = ["My Profile","Logout"];
+	}else if(userType === 1){
+		pages = ["Dashboard", "Marketplace", "My Refunds"];
+		settings = ["My Profile","Logout"];
+	}else if(userType === 2){
+		pages = ["Dashboard", "Manage Producers", "Support Management","Agri Data"];
+		settings = ["Logout"];
+	}else if(userType === 3){
+		pages = ["Dashboard", "Manage Accounts"];
+		settings = ["Logout"];
+	}else{
+		pages = ["Dashboard"];
+		settings = ["sign in","sign up"];
+	}
 
 	const handleOpenNavMenu = (event) => {
 		setAnchorElNav(event.currentTarget);
@@ -77,18 +82,20 @@ const ResponsiveAppBar = () => {
 		}
 	};
 
-	const handleCloseUserMenu = (event) => {
+	const handleCloseUserMenu = async (event) => {
 		setAnchorElUser(null);
-		if(event.target.name === "My Profile" && userType === 0){
+		if (event.target.innerHTML === "My Profile" && userType === 0) {
 			window.location.assign("/producer/myProfile");
-		}else if(event.target.name === "My Profile" && userType === 1){
+		} else if (event.target.innerHTML === "My Profile" && userType === 1) {
 			window.location.assign("/buyer/myProfile");
-		}else if(event.target.name === "sign in"){
+		} else if (event.target.innerHTML === "sign in") {
 			window.location.assign("/login");
-		}else if(event.target.name === "sign up"){
+		} else if (event.target.innerHTML === "sign up") {
 			window.location.assign("/signup");
+		} else if (event.target.innerHTML === "Logout") {
+			await authService.logout();
+			window.location.assign("/");
 		}
-		console.log(event);
 	};
 
 	return (
