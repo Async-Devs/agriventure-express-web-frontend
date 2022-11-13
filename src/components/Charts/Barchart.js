@@ -8,7 +8,7 @@ import {
 	Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
-import { faker } from "@faker-js/faker";
+import React from "react";
 
 ChartJS.register(
 	CategoryScale,
@@ -32,35 +32,25 @@ export const options = {
 	},
 };
 
-const labels = ["Carrot", "Beet", "Leeks", "Cabbage", "Garlic", "Ginger", "Onions"];
+const labels = ["Rice", "Beet", "Leeks", "Cabbage", "Garlic", "Ginger", "Onions"];
 
 export const data = {
 	labels,
 	datasets: [
 		{
-			label: "Last year amount",
+			label: "Crop amount",
 			data: [100,200,300,400,500,600,700],
 			backgroundColor: "rgb(0,21,255)",
-		},
-		{
-			label: "Current year amount",
-			data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-			backgroundColor: "rgb(0,224,11)",
-		},
+		}
 	],
 };
 
-
 function Barchart() {
 	return (
-		// eslint-disable-next-line react/react-in-jsx-scope
-		<div className="chart">
-			{/* eslint-disable-next-line react/react-in-jsx-scope */}
-			<Bar
-				options={options}
-				data={data}
-			/>
-		</div>
+		<Bar
+			options={options}
+			data={data}
+		/>
 	);
 }
 
