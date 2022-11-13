@@ -8,7 +8,6 @@ import {
 	Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
-import { faker } from "@faker-js/faker";
 
 ChartJS.register(
 	CategoryScale,
@@ -41,12 +40,7 @@ export const data = {
 			label: "Last year amount",
 			data: [100,200,300,400,500,600,700],
 			backgroundColor: "rgb(0,21,255)",
-		},
-		{
-			label: "Current year amount",
-			data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-			backgroundColor: "rgb(0,224,11)",
-		},
+		}
 	],
 };
 

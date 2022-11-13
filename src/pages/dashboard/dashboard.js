@@ -1,10 +1,6 @@
 import React from "react";
 import "./dashboard.module.css";
 import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
-import BarChart from "../../components/Charts/Barchart";
-import Map from "../../components/map/map";
-
 
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -16,6 +12,7 @@ import farmerimg from "../../img/farmer.jpg";
 import mapimg from "../../img/map.png";
 
 import Video from "./video";
+import Visualize from "./visualization";
 
 
 
@@ -23,9 +20,9 @@ import Video from "./video";
 function Dashboard(){
 
 	// states
-	// const [district,setDistrict] = useState();
 
 	//data access from axios
+
 
 	//function
 	// eslint-disable-next-line no-mixed-spaces-and-tabs
@@ -102,20 +99,12 @@ function Dashboard(){
 							</CardActionArea>
 						</Card>
 					</Grid>
-					<Grid item xs={12} md={8}>
-						<Paper >
-							<BarChart/>
-						</Paper>
-					</Grid>
-					<Grid item xs={12} md={4}>
-						<Paper>
-							<Map/>
-						</Paper>
-					</Grid>
+					<Visualize/>
 				</Grid>
 			</div>
 		</div>
 	);
 }
+
 
 export default Dashboard;
