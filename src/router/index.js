@@ -81,7 +81,7 @@ function AppRouter(props){
 						<Route path = "/buyer">
 							<Route path = "marketplace" >
 								<Route index element={<Marketplace/>} />
-								<Route path = ":itemId" element={<ItemView/>} />
+								<Route path = ":itemId" element={<ItemView user={type}/>} />
 							</Route>
 							<Route path = "buy-menu" >
 								<Route index element={<BuyMenu/>} />
