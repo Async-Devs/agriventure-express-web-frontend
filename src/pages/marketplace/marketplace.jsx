@@ -16,6 +16,7 @@ function Marketplace(){
 	const [pagedData, setPaginateData] = useState([]);
 	const [filteredData, setFilterData] = useState([]);
 	const [filteredCustomData, setFilterCustomData] = useState([-1,-1,-1,-1]);
+	const [sortParameters, setSortParameters] = useState([-1,-1,-1,-1]);
 	const [sortedData, setSortedData] = useState([]);
 	const pageSize = 12;
 
@@ -38,7 +39,7 @@ function Marketplace(){
 	// Paginate Data
 	useEffect(()=>{
 		sortData();
-	},[filteredData]);
+	},[filteredData, sortParameters]);
 
 	// setupFiltered Data
 	useEffect(()=>{
@@ -152,8 +153,10 @@ function Marketplace(){
 	}
 
 	function sortData(param = -1){
+		setCurrentPage(1);
+		param = sortParameters;
 		let data = filteredData;
-		if(param==-1){
+		if(param.bid ==-1 && param.quantity == -1){
 			setSortedData(data);
 			return;
 		}
@@ -176,7 +179,7 @@ function Marketplace(){
 		}
 	}
 	function sortParams(val){
-		sortData(val);
+		setSortParameters(val);
 	}
 
 	function handleOnFilterReset(){
@@ -219,7 +222,7 @@ function Marketplace(){
 			<Grid container item spacing={3}>
 				{pagedData.map((p)=>{
 					return(
-						<Grid item container key={p._id} xs={12} sm={6} md={4} lg={3} xl={3}>
+						<Grid item container key={p._id} xs={12} sm={6} md={6} lg={4} xl={3}>
 							<MarketplaceCard
 								itemId={p._id}
 								imgSrc={p.images[0].src}
@@ -237,18 +240,18 @@ function Marketplace(){
 
 	return(
 		<Grid container data-testid={"Marketplace"} justifyContent={"center"} p={3}>
-			<Grid item container maxWidth={1600} justifyContent={"center"}>
+			<Grid item container maxWidth={1600} justifyContent={"center"} spacing={3}>
 				<Grid item container xs={12}>
 					<Grid item xs={12}>
 						<Typography variant={"h3"}>Marketplace</Typography>
 					</Grid>
 				</Grid>
-				<Grid item container xs={12} xl={3} mt={1}>
-					<Grid container item mt={3} mr={3} data-testid={"MarketplaceFilters"}>
+				<Grid item container xs={12} md={4} lg={3} mt={1}>
+					<Grid container item mt={3} data-testid={"MarketplaceFilters"}>
 						<MarketPlaceFilters filterOnchange={onFilterChange} rangeQuantity={customQuantityFilter} rangeBid={customBidFilter} sortParams={sortParams} onFilterReset={handleOnFilterReset}/>
 					</Grid>
 				</Grid>
-				<Grid item container spacing={3} mt={1} mb={5} xs={12} xl={9} direction={"column"} justifyContent={"flex-start"} alignItems={"stretch"}>
+				<Grid item container spacing={3} mt={1} mb={5} xs={12} lg={9} md={8} direction={"column"} justifyContent={"flex-start"} alignItems={"stretch"}>
 					<Grid item data-testid={"MarketplaceSearchbar"}>
 						<SearchBar/>
 					</Grid>
