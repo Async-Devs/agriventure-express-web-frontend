@@ -20,8 +20,8 @@ function Map(props){
 	}
 
 	return (
-		<div className="map">
-			<svg baseProfile="tiny" fill="#ffffff" height="500" stroke="green" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" version="1.2" viewBox="0 0 1000 1745" width="auto" xmlns="http://www.w3.org/2000/svg">
+		<div className="map" >
+			<svg baseProfile="tiny" fill="#ffffff" height="453" stroke="green" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" version="1.2" viewBox="0 0 1000 1745" width="auto" xmlns="http://www.w3.org/2000/svg" style={{marginTop:"20px", marginBottom:"10px"}}>
 
 				<a xlinkTitle="Mahanuvara">
 					<path
