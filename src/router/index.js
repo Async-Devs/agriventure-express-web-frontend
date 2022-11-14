@@ -16,7 +16,7 @@ import Marketplace from "../pages/marketplace/marketplace";
 import RefundRequests from "../pages/refundRequests/refundRequests";
 import RefundRequestBuyer from "../pages/refundRequestBuyer/refundRequestBuyer";
 import SupportRequests from "../pages/supportRequest/supportRequests";
-import MySupport from "../pages/supportRequestsBuyer/mySupport";
+import MySupport from "../pages/supportRequestsProducer/mySupport";
 import AddProducers from "../pages/addProducer/addProducers";
 import ManageProducers from "../pages/managePruducers/manageProducers";
 import ManageAccounts from "../pages/manageAccounts/manageAccounts";

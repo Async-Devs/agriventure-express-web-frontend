@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import {
+	Chip,
 	Dialog, DialogActions, DialogContent, DialogContentText,
 	DialogTitle,
 	Divider,
@@ -23,6 +24,19 @@ function SupportRequestList(props){
 	const [reply,setReply] = useState();
 
 	function onClickRequest(event){
+		// eslint-disable-next-line no-undef
+		Axios.put(`${process.env.REACT_APP_API_URL}/producerUsers/openSupportRequest`,{
+			id: event.target.id
+		},{
+			headers: {"x-auth-token": authService.getCurrentUser()}
+		}).then(async (newRes)=>{
+			if(!newRes.data.success){
+				alert("can not sync with the server");
+			}else{
+				// eslint-disable-next-line react/prop-types
+				props.setRefresh(props.refresh + 1);
+			}
+		});
 		// eslint-disable-next-line react/prop-types
 		setActiveRequest(props.requests.filter(request => request._id === event.target.id)[0]);
 		setOpen(true);
@@ -68,7 +82,8 @@ function SupportRequestList(props){
 						if(!newRes.data.success){
 							alert("Delete the message");
 						}else{
-							console.log(newRes.data);
+							// eslint-disable-next-line react/prop-types
+							props.setRefresh(props.refresh + 1);
 						}
 					});
 				}
@@ -102,7 +117,7 @@ function SupportRequestList(props){
 						secondary={
 							<React.Fragment>
 								<Grid container>
-									<Grid item xs={12} sm={6}>
+									<Grid item xs={12}>
 										<Typography
 											sx={{ display: "inline" }}
 											component="span"
@@ -113,19 +128,22 @@ function SupportRequestList(props){
 										</Typography>
 									</Grid>
 									<Grid item xs={12} >
-										{/* eslint-disable-next-line react/prop-types */}
-										{props.user.firstName + " " + props.user.lastName}
-									</Grid>
-									<Grid item xs={12} >
 										{supportRequest.date.substring(0,10) + "  " + supportRequest.date.substring(11,16)}
+									</Grid>
+									{/* eslint-disable-next-line react/prop-types */}
+									<Grid hidden={(supportRequest.isProducerRead && props.user.login.userType === 0) || (supportRequest.isOfficerRead && props.user.login.userType === 3)} item xs={12} >
+										{/* eslint-disable-next-line react/prop-types */}
+										<Chip color="success" label="new" />
 									</Grid>
 								</Grid>
 							</React.Fragment>
 						}
 					/>
-					<ListItemButton id={supportRequest._id} name={supportRequest._id} onClick={onClickRequest} dense>
-						Open
-					</ListItemButton>
+					<Grid item xs={12} >
+						<ListItemButton  id={supportRequest._id} name={supportRequest._id} onClick={onClickRequest} dense>
+							open
+						</ListItemButton>
+					</Grid>
 				</ListItem>
 
 				<Divider variant="inset" component="li" />

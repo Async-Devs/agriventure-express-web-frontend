@@ -53,7 +53,7 @@ const ResponsiveAppBar = () => {
 		pages = ["Dashboard", "My Dashboard", "Orders","Help Center"];
 		settings = ["My Profile","Logout"];
 	}else if(userType === 1){
-		pages = ["Dashboard", "Marketplace", "My Refunds"];
+		pages = ["Dashboard", "Marketplace","My Orders","My Refunds"];
 		settings = ["My Profile","Logout"];
 	}else if(userType === 2){
 		pages = ["Dashboard", "Manage Producers", "Support Management","Agri Data"];
@@ -95,6 +95,8 @@ const ResponsiveAppBar = () => {
 			window.location.assign("/officer/agriDataManage");
 		}else if(event.target.name === "Manage Accounts"){
 			window.location.assign("/admin/manageAccounts");
+		}else if(event.target.name === "My Orders"){
+			window.location.assign("/buyer/buy-menu");
 		}
 	};
 

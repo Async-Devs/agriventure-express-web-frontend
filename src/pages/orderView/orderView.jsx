@@ -75,7 +75,7 @@ function OrderView(){
 						</ButtonGroup>
 					</Grid>
 					<Grid container item xs={2} mt={topGap} height={itemHeight} justifyContent={"right"}>
-						<LinkedButton href={"/orders"} content={"Back"}/>
+						<LinkedButton href={".."} content={"Back"}/>
 					</Grid>
 
 				</Grid>
