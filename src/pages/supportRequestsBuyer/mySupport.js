@@ -6,18 +6,20 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import {CircularProgress, Grid} from "@mui/material";
 import Typography from "@mui/material/Typography";
-import ChatWindow from "../../components/chatWindow/chatWindow";
 import Button from "@mui/material/Button";
 import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
 import Axios from "axios";
 import authService from "../../services/auth.service";
+import SupportRequestChatWindow from "../../components/chatWindow/supportRequestChatWindow";
+
 
 function MySupport() {
 	const [value, setValue] = useState("1");
 	const [activeRequest,setActiveRequest] = useState([]);
 	const [oldRequest,setOldRequest] = useState([]);
 	const [isLoading,setIsLoading] = useState(true);
+	const [myProfile,setMyProfile] = useState();
 
 	useEffect(()=>{
 
@@ -35,6 +37,20 @@ function MySupport() {
 		}
 
 		getMyRequests();
+
+		async function getMyProfile() {
+			// eslint-disable-next-line no-undef
+			const myProfile = await Axios.get(`${process.env.REACT_APP_API_URL}/publicUsers/myProfile`,{
+				headers: { "x-auth-token": authService.getCurrentUser()
+				}});
+			if(myProfile.data.success){
+				setMyProfile(myProfile.data.user);
+			}else{
+				alert("Error occured!");
+			}
+		}
+
+		getMyProfile();
 		setIsLoading(false);
 	},[]);
 
@@ -65,8 +81,8 @@ function MySupport() {
 										<Tab label="Old Requests" value="3" />
 									</TabList>
 								</Box>
-								<TabPanel value="1"><ChatWindow requests={activeRequest} mode={value} userType={1}/></TabPanel>
-								<TabPanel value="3"><ChatWindow requests={oldRequest} mode={value} userType={1}/></TabPanel>
+								<TabPanel value="1"><SupportRequestChatWindow user={myProfile} requests={activeRequest} mode={value} userType={1}/></TabPanel>
+								<TabPanel value="3"><SupportRequestChatWindow user={myProfile} requests={oldRequest} mode={value} userType={1}/></TabPanel>
 							</TabContext>
 						</Box>
 					</Grid>

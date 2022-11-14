@@ -6,11 +6,12 @@ import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextInput from "../../../components/textInput/textInput";
-import SelectInput from "../../../components/selectInput/selectInput";
+// import SelectInput from "../../../components/selectInput/selectInput";
 import SaveIcon from "@mui/icons-material/Save";
 import Axios from "axios";
 import {Link} from "react-router-dom";
 import {Alert} from "@mui/lab";
+import authService from "../../../services/auth.service";
 
 function EditMyProfileForm(){
 
@@ -23,7 +24,6 @@ function EditMyProfileForm(){
 	const [userType,setUserType] = useState(1);
 	const [emailOrg,setEmailOrg] = useState();
 	const [telNoOrg,setTelNoOrg] = useState();
-	const [cropTypesOrg,setCropTypesOrg] =useState();
 	const [error,setError] = useState();
 	const [errorHidden,setErrorHidden] = useState(true);
 	const [firstName,setFirstName] = useState();
@@ -33,33 +33,31 @@ function EditMyProfileForm(){
 	const [addressOrg,setAddressOrg] = useState();
 	const [isLoading,setIsLoading] = useState(true);
 	const [userName,setUserName] = useState();
-	const [cropList,setCropList] = useState([]);
-	const [allCropList,setAllCropList] = useState([]);
 	const [id,setId] = useState();
 
 
 	useEffect(()=> {
 		async function getUser() {
 			// eslint-disable-next-line no-undef
-			const user = await Axios.get(`${process.env.REACT_APP_API_URL}/users/getById/`,{params: {id: user_id}});
+			const user = await Axios.get(`${process.env.REACT_APP_API_URL}/publicUsers/myProfile`,{
+				headers: {"x-auth-token": authService.getCurrentUser()}
+			});
 			if (user.data.success) {
-				console.log(user.data.typeDetails);
-				setUserType(user.data.user.userType);
-				setId(user.data.typeDetails._id);
-				setUserName(user.data.user.userName);
-				setFirstName(user.data.typeDetails.firstName);
-				setLastName(user.data.typeDetails.lastName);
-				setNic(user.data.typeDetails.nic);
-				setEmail(user.data.typeDetails.email);
-				setEmailOrg(user.data.typeDetails.email);
-				setTelNoOrg(user.data.typeDetails.telNum);
-				setTelNo(user.data.typeDetails.telNum);
-				setAddress(user.data.typeDetails.address);
-				setAddressOrg(user.data.typeDetails.address);
-				if(user.data.user.userType === 0){
-					setLocation(user.data.typeDetails.location.name);
-					setCropList(user.data.typeDetails.cropTypes.map(a => a._id));
-					setCropTypesOrg(user.data.typeDetails.cropTypes.map(a => a._id));
+				console.log(user.data);
+				setUserType(user.data.user.login.userType);
+				setId(user.data.user._id);
+				setUserName(user.data.user.login.userName);
+				setFirstName(user.data.user.firstName);
+				setLastName(user.data.user.lastName);
+				setNic(user.data.user.nic);
+				setEmail(user.data.user.email);
+				setEmailOrg(user.data.user.email);
+				setTelNoOrg(user.data.user.telNum);
+				setTelNo(user.data.user.telNum);
+				setAddress(user.data.user.address);
+				setAddressOrg(user.data.user.address);
+				if(user.data.user.login.userType === 0){
+					setLocation(user.data.user.location);
 				}
 			} else {
 				alert("Error occurred!");
@@ -68,12 +66,6 @@ function EditMyProfileForm(){
 
 		getUser();
 
-		async function getCropList(){
-			// eslint-disable-next-line no-undef
-			const crops = await Axios.get(`${process.env.REACT_APP_API_URL}/cropTypes`);
-			setAllCropList(crops.data);
-		}
-		getCropList();
 
 
 		setIsLoading(false);
@@ -104,17 +96,13 @@ function EditMyProfileForm(){
 		}
 	}
 
-	function validateNonEmptyArray(list){
-		return list.length !== 0;
-	}
-
 	function validateUnchanged(){
-		return (email === emailOrg && telNo === telNoOrg && address === addressOrg && JSON.stringify(cropList) === JSON.stringify(cropTypesOrg));
+		return (email === emailOrg && telNo === telNoOrg && address === addressOrg);
 	}
 
 	function handleSubmit(event){
 		event.preventDefault();
-		if(validateNonEmpty(email) && validateNonEmpty(telNo) && validateNonEmpty(address) && (validateNonEmptyArray(cropList) || userType === 1)){
+		if(validateNonEmpty(email) && validateNonEmpty(telNo) && validateNonEmpty(address)){
 			if(!validateEmail(email)){
 				setError("Invalid Email Address!");
 				setErrorHidden(false);
@@ -132,7 +120,6 @@ function EditMyProfileForm(){
 						email: email,
 						telNum: telNo,
 						address: address,
-						cropTypes: cropList
 					};
 					// eslint-disable-next-line no-undef
 					Axios.put(`${process.env.REACT_APP_API_URL}/producers/updateMyProfile`,editValues).then( async (res)=>{
@@ -170,8 +157,6 @@ function EditMyProfileForm(){
 			setTelNo(event.target.value);
 		}else if(event.target.name === "address"){
 			setAddress(event.target.value);
-		}else if(event.target.name === "cropTypes"){
-			setCropList(event.target.value);
 		}
 	}
 
@@ -213,7 +198,7 @@ function EditMyProfileForm(){
 								<Card variant="elevation" elevation={3}>
 									<CardContent>
 										<Typography variant="h6">Location</Typography>
-										<Typography variant="body2">{location}</Typography>
+										<Typography variant="body2">{location.city}</Typography>
 									</CardContent>
 								</Card>
 							</Grid>
@@ -239,9 +224,9 @@ function EditMyProfileForm(){
 								<TextInput name="address" label="Address" value={address} onChange={handleChange} required={true}/>
 							</Grid>
 
-							<Grid item xs={12} sm={6} justifyContent="center" hidden={userType===1} >
-								<SelectInput name="cropTypes" label="Crop Types" value={cropList} onChange={handleChange} required={true} options={allCropList} multi={true}/>
-							</Grid>
+							{/*<Grid item xs={12} sm={6} justifyContent="center" hidden={userType===1} >*/}
+							{/*	<SelectInput name="cropTypes" label="Crop Types" value={cropList} onChange={handleChange} required={true} options={allCropList} multi={true}/>*/}
+							{/*</Grid>*/}
 
 							<Grid item xs={12} align="center">
 								<Link to={".."} style={{ textDecoration: "none" }}>

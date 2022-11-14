@@ -33,7 +33,6 @@ function MyProfile(){
 	const [email,setEmail] = useState();
 	const [telNum,setTelNum] = useState();
 	const [address,setAddress] = useState();
-	const [cropTypes,setCropTypes] = useState([]);
 	const [location,setLocation] = useState();
 	const [id,setId] = useState();
 	const [isExsist,setIsExsist] = useState();
@@ -41,7 +40,6 @@ function MyProfile(){
 	useEffect(() => {
 
 		async function getUser() {
-			// eslint-disable-next-line no-undef
 			const user = await Axios.get(`${process.env.REACT_APP_API_URL}/publicUsers/myProfile/`,
 				{
 					headers: { "x-auth-token": authService.getCurrentUser()
@@ -57,8 +55,7 @@ function MyProfile(){
 				setTelNum(user.data.user.telNum);
 				setAddress(user.data.user.address);
 				if(user.data.user.login.userType === 0){
-					setCropTypes(user.data.user.cropTypes);
-					setLocation(user.data.user.location.name);
+					setLocation(user.data.user.location.city);
 				}
 				setIsExsist(true);
 			} else {
@@ -123,7 +120,6 @@ function MyProfile(){
 							address={address}
 							telephoneNumber={telNum}
 							location={location}
-							cropTypes={cropTypes}
 							userType={userType}/>
 					</Grid>
 

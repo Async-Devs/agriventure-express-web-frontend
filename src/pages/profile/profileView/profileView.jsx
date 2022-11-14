@@ -1,5 +1,5 @@
 import React from "react";
-import {Chip, Divider, Grid, List, ListItem, ListItemAvatar, ListItemText} from "@mui/material";
+import { Divider, Grid, List, ListItem, ListItemAvatar, ListItemText} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
@@ -10,7 +10,7 @@ import MailRoundedIcon from "@mui/icons-material/MailRounded";
 import PhoneRoundedIcon from "@mui/icons-material/PhoneRounded";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ShareLocationIcon from "@mui/icons-material/ShareLocation";
-import YardIcon from "@mui/icons-material/Yard";
+
 
 function ProfileView(props){
 
@@ -150,25 +150,6 @@ function ProfileView(props){
 											<React.Fragment>
 												{/* eslint-disable-next-line react/prop-types */}
 												{props.location}
-											</React.Fragment>
-										}
-									/>
-								</ListItem>
-
-								<Divider variant="inset" component="li" />
-								{/* eslint-disable-next-line react/prop-types */}
-								<ListItem alignItems="flex-start">
-									<ListItemAvatar>
-										<YardIcon />
-									</ListItemAvatar>
-									<ListItemText
-										primary="Crop Types"
-										secondary={
-											<React.Fragment>
-												{/* eslint-disable-next-line react/prop-types */}
-												{props.cropTypes.map(cropType => (
-													<Chip sx={{mr:1}} key={cropType.name} label={cropType.name} variant="outlined" />
-												))}
 											</React.Fragment>
 										}
 									/>

@@ -18,6 +18,7 @@ const login = (userName,password) =>{
 
 const logout = () => {
 	localStorage.removeItem("user");
+	window.location.assign("/login");
 };
 
 const getCurrentUser = () => {
@@ -40,12 +41,33 @@ const getCurrentUserId = () => {
 	return jwt_decode(token).userId;
 };
 
+const getCurrentUserExp = () => {
+	const token = JSON.parse(localStorage.getItem("user"));
+	if(token === null){
+		return -1;
+	}
+	return jwt_decode(token).exp;
+};
+
+const isAuthenticated = () => {
+	const exp = getCurrentUserExp();
+	if(exp === -1){
+		return false;
+	}
+	if(Date.now() >= exp * 1000){
+		logout();
+	}
+	return true;
+};
+
 const authService = {
 	login,
 	logout,
 	getCurrentUser,
 	getCurrentUserType,
-	getCurrentUserId
+	getCurrentUserId,
+	getCurrentUserExp,
+	isAuthenticated
 };
 
 export default authService;
