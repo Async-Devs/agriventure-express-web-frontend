@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {CircularProgress, Grid} from "@mui/material";
 import BuyMenuTable from "./buyMenuTable";
-import {getAllOrders} from "../../services/orderServices";
+import {getAllOrders, getAllOrdersForBuyer, getAllOrdersForProducer} from "../../services/orderServices";
+import authService from "../../services/auth.service";
 
 function BuyMenu(){
 	const [orderArray, setOrderArray] = useState([]);
@@ -9,11 +10,7 @@ function BuyMenu(){
 	const [isLoading, setLoading] = useState(true);
 
 	useEffect(()=>{
-		async function getOrders(){
-			const {data} = await getAllOrders();
-			setOrderArray(data);
 
-		}
 		getOrders();
 		setLoading(false);
 	},[]);
@@ -21,6 +18,23 @@ function BuyMenu(){
 	useEffect(()=>{
 		setupData();
 	},[orderArray]);
+
+	async function getOrders(){
+		const userType = authService.getCurrentUserType();
+		const userId = authService.getCurrentUserId();
+		console.log(userType);
+		if(userType==1){
+			const {data} = await getAllOrdersForBuyer(userId);
+			setOrderArray(data);
+			return;
+		}else if(userType==0){
+			const {data} = await getAllOrdersForProducer(userId);
+			setOrderArray(data);
+			return;
+		}
+		const {data} = await getAllOrders();
+		setOrderArray(data);
+	}
 
 	function setupData(){
 		const modifiedData = orderArray.map((order)=>{

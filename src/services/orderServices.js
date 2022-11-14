@@ -8,4 +8,16 @@ export function getAllOrders(){
 	const orders = Axios.get(`${apiEndpoint}`);
 	return orders;
 }
+export function getAllOrdersForBuyer(buyerId){
+	const orders = Axios.get(`${apiEndpoint}/order-by-buyerId/${buyerId}`);
+	return orders;
+}
+export function getAllOrdersForProducer(producerId){
+	const orders = Axios.get(`${apiEndpoint}/order-by-producerId/${producerId}`);
+	return orders;
+}
+export function getOrderById(orderId){
+	const orders = Axios.get(`${apiEndpoint}/${orderId}`);
+	return orders;
+}
 
