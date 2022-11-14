@@ -46,7 +46,7 @@ function renderer(props){
 }
 
 CountdownTimer.propTypes = {
-	endTime: PropTypes.object
+	endTime: PropTypes.string
 };
 
 renderer.propTypes = {
