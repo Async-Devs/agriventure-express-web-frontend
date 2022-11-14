@@ -61,6 +61,7 @@ function MarketPlaceFilters(props){
 	const [sortBidState, setSortBidState] = useState(-1);
 	const [sortQuantityState, setSortQuantityState] = useState(-1);
 	const [sortParams, setSortParams] = useState({bid:-1, quantity:-1});
+	const [isResetButton, setResetButton] = useState(false);
 
 
 	useEffect(()=>{
@@ -96,6 +97,7 @@ function MarketPlaceFilters(props){
 		}
 		setChecked2([event.target.checked, event.target.checked]);
 		setChange(!change);
+		setResetButton(true);
 	};
 
 	const childHandle1 = (event) =>{
@@ -117,6 +119,7 @@ function MarketPlaceFilters(props){
 			setChecked1([false,true]);
 		}
 		setChange(!change);
+		setResetButton(true);
 	};
 	const childHandle2 = (event) =>{
 		let currentTick = event.target.id;
@@ -137,6 +140,7 @@ function MarketPlaceFilters(props){
 			setChecked2([false,true]);
 		}
 		setChange(!change);
+		setResetButton(true);
 	};
 
 	const handleBid = (event) => {
@@ -147,6 +151,7 @@ function MarketPlaceFilters(props){
 		}
 		setMinimumBid(event.target.value);
 		setChange(!change);
+		setResetButton(true);
 	};
 
 	const handleQuantity = (event) => {
@@ -157,27 +162,35 @@ function MarketPlaceFilters(props){
 		}
 		setQuantity(event.target.value);
 		setChange(!change);
+		setResetButton(true);
 	};
 
 	const handleBidMin = (event)=>{
 		const value = event.target.value;
 		if(value>=0 && value <= 1000000000000){
-			setCustomBidRange([value, customBidRange[1]]);}
+			setCustomBidRange([value, customBidRange[1]]);
+			setResetButton(true);
+		}
 	};
 	const handleBidMax = (event)=>{
 		const value = event.target.value;
 		if(value>=0 && value <= 1000000000000){
-			setCustomBidRange([customBidRange[0], value]);}
+			setCustomBidRange([customBidRange[0], value]);
+			setResetButton(true);
+		}
 	};
 	const handleQuantityMin = (event)=>{
 		const value = event.target.value;
 		if(value>=0 && value <= 1000000000000){
-			setCustomQuantityRange([value, customQuantityRange[1]]);}
+			setCustomQuantityRange([value, customQuantityRange[1]]);
+			setResetButton(true);
+		}
 	};
 	const handleQuantityMax = (event)=>{
 		const value = event.target.value;
 		if(value>=0 && value <= 1000000000000){
 			setCustomQuantityRange([customQuantityRange[0], value]);
+			setResetButton(true);
 		}
 	};
 	const handleBidRangeSubmit = ()=>{
@@ -189,6 +202,7 @@ function MarketPlaceFilters(props){
 			setCustomFilterWarning([false, customFilterWarning[1]]);
 			props.rangeBid(customBidRange);
 			setChange(!change);
+			setResetButton(true);
 		}
 	};
 
@@ -201,6 +215,7 @@ function MarketPlaceFilters(props){
 			setCustomFilterWarning([customFilterWarning[0], false]);
 			props.rangeQuantity(customQuantityRange);
 			setChange(!change);
+			setResetButton(true);
 		}
 	};
 
@@ -209,6 +224,7 @@ function MarketPlaceFilters(props){
 		setSortQuantityState(-1);
 		setSortBidState(value);
 		setSortParams({bid:value, quantity:-1});
+		setResetButton(true);
 	};
 
 	const handleSortQuantityState = (event)=>{
@@ -216,6 +232,7 @@ function MarketPlaceFilters(props){
 		setSortBidState(-1);
 		setSortQuantityState(value);
 		setSortParams({bid:-1, quantity:value});
+		setResetButton(true);
 	};
 
 	const handleOnPageReset=()=>{
@@ -236,6 +253,35 @@ function MarketPlaceFilters(props){
 		setSortQuantityState(-1);
 		setSortParams({bid:-1, quantity:-1});
 		props.onFilterReset();
+		setResetButton(false);
+	};
+
+	const resetButton = ()=>{
+		if(isResetButton){
+			return(
+				<Grid item container>
+
+					<Grid item xs={6}>
+						<Typography variant={"h5"} align={"center"}>Filters</Typography>
+					</Grid>
+					<Grid item xs={6} align={"center"}>
+						<Button color={"warning"} variant={"contained"} sx={
+							{
+								color:"white",
+								borderRadius: "100px"
+							}
+						}
+						onClick={handleOnPageReset}>Reset</Button>
+					</Grid>
+				</Grid>
+
+			);
+		}
+		return (
+			<Grid item xs={12}>
+				<Typography variant={"h5"} align={"center"}>Filters</Typography>
+			</Grid>
+		);
 	};
 
 	const districtChildren = (
@@ -284,17 +330,11 @@ function MarketPlaceFilters(props){
 		</Grid>
 	);
 	return(
-		<Grid item xl={12} xs={10} maxWidth={500}>
+		<Grid item xs={12}>
 			{/*<Paper elevation={2} sx={{borderRadius: "10px"}}>*/}
 			<Grid container mt={2}>
-				<Grid item xs={12} mb={3}>
-					<Typography variant={"h5"} align={"center"}>Filters<Button color={"warning"} variant={"contained"} sx={
-						{
-							color:"white",
-							borderRadius: "100px"
-						}
-					}
-					onClick={handleOnPageReset}>Reset</Button></Typography>
+				<Grid container item xs={12} mb={3}>
+					{resetButton()}
 				</Grid>
 				<Grid item xs={12}>
 					<Accordion>
@@ -457,7 +497,7 @@ function MarketPlaceFilters(props){
 							aria-controls="panel1a-content"
 							id="panel1a-header"
 						>
-							<Typography variant={"h6"} align={"center"}>Crop</Typography>
+							<Typography variant={"h6"} align={"center"}>Top Crop Catergories</Typography>
 						</AccordionSummary>
 						<AccordionDetails style={
 							{marginBottom:"20px", borderTop:"solid", borderWidth:"1px", borderTopColor:"#eeeeee"}
