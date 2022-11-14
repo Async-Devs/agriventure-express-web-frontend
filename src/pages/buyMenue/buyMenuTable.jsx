@@ -1,14 +1,18 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import {Button} from "@mui/material";
+import {Button, Grid, Typography} from "@mui/material";
 import CustomTable from "../../components/customTable/customTable";
+import PropTypes from "prop-types";
 
-function BuyMenuTable(){
+function BuyMenuTable(props){
+	// eslint-disable-next-line no-unused-vars
+	const {data} = props;
 	//Documentation => https://mui.com/x/react-data-grid/column-definition/
 	const columns = [
 		{ field: "id", headerName: "Order ID", width: 250 },
+		{ field: "payment", headerName: "Payment", width: 150 },
 		{ field: "paymentStatus", headerName: "Payment Status", width: 150 },
-		{ field: "deliveryStatus", headerName: "Delivery Status", width: 150 },
+		{ field: "deliveryStatus", headerName: "Delivery Status", width: 150, sortable: false },
 		{ field: "view",
 			headerName: "View",
 			sortable: false,
@@ -30,91 +34,43 @@ function BuyMenuTable(){
 		}
 	];
 
+	function noRowsOverlay(){
+		return(
+			<Grid item align="center"  xs={12} minHeight={1200}>
+				<Typography variant={"h5"}>
+					No Orders Available
+				</Typography>
+				<img height={250} src={"https://www.creativefabrica.com/wp-content/uploads/2021/01/04/Mustard-Sad-Vegetable-Cute-Kawaii-Graphics-7557389-1.jpg"}/>
+			</Grid>
+		);
+	}
 
-	// Back end API call here
-	const orderArray = [
-		{
-			"id": "63321afd506d36a8791e7b6f",
-			"paymentStatus": "PAID",
-			"deliveryStatus": "DELIVERED"
-		},
-		{
-			"id": "63321afd355afe87f98f80f5",
-			"paymentStatus": "PAID",
-			"deliveryStatus": "DELIVERED"
-		},
-		{
-			"id": "63321afdeae9e6c8d2859392",
-			"paymentStatus": "PAID",
-			"deliveryStatus": "DELIVERED"
-		},
-		{
-			"id": "63321afd11bf98fc81d49af6",
-			"paymentStatus": "PAID",
-			"deliveryStatus": "DELIVERED"
-		},
-		{
-			"id": "63321afd167bf1d3aa071985",
-			"paymentStatus": "PAID",
-			"deliveryStatus": "DELIVERED"
-		},
-		{
-			"id": "63321afd85a08818f8cd7461",
-			"paymentStatus": "PAID",
-			"deliveryStatus": "DELIVERED"
-		},
-		{
-			"id": "63321afdd79c76d23e3c6ada",
-			"paymentStatus": "PAID",
-			"deliveryStatus": "DELIVERED"
-		},
-		{
-			"id": "63321afd8f74679035db0170",
-			"paymentStatus": "PAID",
-			"deliveryStatus": "DELIVERED"
-		},
-		{
-			"id": "63321afd347f2b128f236a1c",
-			"paymentStatus": "PAID",
-			"deliveryStatus": "DELIVERED"
-		},
-		{
-			"id": "63321afd1c7ef7a179864a80",
-			"paymentStatus": "PAID",
-			"deliveryStatus": "DELIVERED"
-		},
-		{
-			"id": "63321afd780e106de038760a",
-			"paymentStatus": "PAID",
-			"deliveryStatus": "DELIVERED"
-		},
-		{
-			"id": "63321afdcfde964ee99ad632",
-			"paymentStatus": "PAID",
-			"deliveryStatus": "DELIVERED"
-		},
-		{
-			"id": "63321afd77ebdc4e299ec531",
-			"paymentStatus": "PAID",
-			"deliveryStatus": "DELIVERED"
-		},
-		{
-			"id": "63321afd954f05ec49e5e65e",
-			"paymentStatus": "PAID",
-			"deliveryStatus": "DELIVERED"
-		},
-		{
-			"id": "63321afdecd09ca2806f2467",
-			"paymentStatus": "PAID",
-			"deliveryStatus": "DELIVERED"
-		}
-	];
+	function noResultOverlay(){
+		return(
+			<Grid item align="center"  xs={12} minHeight={1200}>
+				<Typography variant={"h5"}>
+					No Results
+				</Typography>
+				<img height={250} src={"https://www.creativefabrica.com/wp-content/uploads/2021/01/04/Mustard-Kiss-Vegetable-Cute-Kawaii-Graphics-7558057-1-580x387.jpg"}/>
+			</Grid>
+		);
+	}
+
+	const  orderArray = data;
 
 	return(
-
-		<CustomTable rows = {orderArray} columns = {columns} enableCheckBox={true}/>
-
+		<CustomTable
+			rows = {orderArray}
+			columns = {columns}
+			enableCheckBox={false}
+			customNoRowsOverlay={noRowsOverlay()}
+			customNoResultsOverlay={noResultOverlay()}
+		/>
 	);
 }
+
+BuyMenuTable.propTypes = {
+	data: PropTypes.array
+};
 
 export default BuyMenuTable;

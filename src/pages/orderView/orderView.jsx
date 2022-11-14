@@ -1,18 +1,24 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Box, ButtonGroup, Grid, Paper, Typography} from "@mui/material";
 import Button from "@mui/material/Button";
 import RefundRequest from "../../components/refundRequest/refundRequest";
+// eslint-disable-next-line no-unused-vars
 import {useParams} from "react-router-dom";
 import SaveButton, {LinkedButton} from "../../components/button/button";
 import CustomInformationListItem from "../../components/customInformationListItem/customInformationListItem";
 
 function OrderView(){
+	const {id} = useParams();
 	const [open,setOpen] = useState(false);
+	const [orderId, setOrderId] = useState(null);
 	const [refundBody,setRefundBody] = useState();
 	const [refundValue,setRefundValue] = useState();
 	const [isChatOpen, setChat] = useState({gridVal:0,chatDisplay:"none"});
 
-	const {id} = useParams();
+	useEffect(()=>{
+		setOrderId(id);
+	},[id]);
+
 	const topGap = 5;
 	const itemHeight = 10;
 
@@ -29,7 +35,7 @@ function OrderView(){
 		handleClose();
 
 	}
-
+	console.log(orderId);
 	function onClickChat(){
 		if (isChatOpen.gridVal == 0)return setChat({gridVal:4,chatDisplay:null});
 		return setChat({gridVal:0,chatDisplay:"none"});
@@ -47,7 +53,7 @@ function OrderView(){
 	}
 	return(
 		<Paper elevation={3} sx={{ flexGrow: 1, p: 5, m:5, mx: "auto", width: "80%" }}>
-			
+
 			<Grid container alignItems="center" justifyContent={"left"}>
 				<Typography gutterBottom variant="h4" component="div">
 					Order Details
@@ -57,7 +63,7 @@ function OrderView(){
 			<Grid container spacing={2}>
 				<Grid container item xs={12-isChatOpen.gridVal} alignItems={"center"}>
 
-					<CustomInformationListItem topMargin={topGap} height={itemHeight} infoTitle={"Invoice Number"} infoValue={`${id}3eaa670f-1e05-4a1d-beea-d49dccd4eef6`}/>
+					<CustomInformationListItem topMargin={topGap} height={itemHeight} infoTitle={"Invoice Number"} infoValue={orderId}/>
 					<CustomInformationListItem topMargin={topGap} height={itemHeight} infoTitle={"Producer"} infoValue={"Producer Name"}/>
 					<CustomInformationListItem topMargin={topGap} height={itemHeight} infoTitle={"Item"} infoValue={"Carrot"}/>
 					<CustomInformationListItem topMargin={topGap} height={itemHeight} infoTitle={"Quantity"} infoValue={"2 Metric Tons"}/>
@@ -86,8 +92,8 @@ function OrderView(){
 				</Grid>
 			</Grid >
 			<RefundRequest open={open} handleSubmit={handleSubmit} handleClose={handleClose} onChange={onChange} body={refundBody} value={refundValue}/>
-			
-			
+
+
 		</Paper>
 	);
 }

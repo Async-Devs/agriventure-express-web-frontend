@@ -6,6 +6,7 @@ import ItemBiddingCard from "./itemBiddingCard";
 import NotFound from "../notFound";
 import {getItemById} from "../../services/itemServices";
 import PropTypes from "prop-types";
+import socketHandler from "../../services/socketHandler";
 
 function ItemView(props){
 	const [isLoading, setLoading] = useState(true);
@@ -45,6 +46,11 @@ function ItemView(props){
 			</Grid>
 		);
 	}
+
+	if(!isLoading){
+		console.log(socketHandler.startSocket().connected);
+	}
+
 
 	return(
 		<Grid container data-testid={"Itemview"} justifyContent={"center"}>
