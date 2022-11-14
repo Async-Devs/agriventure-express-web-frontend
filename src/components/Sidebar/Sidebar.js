@@ -53,7 +53,7 @@ const ResponsiveAppBar = () => {
 		pages = ["Dashboard", "My Dashboard", "Orders","Help Center"];
 		settings = ["My Profile","Logout"];
 	}else if(userType === 1){
-		pages = ["Dashboard", "Marketplace", "My Refunds"];
+		pages = ["Dashboard", "Marketplace", "My Refunds", "Orders"];
 		settings = ["My Profile","Logout"];
 	}else if(userType === 2){
 		pages = ["Dashboard", "Manage Producers", "Support Management","Agri Data"];
@@ -79,8 +79,10 @@ const ResponsiveAppBar = () => {
 			window.location.assign("/producer/helpCenter");
 		}else if(event.target.name === "My Dashboard"){
 			window.location.assign("/producer");
-		}else if(event.target.name === "Orders"){
+		}else if(event.target.name === "Orders" && userType==0){
 			window.location.assign("/producer/orders");
+		}else if(event.target.name === "Orders" && userType==1){
+			window.location.assign("/buyer/buy-menu");
 		}else if(event.target.name === "Dashboard"){
 			window.location.assign("/");
 		}else if(event.target.name === "Marketplace"){

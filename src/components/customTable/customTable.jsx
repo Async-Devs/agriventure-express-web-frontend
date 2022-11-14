@@ -13,6 +13,18 @@ function CustomTable(props) {
 	const [filterModel, setFilterModel] = React.useState();
 	const {rows, columns, enableSelectionOnRowClick, enableCheckBox, disableToolBar, preSortUsing} = props;
 
+	function NoRowsOverlay() {
+		return(
+			props.customNoRowsOverlay
+		);
+	}
+
+	function NoResultsOverlay() {
+		return(
+			props.customNoResultsOverlay
+		);
+	}
+
 	return (
 		<div style={{ height: 400, width: "100%"}}>
 			<DataGrid
@@ -32,6 +44,8 @@ function CustomTable(props) {
 				disableColumnMenu={true}
 				components={{
 					Toolbar: disableToolBar?null:GridToolbar,
+					NoRowsOverlay,
+					NoResultsOverlay
 				}}
 				filterModel={filterModel}
 				onFilterModelChange={(newFilterModel) => setFilterModel(newFilterModel)}
@@ -57,7 +71,9 @@ CustomTable.propTypes = {
 	/** Disable the toolbar above the customTable*/
 	disableToolBar: PropTypes.bool,
 	/** Pass an object to presort the table in initial condition*/
-	preSortUsing: PropTypes.object
+	preSortUsing: PropTypes.object,
+	customNoRowsOverlay: PropTypes.element,
+	customNoResultsOverlay: PropTypes.element
 };
 
 export default CustomTable;
