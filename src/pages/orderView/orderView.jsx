@@ -18,6 +18,7 @@ import DraggableDialog from "../../components/draggablePopup/draggablePopup";
 
 function OrderView(){
 	const {id} = useParams();
+	const [isPageChange, setPageChange] = useState(true);
 	const [isLoading, setLoading] = useState(true);
 	const [open,setOpen] = useState(false);
 	const [orderId, setOrderId] = useState(null);
@@ -35,7 +36,7 @@ function OrderView(){
 
 	useEffect(()=>{
 		setOrderId(id);
-	},[id]);
+	},[id, isPageChange]);
 
 	useEffect(()=>{
 		async function getOrder(){
@@ -85,6 +86,7 @@ function OrderView(){
 
 	function onSave(){
 		updateOrderDeliveryStatus(order._id, deliveryStatus);
+		setPageChange(!isPageChange);
 	}
 
 	const handleClickOpenConfirmation = () => {
@@ -103,16 +105,17 @@ function OrderView(){
 				aria-describedby="alert-dialog-description"
 			>
 				<DialogTitle id="alert-dialog-title">
-					{"Use Google's location service?"}
+					{"Are you sure you want to confirm?"}
 				</DialogTitle>
 				<DialogContent>
 					<DialogContentText id="alert-dialog-description">
-						Let Google help apps determine location. This means sending anonymous
-						location data to Google, even when no apps are running.
+						<Grid item align="center"  xs={12}>
+							<img height={200} src={"https://www.creativefabrica.com/wp-content/uploads/2021/01/04/Mustard-Kiss-Vegetable-Cute-Kawaii-Graphics-7558057-1-580x387.jpg"}/>
+						</Grid>
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
-					<Button onClick={handleCloseConfirmation}>Discard</Button>
+					<Button onClick={handleCloseConfirmation}>Back</Button>
 					<Button onClick={onSave} autoFocus>
 						Confirm
 					</Button>
@@ -179,8 +182,25 @@ function OrderView(){
 
 	if(isLoading){
 		return (
-			<Grid>
-				<CircularProgress/>
+			<Grid container justifyContent={"center"} >
+				<Grid item container minHeight={1200} maxWidth={1200} justifyContent={"center"} p={3} overflow={"hidden"}>
+					<Paper elevation={3} sx={{ flexGrow: 1, p: 5, m:5, mx: "auto", width: "80%" }}>
+						<Box>
+							<Grid container item xs={12} alignItems={"center"}>
+								<Grid container item alignItems="center" justifyContent={"left"}>
+									<Typography gutterBottom variant="h3" component="div">
+										Order Details
+									</Typography>
+								</Grid>
+							</Grid>
+						</Box>
+						<Grid container justifyContent={"center"}>
+							<Grid item>
+								<CircularProgress/>
+							</Grid>
+						</Grid>
+					</Paper>
+				</Grid>
 			</Grid>
 		);
 	}else {
