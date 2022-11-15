@@ -2,7 +2,7 @@ import React from "react";
 import {Routes,Route,BrowserRouter} from "react-router-dom";
 
 import Dashboard from "../pages/dashboard/dashboard";
-import Orders from "../pages/orders/orders";
+// import Orders from "../pages/orders/orders";
 import Login from "../pages/login/login";
 import Signup from "../pages/signup/signup";
 import Profile from "../pages/profile/profile";
@@ -63,7 +63,7 @@ function AppRouter(props){
 							<Route index element={<ProducerDashboard />}/>
 							<Route path = "add-item" element={<AddItem/>}/>
 							<Route path = "orders" >
-								<Route index element={<Orders/>} />
+								<Route index element={<BuyMenu/>} />
 								<Route path = ":id" element={<OrderView/>} />
 							</Route>
 							<Route path = "helpCenter">
