@@ -4,9 +4,9 @@ import {Button} from "@mui/material";
 import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
 
-export default function SaveButton() {
+export default function SaveButton(props) {
 	return (
-		<Button variant="outlined">Save{" "}<SaveOutlinedIcon/></Button>
+		<Button variant="outlined" onClick={props.onClick}>Save{" "}<SaveOutlinedIcon/></Button>
 	);
 }
 
@@ -53,4 +53,7 @@ LinkedButtonRound.propTypes = {
 	href: PropTypes.string.isRequired,
 	/** The content is the Button Name */
 	content: PropTypes.string
+};
+SaveButton.propTypes = {
+	onClick: PropTypes.func
 };
