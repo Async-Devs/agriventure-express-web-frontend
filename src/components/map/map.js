@@ -16,12 +16,12 @@ function Map(props){
 		setIsHovered(e.target.id);
 	}
 	function changeData(e){
-		props.handleDistrictClick(e.target.id);
+		props.handleDistrictClick(e.target);
 	}
 
 	return (
 		<div className="map" >
-			<svg baseProfile="tiny" fill="#ffffff" height="453" stroke="green" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" version="1.2" viewBox="0 0 1000 1745" width="auto" xmlns="http://www.w3.org/2000/svg" style={{marginTop:"20px", marginBottom:"10px"}}>
+			<svg baseProfile="tiny" fill="#ffffff" height="453" stroke="green" filter="drop-shadow(5px 10px 2px rgb(0 0 0 / 0.4))" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" version="1.2" viewBox="0 0 1000 1745" width="auto" xmlns="http://www.w3.org/2000/svg" style={{marginTop:"20px", marginBottom:"10px"}}>
 
 				<a xlinkTitle="Mahanuvara">
 					<path
