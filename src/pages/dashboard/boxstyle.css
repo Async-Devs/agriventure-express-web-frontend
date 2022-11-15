@@ -1,0 +1,16 @@
+.farmer{
+    background-image: url("farmer.jpg");
+    background-size: cover;
+}
+.buyer{
+    background-image: url("buyer.jpg");
+    background-size: cover;
+}
+.crop{
+    background-image: url("crops.jpg");
+    background-size: cover;
+}
+.coverage{
+    background-image: url("map.jpg");
+    background-size: cover;
+}

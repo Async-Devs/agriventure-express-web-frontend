@@ -8,7 +8,6 @@ import {
 	Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
-import React from "react";
 
 ChartJS.register(
 	CategoryScale,
@@ -32,25 +31,30 @@ export const options = {
 	},
 };
 
-const labels = ["Rice", "Beet", "Leeks", "Cabbage", "Garlic", "Ginger", "Onions"];
+const labels = ["Carrot", "Beet", "Leeks", "Cabbage", "Garlic", "Ginger", "Onions"];
 
 export const data = {
 	labels,
 	datasets: [
 		{
-			label: "Crop amount",
+			label: "Last year amount",
 			data: [100,200,300,400,500,600,700],
 			backgroundColor: "rgb(0,21,255)",
 		}
 	],
 };
 
+
 function Barchart() {
 	return (
-		<Bar
-			options={options}
-			data={data}
-		/>
+		// eslint-disable-next-line react/react-in-jsx-scope
+		<div className="chart">
+			{/* eslint-disable-next-line react/react-in-jsx-scope */}
+			<Bar
+				options={options}
+				data={data}
+			/>
+		</div>
 	);
 }
 
