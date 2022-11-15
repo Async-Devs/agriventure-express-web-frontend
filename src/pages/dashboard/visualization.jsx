@@ -7,12 +7,12 @@ import Bargraph from "../../components/Charts/Bargraph";
 import Linegraph from "../../components/Charts/Linegraph";
 import Donutgraph from "../../components/Charts/Donutgraph";
 import {getDistrictData} from "../../services/districtData";
-import {getAgriData} from "../../services/agridataServices";
 import "@fontsource/montserrat";
 import "./visualization.css";
 import {getCropTypes} from "../../services/croptypeServices";
 import SelectInput from "../../components/selectInput/selectInput";
 import {getDistrictById} from "../../services/districtServices";
+import {getAgriData} from "../../services/agridataServices";
 
 function Visualization(){
 
