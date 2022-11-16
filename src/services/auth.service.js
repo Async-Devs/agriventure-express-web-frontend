@@ -1,5 +1,6 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
+import Axios from "axios";
 
 const login = (userName,password) =>{
 	const formBody = {
@@ -14,6 +15,14 @@ const login = (userName,password) =>{
 
 		return res.data;
 	});
+};
+
+const getGoogleAPIkey = ()=>{
+	// eslint-disable-next-line no-undef
+	const key = Axios.get(`${process.env.REACT_APP_API_URL}/producerUsers/google-API-key`,{
+		headers: { "x-auth-token": authService.getCurrentUser()
+		}});
+	return key;
 };
 
 const logout = () => {
@@ -67,7 +76,8 @@ const authService = {
 	getCurrentUserType,
 	getCurrentUserId,
 	getCurrentUserExp,
-	isAuthenticated
+	isAuthenticated,
+	getGoogleAPIkey
 };
 
 export default authService;

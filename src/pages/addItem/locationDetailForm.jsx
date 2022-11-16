@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {FormControl, Grid, InputLabel, MenuItem, Select, Typography} from "@mui/material";
 import PropTypes from "prop-types";
 import {getAllDistricts} from "../../services/districtServices";
+import GoogleMap from "../../components/GoogleMap/GoogleMap";
 
 // eslint-disable-next-line no-unused-vars
 function LocationForm(props){
@@ -9,6 +10,7 @@ function LocationForm(props){
 	const [district, setDistrict] = useState("");
 	const [cityArray, setCityArray] = useState([]);
 	const [city, setCity] = useState("");
+	const [location, setLocation] = useState({lat: "x", lng: "x"});
 
 	useEffect( () => {
 		async function fetchData() {
@@ -106,7 +108,7 @@ function LocationForm(props){
 
 				<Grid item xs={12} container justifyContent={"center"} mt={3} ml={3} mr={3}>
 					<Grid item xs={12}>
-						Location Here
+						<GoogleMap locationPointer={location} setPointer={setLocation}/>
 					</Grid>
 				</Grid>
 
