@@ -1,11 +1,20 @@
+import { render, screen } from "@testing-library/react";
 import Marketplace from "./marketplace";
-import {render} from "@testing-library/react";
-import {useState} from "react";
 
-describe(Marketplace, ()=>{
-	it("Marketplace Initial page is se to 1", ()={
-		const {} = render(
-			 
-		);
-	});
-})
+test("renders Marketplace page", () => {
+	render(<Marketplace/>);
+	const linkElement = screen.getByTestId("Marketplace");
+	expect(linkElement).toBeInTheDocument();
+});
+
+test("renders Marketplace Filter", () => {
+	render(<Marketplace/>);
+	const linkElement = screen.getByTestId("MarketplaceFilters");
+	expect(linkElement).toBeInTheDocument();
+});
+
+test("renders Marketplace searchbar", () => {
+	render(<Marketplace/>);
+	const linkElement = screen.getByTestId("MarketplaceSearchbar");
+	expect(linkElement).toBeInTheDocument();
+});

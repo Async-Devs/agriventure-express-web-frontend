@@ -2,7 +2,7 @@ import React from "react";
 import {Routes,Route,BrowserRouter} from "react-router-dom";
 
 import Dashboard from "../pages/dashboard/dashboard";
-import Orders from "../pages/orders/orders";
+// import Orders from "../pages/orders/orders";
 import Login from "../pages/login/login";
 import Signup from "../pages/signup/signup";
 import Profile from "../pages/profile/profile";
@@ -16,7 +16,7 @@ import Marketplace from "../pages/marketplace/marketplace";
 import RefundRequests from "../pages/refundRequests/refundRequests";
 import RefundRequestBuyer from "../pages/refundRequestBuyer/refundRequestBuyer";
 import SupportRequests from "../pages/supportRequest/supportRequests";
-import MySupport from "../pages/supportRequestsBuyer/mySupport";
+import MySupport from "../pages/supportRequestsProducer/mySupport";
 import AddProducers from "../pages/addProducer/addProducers";
 import ManageProducers from "../pages/managePruducers/manageProducers";
 import ManageAccounts from "../pages/manageAccounts/manageAccounts";
@@ -30,24 +30,31 @@ import EditItem from "../pages/editItem/edititem";
 import OrderCheckout from "../pages/orderCheckout/orderCheckout";
 import OfficerDashboard from "../pages/officerDashboard/officerDashboard";
 import AddOfficer from "../pages/addOfficer/addOfficer";
+import authService from "../services/auth.service";
 /*
 * Order Inventory Subsystem - Achira
 * Account Management/ Support Subsystem - Toxic Supun
 * Data Aggregation and Visualization - Ransika
+*
+*
+* type 0 - producer
+* type 1 - buyer
+* type 2 - officer
+* type 3 - admin
 * */
 
-function AppRouter(){
+function AppRouter(props){
 
 	// eslint-disable-next-line no-undef
-	let type = 2; //todo: use jwt token to identify the user type
-
+	let type = authService.getCurrentUserType();
 
 	return(
 		<BrowserRouter>
 			<>
 				<Routes>
 					<Route path = "" element={<Dashboard/>} />
-					<Route path = "/login" element={<Login/>}/>
+					{/* eslint-disable-next-line react/prop-types */}
+					<Route path = "/login" element={<Login setUser={props.setUser}/>}/>
 					<Route path = "/signup" element={<Signup/>}/>
 					<Route path = "*" element={<ErrorPage/>}/>
 
@@ -56,7 +63,7 @@ function AppRouter(){
 							<Route index element={<ProducerDashboard />}/>
 							<Route path = "add-item" element={<AddItem/>}/>
 							<Route path = "orders" >
-								<Route index element={<Orders/>} />
+								<Route index element={<BuyMenu/>} />
 								<Route path = ":id" element={<OrderView/>} />
 							</Route>
 							<Route path = "helpCenter">
@@ -74,7 +81,7 @@ function AppRouter(){
 						<Route path = "/buyer">
 							<Route path = "marketplace" >
 								<Route index element={<Marketplace/>} />
-								<Route path = ":itemId" element={<ItemView/>} />
+								<Route path = ":itemId" element={<ItemView user={type}/>} />
 							</Route>
 							<Route path = "buy-menu" >
 								<Route index element={<BuyMenu/>} />

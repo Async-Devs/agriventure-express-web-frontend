@@ -7,10 +7,12 @@ import Footer from "./components/footer/footer";
 import Sidebar from "./components/Sidebar/Sidebar";
 
 function App() {
+
+
 	return (
 
 		<ThemeProvider theme={theme}>
-			<div className="App">
+			<div className="App" data-testid={"App"}>
 				<Grid container spacing={2}>
 					<Grid item xs={12}>
 						<Sidebar/>

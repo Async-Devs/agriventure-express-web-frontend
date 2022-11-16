@@ -14,7 +14,7 @@ function BidTable(props){
 		return {
 			"id": item._id,
 			"bidTime": item.time_stamp,
-			"bidderName": item.bidder_name,
+			"bidderName": props.user!=3?"bidders' identities protected": item.bidder_name,
 			"bidAmount": item.bid_amount
 		};
 	});
@@ -33,7 +33,8 @@ function BidTable(props){
 }
 
 BidTable.propTypes = {
-	bidderArray: PropTypes.array.isRequired
+	bidderArray: PropTypes.array.isRequired,
+	user: PropTypes.number.isRequired
 };
 
 export default BidTable;

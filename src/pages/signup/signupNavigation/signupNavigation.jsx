@@ -25,8 +25,6 @@ function SignupNavigation() {
 	const [telephoneNumber,setTelephoneNumber] = useState();
 	const [nic,setNic] = useState();
 	const [address,setAddress] = useState();
-	const [fieldLocation,setFieldLocation] = useState();
-	const [cropTypes,setCropTypes] = useState([]);
 	const [error,setError] = useState();
 	const [isErrorHidden,setErrorHidden] = useState(true);
 	const [username,setUsername] = useState();
@@ -34,28 +32,17 @@ function SignupNavigation() {
 	const [confirmPassword,setConfirmPassword] = useState();
 	const [success,setSuccess] = useState(false);
 	const [fail,setFail] = useState(false);
-	const [cropList,setCropList] = useState([]);
-	const [locationList,setLocationList] = useState([]);
 	const [isLoading,setIsLoading] = useState(true);
 	const [userNames,setUsernames] = useState([]);
+	const [districts,setDistricts] = useState([]);
+	const [district,setDistrict] = useState();
+	const [city,setCity] = useState();
+	const [cities,setCities] = useState([]);
 
 	const [activeStep, setActiveStep] = React.useState(0);
 	const steps = ["User Type", "User Details", "Login Details", "Finish"];
 
 	useEffect(()=>{
-		async function getCropList(){
-			// eslint-disable-next-line no-undef
-			const crops = await Axios.get(`${process.env.REACT_APP_API_URL}/cropTypes`);
-			setCropList(crops.data);
-		}
-		getCropList();
-
-		async function getLocations(){
-			// eslint-disable-next-line no-undef
-			const locations = await Axios.get(`${process.env.REACT_APP_API_URL}/locations`);
-			setLocationList(locations.data);
-		}
-		getLocations();
 
 		async function getUserNames(){
 			// eslint-disable-next-line no-undef
@@ -63,6 +50,14 @@ function SignupNavigation() {
 			setUsernames(userNames.data.map(data => data.userName));
 		}
 		getUserNames();
+
+		async function getDistricts(){
+			// eslint-disable-next-line no-undef
+			const districts = await Axios.get(`${process.env.REACT_APP_API_URL}/guestUsers/getAllLocations`);
+			setDistricts(districts.data.districtList);
+		}
+
+		getDistricts();
 
 		setIsLoading(false);
 	},[]);
@@ -80,9 +75,6 @@ function SignupNavigation() {
 		return text !== undefined && text !== "";
 	}
 
-	function validateNonEmptyArray(list){
-		return list.length !== 0;
-	}
 
 	function validatePhoneNumber(num)
 	{
@@ -96,24 +88,7 @@ function SignupNavigation() {
 		}
 	}
 
-	function getLocationName(){
-		for(let i = 0; i < locationList.length ; i++){
-			if(locationList[i]._id === fieldLocation){
-				return locationList[i].name;
-			}
-		}
-		return null;
-	}
 
-	function getCropNames(){
-		const names = [];
-		for(let i = 0; i < cropList.length ; i++){
-			if(cropTypes.includes(cropList[i]._id)){
-				names.push({name: cropList[i].name});
-			}
-		}
-		return names;
-	}
 
 	function validateUsername(){
 		if(userNames.includes(username)){
@@ -131,10 +106,6 @@ function SignupNavigation() {
 	}
 
 	function handleSubmit(){
-		/*
-		Check and create account or forward account request to the officer.
-		output true if success, false if fail
-		 */
 
 		if(userType === 0){
 			const userReqestBody = {
@@ -145,7 +116,7 @@ function SignupNavigation() {
 			};
 
 			// eslint-disable-next-line no-undef
-			Axios.post(`${process.env.REACT_APP_API_URL}/users`, userReqestBody ).then(async (res) => {
+			Axios.post(`${process.env.REACT_APP_API_URL}/auth/addUser`, userReqestBody ).then(async (res) => {
 				if(!res.data.success){
 					alert("Error occured!");
 				}else{
@@ -157,12 +128,12 @@ function SignupNavigation() {
 						nic: nic,
 						telNum: telephoneNumber,
 						userName: username,
-						cropTypes: cropTypes,
-						location: fieldLocation,
+						district: district,
+						city: city,
 						login: res.data.user._id
 					};
 					// eslint-disable-next-line no-undef
-					Axios.post(`${process.env.REACT_APP_API_URL}/producers`,producerRequestBody).then(async (res)=>{
+					Axios.post(`${process.env.REACT_APP_API_URL}/auth/addProducer`,producerRequestBody).then(async (res)=>{
 						if(!res.data.success){
 							alert("Error occured!");
 						}else{
@@ -182,7 +153,7 @@ function SignupNavigation() {
 			};
 
 			// eslint-disable-next-line no-undef
-			Axios.post(`${process.env.REACT_APP_API_URL}/users`, userReqestBody ).then(async (res) => {
+			Axios.post(`${process.env.REACT_APP_API_URL}/auth/addUser`, userReqestBody ).then(async (res) => {
 				if(!res.data.success){
 					alert("Error occured!");
 				}else{
@@ -197,11 +168,12 @@ function SignupNavigation() {
 						login: res.data.user._id
 					};
 					// eslint-disable-next-line no-undef
-					Axios.post(`${process.env.REACT_APP_API_URL}/buyers`,buyerRequestBody).then(async (res)=>{
+					Axios.post(`${process.env.REACT_APP_API_URL}/auth/addBuyer`,buyerRequestBody).then(async (res)=>{
 						if(!res.data.success){
 							alert("Error occured!");
 						}else{
 							setSuccess(true);
+							console.log(res.data);
 							setFail(false);
 						}
 					});
@@ -222,8 +194,7 @@ function SignupNavigation() {
 		}else if(activeStep === 1){
 			if((userType === 0 && validateNonEmpty(firstName) && validateNonEmpty(lastName) && validateEmail(email)
 				&& validatePhoneNumber(telephoneNumber) && validateNonEmpty(nic) && validateNonEmpty(address)
-				&& validateNonEmpty(fieldLocation) && validateNonEmptyArray(cropTypes)) ||
-				(userType === 1 && validateNonEmpty(firstName) && validateNonEmpty(lastName) && validateEmail(email)
+				&& validateNonEmpty(district) && validateNonEmpty(city))  || (userType === 1 && validateNonEmpty(firstName) && validateNonEmpty(lastName) && validateEmail(email)
 					&& validatePhoneNumber(telephoneNumber) && validateNonEmpty(nic) && validateNonEmpty(address))){
 				setActiveStep(activeStep + 1);
 				setErrorHidden(true);
@@ -286,10 +257,12 @@ function SignupNavigation() {
 			setNic(event.target.value);
 		}else if(event.target.name === "address"){
 			setAddress(event.target.value);
-		}else if(event.target.name === "location"){
-			setFieldLocation(event.target.value);
-		}else if(event.target.name === "cropTypes"){
-			setCropTypes(event.target.value);
+		}else if(event.target.name === "district"){
+			setDistrict(event.target.value);
+			setCities(districts.filter(district => district._id === event.target.value)[0].cities);
+			setCity();
+		}else if(event.target.name === "city"){
+			setCity(event.target.value);
 		}
 	}
 
@@ -310,17 +283,17 @@ function SignupNavigation() {
 		case 1:
 			if(userType === 0){
 				return <ProducerDetails
+					district={district}
+					city={city}
+					districts={districts}
+					cities={cities}
 					firstName={firstName}
 					lastName={lastName}
 					email={email}
 					telephone={telephoneNumber}
 					nic = {nic}
 					address={address}
-					location = {fieldLocation}
-					cropTypes = {cropTypes}
-					handleChange={handleUserDetailsChange}
-					cropList = {cropList}
-					locationList = {locationList}/>;
+					handleChange={handleUserDetailsChange}/>;
 			}else{
 				return <BuyerDetails
 					firstName={firstName}
@@ -335,7 +308,7 @@ function SignupNavigation() {
 			return <LoginDetails username={username} password={password} conPassword={confirmPassword} handleChange={handleLoginDetailsChange} />;
 
 		case 3:
-			return <Finish firstName={firstName} lastName={lastName} email={email} nic={nic} address={address} telephoneNumber={telephoneNumber} location={getLocationName()} cropTypes={getCropNames()} userType={userType} success={success} fail={fail}/> ;
+			return <Finish firstName={firstName} lastName={lastName} email={email} nic={nic} address={address} telephoneNumber={telephoneNumber} userType={userType} success={success} district={userType === 0 ?  districts.filter(dis => dis._id === district)[0].name : ""} city={city} fail={fail}/> ;
 		}
 
 
@@ -392,7 +365,7 @@ function SignupNavigation() {
 
 											<Button
 												variant="contained"
-												onClick={handleNext}
+												onClick={activeStep === steps.length - 1 ? handleSubmit : handleNext}
 												sx={{ mt: 3, ml: 1 }}
 											>
 												{activeStep === steps.length - 1 ? "Submit Details" : "Next"}

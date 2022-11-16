@@ -1,5 +1,5 @@
 import React from "react";
-import {Chip, Divider, Grid, List, ListItem, ListItemAvatar, ListItemText} from "@mui/material";
+import { Divider, Grid, List, ListItem, ListItemAvatar, ListItemText} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
@@ -10,7 +10,8 @@ import MailRoundedIcon from "@mui/icons-material/MailRounded";
 import PhoneRoundedIcon from "@mui/icons-material/PhoneRounded";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ShareLocationIcon from "@mui/icons-material/ShareLocation";
-import YardIcon from "@mui/icons-material/Yard";
+import PropTypes from "prop-types";
+
 
 function ProfileView(props){
 
@@ -73,22 +74,26 @@ function ProfileView(props){
 							</ListItem>
 
 							<Divider variant="inset" component="li" />
-							<ListItem alignItems="flex-start">
-								<ListItemAvatar>
-									<BadgeRoundedIcon />
-								</ListItemAvatar>
-								<ListItemText
-									primary="NIC"
-									secondary={
-										<React.Fragment>
-											{/* eslint-disable-next-line react/prop-types */}
-											{props.nic}
-										</React.Fragment>
-									}
-								/>
-							</ListItem>
 
-							<Divider variant="inset" component="li" />
+							<Grid item hidden={!props.showSecrets}>
+								<ListItem alignItems="flex-start">
+									<ListItemAvatar>
+										<BadgeRoundedIcon />
+									</ListItemAvatar>
+									<ListItemText
+										primary="NIC"
+										secondary={
+											<React.Fragment>
+												{/* eslint-disable-next-line react/prop-types */}
+												{props.nic}
+											</React.Fragment>
+										}
+									/>
+								</ListItem>
+
+								<Divider variant="inset" component="li" />
+							</Grid>
+
 							<ListItem alignItems="flex-start">
 								<ListItemAvatar>
 									<MailRoundedIcon />
@@ -145,30 +150,32 @@ function ProfileView(props){
 										<ShareLocationIcon />
 									</ListItemAvatar>
 									<ListItemText
-										primary="Field Location"
+										primary="District"
 										secondary={
 											<React.Fragment>
 												{/* eslint-disable-next-line react/prop-types */}
-												{props.location}
+												{props.district}
 											</React.Fragment>
 										}
 									/>
 								</ListItem>
+							</div>
 
+
+							{/* eslint-disable-next-line react/prop-types */}
+							<div hidden={props.userType === 1}>
 								<Divider variant="inset" component="li" />
 								{/* eslint-disable-next-line react/prop-types */}
 								<ListItem alignItems="flex-start">
 									<ListItemAvatar>
-										<YardIcon />
+										<ShareLocationIcon />
 									</ListItemAvatar>
 									<ListItemText
-										primary="Crop Types"
+										primary="City"
 										secondary={
 											<React.Fragment>
 												{/* eslint-disable-next-line react/prop-types */}
-												{props.cropTypes.map(cropType => (
-													<Chip sx={{mr:1}} key={cropType.name} label={cropType.name} variant="outlined" />
-												))}
+												{props.city}
 											</React.Fragment>
 										}
 									/>
@@ -185,5 +192,9 @@ function ProfileView(props){
 	);
 
 }
+
+ProfileView.propTypes = {
+	showSecrets: PropTypes.bool
+};
 
 export default ProfileView;

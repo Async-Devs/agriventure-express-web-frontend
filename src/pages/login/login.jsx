@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useState} from "react";
 import {Alert, Grid} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -12,7 +12,7 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Copyright from "../../components/copyright/copyright";
-import axios from "axios";
+import authService from "../../services/auth.service";
 
 
 function Login() {
@@ -21,28 +21,31 @@ function Login() {
 	const [password,setPassword] = useState();
 	const [error,setError] = useState();
 	const [hiddenError,setHiddenError] = useState(true);
-	const [producers,setProducers] = useState();
-
-	useEffect(()=>{
-		async function getProducers() {
-			const producers = await axios("http://localhost:3001/api/v1/producers/");
-			setProducers(producers.data);
-		}
-		getProducers();
-		console.log(producers);
-	},[]);
 
 	function validateNonEmpty(text){
 		return text !== undefined && text !== "";
 	}
 
-	const handleSubmit = (event) => {
+	const handleSubmit = async (event) => {
 		event.preventDefault();
 
-		if(validateNonEmpty(username) && validateNonEmpty(password)){
-			alert("username: " + username + "\npassword: " + password);
-			setHiddenError(true);
-		}else{
+		if (validateNonEmpty(username) && validateNonEmpty(password)) {
+			try{
+				const res = await authService.login(username, password);
+				if(res.success === false){
+					setError("Login Fail! check your username and password!");
+					setHiddenError(false);
+					return;
+				}
+				// eslint-disable-next-line react/prop-types
+				setHiddenError(true);
+				window.location.assign("/");
+			}catch (e){
+				setError("Login Fail! check your username and password!");
+				setHiddenError(false);
+			}
+
+		} else {
 			setError("Username or password can not be empty!");
 			setHiddenError(false);
 		}
