@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
  * @returns {React.ReactElement} DataGrid Component.
  */
 function CustomTable(props) {
-	const [rowsPerPage, setRowsPerPage] = React.useState(5);
+	const [rowsPerPage, setRowsPerPage] = React.useState(10);
 	const [filterModel, setFilterModel] = React.useState();
 	const {rows, columns, enableSelectionOnRowClick, enableCheckBox, disableToolBar, preSortUsing} = props;
 

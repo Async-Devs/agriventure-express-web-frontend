@@ -31,6 +31,8 @@ function EditMyProfileForm(){
 	const [isLoading,setIsLoading] = useState(true);
 	const [userName,setUserName] = useState();
 	const [id,setId] = useState();
+	const [firstNameOrg,setFirstNameOrg] = useState();
+	const [lastNameOrg,setLastNameOrg] = useState();
 
 
 	useEffect(()=> {
@@ -52,6 +54,8 @@ function EditMyProfileForm(){
 				setTelNo(user.data.user.telNum);
 				setAddress(user.data.user.address);
 				setAddressOrg(user.data.user.address);
+				setFirstNameOrg(user.data.user.firstName);
+				setLastNameOrg(user.data.user.lastName);
 				if(user.data.user.login.userType === 0){
 					setLocation(user.data.user.location);
 				}
@@ -93,12 +97,12 @@ function EditMyProfileForm(){
 	}
 
 	function validateUnchanged(){
-		return (email === emailOrg && telNo === telNoOrg && address === addressOrg);
+		return (email === emailOrg && telNo === telNoOrg && address === addressOrg && firstName === firstNameOrg && lastName === lastNameOrg);
 	}
 
 	function handleSubmit(event){
 		event.preventDefault();
-		if(validateNonEmpty(email) && validateNonEmpty(telNo) && validateNonEmpty(address)){
+		if(validateNonEmpty(email) && validateNonEmpty(telNo) && validateNonEmpty(address) && validateNonEmpty(firstName) && validateNonEmpty(lastName)){
 			if(!validateEmail(email)){
 				setError("Invalid Email Address!");
 				setErrorHidden(false);
@@ -114,6 +118,8 @@ function EditMyProfileForm(){
 					email: email,
 					telNum: telNo,
 					address: address,
+					firstName: firstName,
+					lastName: lastName
 				};
 
 				// eslint-disable-next-line no-undef
@@ -134,13 +140,17 @@ function EditMyProfileForm(){
 
 	}
 
-	function handleChange(event){
-		if(event.target.name === "email"){
+	function handleChange(event) {
+		if (event.target.name === "email") {
 			setEmail(event.target.value);
-		}else if(event.target.name === "telNo"){
+		} else if (event.target.name === "telNo") {
 			setTelNo(event.target.value);
-		}else if(event.target.name === "address"){
+		} else if (event.target.name === "address") {
 			setAddress(event.target.value);
+		} else if (event.target.name === "firstName") {
+			setFirstName(event.target.value);
+		} else if (event.target.name === "lastName") {
+			setLastName(event.target.value);
 		}
 	}
 
@@ -167,7 +177,6 @@ function EditMyProfileForm(){
 									Edit
 									<input hidden accept="image/*" multiple type="file" />
 								</Button>
-								<Typography variant="h6">{firstName + " " + lastName}</Typography>
 								<Typography variant="h6">@{userName}</Typography>
 							</Grid>
 							<Grid item xs={12} sm={6} align="center">
@@ -194,6 +203,14 @@ function EditMyProfileForm(){
 
 							<Grid item xs={12} hidden={errorHidden}>
 								<Alert severity="error">{error}</Alert>
+							</Grid>
+
+							<Grid item xs={12} sm={6} justifyContent="center">
+								<TextInput name="firstName" label="First Name" value={firstName} onChange={handleChange} required={true}/>
+							</Grid>
+
+							<Grid item xs={12} sm={6} justifyContent="center">
+								<TextInput name="lastName" label="Last Name" value={lastName} onChange={handleChange} required={true}/>
 							</Grid>
 
 							<Grid item xs={12} sm={6} justifyContent="center">

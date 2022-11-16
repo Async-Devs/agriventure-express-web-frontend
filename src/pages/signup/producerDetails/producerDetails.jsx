@@ -3,6 +3,8 @@ import {Grid} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import TextInput from "../../../components/textInput/textInput";
 import SelectInput from "../../../components/selectInput/selectInput";
+import PropTypes from "prop-types";
+import ListInput from "../../../components/selectInput/cityInput";
 
 function ProducerDetails(props){
 
@@ -45,19 +47,24 @@ function ProducerDetails(props){
 
 			<Grid item xs={12} md={6}>
 				{/* eslint-disable-next-line react/prop-types */}
-				<SelectInput name="location" label="Field Location" value={props.location} onChange={props.handleChange} required={true} options={props.locationList} multi={false}/>
+				<SelectInput name="district" label="District" value={props.district} onChange={props.handleChange} required={true} options={props.districts} multi={false}/>
 			</Grid>
 
-			<Grid item xs={12} md={6}>
-				{/* eslint-disable-next-line react/prop-types */}
-				<SelectInput name="cropTypes" label="Crop Types" value={props.cropTypes} onChange={props.handleChange} required={true} options={props.cropList} multi={true}/>
-				{/* eslint-disable-next-line react/prop-types */}
+			<Grid item hidden={props.cities.length === 0} xs={12} md={6}>
+				<ListInput name="city" label="City" value={props.city} onChange={props.handleChange} required={true} options={props.cities} multi={false}/>
 			</Grid>
+
 
 		</Grid>
 
 
 	);
 }
+
+ProducerDetails.propTypes = {
+	cities: PropTypes.array,
+	handleChange: PropTypes.func,
+	city: PropTypes.string
+};
 
 export default ProducerDetails;
