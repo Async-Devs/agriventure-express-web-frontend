@@ -146,12 +146,12 @@ function Visualization(){
 			datasets: [{
 				label: "Crop amounts around the country",
 				backgroundColor: [
-					"rgba(127,255,0,0.7)",
-					"rgba(255,51,51,0.7)",
-					"rgba(0,160,185,0.7)",
-					"rgba(104,3,255,0.7)",
-					"rgba(58,255,0,0.7)",
-					"rgba(178,90,0,0.7)",
+					"rgba(127,255,0,0.4)",
+					"rgba(255,51,51,0.4)",
+					"rgba(0,160,185,0.4)",
+					"rgba(104,3,255,0.4)",
+					"rgba(58,255,0,0.4)",
+					"rgba(178,90,0,0.4)",
 				],
 				borderColor: [
 					"rgba(127,255,0)",
