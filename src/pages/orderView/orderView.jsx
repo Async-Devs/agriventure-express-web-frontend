@@ -248,7 +248,6 @@ function OrderView(){
 		if(authService.getCurrentUserType()==0){
 			return(
 				<ButtonGroup variant="outlined" aria-label="outlined button group" item xs={4}>
-					<Button onClick={onClickRefund} variant={"contained"}>Refund</Button>
 					<Button onClick={handleChatOpen}variant={"contained"}>Chat</Button>
 					<SaveButton onClick={handleClickOpenConfirmation} variant={"contained"}/>
 				</ButtonGroup>
@@ -511,7 +510,7 @@ function OrderView(){
 							{renderButtons()}
 						</Grid>
 						<RefundRequest open={open} handleSubmit={handleSubmit} handleClose={handleClose} onChange={onChange} body={refundBody} value={refundValue}/>
-						{/*<RefundRequestChatWindow refresh={refresh} setRefresh={setRefresh} open={refundRequestOpen} handleClose={handleRefundRequestClose} refundRequest={refundRequest}/>*/}
+						<RefundRequestChatWindow refresh={refresh} setRefresh={setRefresh} open={refundRequestOpen} handleClose={handleRefundRequestClose} refundRequest={refundRequest}/>
 					</Paper>
 				</Grid>
 			</Grid>
