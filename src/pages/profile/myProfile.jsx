@@ -121,7 +121,8 @@ function MyProfile(){
 							address={address}
 							telephoneNumber={telNum}
 							location={location}
-							userType={userType}/>
+							userType={userType}
+							showSecrets={true}/>
 					</Grid>
 
 					<Grid item xs={12} md={6} mt={2}  align="center" hidden={!isExsist}>

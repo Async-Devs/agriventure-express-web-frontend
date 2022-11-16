@@ -1,61 +1,49 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import { DataGrid } from "@mui/x-data-grid";
-import Link from "@mui/material/Link";
+import {Link} from "react-router-dom";
+import {Button} from "@mui/material";
+import CustomTable from "../../../components/customTable/customTable";
+import PropTypes from "prop-types";
 
 const columns = [
-	{ field: "id", headerName: "ID", width: 30 , renderCell: (params) => <Link href={"manageProducers/profile/" + params.row.user_id} color="inherit" underline="none">{params.row.id}</Link>},
-	{
-		field: "name",
-		headerName: "Name",
-		width: 200,
-		editable: false,
-		renderCell: (params) => <Link href={"manageProducers/profile/" + params.row.user_id} color="inherit" underline="none">{params.row.firstName + " " + params.row.lastName}</Link>
-	},
-	{
-		field: "userName",
-		headerName: "Username",
-		type: "text",
-		width: 200,
-		editable: false,
-		renderCell: (params) =><Link href={"manageProducers/profile/" + params.row.user_id} color="inherit" underline="none">{params.row.userName}</Link>
-	},
-	{
-		field: "email",
-		headerName: "Email",
+	{ field: "userName", headerName: "User Name", width: 100 },
+	{ field: "name", headerName: "Full Name", width: 150 },
+	{ field: "email", headerName: "Email address", width: 150 },
+	{ field: "nic", headerName: "NIC", width: 150 },
+	{ field: "city", headerName: "City", width: 150 },
+	{ field: "view",
+		headerName: "View",
 		sortable: false,
-		width: 200,
-		renderCell: (params) => <Link href={"manageProducers/profile/" + params.row.user_id} color="inherit" underline="none">{params.row.email}</Link>
+		filterable: false,
+		align: "right",
+		headerAlign: "center",
+		renderCell: (params) => (
+			<Link to={`profile/${params.row.id}`} style={{ textDecoration: "none" }}>
+				<Button
+					color={"primary"}
+					disableFocusRipple={true}
+					variant="outlined"
+					size="small"
+					style={{ marginLeft: 10 }}
+					tabIndex={params.hasFocus ? 0 : -1}
+				>Open</Button>
+			</Link>
+		)
 	}
 ];
 
-const rows = [
-	{ id: 0, lastName: "Dias", firstName: "Achira",  userName: "invader99", email: "achira@gmail.com" ,user_id:"6332ce3d59479ac6785d6647" },
-	{ id: 1, lastName: "Snow", firstName: "Jon",  userName: "jon99", email: "Jon@gmail.com" ,user_id:"6332ce3d59479ac6785d6647" },
-	{ id: 2, lastName: "Lannister", firstName: "Cersei",  userName: "cersei5", email: "Cersei@gmail.com" ,user_id:"6332ce3d59479ac6785d6647"},
-	{ id: 3, lastName: "Lannister", firstName: "Jaime",  userName: "jaimeL", email: "Jaime@gmail.com" ,user_id:"6332ce3d59479ac6785d6647" },
-	{ id: 4, lastName: "Stark", firstName: "Arya",  userName: "aryaS", email: "Arya@gmail.com" },
-	{ id: 5, lastName: "Targaryen", firstName: "Daenerys",  userName: "daenerysT", email: "Daenerys@gmail.com" ,user_id:"6332ce3d59479ac6785d6647" },
-	{ id: 6, lastName: "Melisandre", firstName: null,  },
-	{ id: 7, lastName: "Clifford", firstName: "Ferrara" },
-	{ id: 8, lastName: "Frances", firstName: "Rossini" },
-	{ id: 9, lastName: "Roxie", firstName: "Harvey" },
-];
 
-function Result() {
+function Result(props) {
+
 	return (
 		<Box sx={{ height: 650, width: "100%" }} align="center">
-			<DataGrid
-				rows={rows}
-				columns={columns}
-				pageSize={10}
-				rowsPerPageOptions={[10]}
-
-				disableSelectionOnClick
-				experimentalFeatures={{ newEditingApi: true }}
-			/>
+			<CustomTable rows = {props.producers} columns = {columns} enableCheckBox={true}/>
 		</Box>
 	);
 }
+
+Result.propTypes = {
+	producers: PropTypes.array
+};
 
 export default Result;

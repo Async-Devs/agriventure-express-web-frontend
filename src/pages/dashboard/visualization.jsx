@@ -6,18 +6,73 @@ import Map from "../../components/map/map";
 import Bargraph from "../../components/Charts/Bargraph";
 import Linegraph from "../../components/Charts/Linegraph";
 import Donutgraph from "../../components/Charts/Donutgraph";
-import {getDistrictData} from "../../services/districtData";
-import {getAgriData} from "../../services/agridataServices";
 import "@fontsource/montserrat";
 import "./visualization.css";
-import {getCropTypes} from "../../services/croptypeServices";
+import {getCropById, getCropTypes} from "../../services/croptypeServices";
 import SelectInput from "../../components/selectInput/selectInput";
 import {getDistrictById} from "../../services/districtServices";
+import {getCropDetails, getDistrictDetails} from "../../services/agridataServices";
 
 function Visualization(){
 
 	// states
 	const [cropTypes, setCropTypes] = useState([]);
+	const [pieState, setPieState] = useState({
+
+		labels: ["Total Income", "Expenses", "Current Balance"],
+		datasets: [{
+			label: "Crop amounts around the country",
+			backgroundColor: "rgba(54,255,0,0.71)",
+			borderColor: "rgb(22,96,0)",
+			borderWidth: 2,
+			data: [0, 0, 0]
+
+		}]
+	});
+	const [cropData, setCropData] = useState([]);
+	const [allYear, setAllYear] = useState(2022 );
+	const [districtYear, setDistrictYear] = useState(2022 );
+	const years = [
+		{ _id: "2022", name: 2022 },
+		{ _id: "2021", name: 2021 },
+		{ _id: "2020", name: 2020 },
+		{ _id: "2019", name: 2019 },
+		{ _id: "2018", name: 2018 },
+		{ _id: "2017", name: 2017 },
+		{ _id: "2016", name: 2016 },
+		{ _id: "2015", name: 2015 },
+		{ _id: "2014", name: 2014 },
+		{ _id: "2013", name: 2013 },
+		{ _id: "2012", name: 2012 }
+	];
+
+	const [districtData, setDistrictData] = useState([]);
+	const [districtState, setDistrictState] = useState({
+
+		labels: ["Total Income", "Expenses", "Current Balance"],
+		datasets: [{
+			label: "Crop amounts around the country",
+			backgroundColor: "rgba(54,255,0,0.71)",
+			borderColor: "rgb(22,96,0)",
+			borderWidth: 2,
+			data: [0, 0, 0]
+
+		}]
+	});
+
+	const [cropState, setCropState] = useState({
+
+		labels: ["Total Income", "Expenses", "Current Balance"],
+		datasets: [{
+			label: "Crop amounts around the country",
+			backgroundColor: "rgba(54,255,0,0.71)",
+			borderColor: "rgb(22,96,0)",
+			borderWidth: 2,
+			data: [0, 0, 0]
+
+		}]
+	});
+
 	const [clickedDistrict, setClickedDistrict] = useState("District name");
 	const [state, setState] = useState({
 
@@ -33,96 +88,179 @@ function Visualization(){
 	});
 	const [crop, setCrop] = React.useState("");
 
-	const handleChange = (event) => {
-		setCrop(event.target.value);
-		console.log(crop);
+	const handleChange = async () => {
+
+		const labels = [];
+		const data = [];
+
+		for (let i = 0; i < cropData.length; i++) {
+			if (crop === cropData[i].crop_Type) {
+				labels.push(cropData[i].crop_Year);
+				data.push(cropData[i].crop_Amount);
+			}
+		}
+
+		setCropState({
+			labels: labels,
+			datasets: [{
+				label: "Crop amounts around the country",
+				backgroundColor: "rgba(54,255,0,0.71)",
+				borderColor: "rgb(22,96,0)",
+				borderWidth: 2,
+				data: data
+
+			}]
+		});
 	};
+
+	async function showDistrictData(ditrictObj) {
+		const dist = await getDistrictById(ditrictObj.id);
+		setClickedDistrict(dist.data.name);
+
+		const labels = [];
+		const data = [];
+
+		for (let i = 0; i < districtData.length; i++) {
+			if ((dist.data._id === districtData[i].district ) && (districtData[i].year === districtYear)) {
+				const cropdetails = await getCropById(districtData[i].crop_Type);
+				labels.push(cropdetails.data.name);
+				data.push(districtData[i].crop_Amount);
+			}
+		}
+
+
+		setDistrictState({
+			labels: labels,
+			datasets: [{
+				label: "Crop amounts around the country",
+				backgroundColor: "rgba(54,255,0,0.4)",
+				borderColor: "rgb(34,141,0)",
+				borderWidth: 2,
+				data: data
+
+			}]
+		});
+
+		setPieState({
+			labels: labels,
+			datasets: [{
+				label: "Crop amounts around the country",
+				backgroundColor: [
+					"rgba(127,255,0,0.4)",
+					"rgba(255,51,51,0.4)",
+					"rgba(0,160,185,0.4)",
+					"rgba(104,3,255,0.4)",
+					"rgba(58,255,0,0.4)",
+					"rgba(178,90,0,0.4)",
+				],
+				borderColor: [
+					"rgba(127,255,0)",
+					"rgba(255,51,51)",
+					"rgba(0,160,185)",
+					"rgba(104,3,255)",
+					"rgba(58,255,0)",
+					"rgba(178,90,0)",
+				],
+				borderWidth: 2,
+				data: data
+
+			}]
+		});
+	}
 
 	// function showDistrictData(id){
 	// 	setDistrictData(id);
 	// }
 
-	async function showoverallData() {
-		const agridata = await getDistrictData();
-		const data_list = agridata.data.map((agri_data) => ({
-			crop_Type: agri_data.cropType,
-			crop_Amount: agri_data.totalCropAmount
-		}));
-		const labels = [];
-		const data = [];
-		for (let i = 0; i < data_list.length; i++) {
-			labels.push(data_list[i].crop_Type.name);
-			data.push(data_list[i].crop_Amount);
+
+	useEffect(  () => {
+		async function overallCropData() {
+			const agridata = await getCropDetails();
+
+			const data_list = agridata.data.map((agri_data) => ({
+				crop_Year: agri_data._id.year,
+				crop_Type: agri_data._id.cropType,
+				crop_Amount: agri_data.totalAmount
+			}));
+			setCropData(data_list);
+			const labels = [];
+			const data = [];
+
+			for (let i = 0; i < data_list.length; i++) {
+				if (data_list[i].crop_Year==allYear){
+					const crop = await getCropById(data_list[i].crop_Type);
+					labels.push(crop.data.name);
+					data.push(data_list[i].crop_Amount);
+				}
+			}
+
+			setState({
+				labels: labels,
+				datasets: [{
+					label: "Crop amounts around the country",
+					backgroundColor: [
+						"rgba(127,255,0,0.4)",
+						"rgba(53,255,0,0.4)",
+						"rgba(0,217,63,0.4)",
+						"rgba(174,255,3,0.4)",
+						"rgba(31,126,6,0.4)",
+						"rgba(119,122,3,0.4)",
+					],
+					borderColor: [
+						"rgba(127,255,0)",
+						"rgba(53,255,0)",
+						"rgba(0,217,63)",
+						"rgba(174,255,3)",
+						"rgba(31,126,6)",
+						"rgba(119,122,3)",
+					],
+					borderWidth: 2,
+					data: data
+
+				}]
+			});
 		}
+		async function getAllDistrictData() {
+			const district_data = await getDistrictDetails();
 
-		setState({
-			labels: labels,
-			datasets: [{
-				label: "Crop amounts around the country",
-				backgroundColor: "rgba(54,255,0,0.71)",
-				borderColor: "rgb(22,96,0)",
-				borderWidth: 2,
-				data: data
+			const data_list = district_data.data.map((dist_data) => ({
+				year: dist_data._id.year,
+				district: dist_data._id.district,
+				crop_Type: dist_data._id.cropType,
+				crop_Amount: dist_data.totalAmount
+			}));
 
-			}]
-		});
-
-	}
-
-	async function updateData() {
-		const agridata = await getAgriData();
-		const data_list = agridata.data.map((agri_data) => ({
-			crop_Type: agri_data.cropType,
-			crop_Amount: agri_data.cropAmount
-		}));
-		const labels = [];
-		const data = [];
-		for (let i = 0; i < data_list.length; i++) {
-			labels.push(data_list[i].crop_Type.name);
-			data.push(data_list[i].crop_Amount);
+			setDistrictData(data_list);
 		}
-
-		setState({
-			labels: labels,
-			datasets: [{
-				label: "Crop amounts around the country",
-				backgroundColor: "rgba(54,255,0,0.71)",
-				borderColor: "rgb(22,96,0)",
-				borderWidth: 2,
-				data: data
-
-			}]
-		});
-	}
-
-	useEffect( () => {
-		showoverallData();
-		async function getCrops(){
+		async function getCrops() {
 			const crop_names = await getCropTypes();
 			setCropTypes(crop_names.data);
 		}
 		getCrops();
+		overallCropData();
+		getAllDistrictData();
 
-	}, []);
+	}, [allYear]);
+
+	useEffect(()=>{
+		handleChange();
+	},[crop]);
+
 	// const [districtData, setDistrictData] = useState();
 
 	//data access from axios
 
-
-	//function
-	// eslint-disable-next-line no-mixed-spaces-and-tabs
-	async function showDistrictData(ditrictObj) {
-		// console.log(ditrictObj.id);
-		const dist = await getDistrictById(ditrictObj.id);
-		setClickedDistrict(dist.data.name);
-	}
-
 	return(
-		<div> <button onClick={updateData}>Click me</button>
+		<div>
 			<Grid container spacing={5} justifyContent="center" sx={{marginTop:5}}>
 				<Grid item xs={10} md={10} textAlign={"center"}>
 					<Paper sx={{boxShadow: 5, padding:"25px"}}>
-						<h2 style={{fontSize:"20px",fontFamily: "Montserrat", marginTop:"0px",marginBottom:"20px" }}>Overall Crop data in the country</h2>
+						<div style={{display:"flex", justifyContent:"space-evenly"}}>
+							<div><h2 style={{fontSize:"20px",fontFamily: "Montserrat", marginTop:"0px",marginBottom:"20px" }}>Overall Crop data in the country</h2></div>
+							<div style={{minWidth:"150px"}}><SelectInput name="allYear" label="Year" value={allYear} onChange={(e)=>{
+								setAllYear(e.target.value);
+							}} options={years} multi={false}/></div>
+						</div>
 						<Bargraph handleData={state} />
 					</Paper>
 				</Grid>
@@ -130,24 +268,31 @@ function Visualization(){
 					<Paper sx={{boxShadow: 5, padding:"25px"}}>
 						<div style={{display:"flex", justifyContent:"space-evenly"}}>
 							<div><h2 style={{fontSize:"20px",fontFamily: "Montserrat", marginTop:"10px",marginBottom:"20px" }}>Crop sale data</h2></div>
-							<div style={{minWidth:"150px"}}><SelectInput name="crop" label="crop" value={crop} onChange={handleChange} options={cropTypes} multi={false}/></div>
+							<div style={{minWidth:"150px"}}><SelectInput name="crop" label="crop" value={crop} onChange={(e)=>{
+								setCrop(e.target.value);
+							}} options={cropTypes} multi={false}/></div>
 						</div>
-						<Linegraph handleData={state} />
+						<Linegraph handleData={cropState} />
 					</Paper>
 				</Grid>
 			</Grid>
 			<div>
 				<Grid container spacing={5} justifyContent="center" sx={{marginTop:5, boxShadow:10, padding:5, backgroundColor:"rgb(245,245,245)"}}>
-					<Grid item xs={12}textAlign={"center"} align={"center"} marginTop={0}>
+					<Grid item xs={12} textAlign={"center"} align={"center"} marginTop={0}>
 						<div><h1 style={{fontSize:40,fontFamily: "Montserrat", marginTop:"0px",marginBottom:"20px" }}>District Data</h1>
-							<span style={{fontSize:30,fontFamily: "Montserrat", marginTop:"0px",marginBottom:"0px", color:"white", backgroundColor:"rgb(13,171,13)", padding:10, borderRadius:10 }}>{clickedDistrict}</span>
+							<div style={{display:"flex", justifyContent:"space-evenly"}}>
+								<div><span style={{fontSize:30,fontFamily: "Montserrat", marginTop:"0px",marginBottom:"0px", color:"white", backgroundColor:"rgb(13,171,13)", padding:10, borderRadius:10 }}>{clickedDistrict}</span></div>
+								<div style={{minWidth:"150px"}}><SelectInput name="districtYear" label="Year" value={districtYear} onChange={(e)=>{
+									setDistrictYear(e.target.value);
+								}} options={years} multi={false}/></div>
+							</div>
 							<p style={{marginTop:20,marginBottom:"2px" }}>Select a district from map to view district data</p>
 						</div>
 					</Grid>
 					<Grid item xs={10} md={7.44} textAlign={"center"}>
 						<Paper sx={{boxShadow: 5, padding:"25px"}}>
 							<h2 style={{fontSize:"20px",fontFamily: "Montserrat", marginTop:"0px",marginBottom:"0px" }}>Crop types and amount details in District</h2>
-							<Bargraph handleData={state} />
+							<Bargraph handleData={districtState} />
 						</Paper>
 					</Grid>
 					<Grid item xs={10} md={3} textAlign={"center"}>
@@ -157,13 +302,13 @@ function Visualization(){
 					</Grid>
 					<Grid item xs={10} md={7.44} textAlign={"center"}>
 						<Paper sx={{boxShadow: 5, padding:"25px"}}>
-							<Linegraph handleData={state} />
+							<Linegraph handleData={districtState} />
 						</Paper>
 					</Grid>
 					<Grid item xs={10} md={3} textAlign={"center"}>
 						<Paper sx={{boxShadow: 5, padding:"25px"}}>
 							<h2 style={{fontSize:"20px",fontFamily: "Montserrat", marginTop:"0px",marginBottom:"20px" }}>Crop type comparison</h2>
-							<Donutgraph handleData={state} />
+							<Donutgraph handleData={pieState} />
 						</Paper>
 					</Grid>
 				</Grid>

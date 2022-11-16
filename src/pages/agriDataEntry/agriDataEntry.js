@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 
 import Button from "@mui/material/Button";
-import {Alert} from "@mui/lab";
+import { Alert } from "@mui/material";
 import {Divider} from "@mui/material";
 import SelectInput from "../../components/selectInput/selectInput";
 import TextInput from "../../components/textInput/textInput";
@@ -24,7 +24,7 @@ function AgriDataEntry(){
 	const [fieldCity,setFieldCity] = useState();
 	const [f_City,setF_City] = useState();
 	const [cropTypes,setCropTypes] = useState([]);
-	const [croptype,setCroptype] = useState([]);
+	const [croptype,setCroptype] = useState();
 	const [cropAmount,setCropAmount] = useState();
 	const [year,setYear] = useState();
 	const [error,setError] = useState();
@@ -39,7 +39,7 @@ function AgriDataEntry(){
 	useEffect(()=>{
 		async function getDistrictList(){
 			const district_names = await getAllDistricts();
-			setDistricts(district_names.data);
+			setDistricts(district_names.data.districtList);
 		}
 
 		getDistrictList();
@@ -48,6 +48,7 @@ function AgriDataEntry(){
 			setCropTypes(crop_names.data);
 		}
 		getCrops();
+
 	},[]);
 
 	//function

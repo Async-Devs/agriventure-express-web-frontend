@@ -6,11 +6,11 @@ import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextInput from "../../../components/textInput/textInput";
-import SelectInput from "../../../components/selectInput/selectInput";
 import SaveIcon from "@mui/icons-material/Save";
 import Axios from "axios";
 import {Link, useParams} from "react-router-dom";
 import {Alert} from "@mui/lab";
+import authService from "../../../services/auth.service";
 
 function EditProfileForm(){
 
@@ -21,43 +21,45 @@ function EditProfileForm(){
 	const [userType,setUserType] = useState(1);
 	const [emailOrg,setEmailOrg] = useState();
 	const [telNoOrg,setTelNoOrg] = useState();
-	const [cropTypesOrg,setCropTypesOrg] =useState();
 	const [error,setError] = useState();
 	const [errorHidden,setErrorHidden] = useState(true);
 	const [firstName,setFirstName] = useState();
 	const [lastName,setLastName] = useState();
 	const [nic,setNic] = useState();
-	const [location,setLocation] = useState();
 	const [addressOrg,setAddressOrg] = useState();
 	const [isLoading,setIsLoading] = useState(true);
 	const [userName,setUserName] = useState();
-	const [cropList,setCropList] = useState([]);
-	const [allCropList,setAllCropList] = useState([]);
 	const [id,setId] = useState();
+	const [firstNameOrg,setFirstNameOrg] = useState();
+	const [lastNameOrg,setLastNameOrg] = useState();
+	const [district,setDistrict] = useState();
+	const [city,setCity] = useState();
 
 
 	useEffect(()=> {
 		async function getUser() {
 			// eslint-disable-next-line no-undef
-			const user = await Axios.get(`${process.env.REACT_APP_API_URL}/users/getById/`,{params: {id: user_id}});
+			const user = await Axios.get(`${process.env.REACT_APP_API_URL}/officerUsers/getUserById/${user_id}`,{
+				headers: {"x-auth-token": authService.getCurrentUser()}
+			});
 			if (user.data.success) {
-				console.log(user.data.typeDetails);
-				setUserType(user.data.user.userType);
-				setId(user.data.typeDetails._id);
-				setUserName(user.data.user.userName);
-				setFirstName(user.data.typeDetails.firstName);
-				setLastName(user.data.typeDetails.lastName);
-				setNic(user.data.typeDetails.nic);
-				setEmail(user.data.typeDetails.email);
-				setEmailOrg(user.data.typeDetails.email);
-				setTelNoOrg(user.data.typeDetails.telNum);
-				setTelNo(user.data.typeDetails.telNum);
-				setAddress(user.data.typeDetails.address);
-				setAddressOrg(user.data.typeDetails.address);
-				if(user.data.user.userType === 0){
-					setLocation(user.data.typeDetails.location.name);
-					setCropList(user.data.typeDetails.cropTypes.map(a => a._id));
-					setCropTypesOrg(user.data.typeDetails.cropTypes.map(a => a._id));
+				setUserType(user.data.user.login.userType);
+				setId(user.data.user._id);
+				setUserName(user.data.user.login.userName);
+				setFirstName(user.data.user.firstName);
+				setLastName(user.data.user.lastName);
+				setFirstNameOrg(user.data.user.firstName);
+				setLastNameOrg(user.data.user.lastName);
+				setNic(user.data.user.nic);
+				setEmail(user.data.user.email);
+				setEmailOrg(user.data.user.email);
+				setTelNoOrg(user.data.user.telNum);
+				setTelNo(user.data.user.telNum);
+				setAddress(user.data.user.address);
+				setAddressOrg(user.data.user.address);
+				if(user.data.user.login.userType === 0){
+					setDistrict(user.data.user.district.name);
+					setCity(user.data.user.city);
 				}
 			} else {
 				alert("Error occurred!");
@@ -65,13 +67,6 @@ function EditProfileForm(){
 		}
 
 		getUser();
-
-		async function getCropList(){
-			// eslint-disable-next-line no-undef
-			const crops = await Axios.get(`${process.env.REACT_APP_API_URL}/cropTypes`);
-			setAllCropList(crops.data);
-		}
-		getCropList();
 
 
 		setIsLoading(false);
@@ -102,17 +97,14 @@ function EditProfileForm(){
 		}
 	}
 
-	function validateNonEmptyArray(list){
-		return list.length !== 0;
-	}
 
 	function validateUnchanged(){
-		return (email === emailOrg && telNo === telNoOrg && address === addressOrg && JSON.stringify(cropList) === JSON.stringify(cropTypesOrg));
+		return (email === emailOrg && telNo === telNoOrg && address === addressOrg && firstName === firstNameOrg && lastName === lastNameOrg);
 	}
 
 	function handleSubmit(event){
 		event.preventDefault();
-		if(validateNonEmpty(email) && validateNonEmpty(telNo) && validateNonEmpty(address) && (validateNonEmptyArray(cropList) || userType === 1)){
+		if(validateNonEmpty(email) && validateNonEmpty(telNo) && validateNonEmpty(address) && validateNonEmpty(firstName) && validateNonEmpty(lastName) ){
 			if(!validateEmail(email)){
 				setError("Invalid Email Address!");
 				setErrorHidden(false);
@@ -123,36 +115,25 @@ function EditProfileForm(){
 				setError("Profile is already updated!");
 				setErrorHidden(false);
 			}else{
-				//todo: update profile
-				if(userType === 0){
-					const editValues = {
-						id: id,
-						email: email,
-						telNum: telNo,
-						address: address,
-						cropTypes: cropList
-					};
-					// eslint-disable-next-line no-undef
-					Axios.put(`${process.env.REACT_APP_API_URL}/producers/updateMyProfile`,editValues).then( async (res)=>{
-						if(!res.data.success){
-							alert("Error occured!");
-						}
-					});
-				}else if(userType === 1){
-					const editValues = {
-						id: id,
-						email: email,
-						telNum: telNo,
-						address: address
-					};
-					// eslint-disable-next-line no-undef
-					Axios.put(`${process.env.REACT_APP_API_URL}/buyers/updateMyProfile`,editValues).then( async (res)=>{
-						if(!res.data.success){
-							alert("Error occured!");
-						}
-					});
-				}
-				window.location.assign("/profile/"+user_id);
+				const editValues = {
+					id: id,
+					email: email,
+					telNum: telNo,
+					address: address,
+					userType: userType,
+					firstName: firstName,
+					lastName: lastName
+				};
+
+				// eslint-disable-next-line no-undef
+				Axios.put(`${process.env.REACT_APP_API_URL}/officerUsers/updateProfile`,editValues,{
+					headers: {"x-auth-token": authService.getCurrentUser()}
+				}).then( async (res)=>{
+					if(!res.data.success){
+						alert("Error occured!");
+					}
+				});
+				window.location.assign("/officer/manageProducers/profile/"+user_id);
 			}
 		}else{
 			setError("All fields should be completed!");
@@ -168,8 +149,10 @@ function EditProfileForm(){
 			setTelNo(event.target.value);
 		}else if(event.target.name === "address"){
 			setAddress(event.target.value);
-		}else if(event.target.name === "cropTypes"){
-			setCropList(event.target.value);
+		}else if(event.target.name === "firstName"){
+			setFirstName(event.target.value);
+		}else if(event.target.name === "lastName"){
+			setLastName(event.target.value);
 		}
 	}
 
@@ -196,7 +179,6 @@ function EditProfileForm(){
 									Edit
 									<input hidden accept="image/*" multiple type="file" />
 								</Button>
-								<Typography variant="h6">{firstName + " " + lastName}</Typography>
 								<Typography variant="h6">@{userName}</Typography>
 							</Grid>
 							<Grid item xs={12} sm={6} align="center">
@@ -211,7 +193,7 @@ function EditProfileForm(){
 								<Card variant="elevation" elevation={3}>
 									<CardContent>
 										<Typography variant="h6">Location</Typography>
-										<Typography variant="body2">{location}</Typography>
+										<Typography variant="body2">{city} - {district}</Typography>
 									</CardContent>
 								</Card>
 							</Grid>
@@ -226,6 +208,14 @@ function EditProfileForm(){
 							</Grid>
 
 							<Grid item xs={12} sm={6} justifyContent="center">
+								<TextInput name="firstName" label="First Name" value={firstName} onChange={handleChange} required={true}/>
+							</Grid>
+
+							<Grid item xs={12} sm={6} justifyContent="center">
+								<TextInput name="lastName" label="Last Name" value={lastName} onChange={handleChange} required={true}/>
+							</Grid>
+
+							<Grid item xs={12} sm={6} justifyContent="center">
 								<TextInput name="email" label="Email Address" value={email} onChange={handleChange} required={true}/>
 							</Grid>
 
@@ -235,10 +225,6 @@ function EditProfileForm(){
 
 							<Grid item xs={12} sm={6} justifyContent="center">
 								<TextInput name="address" label="Address" value={address} onChange={handleChange} required={true}/>
-							</Grid>
-
-							<Grid item xs={12} sm={6} justifyContent="center" hidden={userType===1} >
-								<SelectInput name="cropTypes" label="Crop Types" value={cropList} onChange={handleChange} required={true} options={allCropList} multi={true}/>
 							</Grid>
 
 							<Grid item xs={12} align="center">

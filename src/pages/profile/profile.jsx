@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-// import ProfileView from "./profileView/profileView";
 import {
 	CircularProgress,
 	Dialog,
@@ -20,6 +19,7 @@ import ProfileView from "./profileView/profileView";
 import Container from "@mui/material/Container";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 import {Alert} from "@mui/lab";
+import authService from "../../services/auth.service";
 
 function Profile(){
 
@@ -36,17 +36,23 @@ function Profile(){
 	const [email,setEmail] = useState();
 	const [telNum,setTelNum] = useState();
 	const [address,setAddress] = useState();
-	const [cropTypes,setCropTypes] = useState([]);
-	const [location,setLocation] = useState();
+	const [district,setDistrict] = useState();
+	const [city,setCity] = useState();
 	const [id,setId] = useState();
 	const [isExsist,setIsExsist] = useState();
 	const [isActive,setIsActive] = useState();
+	const [refresh,setRefresh] = useState(false);
 
 	useEffect(() => {
 
 		async function isUser(){
 			// eslint-disable-next-line no-undef
-			const isExist = await Axios.get(`${process.env.REACT_APP_API_URL}/users/isExist/${user_id}`);
+			const isExist = await Axios.get(`${process.env.REACT_APP_API_URL}/allUsers/isExist/${user_id}`,
+				{
+					headers: {
+						"x-auth-token": authService.getCurrentUser()
+					}
+				});
 			setIsExsist(isExist.data.success);
 		}
 
@@ -55,24 +61,32 @@ function Profile(){
 
 		async function getUser() {
 			// eslint-disable-next-line no-undef
-			const user = await Axios.get(`${process.env.REACT_APP_API_URL}/users/getById/`,{params: {id: user_id}});
+			const user = await Axios.get(`${process.env.REACT_APP_API_URL}/allUsers/getUserById/${user_id}`,
+				{
+					headers: {
+						"x-auth-token": authService.getCurrentUser()
+					}
+				});
 			if (user.data.success) {
-				setUserType(user.data.user.userType);
-				setIsActive(user.data.user.isActive);
-				setId(user.data.typeDetails._id);
-				setFirstName(user.data.typeDetails.firstName);
-				setLastName(user.data.typeDetails.lastName);
-				setNic(user.data.typeDetails.nic);
-				setEmail(user.data.typeDetails.email);
-				setTelNum(user.data.typeDetails.telNum);
-				setAddress(user.data.typeDetails.address);
-				if(user.data.user.userType === 0){
-					setCropTypes(user.data.typeDetails.cropTypes);
-					setLocation(user.data.typeDetails.location.name);
+				console.log(user.data.user);
+				setUserType(user.data.user.login.userType);
+				setId(user.data.user.login._id);
+				setFirstName(user.data.user.firstName);
+				setLastName(user.data.user.lastName);
+				setNic(user.data.user.nic);
+				setEmail(user.data.user.email);
+				setTelNum(user.data.user.telNum);
+				setAddress(user.data.user.address);
+				setIsActive(user.data.user.login.isActive);
+				if(user.data.user.login.userType === 0){
+					setDistrict(user.data.user.district.name);
+					setCity(user.data.user.city);
 				}
+				setIsExsist(true);
 
 				// setUsername(user.data.typeDetails.userName);
 			} else {
+				setIsExsist(false);
 				alert("Error occurred!");
 			}
 		}
@@ -81,11 +95,27 @@ function Profile(){
 
 
 		setIsLoading(false);
-	},[]);
+	},[refresh]);
 
 
-	function handleEdit(){
-		window.location.assign("/profile/edit");
+	async function handleApprove() {
+		// eslint-disable-next-line no-undef
+		Axios.put(`${process.env.REACT_APP_API_URL}/officerUsers/approveUser`, {id: user_id},{
+			headers: {"x-auth-token": authService.getCurrentUser()}
+		}).then( async (res)=>{
+			if(!res.data.success){
+				alert("Error occured!");
+				return;
+			}
+		});
+
+		setRefresh(!refresh);
+
+
+	}
+
+	function handleReject(){
+
 	}
 
 	function handleDelete(){
@@ -137,14 +167,15 @@ function Profile(){
 							email={email} nic={nic}
 							address={address}
 							telephoneNumber={telNum}
-							location={location}
-							cropTypes={cropTypes}
-							userType={userType}/>
+							district={district}
+							city={city}
+							userType={userType}
+							showSecrets={authService.getCurrentUserType() === 2}/>
 					</Grid>
 
 					<Grid item xs={12} md={6} mt={2}  align="center" hidden={!isExsist}>
 						<Paper elevation={3} sx={{width: "100%", p: "5px"}}>
-							<div hidden={!isActive}>
+							<div hidden={!isActive || authService.getCurrentUserType() !== 2}>
 								<Link to={"edit/"}  style={{ textDecoration: "none" }}>
 									<Button variant="outlined" color="primary" startIcon={<EditIcon />} sx={{m: "5px"}}>
 										Edit
@@ -154,11 +185,11 @@ function Profile(){
 									Delete
 								</Button>
 							</div>
-							<div hidden={isActive}>
-								<Button variant="outlined" onClick={handleEdit} color="primary" startIcon={<HowToRegIcon />} sx={{m: "5px"}}>
+							<div hidden={isActive || authService.getCurrentUserType() !== 2}>
+								<Button variant="outlined" onClick={handleApprove} color="primary" startIcon={<HowToRegIcon />} sx={{m: "5px"}}>
 									Approve
 								</Button>
-								<Button variant="outlined" onClick={handleEdit} color="warning" startIcon={<ThumbDownAltIcon />} sx={{m: "5px"}}>
+								<Button variant="outlined" onClick={handleReject} color="warning" startIcon={<ThumbDownAltIcon />} sx={{m: "5px"}}>
 									Reject
 								</Button>
 							</div>
