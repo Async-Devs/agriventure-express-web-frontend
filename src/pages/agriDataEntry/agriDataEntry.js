@@ -41,6 +41,7 @@ function AgriDataEntry(){
 			const district_names = await getAllDistricts();
 			setDistricts(district_names.data);
 		}
+
 		getDistrictList();
 		async function getCrops(){
 			const crop_names = await getCropTypes();
