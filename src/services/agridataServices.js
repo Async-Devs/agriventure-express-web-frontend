@@ -8,6 +8,17 @@ export function getAgriData(){
 	const agriData = Axios.get(`${apiEndpoint}`);
 	return agriData;
 }
+
+export function getDistrictDetails(){
+	const agriData = Axios.get(`${apiEndpoint}/districtDetails`);
+	return agriData;
+}
+
+export function getCropDetails(){
+	const agriData = Axios.get(`${apiEndpoint}/cropDetails`);
+	return agriData;
+}
+
 export function addData(data){
 	const Data = Axios.post(`${apiEndpoint}`, {data});
 	return Data;
@@ -15,4 +26,5 @@ export function addData(data){
 export function deleteData(id){
 	Axios.delete(`${apiEndpoint}/${id}`);
 }
+
 

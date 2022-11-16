@@ -58,7 +58,6 @@ function agriDataTable(){
 	const agriData = agriDataList.map((agriData) => {
 		return {id:agriData._id, cropType:agriData.cropType.name, fieldDistrict:agriData.district.name, fieldCity:agriData.city, amount:agriData.cropAmount, year:agriData.year};});
 
-	console.log(agriData);
 	return(
 		<div>
 			{isLoading ? (
