@@ -21,11 +21,11 @@ function OrderView(){
 	const [isPageChange, setPageChange] = useState(true);
 	const [isLoading, setLoading] = useState(true);
 	const [open,setOpen] = useState(false);
+	const [openChat,setOpenChat] = useState(false);
 	const [orderId, setOrderId] = useState(null);
 	const [order, setOrder] = useState(null);
 	const [refundBody,setRefundBody] = useState();
 	const [refundValue,setRefundValue] = useState();
-	const [isChatOpen, setChat] = useState({gridVal:0,chatDisplay:"none"});
 	const [deliveryStatus, setDeliveryStatus] = React.useState("");
 	const [openConfimation, setOpenConfimation] = React.useState(false);
 
@@ -68,10 +68,6 @@ function OrderView(){
 		handleClose();
 
 	}
-	function onClickChat(){
-		if (isChatOpen.gridVal == 0)return setChat({gridVal:4,chatDisplay:null});
-		return setChat({gridVal:0,chatDisplay:"none"});
-	}
 
 	function onChange(event){
 		if(event.target.name === "body"){
@@ -86,6 +82,7 @@ function OrderView(){
 
 	function onSave(){
 		updateOrderDeliveryStatus(order._id, deliveryStatus);
+		setOpenConfimation(false);
 		setPageChange(!isPageChange);
 	}
 
@@ -124,20 +121,50 @@ function OrderView(){
 		);
 	}
 
+	function handleChatClose(){
+		setOpenChat(false);
+	}
+	function handleChatOpen(){
+		setOpenChat(true);
+	}
+
+	function renderChat(param){
+		if(param==="actions"){
+			return (
+				<Button autoFocus onClick={handleChatClose}>
+				Cancel
+				</Button>
+			);
+		}
+		if(param==="body"){
+			return (
+				<Grid bgcolor={"blue"} minHeight={500}>
+					Chat here
+				</Grid>
+			);
+		}if(param==="title"){
+			return (
+				<Grid>
+					Title Here
+				</Grid>
+			);
+		}
+	}
+
 	function renderButtons(){
 		if(authService.getCurrentUserType()==0){
 			return(
 				<ButtonGroup variant="outlined" aria-label="outlined button group" item xs={4}>
-					<Button onClick={onClickRefund} >Refund</Button>
-					<Button onClick={onClickChat}>Chat</Button>
-					<SaveButton onClick={handleClickOpenConfirmation} />
+					<Button onClick={onClickRefund} variant={"contained"}>Refund</Button>
+					<Button onClick={handleChatOpen}variant={"contained"}>Chat</Button>
+					<SaveButton onClick={handleClickOpenConfirmation} variant={"contained"}/>
 				</ButtonGroup>
 			);
 		}
 		else if(authService.getCurrentUserType()==1){
 			return (
 				<ButtonGroup variant="outlined" aria-label="outlined button group" item xs={4}>
-					<Button onClick={onClickChat}>Chat</Button>
+					<Button onClick={handleChatOpen} variant={"contained"} color={"primary"}>Chat</Button>
 				</ButtonGroup>
 			);
 		}
@@ -152,6 +179,13 @@ function OrderView(){
 						<Grid container item xs={12} alignItems={"center"} mt={4}>
 							<Grid container item xs={12} alignItems={"center"}>
 								<Grid container item xs={12} alignItems="center" justifyContent={"left"}>
+									<Box sx={{ minWidth: 300 }}>
+										<Typography variant={"h6"}>
+											Update Delivery status
+										</Typography>
+									</Box>
+								</Grid>
+								<Grid container item xs={12} alignItems="center" justifyContent={"left"} mt={3}>
 									<Box sx={{ minWidth: 300 }}>
 										<FormControl fullWidth>
 											<InputLabel id="demo-simple-select-label">Delivery Status</InputLabel>
@@ -356,7 +390,13 @@ function OrderView(){
 							</Grid>
 						</Box>
 						{renderConfirmation()}
-						<DraggableDialog/>
+						<DraggableDialog
+							open={openChat}
+							handleClose={handleChatClose}
+							dialogActions={renderChat("actions")}
+							dialogBody={renderChat("body")}
+							dialogTitle={"Chat"}
+						/>
 						{renderActions()}
 						<Grid container item xs={10} mt={5}>
 							{renderButtons()}

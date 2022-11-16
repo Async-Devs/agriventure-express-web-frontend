@@ -1,5 +1,4 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -21,24 +20,11 @@ function PaperComponent(props) {
 }
 
 export default function DraggableDialog(props) {
-	const [open, setOpen] = React.useState(false);
-
-	const handleClickOpen = () => {
-		setOpen(true);
-	};
-
-	const handleClose = () => {
-		setOpen(false);
-	};
-
 	return (
 		<div>
-			<Button variant="outlined" onClick={handleClickOpen}>
-				Open Dialog
-			</Button>
 			<Dialog
-				open={open}
-				onClose={handleClose}
+				open={props.open}
+				onClose={props.handleClose}
 				PaperComponent={PaperComponent}
 				aria-labelledby="draggable-dialog-title"
 			>
@@ -51,9 +37,7 @@ export default function DraggableDialog(props) {
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
-					<Button autoFocus onClick={handleClose}>
-						Cancel
-					</Button>
+					{props.dialogActions}
 				</DialogActions>
 			</Dialog>
 		</div>
@@ -62,5 +46,8 @@ export default function DraggableDialog(props) {
 
 DraggableDialog.propTypes = {
 	dialogBody: PropTypes.element,
-	dialogTitle: PropTypes.string
+	dialogTitle: PropTypes.string,
+	dialogActions: PropTypes.element,
+	open: PropTypes.bool.isRequired,
+	handleClose: PropTypes.func.isRequired
 };

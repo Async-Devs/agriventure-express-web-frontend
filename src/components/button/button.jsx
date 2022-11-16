@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 
 export default function SaveButton(props) {
 	return (
-		<Button variant="outlined" onClick={props.onClick}>Save{" "}<SaveOutlinedIcon/></Button>
+		<Button onClick={props.onClick} variant={props.variant}>Save{" "}<SaveOutlinedIcon/></Button>
 	);
 }
 
@@ -55,5 +55,6 @@ LinkedButtonRound.propTypes = {
 	content: PropTypes.string
 };
 SaveButton.propTypes = {
-	onClick: PropTypes.func
+	onClick: PropTypes.func,
+	variant: PropTypes.string
 };

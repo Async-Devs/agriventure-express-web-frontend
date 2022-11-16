@@ -21,7 +21,8 @@ export function getOrderById(orderId){
 	return orders;
 }
 export function updateOrderDeliveryStatus(orderId, status){
-	const orders = Axios.put(`${apiEndpoint}/update/delivery-status/${orderId}`, status);
+	console.log(orderId, status);
+	const orders = Axios.put(`${apiEndpoint}/update/delivery-status/${orderId}`, {status});
 	return orders;
 }
 
