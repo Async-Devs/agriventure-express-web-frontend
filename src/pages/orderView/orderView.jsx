@@ -4,7 +4,7 @@ import {
 	ButtonGroup,
 	CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl,
 	Grid, InputLabel, MenuItem,
-	Paper, Select,
+	Paper, Select,Alert,
 	Typography
 } from "@mui/material";
 import Button from "@mui/material/Button";
@@ -13,8 +13,9 @@ import {Link, useParams} from "react-router-dom";
 import SaveButton from "../../components/button/button";
 import {getOrderById, updateOrderDeliveryStatus} from "../../services/orderServices";
 import authService from "../../services/auth.service";
-import {Alert} from "@mui/lab";
+// import {Alert} from "@mui/lab";
 import Axios from "axios";
+// eslint-disable-next-line no-unused-vars
 import RefundRequestChatWindow from "../../components/refundChatWindow/refundChatWindow";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import Divider from "@mui/material/Divider";
@@ -35,6 +36,7 @@ function OrderView(){
 	const [refresh,setRefresh] = useState(false);
 	const [refundRequest,setRefundRequest] = useState({_id: "", orderId: {_id: ""},buyerId: {_id: ""}, messages: []});
 	const [refundRequestAvailable,setRefundRequestAvailable] = useState(false);
+	// eslint-disable-next-line no-unused-vars
 	const [refundRequestOpen,setRefundRequestOpen] = useState(false);
 	const [deliveryStatus, setDeliveryStatus] = React.useState("");
 	const [openConfimation, setOpenConfimation] = React.useState(false);
@@ -120,6 +122,7 @@ function OrderView(){
 
 	}
 
+	// eslint-disable-next-line no-unused-vars
 	function handleRefundRequestClose(){
 		setRefundRequestOpen(false);
 	}
@@ -222,7 +225,7 @@ function OrderView(){
 		if(param==="actions"){
 			return (
 				<Button autoFocus onClick={handleChatClose}>
-				Cancel
+					Close
 				</Button>
 			);
 		}
@@ -508,7 +511,7 @@ function OrderView(){
 							{renderButtons()}
 						</Grid>
 						<RefundRequest open={open} handleSubmit={handleSubmit} handleClose={handleClose} onChange={onChange} body={refundBody} value={refundValue}/>
-						<RefundRequestChatWindow refresh={refresh} setRefresh={setRefresh} open={refundRequestOpen} handleClose={handleRefundRequestClose} refundRequest={refundRequest}/>
+						{/*<RefundRequestChatWindow refresh={refresh} setRefresh={setRefresh} open={refundRequestOpen} handleClose={handleRefundRequestClose} refundRequest={refundRequest}/>*/}
 					</Paper>
 				</Grid>
 			</Grid>
