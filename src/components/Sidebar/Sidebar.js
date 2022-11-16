@@ -50,10 +50,10 @@ const ResponsiveAppBar = () => {
 	const userType = authService.getCurrentUserType();
 
 	if(userType === 0){
-		pages = ["Dashboard", "My Dashboard", "Orders","Help Center"];
+		pages = ["Dashboard", "My Dashboard", "Orders","Help Center","Refund Requests"];
 		settings = ["My Profile","Logout"];
 	}else if(userType === 1){
-		pages = ["Dashboard", "Marketplace", "My Refunds", "Orders"];
+		pages = ["Dashboard", "Marketplace","My Orders"];
 		settings = ["My Profile","Logout"];
 	}else if(userType === 2){
 		pages = ["Dashboard", "Manage Producers", "Support Management","Agri Data"];
@@ -79,16 +79,14 @@ const ResponsiveAppBar = () => {
 			window.location.assign("/producer/helpCenter");
 		}else if(event.target.name === "My Dashboard"){
 			window.location.assign("/producer");
-		}else if(event.target.name === "Orders" && userType==0){
+		}else if(event.target.name === "Orders"){
 			window.location.assign("/producer/orders");
-		}else if(event.target.name === "Orders" && userType==1){
-			window.location.assign("/buyer/buy-menu");
 		}else if(event.target.name === "Dashboard"){
 			window.location.assign("/");
 		}else if(event.target.name === "Marketplace"){
 			window.location.assign("/buyer/marketplace");
-		}else if(event.target.name === "My Refunds"){
-			window.location.assign("/buyer/myRefund");
+		}else if(event.target.name === "Refund Requests"){
+			window.location.assign("/producer/refund");
 		}else if(event.target.name === "Manage Producers"){
 			window.location.assign("/officer/manageProducers");
 		}else if(event.target.name === "Support Management"){
@@ -97,6 +95,8 @@ const ResponsiveAppBar = () => {
 			window.location.assign("/officer/agriDataManage");
 		}else if(event.target.name === "Manage Accounts"){
 			window.location.assign("/admin/manageAccounts");
+		}else if(event.target.name === "My Orders"){
+			window.location.assign("/buyer/buy-menu");
 		}
 	};
 

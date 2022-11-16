@@ -19,7 +19,8 @@ function MySupport() {
 	const [activeRequest,setActiveRequest] = useState([]);
 	const [oldRequest,setOldRequest] = useState([]);
 	const [isLoading,setIsLoading] = useState(true);
-	const [myProfile,setMyProfile] = useState({firstName:""});
+	const [myProfile,setMyProfile] = useState({firstName:"",login:{userType:-1}});
+	const [refresh,setRefresh] = useState(0);
 
 	useEffect(()=>{
 
@@ -52,7 +53,7 @@ function MySupport() {
 
 		getMyProfile();
 		setIsLoading(false);
-	},[]);
+	},[refresh]);
 
 
 	const handleChange = (event, newValue) => {
@@ -81,7 +82,7 @@ function MySupport() {
 										<Tab label="Old Requests" value="3" />
 									</TabList>
 								</Box>
-								<TabPanel value="1"><SupportRequestChatWindow user={myProfile} requests={activeRequest} mode={value} userType={1}/></TabPanel>
+								<TabPanel value="1"><SupportRequestChatWindow refresh={refresh} setRefresh={setRefresh} user={myProfile} requests={activeRequest} mode={value} userType={1}/></TabPanel>
 								<TabPanel value="3"><SupportRequestChatWindow user={myProfile} requests={oldRequest} mode={value} userType={1}/></TabPanel>
 							</TabContext>
 						</Box>

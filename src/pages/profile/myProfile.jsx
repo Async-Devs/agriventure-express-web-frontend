@@ -40,6 +40,7 @@ function MyProfile(){
 	useEffect(() => {
 
 		async function getUser() {
+			// eslint-disable-next-line no-undef
 			const user = await Axios.get(`${process.env.REACT_APP_API_URL}/publicUsers/myProfile/`,
 				{
 					headers: { "x-auth-token": authService.getCurrentUser()

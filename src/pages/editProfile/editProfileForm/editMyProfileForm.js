@@ -15,9 +15,6 @@ import authService from "../../../services/auth.service";
 
 function EditMyProfileForm(){
 
-	//todo: get user_id from jwt token
-	const user_id = "6332ce3d59479ac6785d6647";
-
 	const [email,setEmail] = useState();
 	const [telNo,setTelNo] = useState();
 	const [address,setAddress] = useState();
@@ -29,7 +26,7 @@ function EditMyProfileForm(){
 	const [firstName,setFirstName] = useState();
 	const [lastName,setLastName] = useState();
 	const [nic,setNic] = useState();
-	const [location,setLocation] = useState();
+	const [location,setLocation] = useState({city: ""});
 	const [addressOrg,setAddressOrg] = useState();
 	const [isLoading,setIsLoading] = useState(true);
 	const [userName,setUserName] = useState();
@@ -43,7 +40,6 @@ function EditMyProfileForm(){
 				headers: {"x-auth-token": authService.getCurrentUser()}
 			});
 			if (user.data.success) {
-				console.log(user.data);
 				setUserType(user.data.user.login.userType);
 				setId(user.data.user._id);
 				setUserName(user.data.user.login.userName);
@@ -113,35 +109,23 @@ function EditMyProfileForm(){
 				setError("Profile is already updated!");
 				setErrorHidden(false);
 			}else{
-				//todo: update profile
-				if(userType === 0){
-					const editValues = {
-						id: id,
-						email: email,
-						telNum: telNo,
-						address: address,
-					};
-					// eslint-disable-next-line no-undef
-					Axios.put(`${process.env.REACT_APP_API_URL}/producers/updateMyProfile`,editValues).then( async (res)=>{
-						if(!res.data.success){
-							alert("Error occured!");
-						}
-					});
-				}else if(userType === 1){
-					const editValues = {
-						id: id,
-						email: email,
-						telNum: telNo,
-						address: address
-					};
-					// eslint-disable-next-line no-undef
-					Axios.put(`${process.env.REACT_APP_API_URL}/buyers/updateMyProfile`,editValues).then( async (res)=>{
-						if(!res.data.success){
-							alert("Error occured!");
-						}
-					});
-				}
-				window.location.assign("/profile/"+user_id);
+				const editValues = {
+					id: id,
+					email: email,
+					telNum: telNo,
+					address: address,
+				};
+
+				// eslint-disable-next-line no-undef
+				Axios.put(`${process.env.REACT_APP_API_URL}/publicUsers/updateMyProfile`,editValues,{
+					headers: {"x-auth-token": authService.getCurrentUser()}
+				}).then( async (res)=>{
+					if(!res.data.success){
+						alert("Error occured!");
+					}
+				});
+
+				userType === 0 ? window.location.assign("/producer/myProfile/") : window.location.assign("/buyer/myProfile/");
 			}
 		}else{
 			setError("All fields should be completed!");
