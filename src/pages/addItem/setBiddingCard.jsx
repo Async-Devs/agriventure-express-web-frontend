@@ -13,41 +13,6 @@ function SetBiddingCard(props){
 
 	return(
 		<Grid item container xs={12}>
-			<Grid item container xs={12} mb={3}>
-				<Grid item container xs={12}>
-					<Grid item xs={12} container justifyContent={"center"} m={3}>
-						<Grid item xs={12}>
-							<Typography variant={"h5"} align={"left"}>
-								Images
-							</Typography>
-						</Grid>
-						<Grid xs={12}>
-							<hr
-								style={{
-									color: "black",
-									backgroundColor: "black",
-									height: 0.1
-								}}
-							/>
-						</Grid>
-						<Grid xs={12}>
-							<label htmlFor="upload-photo">
-								<input
-									style={{ display: "none" }}
-									id="upload-photo"
-									name="upload-photo"
-									type="file"
-								/>
-
-								<Button color="secondary" variant="contained" component="span">
-									Upload button
-								</Button>
-							</label>
-						</Grid>
-					</Grid>
-
-				</Grid>
-			</Grid>
 			<Grid item container xs={12}>
 				<Grid container>
 					<Grid item xs={12} container justifyContent={"left"} m={3}>
@@ -73,7 +38,7 @@ function SetBiddingCard(props){
 					</Grid>
 					<Grid item xs={12} container justifyContent={"center"} mt={3} ml={3} mr={3}>
 						<Grid item xs={12}>
-							<Typography variant={"h6"} color={"green"} fontWeight={"bold"} sx={{overflow:"hidden"}}>
+							<Typography sx={{ typography: { md:"h6", sm: "h5", xs: "body1" }, overflow:"hidden" }} color={"green"} fontWeight={"bold"}>
 									Minimum Bidding Price : {Intl.NumberFormat("si", { style: "currency", currency: "LKR" }).format(props.minimumBid) }
 							</Typography>
 						</Grid>
@@ -93,14 +58,14 @@ function SetBiddingCard(props){
 							<Grid item>
 								<LocalizationProvider dateAdapter={AdapterMoment}>
 									<DateTimePicker
-										renderInput={
-											(params) => <TextField {...params} />
-										}
+										renderInput={(params) => <TextField {...params} />}
 										label="Bidding End Date and Time"
 										value={props.endTime}
-										onChange={(newValue) => {
-											props.setTime(newValue);
-										}}
+										onChange={
+											(newValue) => {
+												props.setTime(newValue);
+											}
+										}
 										minDateTime={moment()}
 									/>
 								</LocalizationProvider>
