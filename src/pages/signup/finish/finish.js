@@ -22,7 +22,7 @@ function Finish(props){
 			</div>
 
 			{/* eslint-disable-next-line react/prop-types */}
-			<ProfileView firstName={props.firstName} lastName={props.lastName} email={props.email} nic={props.nic} address={props.address} telephoneNumber={props.telephoneNumber} location={props.location} cropTypes={props.cropTypes} userType={props.userType}/>
+			<ProfileView firstName={props.firstName} lastName={props.lastName} email={props.email} nic={props.nic} address={props.address} telephoneNumber={props.telephoneNumber} district={props.district} city={props.city} userType={props.userType}/>
 		</div>
 
 	);
