@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import {CircularProgress, Divider} from "@mui/material";
-import ProducerItems from "./producerItems";
+import { Divider} from "@mui/material";
+// import ProducerItems from "./producerItems";
 import ProducerSales from "./producerSales";
 import authService from "../../services/auth.service";
 
@@ -48,7 +48,7 @@ function ProducerDashboard(){
 				</Grid>
 
 				<Grid item xs={12}>
-					{renderMyListing()}
+					{/*{renderMyListing()}*/}
 				</Grid>
 
 				<Grid item xs={12}>
