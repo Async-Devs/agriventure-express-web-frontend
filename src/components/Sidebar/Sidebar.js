@@ -50,10 +50,10 @@ const ResponsiveAppBar = () => {
 	const userType = authService.getCurrentUserType();
 
 	if(userType === 0){
-		pages = ["Dashboard", "My Dashboard", "Orders","Help Center"];
+		pages = ["Dashboard", "My Dashboard", "Orders","Help Center","Refund Requests"];
 		settings = ["My Profile","Logout"];
 	}else if(userType === 1){
-		pages = ["Dashboard", "Marketplace","My Orders","My Refunds"];
+		pages = ["Dashboard", "Marketplace","My Orders"];
 		settings = ["My Profile","Logout"];
 	}else if(userType === 2){
 		pages = ["Dashboard", "Manage Producers", "Support Management","Agri Data"];
@@ -85,8 +85,8 @@ const ResponsiveAppBar = () => {
 			window.location.assign("/");
 		}else if(event.target.name === "Marketplace"){
 			window.location.assign("/buyer/marketplace");
-		}else if(event.target.name === "My Refunds"){
-			window.location.assign("/buyer/myRefund");
+		}else if(event.target.name === "Refund Requests"){
+			window.location.assign("/producer/refund");
 		}else if(event.target.name === "Manage Producers"){
 			window.location.assign("/officer/manageProducers");
 		}else if(event.target.name === "Support Management"){

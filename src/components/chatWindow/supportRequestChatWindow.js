@@ -16,6 +16,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Axios from "axios";
 import authService from "../../services/auth.service";
+import utilityServices from "../../services/utilityServices";
 
 function SupportRequestList(props){
 
@@ -128,7 +129,7 @@ function SupportRequestList(props){
 										</Typography>
 									</Grid>
 									<Grid item xs={12} >
-										{supportRequest.date.substring(0,10) + "  " + supportRequest.date.substring(11,16)}
+										{utilityServices.getTime(supportRequest.date)}
 									</Grid>
 									{/* eslint-disable-next-line react/prop-types */}
 									<Grid hidden={(supportRequest.isProducerRead && props.user.login.userType === 0) || (supportRequest.isOfficerRead && props.user.login.userType === 3)} item xs={12} >
@@ -162,7 +163,7 @@ function SupportRequestList(props){
 						<Avatar alt={sender} src="https://scontent.fcmb2-2.fna.fbcdn.net/v/t1.6435-9/57402301_2442775932439604_5030131054145437696_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=174925&_nc_ohc=zzDTAqXehJ0AX85Z8Bx&_nc_ht=scontent.fcmb2-2.fna&oh=00_AT_PFF4lBDfe1k3PYYrNep5W-GdL0-UyIAiOyZiKSSv-iw&oe=6352AA3F" />
 					</ListItemAvatar>
 					<ListItemText
-						primary={message.date.substring(0,10) + " - " + message.date.substring(11,16)}
+						primary={utilityServices.getTime(message.date)}
 						secondary={
 							<React.Fragment>
 								<Typography

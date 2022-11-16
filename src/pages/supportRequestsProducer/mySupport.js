@@ -19,7 +19,7 @@ function MySupport() {
 	const [activeRequest,setActiveRequest] = useState([]);
 	const [oldRequest,setOldRequest] = useState([]);
 	const [isLoading,setIsLoading] = useState(true);
-	const [myProfile,setMyProfile] = useState({firstName:""});
+	const [myProfile,setMyProfile] = useState({firstName:"",login:{userType:-1}});
 	const [refresh,setRefresh] = useState(0);
 
 	useEffect(()=>{
