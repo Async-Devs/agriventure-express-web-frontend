@@ -48,7 +48,6 @@ function LocationForm(props){
 
 	return(
 		<Grid item container>
-			{/*<Paper elevation={4}>*/}
 			<Grid container>
 				<Grid item xs={12} container justifyContent={"center"}>
 					<Grid item xs={12} container justifyContent={"center"} m={3}>
@@ -143,7 +142,6 @@ function LocationForm(props){
 				</Grid>
 
 			</Grid>
-			{/*</Paper>*/}
 		</Grid>
 	);
 }
