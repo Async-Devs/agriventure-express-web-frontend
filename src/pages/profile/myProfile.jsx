@@ -33,7 +33,8 @@ function MyProfile(){
 	const [email,setEmail] = useState();
 	const [telNum,setTelNum] = useState();
 	const [address,setAddress] = useState();
-	const [location,setLocation] = useState();
+	const [district,setDistrict] = useState();
+	const [city,setCity] = useState();
 	const [id,setId] = useState();
 	const [isExsist,setIsExsist] = useState();
 
@@ -47,6 +48,7 @@ function MyProfile(){
 					}
 				});
 			if (user.data.success) {
+				console.log(user.data);
 				setUserType(user.data.user.login.userType);
 				setId(user.data.user.login._id);
 				setFirstName(user.data.user.firstName);
@@ -56,7 +58,8 @@ function MyProfile(){
 				setTelNum(user.data.user.telNum);
 				setAddress(user.data.user.address);
 				if(user.data.user.login.userType === 0){
-					setLocation(user.data.user.location.city);
+					setDistrict(user.data.user.district.name);
+					setCity(user.data.user.city);
 				}
 				setIsExsist(true);
 			} else {
@@ -120,7 +123,8 @@ function MyProfile(){
 							email={email} nic={nic}
 							address={address}
 							telephoneNumber={telNum}
-							location={location}
+							district={district}
+							city={city}
 							userType={userType}
 							showSecrets={true}/>
 					</Grid>
