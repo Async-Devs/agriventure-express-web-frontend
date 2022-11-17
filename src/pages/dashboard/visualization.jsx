@@ -103,9 +103,10 @@ function Visualization(){
 		setCropState({
 			labels: labels,
 			datasets: [{
+				fill: true,
 				label: "Crop amounts around the country",
-				backgroundColor: "rgba(54,255,0,0.71)",
-				borderColor: "rgb(22,96,0)",
+				backgroundColor: "rgba(53,255,2,0.49)",
+				borderColor: "rgb(46,143,14)",
 				borderWidth: 2,
 				data: data
 
@@ -132,7 +133,7 @@ function Visualization(){
 		setDistrictState({
 			labels: labels,
 			datasets: [{
-				label: "Crop amounts around the country",
+				label: "Crop amounts in the district",
 				backgroundColor: "rgba(54,255,0,0.4)",
 				borderColor: "rgb(34,141,0)",
 				borderWidth: 2,
@@ -144,7 +145,7 @@ function Visualization(){
 		setPieState({
 			labels: labels,
 			datasets: [{
-				label: "Crop amounts around the country",
+				label: "Crop amounts in the district",
 				backgroundColor: [
 					"rgba(127,255,0,0.4)",
 					"rgba(255,51,51,0.4)",
@@ -253,7 +254,7 @@ function Visualization(){
 	return(
 		<div>
 			<Grid container spacing={5} justifyContent="center" sx={{marginTop:5}}>
-				<Grid item xs={10} md={10} textAlign={"center"}>
+				<Grid item xs={10} md={5.5} textAlign={"center"}>
 					<Paper sx={{boxShadow: 5, padding:"25px"}}>
 						<div style={{display:"flex", justifyContent:"space-evenly"}}>
 							<div><h2 style={{fontSize:"20px",fontFamily: "Montserrat", marginTop:"0px",marginBottom:"20px" }}>Overall Crop data in the country</h2></div>
@@ -264,7 +265,7 @@ function Visualization(){
 						<Bargraph handleData={state} />
 					</Paper>
 				</Grid>
-				<Grid item xs={10} md={10} textAlign={"center"}>
+				<Grid item xs={10} md={5.5} textAlign={"center"}>
 					<Paper sx={{boxShadow: 5, padding:"25px"}}>
 						<div style={{display:"flex", justifyContent:"space-evenly"}}>
 							<div><h2 style={{fontSize:"20px",fontFamily: "Montserrat", marginTop:"10px",marginBottom:"20px" }}>Crop sale data</h2></div>
@@ -279,14 +280,14 @@ function Visualization(){
 			<div>
 				<Grid container spacing={5} justifyContent="center" sx={{marginTop:5, boxShadow:10, padding:5, backgroundColor:"rgb(245,245,245)"}}>
 					<Grid item xs={12} textAlign={"center"} align={"center"} marginTop={0}>
-						<div><h1 style={{fontSize:40,fontFamily: "Montserrat", marginTop:"0px",marginBottom:"20px" }}>District Data</h1>
-							<div style={{display:"flex", justifyContent:"space-evenly"}}>
-								<div><span style={{fontSize:30,fontFamily: "Montserrat", marginTop:"0px",marginBottom:"0px", color:"white", backgroundColor:"rgb(13,171,13)", padding:10, borderRadius:10 }}>{clickedDistrict}</span></div>
-								<div style={{minWidth:"150px"}}><SelectInput name="districtYear" label="Year" value={districtYear} onChange={(e)=>{
+						<div><h1 style={{fontSize:30,fontFamily: "Montserrat", marginTop:"0px",marginBottom:"20px" }}>District Data</h1>
+							<div style={{display:"flex",flexDirection:"column", alignItems:"center"}}>
+								<div><span style={{fontSize:25,fontFamily: "Montserrat", marginTop:"0px",marginBottom:"0px", color:"white", backgroundColor:"rgb(13,171,13)", padding:6, borderRadius:6 }}>{clickedDistrict}</span></div>
+								<div style={{minWidth:"120px", marginTop:"16px"}}><SelectInput name="districtYear" label="Year" value={districtYear} onChange={(e)=>{
 									setDistrictYear(e.target.value);
 								}} options={years} multi={false}/></div>
 							</div>
-							<p style={{marginTop:20,marginBottom:"2px" }}>Select a district from map to view district data</p>
+							<p style={{marginTop:10,marginBottom:"-20px" }}>Select a district from map to view district data</p>
 						</div>
 					</Grid>
 					<Grid item xs={10} md={7.44} textAlign={"center"}>
