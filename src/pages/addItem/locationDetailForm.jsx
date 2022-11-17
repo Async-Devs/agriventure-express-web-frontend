@@ -15,7 +15,7 @@ function LocationForm(props){
 	useEffect( () => {
 		async function fetchData() {
 			const {data} = await getAllDistricts();
-			setDistrictArray(data);
+			setDistrictArray(data.districtList);
 		}
 		fetchData();
 	},[]);
@@ -32,13 +32,17 @@ function LocationForm(props){
 		}
 	},[district, districtArray]);
 
+	useEffect(()=>{
+		console.log(location);
+	},[location]);
+
 	const handleChangeDistrict = (event) => {
 		setDistrict(event.target.value);
 	};
 	const handleChangeCity = (event) => {
 		setCity(event.target.value);
 	};
-	console.log(districtArray);
+
 	return(
 		<Grid item container>
 			{/*<Paper elevation={4}>*/}
