@@ -47,7 +47,7 @@ function Dashboard(){
 				<Video/>
 			</div>
 			<div>
-				<Grid container spacing={15} justifyContent="center" padding={10} marginTop={"-18%"}>
+				<Grid container spacing={15} justifyContent="center" padding={5} >
 					<Grid item xs={12} md={6} lg={3} align="center" >
 						<Grid container spacing={1.5} justifyContent="center" sx={{boxShadow:"5"}}>
 							<Grid className="farmer" item xs={12} sx={{fontSize:"40px", height:"150px"}}>

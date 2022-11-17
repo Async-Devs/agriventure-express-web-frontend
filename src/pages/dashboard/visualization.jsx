@@ -256,24 +256,32 @@ function Visualization(){
 			<Grid container spacing={5} justifyContent="center" sx={{marginTop:5}}>
 				<Grid item xs={10} md={5.5} textAlign={"center"}>
 					<Paper sx={{boxShadow: 5, padding:"25px"}}>
-						<div style={{display:"flex", justifyContent:"space-evenly"}}>
-							<div><h2 style={{fontSize:"20px",fontFamily: "Montserrat", marginTop:"0px",marginBottom:"20px" }}>Overall Crop data in the country</h2></div>
-							<div style={{minWidth:"150px"}}><SelectInput name="allYear" label="Year" value={allYear} onChange={(e)=>{
-								setAllYear(e.target.value);
-							}} options={years} multi={false}/></div>
+						<div style={{overflowX:"scroll"}}>
+							<div style={{minWidth:"500px"}}>
+								<div style={{display:"flex", justifyContent:"space-evenly"}}>
+									<div><h2 style={{fontSize:"20px",fontFamily: "Montserrat", marginTop:"0px",marginBottom:"20px" }}>Overall Crop data in the country</h2></div>
+									<div style={{minWidth:"150px"}}><SelectInput name="allYear" label="Year" value={allYear} onChange={(e)=>{
+										setAllYear(e.target.value);
+									}} options={years} multi={false}/></div>
+								</div>
+								<Bargraph handleData={state} />
+							</div>
 						</div>
-						<Bargraph handleData={state} />
 					</Paper>
 				</Grid>
 				<Grid item xs={10} md={5.5} textAlign={"center"}>
 					<Paper sx={{boxShadow: 5, padding:"25px"}}>
-						<div style={{display:"flex", justifyContent:"space-evenly"}}>
-							<div><h2 style={{fontSize:"20px",fontFamily: "Montserrat", marginTop:"10px",marginBottom:"20px" }}>Crop sale data</h2></div>
-							<div style={{minWidth:"150px"}}><SelectInput name="crop" label="crop" value={crop} onChange={(e)=>{
-								setCrop(e.target.value);
-							}} options={cropTypes} multi={false}/></div>
+						<div style={{overflowX:"scroll", overflowY:"scroll"}}>
+							<div style={{minWidth:"500px"}}>
+								<div style={{display:"flex", justifyContent:"space-evenly"}}>
+									<div><h2 style={{fontSize:"20px",fontFamily: "Montserrat", marginTop:"10px",marginBottom:"20px" }}>Crop sale data</h2></div>
+									<div style={{minWidth:"150px"}}><SelectInput name="crop" label="crop" value={crop} onChange={(e)=>{
+										setCrop(e.target.value);
+									}} options={cropTypes} multi={false}/></div>
+								</div>
+								<Linegraph handleData={cropState} />
+							</div>
 						</div>
-						<Linegraph handleData={cropState} />
 					</Paper>
 				</Grid>
 			</Grid>
@@ -290,25 +298,34 @@ function Visualization(){
 							<p style={{marginTop:10,marginBottom:"-20px" }}>Select a district from map to view district data</p>
 						</div>
 					</Grid>
-					<Grid item xs={10} md={7.44} textAlign={"center"}>
+					<Grid item xs={10} md={7.15} textAlign={"center"}>
 						<Paper sx={{boxShadow: 5, padding:"25px"}}>
-							<h2 style={{fontSize:"20px",fontFamily: "Montserrat", marginTop:"0px",marginBottom:"0px" }}>Crop types and amount details in District</h2>
-							<Bargraph handleData={districtState} />
+							<div style={{overflowX:"scroll"}}>
+								<div style={{minWidth:"500px"}}>
+									<h2 style={{fontSize:"20px",fontFamily: "Montserrat", marginTop:"0px",marginBottom:"0px" }}>Crop types and amount details in District</h2>
+									<Bargraph handleData={districtState} />
+								</div>
+							</div>
 						</Paper>
 					</Grid>
-					<Grid item xs={10} md={3} textAlign={"center"}>
+					<Grid item xs={10} md={3.8} textAlign={"center"}>
 						<Paper className="map-background" sx={{boxShadow: 5}}>
 							<Map handleDistrictClick={showDistrictData}/>
 						</Paper>
 					</Grid>
-					<Grid item xs={10} md={7.44} textAlign={"center"}>
+					<Grid item xs={10} md={7.15} textAlign={"center"}>
 						<Paper sx={{boxShadow: 5, padding:"25px"}}>
-							<Linegraph handleData={districtState} />
+							<div style={{overflowX:"scroll"}}>
+								<div style={{minWidth:"500px"}}>
+									<h2 style={{fontSize:"20px",fontFamily: "Montserrat", marginTop:"0px",marginBottom:"0px" }}>Crop types and Amounts</h2>
+									<Linegraph handleData={districtState} />
+								</div>
+							</div>
 						</Paper>
 					</Grid>
-					<Grid item xs={10} md={3} textAlign={"center"}>
+					<Grid item xs={10} md={3.8} textAlign={"center"}>
 						<Paper sx={{boxShadow: 5, padding:"25px"}}>
-							<h2 style={{fontSize:"20px",fontFamily: "Montserrat", marginTop:"0px",marginBottom:"20px" }}>Crop type comparison</h2>
+							<h2 style={{fontSize:"20px",fontFamily: "Montserrat", marginTop:"0px",marginBottom:"33px" }}>Crop type comparison</h2>
 							<Donutgraph handleData={pieState} />
 						</Paper>
 					</Grid>
