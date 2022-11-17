@@ -1,52 +1,95 @@
-import React from "react";
-import {Divider, Grid} from "@mui/material";
+import React, {useState} from "react";
+import {CircularProgress, Divider, Grid} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import Box from "@mui/material/Box";
-import {TabContext, TabPanel} from "@mui/lab";
-import TabList from "@mui/lab/TabList";
-import Tab from "@mui/material/Tab";
 import AccountResults from "../../components/accountResults/accountResults";
 import {Link} from "react-router-dom";
 import Button from "@mui/material/Button";
+import {useEffect} from "react";
+import Axios from "axios";
+import authService from "../../services/auth.service";
+import Paper from "@mui/material/Paper";
 
 function ManageAccounts(){
 
-	const [value, setValue] = React.useState("1");
+	const [officers,setOfficers] = useState([]);
+	const [refresh,setRefresh] = useState(false);
+	const [isLoading,setIsLoading] = useState();
 
-	const handleChange = (event, newValue) => {
-		setValue(newValue);
-	};
+
+	useEffect(() => {
+
+		async function getOfficers() {
+			// eslint-disable-next-line no-undef
+			const officers = await Axios.get(`${process.env.REACT_APP_API_URL}/adminUser/getAllOfficers/`,
+				{
+					headers: { "x-auth-token": authService.getCurrentUser()
+					}
+				});
+			if (officers.data.success) {
+				let officerList = [];
+
+				for(let i = 0; i < officers.data.officerList.length; i ++){
+					const officer = officers.data.officerList[i];
+					const newRow = {
+						id: officer.login._id,
+						name: officer.firstName + " " + officer.lastName,
+						email: officer.email,
+						district: officer.district.name,
+						userName: officer.login.userName,
+						nic: officer.nic,
+						isActive: officer.login.isActive
+					};
+					officerList.push(newRow);
+				}
+				setOfficers(officerList);
+			} else {
+				alert("Error occurred!");
+			}
+		}
+
+		getOfficers();
+
+
+		setIsLoading(false);
+	},[refresh]);
+
 	
 	return(
 		<Container>
-			<Grid container>
-				<Grid item xs={12}>
-					<Typography variant="h4">Manage Accounts</Typography>
-					<Divider />
+			{isLoading ? (
+				<Grid item align="center">
+					<CircularProgress />
 				</Grid>
-				<Grid item xs={12} mt={1}>
-					<Link to = "addOfficer"  style={{ textDecoration: "none" }}>
-						<Button variant="contained" color="success">Add New Officer</Button>
-					</Link>
+			):(
+				<Grid container>
+					<Grid item xs={12}>
+						<Typography variant="h4">Manage Officers</Typography>
+						<Divider />
+					</Grid>
+					<Grid item xs={12}>
+						<Paper elevation={3} >
+							<Grid container padding={1}>
+								<Grid item xs={12} mt={2}>
+									<Typography variant="h5">Officers List</Typography>
+									<Divider />
+								</Grid>
+
+								<Grid item xs={12} mt={1}>
+									<Link to = "addOfficer"  style={{ textDecoration: "none" }}>
+										<Button variant="contained" color="success">Add New Officer</Button>
+									</Link>
+								</Grid>
+								<Grid item xs={12} mt={1}>
+									<AccountResults officers={officers} refresh={refresh} setRefresh={setRefresh}/>
+									<Divider sx={{mt:1}} />
+								</Grid>
+							</Grid>
+						</Paper>
+					</Grid>
 				</Grid>
-				<Grid item xs={12} mt={1}>
-					<Box sx={{ width: "100%", typography: "body1" }}>
-						<TabContext value={value}>
-							<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-								<TabList onChange={handleChange} aria-label="lab API tabs example">
-									<Tab label="Producers" value="1" />
-									<Tab label="Buyers" value="2" />
-									<Tab label="Officers" value="3" />
-								</TabList>
-							</Box>
-							<TabPanel value="1"><AccountResults /></TabPanel>
-							<TabPanel value="2"><AccountResults /></TabPanel>
-							<TabPanel value="3"><AccountResults /></TabPanel>
-						</TabContext>
-					</Box>
-				</Grid>
-			</Grid>
+			)}
+
 		</Container>
 
 	);

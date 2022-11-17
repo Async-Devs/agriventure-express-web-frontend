@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Divider, Grid} from "@mui/material";
+import {CircularProgress, Divider, Grid} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
@@ -8,22 +8,49 @@ import SelectInput from "../../components/selectInput/selectInput";
 import Button from "@mui/material/Button";
 import {Alert} from "@mui/lab";
 import {Link} from "react-router-dom";
+import {useEffect} from "react";
+import Axios from "axios";
+import authService from "../../services/auth.service";
 
 function AddOfficer(){
 
 	const [firstName,setFirstName] = useState();
 	const [lastName,setLastName] = useState();
 	const [email,setEmail] = useState();
-	const [telephoneNumber,setTelephoneNumber] = useState();
 	const [nic,setNic] = useState();
-	const [address,setAddress] = useState();
-	const [fieldLocation,setFieldLocation] = useState();
-	const [officerType,setOfficerTypes] = useState([]);
+	const [officerType,setOfficerType] = useState([]);
 	const [username,setUsername] = useState();
 	const [password,setPassword] = useState();
 	const [confirmPassword,setConfirmPassword] = useState();
 	const [error,setError] = useState();
 	const [hidden,setHidden] = useState(true);
+	const [districts,setDistricts] = useState([]);
+	const [district,setDistrict] = useState();
+	const [isLoading,setIsLoading] = useState(true);
+	const [userNames,setUsernames] = useState([]);
+	const [officerTypes,setOfficerTypes] = useState([]);
+
+	useEffect(()=>{
+
+		async function getUserNames(){
+			// eslint-disable-next-line no-undef
+			const userNames = await Axios.get(`${process.env.REACT_APP_API_URL}/users/getUserNames`);
+			setUsernames(userNames.data.map(data => data.userName));
+		}
+		getUserNames();
+
+		async function getDistricts(){
+			// eslint-disable-next-line no-undef
+			const districts = await Axios.get(`${process.env.REACT_APP_API_URL}/guestUsers/getAllLocations`);
+			setDistricts(districts.data.districtList);
+		}
+
+		getDistricts();
+
+		setOfficerTypes([{_id :0,name:"Agricultural"}, {_id :1,name:"Technical"}]);
+
+		setIsLoading(false);
+	},[]);
 
 	function onChange(event){
 		if(event.target.name === "firstName"){
@@ -32,22 +59,18 @@ function AddOfficer(){
 			setLastName(event.target.value);
 		}else if(event.target.name === "email"){
 			setEmail(event.target.value);
-		}else if(event.target.name === "telephone"){
-			setTelephoneNumber(event.target.value);
 		}else if(event.target.name === "nic"){
 			setNic(event.target.value);
-		}else if(event.target.name === "address"){
-			setAddress(event.target.value);
-		}else if(event.target.name === "location"){
-			setFieldLocation(event.target.value);
 		}else if(event.target.name === "officerType"){
-			setOfficerTypes(event.target.value);
+			setOfficerType(event.target.value);
 		}else if(event.target.name === "username"){
 			setUsername(event.target.value);
 		}else if(event.target.name === "password"){
 			setPassword(event.target.value);
 		}else if(event.target.name === "conPassword"){
 			setConfirmPassword(event.target.value);
+		}else if(event.target.name === "district"){
+			setDistrict(event.target.value);
 		}
 
 		setHidden(true);
@@ -66,24 +89,10 @@ function AddOfficer(){
 		return text !== undefined && text !== "";
 	}
 
-	function validateNonEmptyArray(list){
-		return list.length !== 0;
-	}
-
-	function validatePhoneNumber(num)
-	{
-		if(/^\d{10}$/.test(num))
-		{
-			return true;
-		}
-		else
-		{
+	function validateUsername(){
+		if(userNames.includes(username)){
 			return false;
 		}
-	}
-
-	function validateUsername(){
-		//todo: need to check uniquness
 		return (username !== undefined && username !== "");
 	}
 
@@ -93,15 +102,12 @@ function AddOfficer(){
 
 	function handleSubmit(){
 		if(validateNonEmpty(firstName) && validateNonEmpty(lastName)
-			&& validateNonEmpty(email) && validateNonEmpty(telephoneNumber)
-			&& validateNonEmpty(nic) && validateNonEmpty(address)
-			&& validateNonEmptyArray(fieldLocation) && validateNonEmpty(officerType)
+			&& validateNonEmpty(email)
+			&& validateNonEmpty(nic)
+			&& validateNonEmpty(officerType) && validateNonEmpty(district)
 			&& validateNonEmpty(username) && validateNonEmpty(password) && validateNonEmpty(confirmPassword)){
 			if(!validateEmail(email)){
 				setError("Invalid Email!");
-				setHidden(false);
-			}else if(!validatePhoneNumber(telephoneNumber)){
-				setError("Invalid Telephone Number!");
 				setHidden(false);
 			}else if(!validateUsername(username)){
 				setError("Username already exists!");
@@ -113,7 +119,43 @@ function AddOfficer(){
 				setError("Passwords is too short!");
 				setHidden(false);
 			}else{
-				window.location.assign("/profile");
+				const userReqestBody = {
+					userName: username,
+					password: password,
+					userType: 2,
+					isActive: true
+				};
+
+				// eslint-disable-next-line no-undef
+				Axios.post(`${process.env.REACT_APP_API_URL}/adminUser/addUser`, userReqestBody,{
+					headers: { "x-auth-token": authService.getCurrentUser()
+					}
+				} ).then(async (res) => {
+					if(!res.data.success){
+						alert("Error occured!");
+					}else{
+						const officerRequestBody = {
+							firstName: firstName,
+							lastName: lastName,
+							email: email,
+							nic: nic,
+							district: district,
+							officerType: officerType,
+							login: res.data.user._id
+						};
+						// eslint-disable-next-line no-undef
+						Axios.post(`${process.env.REACT_APP_API_URL}/adminUser/addOfficer`,officerRequestBody,{
+							headers: { "x-auth-token": authService.getCurrentUser()
+							}
+						}).then(async (res)=>{
+							if(!res.data.success){
+								alert("Error occured!");
+							}else{
+								window.location.assign("/admin/manageAccounts");
+							}
+						});
+					}
+				});
 			}
 		}else{
 			setError("Fill all fields!");
@@ -123,95 +165,91 @@ function AddOfficer(){
 
 	return(
 		<Container>
-			<Grid container>
-				<Grid item xs={12}>
-					<Typography variant="h2"><span style={{color: "green"}}>Officer</span> Form</Typography>
-					<hr />
+			{isLoading ? (
+				<Grid item align="center">
+					<CircularProgress />
 				</Grid>
+			):(
+				<Grid container>
+					<Grid item xs={12}>
+						<Typography variant="h2"><span style={{color: "green"}}>Officer</span> Form</Typography>
+						<hr />
+					</Grid>
 
-				<Grid item xs={12} hidden={hidden}>
-					<Alert severity="error">{error}</Alert>
+					<Grid item xs={12} hidden={hidden}>
+						<Alert severity="error">{error}</Alert>
+					</Grid>
+
+					<Grid item xs={12}>
+						<Typography variant="h5" m={1}>Officer Details</Typography>
+						<Divider />
+						<Paper variant="elevation" elevation={3}>
+							<Grid container mt={2} spacing={1} padding={1}>
+								<Grid item xs={12} md={6}>
+									{/* eslint-disable-next-line react/prop-types */}
+									<TextInput name="firstName" label="First Name" value={firstName} onChange={onChange} required={true}/>
+								</Grid>
+
+								<Grid item xs={12} md={6}>
+									{/* eslint-disable-next-line react/prop-types */}
+									<TextInput name="lastName" label="Last Name" value={lastName} onChange={onChange} required={true}/>
+								</Grid>
+
+								<Grid item xs={12} md={6}>
+									{/* eslint-disable-next-line react/prop-types */}
+									<TextInput name="email" label="Email" value={email} onChange={onChange} required={true} type="email"/>
+								</Grid>
+
+								<Grid item xs={12} md={6}>
+									{/* eslint-disable-next-line react/prop-types */}
+									<TextInput name="nic" label="NIC Number" value={nic} onChange={onChange} required={true}/>
+								</Grid>
+
+								<Grid item xs={12} md={6}>
+									{/* eslint-disable-next-line react/prop-types */}
+									<SelectInput name="officerType" label="Officer Types" value={officerType} onChange={onChange} required={true} options={officerTypes} multi={false}/>
+								</Grid>
+
+								<Grid item xs={12} md={6}>
+									<SelectInput name="district" label="District" value={district} onChange={onChange} required={true} options={districts} multi={false}/>
+								</Grid>
+
+							</Grid>
+						</Paper>
+					</Grid>
+
+					<Grid item xs={12} mt={2}>
+						<Typography variant="h5" m={1}>Logging Details</Typography>
+						<Divider />
+						<Paper variant="elevation" elevation={3}>
+							<Grid container mt={2} spacing={1} padding={1}>
+								<Grid item xs={12} >
+									{/* eslint-disable-next-line react/prop-types */}
+									<TextInput name="username" label="User Name" value={username} onChange={onChange} required={true}/>
+								</Grid>
+
+								<Grid item xs={12} md={6}>
+									{/* eslint-disable-next-line react/prop-types */}
+									<TextInput name="password" label="Password" value={password} onChange={onChange} required={true} type="password"/>
+								</Grid>
+
+								<Grid item xs={12} md={6}>
+									{/* eslint-disable-next-line react/prop-types */}
+									<TextInput name="conPassword" label="Confirm Password" value={confirmPassword} onChange={onChange} required={true} type="password"/>
+								</Grid>
+							</Grid>
+						</Paper>
+					</Grid>
+
+					<Grid item xs={12} mt={1} align="right">
+						<Link to=".." style={{ textDecoration: "none" }}>
+							<Button type="submit" sx={{m:1}} variant="contained">Cancel</Button>
+						</Link>
+						<Button type="submit" sx={{m:1}} variant="contained" onClick={handleSubmit}>Submit</Button>
+					</Grid>
+
 				</Grid>
-
-				<Grid item xs={12}>
-					<Typography variant="h5" m={1}>Producer Details</Typography>
-					<Divider />
-					<Paper variant="elevation" elevation={3}>
-						<Grid container mt={2} spacing={1} padding={1}>
-							<Grid item xs={12} md={6}>
-								{/* eslint-disable-next-line react/prop-types */}
-								<TextInput name="firstName" label="First Name" value={firstName} onChange={onChange} required={true}/>
-							</Grid>
-
-							<Grid item xs={12} md={6}>
-								{/* eslint-disable-next-line react/prop-types */}
-								<TextInput name="lastName" label="Last Name" value={lastName} onChange={onChange} required={true}/>
-							</Grid>
-
-							<Grid item xs={12} md={6}>
-								{/* eslint-disable-next-line react/prop-types */}
-								<TextInput name="email" label="Email" value={email} onChange={onChange} required={true} type="email"/>
-							</Grid>
-
-							<Grid item xs={12} md={6}>
-								{/* eslint-disable-next-line react/prop-types */}
-								<TextInput name="telephone" label="Telephone Number" value={telephoneNumber} onChange={onChange} required={true} type="tel"/>
-							</Grid>
-
-							<Grid item xs={12} md={6}>
-								{/* eslint-disable-next-line react/prop-types */}
-								<TextInput name="nic" label="NIC Number" value={nic} onChange={onChange} required={true}/>
-							</Grid>
-
-							<Grid item xs={12} md={6}>
-								{/* eslint-disable-next-line react/prop-types */}
-								<TextInput name="address" label="Address" value={address} onChange={onChange} required={true} />
-							</Grid>
-
-							<Grid item xs={12} md={6}>
-								{/* eslint-disable-next-line react/prop-types */}
-								<SelectInput name="location" label="Field Location" value={fieldLocation} onChange={onChange} required={true} options={[{value :0,name:"seeduwa"}, {value :1,name:"katubedda"}]} multi={false}/>
-							</Grid>
-
-							<Grid item xs={12} md={6}>
-								{/* eslint-disable-next-line react/prop-types */}
-								<SelectInput name="officerType" label="Officer Types" value={officerType} onChange={onChange} required={true} options={[{value :0,name:"agricultural"}, {value :1,name:"technical"}]} multi={true}/>
-							</Grid>
-						</Grid>
-					</Paper>
-				</Grid>
-
-				<Grid item xs={12} mt={2}>
-					<Typography variant="h5" m={1}>Logging Details</Typography>
-					<Divider />
-					<Paper variant="elevation" elevation={3}>
-						<Grid container mt={2} spacing={1} padding={1}>
-							<Grid item xs={12} >
-								{/* eslint-disable-next-line react/prop-types */}
-								<TextInput name="username" label="User Name" value={username} onChange={onChange} required={true}/>
-							</Grid>
-
-							<Grid item xs={12} md={6}>
-								{/* eslint-disable-next-line react/prop-types */}
-								<TextInput name="password" label="Password" value={password} onChange={onChange} required={true} type="password"/>
-							</Grid>
-
-							<Grid item xs={12} md={6}>
-								{/* eslint-disable-next-line react/prop-types */}
-								<TextInput name="conPassword" label="Confirm Password" value={confirmPassword} onChange={onChange} required={true} type="password"/>
-							</Grid>
-						</Grid>
-					</Paper>
-				</Grid>
-
-				<Grid item xs={12} mt={1} align="right">
-					<Link to=".." style={{ textDecoration: "none" }}>
-						<Button type="submit" sx={{m:1}} variant="contained">Cancel</Button>
-					</Link>
-					<Button type="submit" sx={{m:1}} variant="contained" onClick={handleSubmit}>Submit</Button>
-				</Grid>
-
-			</Grid>
+			)}
 		</Container>
 
 	);
