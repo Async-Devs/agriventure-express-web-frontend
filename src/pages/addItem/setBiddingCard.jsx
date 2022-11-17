@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Grid, TextField, Typography} from "@mui/material";
+import {FormControl, FormLabel, Grid, TextField, Typography} from "@mui/material";
 import CountdownTimer from "../../components/countdownTimer/countdownTimer";
 import {AdapterMoment} from "@mui/x-date-pickers/AdapterMoment";
 import {DateTimePicker, LocalizationProvider} from "@mui/x-date-pickers";
@@ -38,27 +38,23 @@ function SetBiddingCard(props){
 					</Grid>
 					<Grid item xs={12} container justifyContent={"center"} mt={3} ml={3} mr={3}>
 						<Grid item xs={12}>
-							<Typography sx={{ typography: { md:"h6", sm: "h5", xs: "body1" }, overflow:"hidden" }} color={"green"} fontWeight={"bold"}>
-									Minimum Bidding Price : {Intl.NumberFormat("si", { style: "currency", currency: "LKR" }).format(props.minimumBid) }
+							<Typography align={"center"} sx={{ typography: { md:"h6", sm: "h5", xs: "body1" }, overflow:"hidden" }} color={"green"} fontWeight={"bold"}>
+									Minimum Bidding Price : {Intl.NumberFormat("en", { style: "currency", currency: "LKR" }).format(props.minimumBid) }
 							</Typography>
 						</Grid>
 					</Grid>
 					<Grid item xs={12} container justifyContent={"left"} mt={3} ml={3} mr={3}>
-						<Grid item xs={5}>
-							<Typography variant={"body1"} >
-								End Time
-							</Typography>
-						</Grid>
-						<Grid item xs={1}>
-							<Typography variant={"body1"} fontWeight={"bold"}>
-								:
-							</Typography>
-						</Grid>
-						<Grid item container xs={6} justifyContent={"right"}>
+						<Grid item container xs={12} justifyContent={"center"}>
 							<Grid item>
 								<LocalizationProvider dateAdapter={AdapterMoment}>
 									<DateTimePicker
-										renderInput={(params) => <TextField {...params} />}
+										renderInput={(params) => {
+											console.log(params);
+											return(
+												<FormControl fullWidth>
+													<TextField {...params} />
+												</FormControl>);
+										}}
 										label="Bidding End Date and Time"
 										value={props.endTime}
 										onChange={
@@ -72,28 +68,24 @@ function SetBiddingCard(props){
 							</Grid>
 						</Grid>
 					</Grid>
-					<Grid item xs={12} container justifyContent={"center"} mt={3} ml={3} mr={3}>
-						<Grid item xs={5}>
-							<Typography variant={"body1"}>
+
+					<Grid item xs={12} mr={3} mt={3} ml={3}>
+						<FormControl fullWidth>
+							<FormLabel>
 									Minimum Bidding Price
-							</Typography>
-						</Grid>
-						<Grid item xs={1}>
-							<Typography variant={"body1"} fontWeight={"bold"} >
-									:
-							</Typography>
-						</Grid>
-						<Grid item xs={6}>
-							<TextInput name="minBid" label="Minimum Bidding Price" value={props.minimumBid} type={"number"} onChange={props.onChange} required={true}/>
-						</Grid>
+							</FormLabel>
+							<TextInput name="minBid" value={props.minimumBid} type={"number"} onChange={props.onChange} required={true}/>
+						</FormControl>
 					</Grid>
 
-					<Grid item xs={12} container justifyContent={"right"} m={3}>
-						<Grid item >
-							<Button variant={"contained"} color={"warning"} onClick={props.onSubmit}>Submit</Button>
-						</Grid>
+					<Grid item xs={12} m={3}>
+						<FormControl fullWidth>
+							<FormLabel>
+									Minimum Bid Step
+							</FormLabel>
+							<TextInput name="minBid" value={props.minimumBid} type={"number"} onChange={props.onChange} required={true}/>
+						</FormControl>
 					</Grid>
-
 				</Grid>
 			</Grid>
 		</Grid>

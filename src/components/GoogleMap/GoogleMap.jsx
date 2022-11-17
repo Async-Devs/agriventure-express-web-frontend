@@ -15,6 +15,11 @@ function MyComponent(props) {
 		};
 		fetchData();
 	},[]);
+
+	useEffect(()=>{
+		setLocation({lat: "x", lng: "x"});
+	},[props.mapReset]);
+
 	const [center, setCenter] = useState({
 		lat: 6.9271,
 		lng: 79.8612
@@ -92,7 +97,8 @@ function MyComponent(props) {
 
 MyComponent.propTypes = {
 	locationPointer: PropTypes.object,
-	setPointer: PropTypes.func
+	setPointer: PropTypes.func,
+	mapReset: PropTypes.bool
 };
 
 export default MyComponent;

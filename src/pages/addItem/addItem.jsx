@@ -96,7 +96,7 @@ function AddItem(){
 					</Paper>
 				</Grid>
 				<Grid item md={6} xs={12} minHeight={400} container>
-					<Paper elevation={4}>
+					<Paper elevation={4} sx={{width:"100%"}}>
 						<ImageForm/>
 					</Paper>
 				</Grid>

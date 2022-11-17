@@ -24,7 +24,7 @@ function ImageForm(props){
 								}}
 							/>
 						</Grid>
-						<Grid xs={12}>
+						<Grid item xs={12}>
 							<label htmlFor="upload-photo">
 								<input
 									style={{ display: "none" }}

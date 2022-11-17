@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from "react";
-import {FormControl, Grid, InputLabel, MenuItem, Select, Typography} from "@mui/material";
+import {FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography} from "@mui/material";
 import PropTypes from "prop-types";
 import {getAllDistricts} from "../../services/districtServices";
 import GoogleMap from "../../components/GoogleMap/GoogleMap";
+import Button from "@mui/material/Button";
 
 // eslint-disable-next-line no-unused-vars
 function LocationForm(props){
@@ -11,6 +12,7 @@ function LocationForm(props){
 	const [cityArray, setCityArray] = useState([]);
 	const [city, setCity] = useState("");
 	const [location, setLocation] = useState({lat: "x", lng: "x"});
+	const [isMapReset, setMapReset] = useState(false);
 
 	useEffect( () => {
 		async function fetchData() {
@@ -32,15 +34,15 @@ function LocationForm(props){
 		}
 	},[district, districtArray]);
 
-	useEffect(()=>{
-		console.log(location);
-	},[location]);
-
 	const handleChangeDistrict = (event) => {
 		setDistrict(event.target.value);
 	};
 	const handleChangeCity = (event) => {
 		setCity(event.target.value);
+	};
+	const handleMapReset = ()=>{
+		setLocation({lat: "x", lng: "x"});
+		setMapReset(!isMapReset);
 	};
 
 	return(
@@ -109,10 +111,25 @@ function LocationForm(props){
 						</FormControl>
 					</Grid>
 				</Grid>
+				<Grid item xs={12} container justifyContent={"center"} mt={3} ml={2} mr={3} spacing={1}>
+					<Grid item xs={6}>
+						<FormControl fullWidth>
+							<TextField id="location-lat" label="Latitude" variant="outlined" disabled value={location.lat=="x"?"":location.lat}/>
+						</FormControl>
+					</Grid>
+					<Grid item xs={6}>
+						<FormControl fullWidth>
+							<TextField id="location-lng" label="Longitude" variant="outlined" disabled value={location.lng=="x"?"":location.lng}/>
+						</FormControl>
+					</Grid>
+				</Grid>
+				{location.lat=="x"?"":(<Grid item xs={6} mt={3} ml={3} mr={3}>
+					<Button variant={"contained"} color={"warning"} onClick={handleMapReset}>Reset</Button>
+				</Grid>)}
 
 				<Grid item xs={12} container justifyContent={"center"} mt={3} ml={3} mr={3}>
-					<Grid item xs={12}>
-						<GoogleMap locationPointer={location} setPointer={setLocation}/>
+					<Grid item xs={12} border={1} borderColor={"#bdbdbd"} mb={3} borderRadius={"4px"} bgcolor={"lightgray"}>
+						<GoogleMap locationPointer={location} setPointer={setLocation} mapReset={isMapReset}/>
 					</Grid>
 				</Grid>
 
