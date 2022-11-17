@@ -154,18 +154,18 @@ function Visualization(){
 				backgroundColor: [
 					"rgba(127,255,0,0.4)",
 					"rgba(255,51,51,0.4)",
-					"rgba(0,160,185,0.4)",
 					"rgba(104,3,255,0.4)",
-					"rgba(58,255,0,0.4)",
+					"rgba(17,17,0,0.4)",
 					"rgba(178,90,0,0.4)",
+					"rgba(0,160,185,0.4)"
 				],
 				borderColor: [
 					"rgba(127,255,0)",
 					"rgba(255,51,51)",
-					"rgba(0,160,185)",
 					"rgba(104,3,255)",
-					"rgba(58,255,0)",
+					"rgb(17,77,0)",
 					"rgba(178,90,0)",
+					"rgba(0,160,185)"
 				],
 				borderWidth: 2,
 				data: data
