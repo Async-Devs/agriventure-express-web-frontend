@@ -62,7 +62,7 @@ function ItemDetailsForm(props){
 								labelId="demo-simple-select-label"
 								id="demo-simple-select"
 								value={age}
-								label="Age"
+								label="Crop Type"
 								onChange={handleChange}
 								MenuProps={{ PaperProps: { sx: { maxHeight: 150 } } }}
 							>

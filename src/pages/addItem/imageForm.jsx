@@ -1,12 +1,12 @@
 import React from "react";
-import {Button, Grid, Typography} from "@mui/material";
+import { Grid, Typography} from "@mui/material";
 import "react-image-crop/dist/ReactCrop.css";
-// import {CropImage} from "../../components/cropImage/CropImage";
+import FileUpload2 from "../../components/fileUpload/fileUpload2";
 
 // eslint-disable-next-line no-unused-vars
 function ImageForm(props){
 	return(
-		<Grid item container xs={12}>
+		<Grid container xs={12}>
 			<Grid item container xs={12} mb={3}>
 				<Grid item container xs={12}>
 					<Grid item xs={12} container justifyContent={"center"} m={3}>
@@ -24,19 +24,11 @@ function ImageForm(props){
 								}}
 							/>
 						</Grid>
-						<Grid item xs={12}>
-							<label htmlFor="upload-photo">
-								<input
-									style={{ display: "none" }}
-									id="upload-photo"
-									name="upload-photo"
-									type="file"
-								/>
-
-								<Button color="secondary" variant="contained" component="span">
-									Upload button
-								</Button>
-							</label>
+						<Grid item xs={12} mt={3}  >
+							<Grid bgcolor={"lightgray"} >
+								{/*<FileUpload/>*/}
+								<FileUpload2/>
+							</Grid>
 						</Grid>
 					</Grid>
 

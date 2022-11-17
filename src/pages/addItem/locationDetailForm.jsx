@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from "react";
-import {FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography} from "@mui/material";
+import {FormControl, Grid, InputLabel, MenuItem, Select, Stack, TextField, Typography} from "@mui/material";
 import PropTypes from "prop-types";
 import {getAllDistricts} from "../../services/districtServices";
 import GoogleMap from "../../components/GoogleMap/GoogleMap";
 import Button from "@mui/material/Button";
+import InfoIcon from "@mui/icons-material/Info";
 
 // eslint-disable-next-line no-unused-vars
 function LocationForm(props){
@@ -76,7 +77,7 @@ function LocationForm(props){
 								labelId="demo-simple-select-label"
 								id="demo-simple-select"
 								value={district}
-								label="Age"
+								label="District"
 								onChange={handleChangeDistrict}
 								MenuProps={{ PaperProps: { sx: { maxHeight: 150 } } }}
 							>
@@ -97,7 +98,7 @@ function LocationForm(props){
 								labelId="demo-simple-select-label"
 								id="demo-simple-select"
 								value={city}
-								label="Age"
+								label="City"
 								onChange={handleChangeCity}
 								MenuProps={{ PaperProps: { sx: { maxHeight: 150} } }}
 								disabled={cityArray.length==0?true:false}
@@ -123,9 +124,17 @@ function LocationForm(props){
 						</FormControl>
 					</Grid>
 				</Grid>
-				{location.lat=="x"?"":(<Grid item xs={6} mt={3} ml={3} mr={3}>
-					<Button variant={"contained"} color={"warning"} onClick={handleMapReset}>Reset</Button>
-				</Grid>)}
+				{location.lat=="x"?
+					(<Grid item xs={12} mt={3} ml={3} mr={3}>
+						<Stack direction="row" alignItems="center" gap={1}>
+							<InfoIcon color={"info"}/>
+							<Typography textAlign={"center"} variant={"body1"}>Click on the map to get Location</Typography>
+						</Stack>
+					</Grid>):
+					(<Grid item xs={6} mt={3} ml={3} mr={3}>
+						<Button variant={"contained"} color={"warning"} onClick={handleMapReset}>Reset</Button>
+					</Grid>)
+				}
 
 				<Grid item xs={12} container justifyContent={"center"} mt={3} ml={3} mr={3}>
 					<Grid item xs={12} border={1} borderColor={"#bdbdbd"} mb={3} borderRadius={"4px"} bgcolor={"lightgray"}>

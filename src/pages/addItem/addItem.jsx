@@ -17,7 +17,7 @@ function AddItem(){
 	const [contactNumber, setContactNumber] = useState( "");
 	const [description, setDescription] = useState("");
 	const [value, setValue] = useState(moment());
-	const [minimumBid, setMinimumBid] = useState(0);
+	const [minimumBid, setMinimumBid] = useState("");
 
 
 	// eslint-disable-next-line no-unused-vars

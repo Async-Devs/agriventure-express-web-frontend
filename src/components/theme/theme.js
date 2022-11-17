@@ -9,16 +9,20 @@ let theme = createTheme({
 		secondary: {
 			main: "#f50057",
 		},
-	},
-});
 
-theme = createTheme(theme, {
-	palette: {
 		info: {
-			main: theme.palette.secondary.main,
+			main: "#004ef5",
 		},
 	},
 });
+
+// theme = createTheme(theme, {
+// 	palette: {
+// 		info: {
+// 			main: theme.palette.secondary.main,
+// 		},
+// 	},
+// });
 
 export default theme;
 
