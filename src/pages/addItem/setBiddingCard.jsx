@@ -1,15 +1,43 @@
-import React from "react";
-import {FormControl, FormLabel, Grid, TextField, Typography} from "@mui/material";
+import React, {useEffect, useState} from "react";
+import {FormControl, FormLabel, Grid, Stack, TextField, Typography} from "@mui/material";
 import CountdownTimer from "../../components/countdownTimer/countdownTimer";
 import {AdapterMoment} from "@mui/x-date-pickers/AdapterMoment";
 import {DateTimePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import moment from "moment/moment";
 import "react-image-crop/dist/ReactCrop.css";
-// import {CropImage} from "../../components/cropImage/CropImage";
-import TextInput from "../../components/textInput/textInput";
 import PropTypes from "prop-types";
+import InfoIcon from "@mui/icons-material/Info";
 
 function SetBiddingCard(props){
+	const [minimumBid, setMinimumBid] = useState("");
+	const [minimumBidStep, setMinimumBidStep] = useState("");
+	const [endTime, setEndTime] = useState(moment());
+	useEffect(()=>{
+		const data = {
+			minimumBid:minimumBid,
+			minimumBidStep:minimumBidStep,
+			endTime:endTime
+		};
+		props.getValues(data);
+	},[props.onSubmit]);
+	function onChangeMinBid(event){
+		if(event.target.value==""){
+			setMinimumBid(event.target.value);
+		}else if(event.target.value>=0 && event.target.value<=1000000000) {
+			const value = Math.ceil(event.target.value);
+			setMinimumBid(value);
+		}
+		setMinimumBidStep("");
+	}
+
+	function onChangeMinBidStep(event){
+		if(event.target.value==""){
+			setMinimumBidStep(event.target.value);
+		}else if(event.target.value>=0 && event.target.value<=minimumBid/10){
+			const value = Math.ceil(event.target.value);
+			setMinimumBidStep(value);
+		}
+	}
 
 	return(
 		<Grid item container xs={12}>
@@ -21,7 +49,7 @@ function SetBiddingCard(props){
 								Bidding Setup
 							</Typography>
 						</Grid>
-						<Grid xs={12}>
+						<Grid item xs={12}>
 							<hr
 								style={{
 									color: "black",
@@ -33,13 +61,13 @@ function SetBiddingCard(props){
 					</Grid>
 					<Grid item xs={12} container justifyContent={"center"} mt={3}>
 						<Grid item xs={12}>
-							<CountdownTimer endTime={props.endTime}/>
+							<CountdownTimer endTime={endTime}/>
 						</Grid>
 					</Grid>
 					<Grid item xs={12} container justifyContent={"center"} mt={3} ml={3} mr={3}>
 						<Grid item xs={12}>
 							<Typography align={"center"} sx={{ typography: { md:"h6", sm: "h5", xs: "body1" }, overflow:"hidden" }} color={"green"} fontWeight={"bold"}>
-									Minimum Bidding Price : {Intl.NumberFormat("en", { style: "currency", currency: "LKR" }).format(props.minimumBid) }
+									Minimum Bidding Price : {Intl.NumberFormat("en", { style: "currency", currency: "LKR" }).format(minimumBid) }
 							</Typography>
 						</Grid>
 					</Grid>
@@ -49,17 +77,16 @@ function SetBiddingCard(props){
 								<LocalizationProvider dateAdapter={AdapterMoment}>
 									<DateTimePicker
 										renderInput={(params) => {
-											console.log(params);
 											return(
 												<FormControl fullWidth>
 													<TextField {...params} />
 												</FormControl>);
 										}}
 										label="Bidding End Date and Time"
-										value={props.endTime}
+										value={endTime}
 										onChange={
 											(newValue) => {
-												props.setTime(newValue);
+												setEndTime(newValue);
 											}
 										}
 										minDateTime={moment()}
@@ -74,18 +101,28 @@ function SetBiddingCard(props){
 							<FormLabel>
 									Minimum Bidding Price
 							</FormLabel>
-							<TextInput name="minBid" value={props.minimumBid} type={"number"} onChange={props.onChange} required={true}/>
+							<TextField name="minBid" value={minimumBid} type={"number"} required={true} onChange={onChangeMinBid}/>
 						</FormControl>
 					</Grid>
 
-					<Grid item xs={12} m={3}>
+					<Grid item xs={12} mt={3} ml={3} mr={3}>
 						<FormControl fullWidth>
 							<FormLabel>
 									Minimum Bid Step
 							</FormLabel>
-							<TextInput name="minBid" value={props.minimumBid} type={"number"} onChange={props.onChange} required={true}/>
+							<TextField name="minBidStep" value={minimumBidStep} type={"number"} required={true} onChange={onChangeMinBidStep}/>
 						</FormControl>
 					</Grid>
+					{
+						(minimumBid==""||minimumBid<10)?
+							(<Grid item xs={12} m={3}>
+								<Stack direction="row" alignItems="center" gap={1}>
+									<InfoIcon color={"info"}/>
+									<Typography textAlign={"center"} variant={"body1"}>Enter Minimum Bidding Price of more than 10 to add Minimum Bid Step</Typography>
+								</Stack>
+							</Grid>):
+							(<Grid item xs={12} m={3}></Grid>)
+					}
 				</Grid>
 			</Grid>
 		</Grid>
@@ -93,11 +130,8 @@ function SetBiddingCard(props){
 }
 
 SetBiddingCard.propTypes = {
-	onChange: PropTypes.func,
-	onSubmit: PropTypes.func,
-	minimumBid: PropTypes.number,
-	endTime: PropTypes.object,
-	setTime: PropTypes.func
+	onSubmit: PropTypes.bool,
+	getValues: PropTypes.func
 };
 
 export default SetBiddingCard;

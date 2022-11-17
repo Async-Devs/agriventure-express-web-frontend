@@ -35,6 +35,26 @@ function LocationForm(props){
 		}
 	},[district, districtArray]);
 
+	useEffect(()=>{
+		const currentDistrict = districtArray.filter((ele)=>{
+			return ele._id === district;
+		});
+
+		let districtName = null;
+		try{
+			districtName = currentDistrict[0].name;
+		}catch (e){
+			districtName = null;
+		}
+
+		const data = {
+			district:districtName,
+			city:city,
+			location:{lat:location.lat, lng:location.lng}
+		};
+		props.getValues(data);
+	},[props.onSubmit]);
+
 	const handleChangeDistrict = (event) => {
 		setDistrict(event.target.value);
 	};
@@ -56,7 +76,7 @@ function LocationForm(props){
 								Location Details
 							</Typography>
 						</Grid>
-						<Grid xs={12}>
+						<Grid item xs={12}>
 							<hr
 								style={{
 									color: "black",
@@ -147,12 +167,8 @@ function LocationForm(props){
 }
 
 LocationForm.propTypes={
-	onChange: PropTypes.func,
-	cropType: PropTypes.string,
-	quantity: PropTypes.number,
-	location: PropTypes.string,
-	contact: PropTypes.string,
-	description: PropTypes.string
+	onSubmit: PropTypes.bool,
+	getValues: PropTypes.func
 };
 
 export default LocationForm;

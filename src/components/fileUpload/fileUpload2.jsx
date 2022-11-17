@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import ImageUploading from "react-images-uploading";
 // eslint-disable-next-line no-unused-vars
 import {Card, Dialog, DialogActions, Grid} from "@mui/material";
@@ -10,24 +10,25 @@ import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
 import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
+import PropTypes from "prop-types";
 
 
-function FileUpload2() {
-	const [images, setImages] = useState([]);
+function FileUpload2(props) {
 
-	const maxNumber = 10;
+
+	const maxNumber = 4;
 
 	const onChange = (imageList, addUpdateIndex) => {
 		// data for submit
 		console.log(imageList, addUpdateIndex);
-		setImages(imageList);
+		props.setImages(imageList);
 	};
 
 	return (
 		<Grid>
 			<ImageUploading
 				multiple
-				value={images}
+				value={props.images}
 				onChange={onChange}
 				maxNumber={maxNumber}
 				dataURLKey="data_url"
@@ -105,5 +106,10 @@ function FileUpload2() {
 		</Grid>
 	);
 }
+
+FileUpload2.propTypes = {
+	images: PropTypes.array.isRequired,
+	setImages: PropTypes.func.isRequired
+};
 
 export default FileUpload2;
