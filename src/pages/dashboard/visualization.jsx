@@ -260,7 +260,7 @@ function Visualization(){
 							<div style={{minWidth:"500px"}}>
 								<div style={{display:"flex", justifyContent:"space-evenly"}}>
 									<div><h2 style={{fontSize:"20px",fontFamily: "Montserrat", marginTop:"0px",marginBottom:"20px" }}>Overall Crop data in the country</h2></div>
-									<div style={{minWidth:"150px"}}><SelectInput name="allYear" label="Year" value={allYear} onChange={(e)=>{
+									<div style={{minWidth:"150px",marginTop:"5px"}}><SelectInput name="allYear" label="Year" value={allYear} onChange={(e)=>{
 										setAllYear(e.target.value);
 									}} options={years} multi={false}/></div>
 								</div>
@@ -275,7 +275,7 @@ function Visualization(){
 							<div style={{minWidth:"500px"}}>
 								<div style={{display:"flex", justifyContent:"space-evenly"}}>
 									<div><h2 style={{fontSize:"20px",fontFamily: "Montserrat", marginTop:"10px",marginBottom:"20px" }}>Crop sale data</h2></div>
-									<div style={{minWidth:"150px"}}><SelectInput name="crop" label="crop" value={crop} onChange={(e)=>{
+									<div style={{minWidth:"150px",marginTop:"5px"}}><SelectInput name="crop" label="crop" value={crop} onChange={(e)=>{
 										setCrop(e.target.value);
 									}} options={cropTypes} multi={false}/></div>
 								</div>
@@ -298,7 +298,7 @@ function Visualization(){
 							<p style={{marginTop:10,marginBottom:"-20px" }}>Select a district from map to view district data</p>
 						</div>
 					</Grid>
-					<Grid item xs={10} md={7.15} textAlign={"center"}>
+					<Grid item xs={10} md={7.35} textAlign={"center"}>
 						<Paper sx={{boxShadow: 5, padding:"25px"}}>
 							<div style={{overflowX:"scroll"}}>
 								<div style={{minWidth:"500px"}}>
@@ -313,7 +313,7 @@ function Visualization(){
 							<Map handleDistrictClick={showDistrictData}/>
 						</Paper>
 					</Grid>
-					<Grid item xs={10} md={7.15} textAlign={"center"}>
+					<Grid item xs={10} md={7.35} textAlign={"center"}>
 						<Paper sx={{boxShadow: 5, padding:"25px"}}>
 							<div style={{overflowX:"scroll"}}>
 								<div style={{minWidth:"500px"}}>
@@ -325,7 +325,7 @@ function Visualization(){
 					</Grid>
 					<Grid item xs={10} md={3.8} textAlign={"center"}>
 						<Paper sx={{boxShadow: 5, padding:"25px"}}>
-							<h2 style={{fontSize:"20px",fontFamily: "Montserrat", marginTop:"0px",marginBottom:"33px" }}>Crop type comparison</h2>
+							<h2 style={{fontSize:"20px",fontFamily: "Montserrat", marginTop:"0px",marginBottom:"30px" }}>Crop type comparison</h2>
 							<Donutgraph handleData={pieState} />
 						</Paper>
 					</Grid>
