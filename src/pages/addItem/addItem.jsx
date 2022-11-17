@@ -4,19 +4,23 @@ import ItemDetailsForm from "./itemDetailsForm";
 import SetBiddingCard from "./setBiddingCard";
 import moment from "moment";
 import {addItem} from "../../services/itemServices";
+import Container from "@mui/material/Container";
+import ImageForm from "./imageForm";
+import LocationForm from "./locationDetailForm";
 
 function AddItem(){
 	const [Error, setError] = useState(false);
 
 	const [cropName, setCropName] = useState("");
-	const [quantity, setQuantity] = useState(0);
+	const [quantity, setQuantity] = useState("");
 	const [location, setLocation] = useState("");
 	const [contactNumber, setContactNumber] = useState( "");
 	const [description, setDescription] = useState("");
 	const [value, setValue] = useState(moment());
-	const [minimumBid, setMinimumBid] = useState(0);
+	const [minimumBid, setMinimumBid] = useState("");
 
 
+	// eslint-disable-next-line no-unused-vars
 	function handleItemDetailsChange(event){
 		if(event.target.name === "cropType"){
 			setCropName(event.target.value);
@@ -56,42 +60,49 @@ function AddItem(){
 	};
 
 	return(
-		<Grid container spacing={3} p={5}>
-			{/*<Grid item md={12} maxHeight={50}>*/}
-			{/*	<Breadcrumbs separator="›" aria-label="breadcrumb">*/}
-			{/*		{breadcrumbs}*/}
-			{/*	</Breadcrumbs>*/}
-			{/*</Grid>*/}
-			{Error!=false?(
-				<Grid item xs={12}>
-					<Alert severity="warning">{Error}</Alert>
-				</Grid> ):
-				null
-			}
+		<Container>
+			<Grid container spacing={3} p={5} maxWidth={1600}>
+				{/*<Grid item md={12} maxHeight={50}>*/}
+				{/*	<Breadcrumbs separator="›" aria-label="breadcrumb">*/}
+				{/*		{breadcrumbs}*/}
+				{/*	</Breadcrumbs>*/}
+				{/*</Grid>*/}
+				{Error!=false?(
+					<Grid item xs={12}>
+						<Alert severity="warning">{Error}</Alert>
+					</Grid> ):
+					null
+				}
 
-			<Grid item md={6} xs={12} minHeight={400} container>
-				<Paper elevation={4}>
-					<ItemDetailsForm
-						onChange={handleItemDetailsChange}
-						cropType={cropName}
-						quantity={quantity}
-						location={location}
-						contact={contactNumber}
-						description={description}
-					/>
-				</Paper>
+				<Grid item md={6} xs={12} minHeight={400} container>
+					<Paper elevation={4}>
+						<ItemDetailsForm
+						/>
+					</Paper>
+				</Grid>
+				<Grid item md={6} xs={12} minHeight={400} container>
+					<Paper elevation={4}>
+						<SetBiddingCard
+							minimumBid={minimumBid}
+							endTime={value}
+							setTime={setValue}
+							onChange={handleBidChange}
+							onSubmit={handleSubmit}/>
+					</Paper>
+				</Grid>
+				<Grid item md={6} xs={12} minHeight={400} container>
+					<Paper elevation={4}>
+						<LocationForm/>
+					</Paper>
+				</Grid>
+				<Grid item md={6} xs={12} minHeight={400} container>
+					<Paper elevation={4} sx={{width:"100%"}}>
+						<ImageForm/>
+					</Paper>
+				</Grid>
+
 			</Grid>
-			<Grid item md={6} xs={12} minHeight={400} container>
-				<Paper elevation={4}>
-					<SetBiddingCard
-						minimumBid={minimumBid}
-						endTime={value}
-						setTime={setValue}
-						onChange={handleBidChange}
-						onSubmit={handleSubmit}/>
-				</Paper>
-			</Grid>
-		</Grid>
+		</Container>
 	);
 }
 

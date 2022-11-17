@@ -1,5 +1,4 @@
 import React from "react";
-import {Link} from "react-router-dom";
 import {Button} from "@mui/material";
 import CustomTable from "../../components/customTable/customTable";
 
@@ -36,25 +35,6 @@ function agriDataTable(){
 		{ field: "fieldCity", headerName: "City", width: 150 },
 		{ field: "amount", headerName: "Amount", width: 90},
 		{ field: "year", headerName: "Year", width: 90},
-		{ field: "edit",
-			headerName: "",
-			sortable: false,
-			filterable: false,
-			align: "right",
-			headerAlign: "center",
-			renderCell: (params) => (
-				<Link to={`${params.id}`} style={{ textDecoration: "none" }}>
-					<Button
-						color={"primary"}
-						disableFocusRipple={true}
-						variant="outlined"
-						size="small"
-						style={{ marginLeft: 10 }}
-						tabIndex={params.hasFocus ? 0 : -1}
-					>Edit</Button>
-				</Link>
-			)
-		},
 		{ field: "Delete",
 			headerName: "",
 			sortable: false,
@@ -78,7 +58,6 @@ function agriDataTable(){
 	const agriData = agriDataList.map((agriData) => {
 		return {id:agriData._id, cropType:agriData.cropType.name, fieldDistrict:agriData.district.name, fieldCity:agriData.city, amount:agriData.cropAmount, year:agriData.year};});
 
-	console.log(agriData);
 	return(
 		<div>
 			{isLoading ? (

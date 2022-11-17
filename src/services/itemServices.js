@@ -23,3 +23,8 @@ export function addItem(data){
 	const itemData = Axios.post(`${apiEndpoint}/add-item`, {data});
 	return itemData;
 }
+
+export function getAllItemListingByProducerId(producerId){
+	const items = Axios.get(`${apiEndpoint}/producer/${producerId}`);
+	return items;
+}

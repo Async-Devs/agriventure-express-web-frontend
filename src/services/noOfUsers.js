@@ -5,18 +5,17 @@ import authService from "./auth.service";
 const apiUrl = process.env.REACT_APP_API_URL;
 const apiEndpoint = apiUrl;
 
-export function getAllDistricts(){
-	const districts = Axios.get(`${apiEndpoint}/guestUsers/getAllLocations`, {
+export function getNoOfProducers(){
+	const no = Axios.get(`${apiEndpoint}/guestUsers/noOfProducers`,{
 		headers: { "x-auth-token": authService.getCurrentUser()
 		}
 	});
-	return districts;
+	return no;
 }
-
-export function getDistrictById(districtId){
-	const districtData = Axios.get(`${apiEndpoint}/guestUsers/getDistrictById/${districtId}`, {
+export function getNoOfBuyers(){
+	const no = Axios.get(`${apiEndpoint}/guestUsers/noOfBuyers`,{
 		headers: { "x-auth-token": authService.getCurrentUser()
 		}
 	});
-	return districtData;
+	return no;
 }

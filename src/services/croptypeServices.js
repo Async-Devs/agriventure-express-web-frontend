@@ -8,3 +8,11 @@ export function getCropTypes(){
 	const cropTypes = Axios.get(`${apiEndpoint}`);
 	return cropTypes;
 }
+export function getNoOfCropTypes(){
+	const no = Axios.get(`${apiEndpoint}/getNoOfCrops`);
+	return no;
+}
+export function getCropById(cropId){
+	const cropData = Axios.get(`${apiEndpoint}/${cropId}`);
+	return cropData;
+}
