@@ -30,6 +30,7 @@ function Visualization(){
 		}]
 	});
 	const [cropData, setCropData] = useState([]);
+	const [districtObject, setDistrictObject] = useState();
 	const [allYear, setAllYear] = useState(2022 );
 	const [districtYear, setDistrictYear] = useState(2022 );
 	const years = [
@@ -114,8 +115,12 @@ function Visualization(){
 		});
 	};
 
-	async function showDistrictData(ditrictObj) {
-		const dist = await getDistrictById(ditrictObj.id);
+	function changeDistrictObject(distObj){
+		setDistrictObject(distObj);
+	}
+
+	async function showDistrictData(districtObj) {
+		const dist = await getDistrictById(districtObj.id);
 		setClickedDistrict(dist.data.name);
 
 		const labels = [];
@@ -240,8 +245,9 @@ function Visualization(){
 		getCrops();
 		overallCropData();
 		getAllDistrictData();
+		showDistrictData(districtObject);
 
-	}, [allYear]);
+	}, [allYear, districtYear]);
 
 	useEffect(()=>{
 		handleChange();
@@ -271,7 +277,7 @@ function Visualization(){
 				</Grid>
 				<Grid item xs={10} md={5.5} textAlign={"center"}>
 					<Paper sx={{boxShadow: 5, padding:"25px"}}>
-						<div style={{overflowX:"scroll", overflowY:"scroll"}}>
+						<div style={{overflowX:"scroll"}}>
 							<div style={{minWidth:"500px"}}>
 								<div style={{display:"flex", justifyContent:"space-evenly"}}>
 									<div><h2 style={{fontSize:"20px",fontFamily: "Montserrat", marginTop:"10px",marginBottom:"20px" }}>Crop sale data</h2></div>
@@ -292,13 +298,13 @@ function Visualization(){
 							<div style={{display:"flex",flexDirection:"column", alignItems:"center"}}>
 								<div><span style={{fontSize:25,fontFamily: "Montserrat", marginTop:"0px",marginBottom:"0px", color:"white", backgroundColor:"rgb(13,171,13)", padding:6, borderRadius:6 }}>{clickedDistrict}</span></div>
 								<div style={{minWidth:"120px", marginTop:"16px"}}><SelectInput name="districtYear" label="Year" value={districtYear} onChange={(e)=>{
-									setDistrictYear(e.target.value);
+									setDistrictYear(Number(e.target.value));
 								}} options={years} multi={false}/></div>
 							</div>
 							<p style={{marginTop:10,marginBottom:"-20px" }}>Select a district from map to view district data</p>
 						</div>
 					</Grid>
-					<Grid item xs={10} md={7.35} textAlign={"center"}>
+					<Grid item xs={10} md={7.15} textAlign={"center"}>
 						<Paper sx={{boxShadow: 5, padding:"25px"}}>
 							<div style={{overflowX:"scroll"}}>
 								<div style={{minWidth:"500px"}}>
@@ -310,10 +316,10 @@ function Visualization(){
 					</Grid>
 					<Grid item xs={10} md={3.8} textAlign={"center"}>
 						<Paper className="map-background" sx={{boxShadow: 5}}>
-							<Map handleDistrictClick={showDistrictData}/>
+							<Map handleDistrictClick={showDistrictData} handleDistrictObject={changeDistrictObject}/>
 						</Paper>
 					</Grid>
-					<Grid item xs={10} md={7.35} textAlign={"center"}>
+					<Grid item xs={10} md={7.15} textAlign={"center"}>
 						<Paper sx={{boxShadow: 5, padding:"25px"}}>
 							<div style={{overflowX:"scroll"}}>
 								<div style={{minWidth:"500px"}}>

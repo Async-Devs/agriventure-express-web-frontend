@@ -17,7 +17,7 @@ function Video(){
 		<div className="carousel">
 			<Grid container>
 				<Grid item xs={12} sx={{maxHeight:"100vh"}}>
-					<video  id="videoBG" muted="true" loop="true" autoPlay="true">
+					<video  id="videoBG" muted={true} loop={true} autoPlay={true}>
 						<source src= { Back } type="video/mp4" />
 					</video>
 				</Grid>
