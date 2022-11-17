@@ -37,7 +37,7 @@ function Result(props) {
 
 	return (
 		<Box sx={{ height: 650, width: "100%" }} align="center">
-			<CustomTable rows = {props.producers} columns = {columns} enableCheckBox={true}/>
+			<CustomTable rows = {props.producers} columns = {columns} enableCheckBox={false}/>
 		</Box>
 	);
 }

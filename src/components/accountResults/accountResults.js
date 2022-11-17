@@ -1,60 +1,79 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import { DataGrid } from "@mui/x-data-grid";
-import Link from "@mui/material/Link";
+import { Switch} from "@mui/material";
+import CustomTable from "../customTable/customTable";
+import PropTypes from "prop-types";
+import Axios from "axios";
+import authService from "../../services/auth.service";
 
-const columns = [
-	{ field: "id", headerName: "ID", width: 30 , renderCell: (params) => <Link href="/profile" color="inherit" underline="none">{params.row.id}</Link>},
-	{
-		field: "name",
-		headerName: "Name",
-		width: 200,
-		editable: false,
-		renderCell: (params) => <Link href="/profile" color="inherit" underline="none">{params.row.firstName + " " + params.row.lastName}</Link>
-	},
-	{
-		field: "userName",
-		headerName: "Username",
-		type: "text",
-		width: 200,
-		editable: false,
-		renderCell: (params) => <Link href="/profile" color="inherit" underline="none">{params.row.userName}</Link>
-	},
-	{
-		field: "email",
-		headerName: "Email",
-		sortable: false,
-		width: 200,
-		renderCell: (params) => <Link href="/profile" color="inherit" underline="none">{params.row.email}</Link>
+
+function AccountResults(props) {
+
+
+	function handleChange(event){
+		const current = props.officers.filter(officer => officer.id === event.target.id)[0].isActive;
+		if(current){
+			// eslint-disable-next-line no-undef
+			Axios.put(`${process.env.REACT_APP_API_URL}/adminUser/disableUser`,{id: event.target.id},{
+				headers: { "x-auth-token": authService.getCurrentUser()
+				}
+			}).then(async (res)=>{
+				if(!res.data.success){
+					alert("Error occured!");
+				}else{
+					props.setRefresh(!props.refresh);
+				}
+			});
+		}else{
+			// eslint-disable-next-line no-undef
+			Axios.put(`${process.env.REACT_APP_API_URL}/adminUser/activeUser`,{id: event.target.id},{
+				headers: { "x-auth-token": authService.getCurrentUser()
+				}
+			}).then(async (res)=>{
+				if(!res.data.success){
+					alert("Error occured!");
+				}else{
+					props.setRefresh(!props.refresh);
+				}
+			});
+		}
+
 	}
-];
 
-const rows = [
-	{ id: 1, lastName: "Snow", firstName: "Jon",  userName: "jon99", email: "Jon@gmail.com" },
-	{ id: 2, lastName: "Lannister", firstName: "Cersei",  userName: "Cersei45", email: "Cersei@gmail.com"},
-	{ id: 3, lastName: "Lannister", firstName: "Jaime",  userName: "Jaime88", email: "Jaime@gmail.com" },
-	{ id: 4, lastName: "Stark", firstName: "Arya", age: 16, userName: "Arya44", email: "Arya@gmail.com" },
-	{ id: 5, lastName: "Targaryen", firstName: "Daenerys",  userName: "Daenerys44", email: "Daenerys@gmail.com" },
-	{ id: 6, lastName: "Melisandre", firstName: null,  },
-	{ id: 7, lastName: "Clifford", firstName: "Ferrara"},
-	{ id: 8, lastName: "Frances", firstName: "Rossini" },
-	{ id: 9, lastName: "Roxie", firstName: "Harvey" }
-];
+	const columns = [
+		{ field: "userName", headerName: "User Name", width: 100 },
+		{ field: "name", headerName: "Full Name", width: 150 },
+		{ field: "email", headerName: "Email address", width: 150 },
+		{ field: "nic", headerName: "NIC", width: 150 },
+		{ field: "district", headerName: "District", width: 150 },
+		{ field: "Is Active",
+			headerName: "Is Active",
+			sortable: false,
+			filterable: false,
+			align: "right",
+			headerAlign: "center",
+			renderCell: (params) => (
+				<Switch
+					id={params.row.id}
+					name={params.row.id}
+					checked={params.row.isActive}
+					onChange={handleChange}
+				/>
+			)
+		}
+	];
 
-function AccountResults() {
 	return (
 		<Box sx={{ height: 650, width: "100%" }} align="center">
-			<DataGrid
-				rows={rows}
-				columns={columns}
-				pageSize={10}
-				rowsPerPageOptions={[10]}
-
-				disableSelectionOnClick
-				experimentalFeatures={{ newEditingApi: true }}
-			/>
+			<CustomTable rows = {props.officers} columns = {columns} enableCheckBox={false}/>
 		</Box>
 	);
 }
+
+AccountResults.propTypes = {
+	officers: PropTypes.array,
+	refresh: PropTypes.bool,
+	setRefresh: PropTypes.func
+};
 
 export default AccountResults;

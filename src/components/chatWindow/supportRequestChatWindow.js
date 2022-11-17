@@ -93,9 +93,7 @@ function SupportRequestList(props){
 			alert("Can't send empty message!");
 		}
 
-		setActiveRequest({type: 0, subject: "", messages: []});
-		setReply(undefined);
-		setOpen(false);
+		setReply("");
 	}
 
 	function closeRequest(){

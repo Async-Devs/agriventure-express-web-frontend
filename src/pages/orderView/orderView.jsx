@@ -20,6 +20,7 @@ import RefundRequestChatWindow from "../../components/refundChatWindow/refundCha
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import Divider from "@mui/material/Divider";
 import DraggableDialog from "../../components/draggablePopup/draggablePopup";
+import OrderChat from "../../components/orderChat/orderChat";
 
 function OrderView(){
 	const {id} = useParams();
@@ -40,6 +41,8 @@ function OrderView(){
 	const [refundRequestOpen,setRefundRequestOpen] = useState(false);
 	const [deliveryStatus, setDeliveryStatus] = React.useState("");
 	const [openConfimation, setOpenConfimation] = React.useState(false);
+	const [messages,setMessages] = useState([{message:""}]);
+	const [messanger,setMessanger] = useState();
 
 
 	const handleChange = (event) => {
@@ -80,13 +83,17 @@ function OrderView(){
 	useEffect(()=>{
 		async function getOrder(){
 			const data = await getOrderById(orderId);
+			console.log(data.data[0].messages);
+			setMessages(data.data[0].messages);
+			setMessanger(data.data[0].buyer._id === authService.getCurrentUserId() ? data.data[0].producer.userName: data.data[0].buyer.userName);
 			setOrder(data.data[0]);
 			setLoading(false);
 		}
 		if(orderId!=null){
 			getOrder();
 		}
-	},[orderId]);
+
+	},[orderId,refresh]);
 
 	useEffect(()=>{
 		if(order!=null){
@@ -231,14 +238,14 @@ function OrderView(){
 		}
 		if(param==="body"){
 			return (
-				<Grid bgcolor={"blue"} minHeight={500}>
-					#### CHAT eka methanata daanna DAGOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-				</Grid>
+				<OrderChat  orderId={id} setRefresh={setRefresh} messages={messages} refresh={refresh}  />
 			);
 		}if(param==="title"){
 			return (
-				<Grid>
-					Title Here
+				<Grid  bgcolor="mediumseagreen" mt={1} textAlign="left">
+					<Typography variant="h4" m={1} >
+						{messanger}
+					</Typography>
 				</Grid>
 			);
 		}
@@ -503,7 +510,7 @@ function OrderView(){
 							handleClose={handleChatClose}
 							dialogActions={renderChat("actions")}
 							dialogBody={renderChat("body")}
-							dialogTitle={"Chat"}
+							dialogTitle={renderChat("title")}
 						/>
 						{renderActions()}
 						<Grid container item xs={10} mt={5}>
