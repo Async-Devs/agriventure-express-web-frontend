@@ -1,16 +1,21 @@
-// eslint-disable-next-line no-unused-vars
 import React, {useEffect, useState} from "react";
-import {FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography} from "@mui/material";
-// eslint-disable-next-line no-unused-vars
+import {
+	FormControl,
+	Grid,
+	InputAdornment,
+	InputLabel,
+	MenuItem,
+	Select,
+	Stack,
+	TextField,
+	Typography
+} from "@mui/material";
 import {getCropTypes} from "../../services/croptypeServices";
 import PropTypes from "prop-types";
+import WarningIcon from "@mui/icons-material/Warning";
 
 function ItemDetailsForm(props){
 	const [cropTypes, setCropTypes] = useState([]);
-	// const [title, setTitle] = useState("");
-	// const [cropType, setCropType] = useState("");
-	// const [quantity, setQuantity] = useState("");
-	// const [description, setdescription] = useState("");
 
 	useEffect( () => {
 		async function fetchData() {
@@ -20,23 +25,13 @@ function ItemDetailsForm(props){
 		fetchData();
 	},[]);
 
-	// useEffect(()=>{
-	// 	const data = {
-	// 		title:title,
-	// 		cropType:cropType,
-	// 		quantity:quantity,
-	// 		description:description
-	// 	};
-	// 	props.getValues(data);
-	// },[props.onSubmit]);
-
 	const handleChange = (event) => {
 		props.setCropType(event.target.value);
 	};
 
 	const handleTitle = (event) => {
 		const string = event.target.value;
-		if(string.length <=50){
+		if(string.length <=15){
 			props.setTitle(event.target.value);
 		}
 	};
@@ -82,7 +77,15 @@ function ItemDetailsForm(props){
 				<Grid item xs={12} container justifyContent={"center"} ml={3} mr={3}>
 					<Grid item xs={12}>
 						<FormControl fullWidth>
-							<TextField id="listing-title" label="Listing Title" variant="outlined" onChange={handleTitle} value={props.title}/>
+							<TextField
+								required={true}
+								id="listing-title"
+								label="Listing Title"
+								variant="outlined"
+								onChange={handleTitle}
+								value={props.title}
+								error={props.title === ""}
+							/>
 						</FormControl>
 					</Grid>
 				</Grid>
@@ -90,8 +93,9 @@ function ItemDetailsForm(props){
 				<Grid item xs={12} container justifyContent={"center"} mt={3} ml={3} mr={3}>
 					<Grid item xs={12}>
 						<FormControl fullWidth>
-							<InputLabel id="demo-simple-select-label">Crop Type</InputLabel>
+							<InputLabel required={true} error={props.cropType === ""} id="demo-simple-select-label">Crop Type</InputLabel>
 							<Select
+								error={props.cropType === ""}
 								labelId="demo-simple-select-label"
 								id="demo-simple-select"
 								value={props.cropType}
@@ -112,10 +116,32 @@ function ItemDetailsForm(props){
 				<Grid item xs={12} container justifyContent={"center"} mt={3} ml={3} mr={3}>
 					<Grid item xs={12}>
 						<FormControl fullWidth>
-							<TextField id="quantity" label="Quantity" variant="outlined" type={"number"} onChange={handleQuantity} value={props.quantity}/>
+							<TextField
+								error={props.quantity === "" || props.quantity<1}
+								required={true}
+								id="quantity"
+								label="Quantity"
+								variant="outlined"
+								type={"number"}
+								onChange={handleQuantity}
+								value={props.quantity}
+								InputProps={{
+									endAdornment: <InputAdornment position="start">kg</InputAdornment>,
+								}}
+							/>
 						</FormControl>
 					</Grid>
 				</Grid>
+				{
+					(props.quantity==""||props.quantity<1)?
+						(<Grid item xs={12} mr={3} mt={3} ml={3}>
+							<Stack direction="row" alignItems="center" gap={1}>
+								<WarningIcon color={"warning"}/>
+								<Typography textAlign={"left"} variant={"body1"}>Enter Minimum quantity of 1 kg</Typography>
+							</Stack>
+						</Grid>):
+						("")
+				}
 
 				<Grid item xs={12} container justifyContent={"center"} m={3} >
 					<Grid item xs={12}>

@@ -20,32 +20,19 @@ import {Link} from "react-router-dom";
 import Button from "@mui/material/Button";
 import WarningIcon from "@mui/icons-material/Warning";
 import moment from "moment";
+import {LinkedButton} from "../../components/button/button";
+import {producerAddListing} from "../../services/itemServices";
+// eslint-disable-next-line no-unused-vars
+import Divider from "@mui/material/Divider";
+import authService from "../../services/auth.service";
+import {LoadingButton} from "@mui/lab";
 
 function AddItem(){
 	const [Error, setError] = useState(false);
-	// eslint-disable-next-line no-unused-vars
-	const [isSubmit, setIsSubmit] = useState(false);
-	const [isPost, setIsPost] = useState(false);
-
+	const [serverResult, setServerResult] = useState(false);
+	const [postLoading, setPostLoading] = useState(false);
+	// const [postResult, setpostResult] = useState(false);
 	const [open, setOpen] = useState(false);
-	// eslint-disable-next-line no-unused-vars
-	const [submissionDataBundle, setSubmissionDataBundle] = useState(
-		{
-			itemParams: null,
-			biddingParams: null,
-			locationParams: null,
-			imageParams: null
-		}
-	);
-
-	// eslint-disable-next-line no-unused-vars
-	const [itemDetails, setItemDetails] = useState(null);
-	// eslint-disable-next-line no-unused-vars
-	const [biddingDetails, setBiddingDetails] = useState(null);
-	// eslint-disable-next-line no-unused-vars
-	const [locationDetails, setLocationDetails] = useState(null);
-	// eslint-disable-next-line no-unused-vars
-	const [imageDetails, setImageDetails] = useState(null);
 
 	const initialTime = moment();
 
@@ -65,13 +52,18 @@ function AddItem(){
 	const [images, setImages] = useState([]);
 
 	useEffect(()=>{
-		console.log(submissionDataBundle);
-	}, [isPost]);
-
-	useEffect(()=>{
-		console.log("Validate here --");
 		validateData();
-	},[title, cropType, quantity, minimumBid, minimumBidStep, district, city, images]);
+	},[
+		title,
+		cropType,
+		quantity,
+		minimumBid,
+		minimumBidStep,
+		district,
+		city,
+		images,
+		endTime
+	]);
 
 	const handleClickOpen = () => {
 		if(Error == false){
@@ -88,10 +80,10 @@ function AddItem(){
 			setError("Multiple Empty Fields");
 			return false;
 		}
-		else if(title === "" ||cropType === "" || quantity === ""){
+		else if(title === "" ||cropType === "" || quantity === ""|| quantity < 1){
 			setError("Invalid Item Details");
 			return false;
-		}else if(minimumBid === "" || endTime.unix() < initialTime.unix()+3600 ){
+		}else if(minimumBid === "" ||minimumBid <100 || endTime.unix() < initialTime.unix()+7200 ){
 			setError("Invalid Bidding Setup");
 			return false;
 		}else if(district === "" || city === "" ){
@@ -114,32 +106,35 @@ function AddItem(){
 		</Typography>,
 	];
 
-	// function getItemData(data){
-	// 	console.log(data);
-	// 	setItemDetails(data);
-	// }
+	async function onConfirm(){
+		setPostLoading(true);
+		const valid = validateData();
+		if(valid){
+			const data = {
+				producer: authService.getCurrentUserId(),
+				name: title,
+				crop: cropType,
+				images: images,
+				description: description,
+				quantity: quantity,
+				location:{
+					latitude:location.lat,
+					longitude:location.lng,
+					city:city,
+					district:district.name
+				},
+				minimum_bid: minimumBid,
+				minimum_bid_step:minimumBidStep,
+				bid_end_time: endTime
+			};
 
-	// function getBidData(data){
-	// 	console.log(data);
-	// 	setBiddingDetails(data);
-	// }
-
-	// function getLocationData(data){
-	// 	console.log(data);
-	// 	setLocationDetails(data);
-	// }
-
-	// function getImageData(data){
-	// 	console.log(data);
-	// 	setImageDetails(data);
-	// }
-
-	// function onDataPrep(){
-	// 	setIsSubmit(!isSubmit);
-	// }
-
-	function onConfim(){
-		setIsPost(!isPost);
+			const result = await producerAddListing(data);
+			console.log("Submit data",result);
+			setServerResult(result.Error);
+			setPostLoading(false);
+			// window.location.assign("/producer");
+		}
+		// setOpen(false);
 	}
 
 	const bidConfirmPopup = ()=>{
@@ -151,18 +146,65 @@ function AddItem(){
 				aria-describedby="alert-dialog-description"
 			>
 				<DialogTitle id="alert-dialog-title">
-					{"Confirm Bid Amount ?"}
+					{serverResult?("Error"):"Confirm Bid Amount ?"}
 				</DialogTitle>
 				<DialogContent>
 					<DialogContentText id="alert-dialog-description">
-						You are about to
+						You are about to Add a Listing under the user {"<Add User name Here>"}
+					</DialogContentText>
+					<Divider sx={{marginTop:"30px", marginBottom:"10px"}}>Listing Details</Divider>
+					<DialogContentText id="alert-dialog-description">
+					</DialogContentText>
+					<DialogContentText id="alert-dialog-description">
+						Listing Title - {title}
+					</DialogContentText>
+					<DialogContentText id="alert-dialog-description">
+						Crop Type - {cropType}
+					</DialogContentText>
+					<DialogContentText id="alert-dialog-description">
+						Total quantity of - {quantity}
+					</DialogContentText>
+					<DialogContentText id="alert-dialog-description">
+						Description - {description.length>40?description.slice(0,40)+"...":description}
+					</DialogContentText>
+					<DialogContentText id="alert-dialog-description">
+						Minimum Bidding Price - {
+							Intl.NumberFormat("en", { style: "currency", currency: "LKR" }).format(minimumBid)
+						} with steps of {Intl.NumberFormat("en" ).format(minimumBidStep)}
+					</DialogContentText>
+					<DialogContentText id="alert-dialog-description">
+						Bid End TIme - {endTime.format()}
+					</DialogContentText>
+					<DialogContentText id="alert-dialog-description">
+						District - {district.name}
+					</DialogContentText>
+					<DialogContentText id="alert-dialog-description">
+						City - {city}
+					</DialogContentText>
+					{
+						location.lat==="x"?
+							(<DialogContentText id="alert-dialog-description">
+						Location - NOT SET
+							</DialogContentText>):
+							(<DialogContentText id="alert-dialog-description">
+						Location - lat: {location.lat} lng: {location.lng}
+							</DialogContentText>)
+					}
+					<DialogContentText id="alert-dialog-description">
+						Number of Images Uploaded - {images.length}
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={handleClose} variant={"contained"} sx={{color:"white"}}>Discard</Button>
-					<Button onClick={onConfim} autoFocus color={"error"} variant={"contained"}>
+					<LoadingButton
+						onClick={onConfirm}
+						loading={postLoading}
+						loadingIndicator="Loading…"
+						variant="contained"
+						color={"error"}
+					>
 						Confirm
-					</Button>
+					</LoadingButton>
 				</DialogActions>
 			</Dialog>
 		);
@@ -263,10 +305,10 @@ function AddItem(){
 												null
 											}
 											<Grid item>
-												<Button variant={"contained"} color={"warning"}>Discard</Button>
+												<LinkedButton variant={"contained"} href={"/producer"} content={"Discard"} color={"warning"}/>
 											</Grid>
 											<Grid item>
-												<Button variant={"contained"} color={"error"} onClick={handleClickOpen}>Confirm</Button>
+												<Button variant={"contained"} color={"error"} onClick={handleClickOpen} disabled={Error!=false?true:false}>Confirm</Button>
 											</Grid>
 										</Grid>
 									</Grid>

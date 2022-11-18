@@ -1,8 +1,10 @@
 import Axios from "axios";
+import authService from "./auth.service";
 
 // eslint-disable-next-line no-undef
 const apiUrl = process.env.REACT_APP_API_URL;
 const apiEndpoint = apiUrl + "/items";
+const apiEndpointProducer = apiUrl + "/producerUsers/items";
 
 export function getAllItems(){
 	const items = Axios.get(`${apiEndpoint}`);
@@ -19,8 +21,14 @@ export function setBidForItem(itemId, data){
 	return itemData;
 }
 
-export function addItem(data){
-	const itemData = Axios.post(`${apiEndpoint}/add-item`, {data});
+export function producerAddListing(data){
+	const itemData = Axios.post(
+		`${apiEndpointProducer}/add-item`,
+		{data},
+		{
+			headers: { "x-auth-token": authService.getCurrentUser()}
+		}
+	);
 	return itemData;
 }
 

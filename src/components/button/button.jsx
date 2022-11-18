@@ -13,7 +13,7 @@ export default function SaveButton(props) {
 export function LinkedButton(props){
 	return(
 		<Link to={props.href} style={{ textDecoration: "none" }}>
-			<Button variant={props.variant?props.variant:"outlined"} sx={props.sx}>
+			<Button variant={props.variant?props.variant:"outlined"} sx={props.sx} color={props.color}>
 				{props.content}
 			</Button>
 		</Link>
@@ -45,6 +45,7 @@ LinkedButton.propTypes = {
 	href: PropTypes.string,
 	/** The content is the Button Name */
 	content: PropTypes.string,
+	color: PropTypes.string,
 	variant: PropTypes.string,
 	sx: PropTypes.object
 };

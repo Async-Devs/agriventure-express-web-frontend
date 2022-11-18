@@ -6,12 +6,12 @@ import GoogleMap from "../../components/GoogleMap/GoogleMap";
 import Button from "@mui/material/Button";
 import InfoIcon from "@mui/icons-material/Info";
 
-// eslint-disable-next-line no-unused-vars
 function LocationForm(props){
 	const [districtArray, setDistrictArray] = useState([]);
 	const [cityArray, setCityArray] = useState([]);
 
 	const [isMapReset, setMapReset] = useState(false);
+	const [isHover, setIsHover] = useState(false);
 
 	useEffect( () => {
 		async function fetchData() {
@@ -23,7 +23,7 @@ function LocationForm(props){
 
 	useEffect( () => {
 		const currentDistrict = districtArray.filter((ele)=>{
-			return ele._id === props.district;
+			return ele._id === props.district._id;
 		});
 		try{
 			setCityArray(currentDistrict[0].cities);
@@ -32,26 +32,6 @@ function LocationForm(props){
 			props.setCity("");
 		}
 	},[props.district, districtArray]);
-
-	// useEffect(()=>{
-	// 	const currentDistrict = districtArray.filter((ele)=>{
-	// 		return ele._id === props.district;
-	// 	});
-	//
-	// 	let districtName = null;
-	// 	try{
-	// 		districtName = currentDistrict[0].name;
-	// 	}catch (e){
-	// 		districtName = null;
-	// 	}
-	//
-	// 	const data = {
-	// 		district:districtName,
-	// 		city:props.city,
-	// 		location:{lat:location.lat, lng:location.lng}
-	// 	};
-	// 	props.getValues(data);
-	// },[props.onSubmit]);
 
 	const handleChangeDistrict = (event) => {
 		props.setDistrict(event.target.value);
@@ -89,8 +69,9 @@ function LocationForm(props){
 				<Grid item xs={12} container justifyContent={"center"} ml={3} mr={3}>
 					<Grid item xs={12}>
 						<FormControl fullWidth>
-							<InputLabel id="demo-simple-select-label">District</InputLabel>
+							<InputLabel error={props.district===""} required={true} id="demo-simple-select-label">District</InputLabel>
 							<Select
+								error={props.district===""}
 								labelId="demo-simple-select-label"
 								id="demo-simple-select"
 								value={props.district}
@@ -100,7 +81,7 @@ function LocationForm(props){
 							>
 								{districtArray!=[]?districtArray.map((element)=>{
 									return(
-										<MenuItem key={element._id} value={element._id}>{element.name}</MenuItem>
+										<MenuItem key={element._id} value={element}>{element.name}</MenuItem>
 									);
 								}):""}
 							</Select>
@@ -110,8 +91,9 @@ function LocationForm(props){
 				<Grid item xs={12} container justifyContent={"center"} mt={3} ml={3} mr={3}>
 					<Grid item xs={12}>
 						<FormControl fullWidth>
-							<InputLabel id="demo-simple-select-label">City</InputLabel>
+							<InputLabel error={props.city==="" && props.district!=""} required={true} id="demo-simple-select-label">City</InputLabel>
 							<Select
+								error={props.city==="" && props.district!=""}
 								labelId="demo-simple-select-label"
 								id="demo-simple-select"
 								value={props.city}
@@ -154,7 +136,20 @@ function LocationForm(props){
 				}
 
 				<Grid item xs={12} container justifyContent={"center"} mt={3} ml={3} mr={3}>
-					<Grid item xs={12} border={1} borderColor={"#bdbdbd"} mb={3} borderRadius={"4px"} bgcolor={"lightgray"}>
+					<Grid
+						item xs={12}
+						border={1}
+						mb={3}
+						borderRadius={"4px"}
+						bgcolor={"lightgray"}
+						borderColor={isHover?"black":"#bdbdbd"}
+						onMouseEnter={()=>{
+							setIsHover(true);
+						}}
+						onMouseLeave={()=>{
+							setIsHover(false);
+						}}
+					>
 						<GoogleMap locationPointer={props.location} setPointer={props.setLocation} mapReset={isMapReset}/>
 					</Grid>
 				</Grid>
@@ -172,7 +167,7 @@ LocationForm.propTypes={
 	setCity: PropTypes.func.isRequired,
 	setLocation: PropTypes.func.isRequired,
 
-	district: PropTypes.string.isRequired,
+	district: PropTypes.any.isRequired,
 	city: PropTypes.string.isRequired,
 	location: PropTypes.object.isRequired
 

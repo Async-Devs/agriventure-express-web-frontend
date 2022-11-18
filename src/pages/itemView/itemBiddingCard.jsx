@@ -19,7 +19,7 @@ import TextField from "@mui/material/TextField";
 
 function ItemBiddingCard(props){
 	const { endTime, bidArray, minimumBid, itemId } = props.biddingData;
-	const [ lastBid, setLastBid ] = useState(_.last(bidArray).bid_amount);
+	const [ lastBid, setLastBid ] = useState(bidArray.length>0?_.last(bidArray).bid_amount:minimumBid);
 	const [bidValue, setBidValue] = useState(lastBid);
 	const [ error, setError ] = useState(false);
 	const [open, setOpen] = React.useState(false);

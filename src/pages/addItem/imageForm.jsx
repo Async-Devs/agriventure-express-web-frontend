@@ -1,18 +1,12 @@
-import React from "react";
+import React, {useState} from "react";
 import { Grid, Typography} from "@mui/material";
 import "react-image-crop/dist/ReactCrop.css";
 import FileUpload2 from "../../components/fileUpload/fileUpload2";
 import PropTypes from "prop-types";
 
-// eslint-disable-next-line no-unused-vars
 function ImageForm(props){
-
-	// useEffect(()=>{
-	// 	const data = {
-	// 		images:images
-	// 	};
-	// 	props.getValues(data);
-	// },[props.onSubmit]);
+	const [isHover, setIsHover] = useState(false);
+	const [isClick, setIsClick] = useState(false);
 
 	return(
 		<Grid container>
@@ -34,7 +28,22 @@ function ImageForm(props){
 							/>
 						</Grid>
 						<Grid item xs={12} mt={3}  >
-							<Grid bgcolor={"lightgray"} >
+							<Grid
+								bgcolor={"lightgray"}
+								border={isClick?2:1}
+								borderRadius={"4px"}
+								borderColor={props.images<=0?"#d32f2f":(isHover?(isClick?"#3fb559":"black"):"gray")}
+								onMouseEnter={()=>{
+									setIsHover(true);
+								}}
+								onMouseLeave={()=>{
+									setIsHover(false);
+									setIsClick(false);
+								}}
+								onClick={()=>{
+									setIsClick(true);
+								}}
+							>
 								{/*<FileUpload/>*/}
 								<FileUpload2 images={props.images} setImages={props.setImages}/>
 							</Grid>

@@ -1,5 +1,5 @@
 import React from "react";
-import {FormControl, FormLabel, Grid, Stack, TextField, Typography} from "@mui/material";
+import {FormControl, FormLabel, Grid, InputAdornment, Stack, TextField, Typography} from "@mui/material";
 import CountdownTimer from "../../components/countdownTimer/countdownTimer";
 import {AdapterMoment} from "@mui/x-date-pickers/AdapterMoment";
 import {DateTimePicker, LocalizationProvider} from "@mui/x-date-pickers";
@@ -7,6 +7,7 @@ import moment from "moment/moment";
 import "react-image-crop/dist/ReactCrop.css";
 import PropTypes from "prop-types";
 import InfoIcon from "@mui/icons-material/Info";
+import WarningIcon from "@mui/icons-material/Warning";
 
 function SetBiddingCard(props){
 	// const [minimumBid, setMinimumBid] = useState("");
@@ -99,7 +100,7 @@ function SetBiddingCard(props){
 						(props.bidEndTime.unix() < moment().unix()+7200)?
 							(<Grid item xs={12} ml={3} mr={3} mt={3}>
 								<Stack direction="row" alignItems="center" gap={1}>
-									<InfoIcon color={"info"}/>
+									<WarningIcon color={"warning"}/>
 									<Typography textAlign={"left"} variant={"body1"}>Remaining time Should be at least 2hours</Typography>
 								</Stack>
 							</Grid>):
@@ -108,19 +109,48 @@ function SetBiddingCard(props){
 
 					<Grid item xs={12} mr={3} mt={3} ml={3}>
 						<FormControl fullWidth>
-							<FormLabel>
+							<FormLabel required={true}>
 									Minimum Bidding Price
 							</FormLabel>
-							<TextField name="minBid" value={props.minimumBid} type={"number"} required={true} onChange={onChangeMinBid}/>
+							<TextField
+								name="minBid"
+								value={props.minimumBid}
+								type={"number"}
+								required={true}
+								onChange={onChangeMinBid}
+								InputProps={{
+									startAdornment: <InputAdornment position="start">LKR</InputAdornment>,
+								}}
+								error={props.minimumBid<100}
+							/>
 						</FormControl>
 					</Grid>
+					{
+						(props.minimumBid==""||props.minimumBid<100)?
+							(<Grid item xs={12} mr={3} mt={3} ml={3}>
+								<Stack direction="row" alignItems="center" gap={1}>
+									<WarningIcon color={"warning"}/>
+									<Typography textAlign={"left"} variant={"body1"}>Enter initial minimum bidding price of at least LKR 100</Typography>
+								</Stack>
+							</Grid>):
+							("")
+					}
 
 					<Grid item xs={12} mt={3} ml={3} mr={3}>
 						<FormControl fullWidth>
 							<FormLabel>
 									Minimum Bid Step
 							</FormLabel>
-							<TextField name="minBidStep" value={props.minimumBidStep} type={"number"} required={true} onChange={onChangeMinBidStep}/>
+							<TextField
+								name="minBidStep"
+								value={props.minimumBidStep}
+								type={"number"}
+								required={true}
+								onChange={onChangeMinBidStep}
+								InputProps={{
+									startAdornment: <InputAdornment position="start">LKR</InputAdornment>,
+								}}
+							/>
 						</FormControl>
 					</Grid>
 					{
