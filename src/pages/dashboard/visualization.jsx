@@ -19,7 +19,7 @@ function Visualization(){
 	const [cropTypes, setCropTypes] = useState([]);
 	const [pieState, setPieState] = useState({
 
-		labels: ["Total Income", "Expenses", "Current Balance"],
+		labels: ["Types of Crops"],
 		datasets: [{
 			label: "Crop amounts around the country",
 			backgroundColor: "rgba(54,255,0,0.71)",
@@ -50,7 +50,7 @@ function Visualization(){
 	const [districtData, setDistrictData] = useState([]);
 	const [districtState, setDistrictState] = useState({
 
-		labels: ["Total Income", "Expenses", "Current Balance"],
+		labels: ["Types of Crops"],
 		datasets: [{
 			label: "Crop amounts around the country",
 			backgroundColor: "rgba(54,255,0,0.71)",
@@ -63,10 +63,10 @@ function Visualization(){
 
 	const [cropState, setCropState] = useState({
 
-		labels: ["Total Income", "Expenses", "Current Balance"],
+		labels: ["Types of Crops"],
 		datasets: [{
 			label: "Crop amounts around the country",
-			backgroundColor: "rgba(54,255,0,0.71)",
+			backgroundColor: "rgba(54,255,0,0.4)",
 			borderColor: "rgb(22,96,0)",
 			borderWidth: 2,
 			data: [0, 0, 0]
@@ -77,10 +77,10 @@ function Visualization(){
 	const [clickedDistrict, setClickedDistrict] = useState("District name");
 	const [state, setState] = useState({
 
-		labels: ["Total Income", "Expenses", "Current Balance"],
+		labels: ["Types of Crops"],
 		datasets: [{
 			label: "Crop amounts around the country",
-			backgroundColor: "rgba(54,255,0,0.71)",
+			backgroundColor: "rgba(54,255,0,0.4)",
 			borderColor: "rgb(22,96,0)",
 			borderWidth: 2,
 			data: [0, 0, 0]
@@ -294,7 +294,7 @@ function Visualization(){
 			<div>
 				<Grid container spacing={5} justifyContent="center" sx={{marginTop:5, boxShadow:10, padding:5, backgroundColor:"rgb(245,245,245)"}}>
 					<Grid item xs={12} textAlign={"center"} align={"center"} marginTop={0}>
-						<div><h1 style={{fontSize:30,fontFamily: "Montserrat", marginTop:"0px",marginBottom:"20px" }}>District Data</h1>
+						<div><h1 style={{fontSize:30,fontFamily: "Montserrat", marginTop:"0px",marginBottom:"10px" }}>District Data</h1>
 							<div style={{display:"flex",flexDirection:"column", alignItems:"center"}}>
 								<div><span style={{fontSize:25,fontFamily: "Montserrat", marginTop:"0px",marginBottom:"0px", color:"white", backgroundColor:"rgb(13,171,13)", padding:6, borderRadius:6 }}>{clickedDistrict}</span></div>
 								<div style={{minWidth:"120px", marginTop:"16px"}}><SelectInput name="districtYear" label="Year" value={districtYear} onChange={(e)=>{
@@ -331,7 +331,7 @@ function Visualization(){
 					</Grid>
 					<Grid item xs={10} md={3.8} textAlign={"center"}>
 						<Paper sx={{boxShadow: 5, padding:"25px"}}>
-							<h2 style={{fontSize:"20px",fontFamily: "Montserrat", marginTop:"0px",marginBottom:"30px" }}>Crop type comparison</h2>
+							<h2 style={{fontSize:"20px",fontFamily: "Montserrat", marginTop:"0px",marginBottom:"5px" }}>Crop type comparison</h2>
 							<Donutgraph handleData={pieState} />
 						</Paper>
 					</Grid>
