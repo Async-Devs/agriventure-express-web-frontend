@@ -140,14 +140,12 @@ function AddItem(){
 			try {
 				result = await producerAddListing(data);
 			}catch (e){
-				console.log(e);
 				result = {error: true, text: "Error: File too large"};
 				setPostLoading(false);
 				setPostResult(true);
 				setServerResult(result);
 				return;
 			}
-			console.log("Submit data",result);
 			setServerResult({error: result.data.Error, text: result.data.DisplayText});
 			setPostResult(true);
 			setPostLoading(false);
