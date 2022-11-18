@@ -1,17 +1,14 @@
 import { io } from "socket.io-client";
 import authService from "../services/auth.service";
 
-// eslint-disable-next-line no-undef
-
 async function getSocketUrl(){
-	const url = await authService.getSocketURL();
-	return url;
+	const {data} = await authService.getSocketURL();
+	return data;
 }
 
-function startSocket(){
-	// eslint-disable-next-line no-undef
-
-	const socketUrl = getSocketUrl(); // env Issue
+async function startSocket(){
+	const socketUrl = await getSocketUrl(); // env Issue
+	console.log("SocketURL - ", socketUrl);
 	const socket = io(socketUrl);
 	socket.on("connect", ()=>{
 		console.log("Connected", socket.id);
