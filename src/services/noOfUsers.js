@@ -19,3 +19,10 @@ export function getNoOfBuyers(){
 	});
 	return no;
 }
+export function getNoOfOfficers(){
+	const no = Axios.get(`${apiEndpoint}/guestUsers/noOfOfficers`,{
+		headers: { "x-auth-token": authService.getCurrentUser()
+		}
+	});
+	return no;
+}

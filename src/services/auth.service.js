@@ -25,6 +25,14 @@ const getGoogleAPIkey = ()=>{
 	return key;
 };
 
+const getSocketURL = ()=>{
+	// eslint-disable-next-line no-undef
+	const key = Axios.get(`${process.env.REACT_APP_API_URL}/publicUsers/socket-URL`,{
+		headers: { "x-auth-token": authService.getCurrentUser()
+		}});
+	return key;
+};
+
 const logout = () => {
 	localStorage.removeItem("user");
 	window.location.assign("/login");
@@ -32,6 +40,14 @@ const logout = () => {
 
 const getCurrentUser = () => {
 	return JSON.parse(localStorage.getItem("user"));
+};
+
+const getCurrentUserName = () => {
+	const token = JSON.parse(localStorage.getItem("user"));
+	if(token === null){
+		return -1;
+	}
+	return jwt_decode(token).userName;
 };
 
 const getCurrentUserType = () => {
@@ -73,11 +89,13 @@ const authService = {
 	login,
 	logout,
 	getCurrentUser,
+	getCurrentUserName,
 	getCurrentUserType,
 	getCurrentUserId,
 	getCurrentUserExp,
 	isAuthenticated,
-	getGoogleAPIkey
+	getGoogleAPIkey,
+	getSocketURL
 };
 
 export default authService;

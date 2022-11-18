@@ -62,6 +62,7 @@ function AppRouter(props){
 						<Route path = "/producer" >
 							<Route index element={<ProducerDashboard />}/>
 							<Route path = "add-item" element={<AddItem/>}/>
+							<Route path = ":itemId" element={<ItemView user={type}/>} />
 							<Route path = "orders" >
 								<Route index element={<BuyMenu/>} />
 								<Route path = ":id" element={<OrderView/>} />

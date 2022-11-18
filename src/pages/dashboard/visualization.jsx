@@ -19,7 +19,7 @@ function Visualization(){
 	const [cropTypes, setCropTypes] = useState([]);
 	const [pieState, setPieState] = useState({
 
-		labels: ["Total Income", "Expenses", "Current Balance"],
+		labels: ["Types of Crops"],
 		datasets: [{
 			label: "Crop amounts around the country",
 			backgroundColor: "rgba(54,255,0,0.71)",
@@ -30,6 +30,7 @@ function Visualization(){
 		}]
 	});
 	const [cropData, setCropData] = useState([]);
+	const [districtObject, setDistrictObject] = useState();
 	const [allYear, setAllYear] = useState(2022 );
 	const [districtYear, setDistrictYear] = useState(2022 );
 	const years = [
@@ -49,7 +50,7 @@ function Visualization(){
 	const [districtData, setDistrictData] = useState([]);
 	const [districtState, setDistrictState] = useState({
 
-		labels: ["Total Income", "Expenses", "Current Balance"],
+		labels: ["Types of Crops"],
 		datasets: [{
 			label: "Crop amounts around the country",
 			backgroundColor: "rgba(54,255,0,0.71)",
@@ -62,10 +63,10 @@ function Visualization(){
 
 	const [cropState, setCropState] = useState({
 
-		labels: ["Total Income", "Expenses", "Current Balance"],
+		labels: ["Types of Crops"],
 		datasets: [{
 			label: "Crop amounts around the country",
-			backgroundColor: "rgba(54,255,0,0.71)",
+			backgroundColor: "rgba(54,255,0,0.4)",
 			borderColor: "rgb(22,96,0)",
 			borderWidth: 2,
 			data: [0, 0, 0]
@@ -76,10 +77,10 @@ function Visualization(){
 	const [clickedDistrict, setClickedDistrict] = useState("District name");
 	const [state, setState] = useState({
 
-		labels: ["Total Income", "Expenses", "Current Balance"],
+		labels: ["Types of Crops"],
 		datasets: [{
 			label: "Crop amounts around the country",
-			backgroundColor: "rgba(54,255,0,0.71)",
+			backgroundColor: "rgba(54,255,0,0.4)",
 			borderColor: "rgb(22,96,0)",
 			borderWidth: 2,
 			data: [0, 0, 0]
@@ -114,8 +115,12 @@ function Visualization(){
 		});
 	};
 
-	async function showDistrictData(ditrictObj) {
-		const dist = await getDistrictById(ditrictObj.id);
+	function changeDistrictObject(distObj){
+		setDistrictObject(distObj);
+	}
+
+	async function showDistrictData(districtObj) {
+		const dist = await getDistrictById(districtObj.id);
 		setClickedDistrict(dist.data.name);
 
 		const labels = [];
@@ -149,18 +154,18 @@ function Visualization(){
 				backgroundColor: [
 					"rgba(127,255,0,0.4)",
 					"rgba(255,51,51,0.4)",
-					"rgba(0,160,185,0.4)",
 					"rgba(104,3,255,0.4)",
-					"rgba(58,255,0,0.4)",
+					"rgba(17,17,0,0.4)",
 					"rgba(178,90,0,0.4)",
+					"rgba(0,160,185,0.4)"
 				],
 				borderColor: [
 					"rgba(127,255,0)",
 					"rgba(255,51,51)",
-					"rgba(0,160,185)",
 					"rgba(104,3,255)",
-					"rgba(58,255,0)",
+					"rgb(17,77,0)",
 					"rgba(178,90,0)",
+					"rgba(0,160,185)"
 				],
 				borderWidth: 2,
 				data: data
@@ -240,8 +245,9 @@ function Visualization(){
 		getCrops();
 		overallCropData();
 		getAllDistrictData();
+		showDistrictData(districtObject);
 
-	}, [allYear]);
+	}, [allYear, districtYear]);
 
 	useEffect(()=>{
 		handleChange();
@@ -271,7 +277,7 @@ function Visualization(){
 				</Grid>
 				<Grid item xs={10} md={5.5} textAlign={"center"}>
 					<Paper sx={{boxShadow: 5, padding:"25px"}}>
-						<div style={{overflowX:"scroll", overflowY:"scroll"}}>
+						<div style={{overflowX:"scroll"}}>
 							<div style={{minWidth:"500px"}}>
 								<div style={{display:"flex", justifyContent:"space-evenly"}}>
 									<div><h2 style={{fontSize:"20px",fontFamily: "Montserrat", marginTop:"10px",marginBottom:"20px" }}>Crop sale data</h2></div>
@@ -288,17 +294,22 @@ function Visualization(){
 			<div>
 				<Grid container spacing={5} justifyContent="center" sx={{marginTop:5, boxShadow:10, padding:5, backgroundColor:"rgb(245,245,245)"}}>
 					<Grid item xs={12} textAlign={"center"} align={"center"} marginTop={0}>
-						<div><h1 style={{fontSize:30,fontFamily: "Montserrat", marginTop:"0px",marginBottom:"20px" }}>District Data</h1>
+						<div><h1 style={{fontSize:30,fontFamily: "Montserrat", marginTop:"0px",marginBottom:"10px" }}>District Data</h1>
 							<div style={{display:"flex",flexDirection:"column", alignItems:"center"}}>
 								<div><span style={{fontSize:25,fontFamily: "Montserrat", marginTop:"0px",marginBottom:"0px", color:"white", backgroundColor:"rgb(13,171,13)", padding:6, borderRadius:6 }}>{clickedDistrict}</span></div>
 								<div style={{minWidth:"120px", marginTop:"16px"}}><SelectInput name="districtYear" label="Year" value={districtYear} onChange={(e)=>{
-									setDistrictYear(e.target.value);
+									setDistrictYear(Number(e.target.value));
 								}} options={years} multi={false}/></div>
 							</div>
 							<p style={{marginTop:10,marginBottom:"-20px" }}>Select a district from map to view district data</p>
 						</div>
 					</Grid>
-					<Grid item xs={10} md={7.35} textAlign={"center"}>
+					<Grid item xs={10} md={3.8} textAlign={"center"}>
+						<Paper className="map-background" sx={{boxShadow: 5}}>
+							<Map handleDistrictClick={showDistrictData} handleDistrictObject={changeDistrictObject}/>
+						</Paper>
+					</Grid>
+					<Grid item xs={10} md={6.65} textAlign={"center"}>
 						<Paper sx={{boxShadow: 5, padding:"25px"}}>
 							<div style={{overflowX:"scroll"}}>
 								<div style={{minWidth:"500px"}}>
@@ -308,12 +319,7 @@ function Visualization(){
 							</div>
 						</Paper>
 					</Grid>
-					<Grid item xs={10} md={3.8} textAlign={"center"}>
-						<Paper className="map-background" sx={{boxShadow: 5}}>
-							<Map handleDistrictClick={showDistrictData}/>
-						</Paper>
-					</Grid>
-					<Grid item xs={10} md={7.35} textAlign={"center"}>
+					<Grid item xs={10} md={6.65} textAlign={"center"}>
 						<Paper sx={{boxShadow: 5, padding:"25px"}}>
 							<div style={{overflowX:"scroll"}}>
 								<div style={{minWidth:"500px"}}>
@@ -325,7 +331,7 @@ function Visualization(){
 					</Grid>
 					<Grid item xs={10} md={3.8} textAlign={"center"}>
 						<Paper sx={{boxShadow: 5, padding:"25px"}}>
-							<h2 style={{fontSize:"20px",fontFamily: "Montserrat", marginTop:"0px",marginBottom:"30px" }}>Crop type comparison</h2>
+							<h2 style={{fontSize:"20px",fontFamily: "Montserrat", marginTop:"0px",marginBottom:"5px" }}>Crop type comparison</h2>
 							<Donutgraph handleData={pieState} />
 						</Paper>
 					</Grid>

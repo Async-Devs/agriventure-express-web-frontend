@@ -20,18 +20,20 @@ import {Link} from "react-router-dom";
 import Button from "@mui/material/Button";
 import WarningIcon from "@mui/icons-material/Warning";
 import moment from "moment";
-import {LinkedButton} from "../../components/button/button";
 import {producerAddListing} from "../../services/itemServices";
 // eslint-disable-next-line no-unused-vars
 import Divider from "@mui/material/Divider";
 import authService from "../../services/auth.service";
 import {LoadingButton} from "@mui/lab";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 function AddItem(){
-	const [Error, setError] = useState(false);
-	const [serverResult, setServerResult] = useState(false);
+	const [Error, setError] = useState(null);
+	// eslint-disable-next-line no-unused-vars
+	const [serverResult, setServerResult] = useState({error: false, text: null});
 	const [postLoading, setPostLoading] = useState(false);
-	// const [postResult, setpostResult] = useState(false);
+	const [postResult, setPostResult] = useState(false);
 	const [open, setOpen] = useState(false);
 
 	const initialTime = moment();
@@ -39,7 +41,7 @@ function AddItem(){
 	const [cropType, setCropType] = useState("");
 	const [quantity, setQuantity] = useState("");
 	const [title, setTitle] = useState("");
-	const [description, setdescription] = useState("");
+	const [description, setDescription] = useState("");
 
 	const [minimumBid, setMinimumBid] = useState("");
 	const [minimumBidStep, setMinimumBidStep] = useState("");
@@ -73,6 +75,13 @@ function AddItem(){
 
 	const handleClose = () => {
 		setOpen(false);
+		setServerResult({error: false, text: null});
+		setPostResult(false);
+		setPostLoading(false);
+
+	};
+	const handleExit = () => {
+		window.location.assign("/producer");
 	};
 
 	function validateData(){
@@ -128,16 +137,25 @@ function AddItem(){
 				bid_end_time: endTime
 			};
 
-			const result = await producerAddListing(data);
-			console.log("Submit data",result);
-			setServerResult(result.Error);
+			let result = serverResult;
+			try {
+				result = await producerAddListing(data);
+			}catch (e){
+				result = {error: true, text: "Error: File too large"};
+				setPostLoading(false);
+				setPostResult(true);
+				setServerResult(result);
+				return;
+			}
+			setServerResult({error: result.data.Error, text: result.data.DisplayText});
+			setPostResult(true);
 			setPostLoading(false);
-			// window.location.assign("/producer");
+
 		}
 		// setOpen(false);
 	}
 
-	const bidConfirmPopup = ()=>{
+	const listingConfirmPopup = ()=>{
 		return(
 			<Dialog
 				open={open}
@@ -146,66 +164,95 @@ function AddItem(){
 				aria-describedby="alert-dialog-description"
 			>
 				<DialogTitle id="alert-dialog-title">
-					{serverResult?("Error"):"Confirm Bid Amount ?"}
+					{serverResult.error?"Error":"Confirm Bid Amount ?"}
 				</DialogTitle>
-				<DialogContent>
-					<DialogContentText id="alert-dialog-description">
-						You are about to Add a Listing under the user {"<Add User name Here>"}
-					</DialogContentText>
-					<Divider sx={{marginTop:"30px", marginBottom:"10px"}}>Listing Details</Divider>
-					<DialogContentText id="alert-dialog-description">
-					</DialogContentText>
-					<DialogContentText id="alert-dialog-description">
+				{postResult?
+					serverResult.error==false?
+						(<DialogContent>
+							<Stack direction="row" alignItems="center" gap={1}>
+								<CheckCircleIcon color={"success"}/>
+								<DialogContentText id="alert-dialog-description">
+									{serverResult.text}
+								</DialogContentText>
+							</Stack>
+						</DialogContent>):
+						(<DialogContent>
+							<Stack direction="row" alignItems="center" gap={1}>
+								<CancelIcon color={"error"}/>
+								<DialogContentText id="alert-dialog-description">
+									{serverResult.text}
+								</DialogContentText>
+							</Stack>
+						</DialogContent>):
+					(
+						<DialogContent>
+							<DialogContentText id="alert-dialog-description">
+						You are about to Add a Listing under the username: {authService.getCurrentUserName()}
+							</DialogContentText>
+							<Divider sx={{marginTop: "30px", marginBottom: "10px"}}>Listing Details</Divider>
+							<DialogContentText id="alert-dialog-description">
+							</DialogContentText>
+							<DialogContentText id="alert-dialog-description">
 						Listing Title - {title}
-					</DialogContentText>
-					<DialogContentText id="alert-dialog-description">
+							</DialogContentText>
+							<DialogContentText id="alert-dialog-description">
 						Crop Type - {cropType}
-					</DialogContentText>
-					<DialogContentText id="alert-dialog-description">
+							</DialogContentText>
+							<DialogContentText id="alert-dialog-description">
 						Total quantity of - {quantity}
-					</DialogContentText>
-					<DialogContentText id="alert-dialog-description">
-						Description - {description.length>40?description.slice(0,40)+"...":description}
-					</DialogContentText>
-					<DialogContentText id="alert-dialog-description">
+							</DialogContentText>
+							<DialogContentText id="alert-dialog-description">
+						Description - {description.length > 40 ? description.slice(0, 40) + "..." : description}
+							</DialogContentText>
+							<DialogContentText id="alert-dialog-description">
 						Minimum Bidding Price - {
-							Intl.NumberFormat("en", { style: "currency", currency: "LKR" }).format(minimumBid)
-						} with steps of {Intl.NumberFormat("en" ).format(minimumBidStep)}
-					</DialogContentText>
-					<DialogContentText id="alert-dialog-description">
+									Intl.NumberFormat("en", {style: "currency", currency: "LKR"}).format(minimumBid)
+								} with steps of {Intl.NumberFormat("en").format(minimumBidStep)}
+							</DialogContentText>
+							<DialogContentText id="alert-dialog-description">
 						Bid End TIme - {endTime.format()}
-					</DialogContentText>
-					<DialogContentText id="alert-dialog-description">
+							</DialogContentText>
+							<DialogContentText id="alert-dialog-description">
 						District - {district.name}
-					</DialogContentText>
-					<DialogContentText id="alert-dialog-description">
+							</DialogContentText>
+							<DialogContentText id="alert-dialog-description">
 						City - {city}
-					</DialogContentText>
-					{
-						location.lat==="x"?
-							(<DialogContentText id="alert-dialog-description">
-						Location - NOT SET
-							</DialogContentText>):
-							(<DialogContentText id="alert-dialog-description">
-						Location - lat: {location.lat} lng: {location.lng}
-							</DialogContentText>)
-					}
-					<DialogContentText id="alert-dialog-description">
+							</DialogContentText>
+							{
+								location.lat === "x" ?
+									(<DialogContentText id="alert-dialog-description">
+								Location - NOT SET
+									</DialogContentText>) :
+									(<DialogContentText id="alert-dialog-description">
+								Location - lat: {location.lat} lng: {location.lng}
+									</DialogContentText>)
+							}
+							<DialogContentText id="alert-dialog-description">
 						Number of Images Uploaded - {images.length}
-					</DialogContentText>
-				</DialogContent>
-				<DialogActions>
-					<Button onClick={handleClose} variant={"contained"} sx={{color:"white"}}>Discard</Button>
-					<LoadingButton
-						onClick={onConfirm}
-						loading={postLoading}
-						loadingIndicator="Loading…"
-						variant="contained"
-						color={"error"}
-					>
-						Confirm
-					</LoadingButton>
-				</DialogActions>
+							</DialogContentText>
+						</DialogContent>)}
+				{postResult?
+					serverResult.error==false?(
+						<DialogActions>
+							<Button onClick={handleExit} variant={"contained"} sx={{color:"white"}}>Complete</Button>
+						</DialogActions>):
+						(
+							<DialogActions>
+								<Button onClick={handleExit} variant={"contained"} color={"error"}>Discard</Button>
+								<Button onClick={handleClose} variant={"contained"} color={"warning"}>Retry</Button>
+							</DialogActions>):
+					(<DialogActions>
+						<Button onClick={handleClose} variant={"contained"} sx={{color:"white"}}>Discard</Button>
+						<LoadingButton
+							onClick={onConfirm}
+							loading={postLoading}
+							loadingIndicator="Loading…"
+							variant="contained"
+							color={"error"}
+						>
+								Confirm
+						</LoadingButton>
+					</DialogActions>)}
 			</Dialog>
 		);
 	};
@@ -235,7 +282,7 @@ function AddItem(){
 							setTitle={setTitle}
 							setCropType={setCropType}
 							setQuantity={setQuantity}
-							setDescription={setdescription}
+							setDescription={setDescription}
 						/>
 					</Paper>
 				</Grid>
@@ -292,20 +339,19 @@ function AddItem(){
 											/>
 										</Grid>
 										<Grid item container xs={12} mt={3} justifyContent={"center"} spacing={3}>
-											<Grid item xs={12}>
-												<Stack direction="row" alignItems="center" gap={1} p={3}>
-													<WarningIcon color={"warning"}/>
-													<Typography textAlign={"left"} variant={"body1"}>Please verify all details before confirming. You cannot undo this action</Typography>
-												</Stack>
-											</Grid>
 											{Error!=false?(
 												<Grid item xs={12}>
 													<Alert severity="warning">{Error}</Alert>
 												</Grid> ):
-												null
+												(<Grid item xs={12}>
+													<Stack direction="row" alignItems="center" gap={1} p={3}>
+														<WarningIcon color={"warning"}/>
+														<Typography textAlign={"left"} variant={"body1"}>Please verify all details before confirming. You cannot undo this action</Typography>
+													</Stack>
+												</Grid>)
 											}
 											<Grid item>
-												<LinkedButton variant={"contained"} href={"/producer"} content={"Discard"} color={"warning"}/>
+												<Button variant={"contained"} color={"warning"} onClick={handleExit} >Discard</Button>
 											</Grid>
 											<Grid item>
 												<Button variant={"contained"} color={"error"} onClick={handleClickOpen} disabled={Error!=false?true:false}>Confirm</Button>
@@ -318,7 +364,7 @@ function AddItem(){
 						</Grid>
 					</Paper>
 				</Grid>
-				{bidConfirmPopup()}
+				{listingConfirmPopup()}
 			</Grid>
 		</Container>
 	);

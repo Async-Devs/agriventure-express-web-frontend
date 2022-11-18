@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import {Button} from "@mui/material";
 import CustomTable from "../../components/customTable/customTable";
-import {getAllItems} from "../../services/itemServices";
+import {getProducerAllListingss} from "../../services/itemServices";
 
 
 
@@ -32,36 +32,36 @@ function producerItems(){
 						size="small"
 						style={{ marginLeft: 10 }}
 						tabIndex={params.hasFocus ? 0 : -1}
-					>Edit</Button>
-				</Link>
-			)
-		},
-		{ field: "Delete",
-			headerName: "",
-			sortable: false,
-			filterable: false,
-			align: "right",
-			headerAlign: "center",
-			renderCell: (params) => (
-				<Link to={`${params.id}`} style={{ textDecoration: "none" }}>
-					<Button
-						color={"primary"}
-						disableFocusRipple={true}
-						variant="outlined"
-						size="small"
-						style={{ marginLeft: 10 }}
-						tabIndex={params.hasFocus ? 0 : -1}
-					>Delete</Button>
+					>Open</Button>
 				</Link>
 			)
 		}
+		// { field: "Delete",
+		// 	headerName: "",
+		// 	sortable: false,
+		// 	filterable: false,
+		// 	align: "right",
+		// 	headerAlign: "center",
+		// 	renderCell: (params) => (
+		// 		<Link to={`${params.id}`} style={{ textDecoration: "none" }}>
+		// 			<Button
+		// 				color={"primary"}
+		// 				disableFocusRipple={true}
+		// 				variant="outlined"
+		// 				size="small"
+		// 				style={{ marginLeft: 10 }}
+		// 				tabIndex={params.hasFocus ? 0 : -1}
+		// 			>Delete</Button>
+		// 		</Link>
+		// 	)
+		// }
 
 	];
 
 	useEffect(()=> {
 		async function getItemData() {
 			// eslint-disable-next-line no-undef
-			const itemData = await getAllItems();
+			const itemData = await getProducerAllListingss();
 			setItems(itemData.data);
 
 		}
@@ -74,7 +74,7 @@ function producerItems(){
 
 	return(
 
-		<CustomTable rows = {itemList} columns = {columns} enableCheckBox={true}/>
+		<CustomTable rows = {itemList} columns = {columns} enableCheckBox={false}/>
 
 	);
 }

@@ -10,17 +10,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import WarningIcon from "@mui/icons-material/Warning";
 
 function SetBiddingCard(props){
-	// const [minimumBid, setMinimumBid] = useState("");
-	// const [minimumBidStep, setMinimumBidStep] = useState("");
-	// const [endTime, setEndTime] = useState(moment());
-	// useEffect(()=>{
-	// 	const data = {
-	// 		minimumBid:minimumBid,
-	// 		minimumBidStep:minimumBidStep,
-	// 		endTime:endTime
-	// 	};
-	// 	props.getValues(data);
-	// },[props.onSubmit]);
+
 	function onChangeMinBid(event){
 		if(event.target.value==""){
 			props.setMinimumBid(event.target.value);

@@ -11,7 +11,7 @@ import EventNoteIcon from "@mui/icons-material/EventNote";
 
 import Video from "./video";
 import Visualize from "./visualization";
-import {getNoOfBuyers, getNoOfProducers} from "../../services/noOfUsers";
+import {getNoOfBuyers, getNoOfOfficers, getNoOfProducers} from "../../services/noOfUsers";
 import {getNoOfCropTypes} from "../../services/croptypeServices";
 
 
@@ -21,6 +21,7 @@ function Dashboard(){
 	const [producerCount, setProducerCount] =useState();
 	const [buyerCount, setBuyerCount] =useState();
 	const [cropCount, setCropCount] =useState();
+	const [officerCount, setOfficerCount] =useState();
 
 	//data access from axios
 
@@ -32,9 +33,11 @@ function Dashboard(){
 			const noProducers = await getNoOfProducers();
 			const noBuyers = await getNoOfBuyers();
 			const noCrops = await getNoOfCropTypes();
+			const noOfficers = await getNoOfOfficers();
 			setProducerCount(noProducers.data[0].id);
 			setBuyerCount(noBuyers.data[0].id);
 			setCropCount(noCrops.data[0].id);
+			setOfficerCount(noOfficers.data[0].id);
 		}
 		getUserCount();
 	},[]);
@@ -89,6 +92,21 @@ function Dashboard(){
 							</Grid>
 							<Grid item xs={12} align="left" sx={{fontWeight:"800",fontFamily:"Montserrat",fontSize:"20px", color:"rgb(105,105,105)", backgroundColor:"rgb(124,252,0,0.5)"}}>
 								Crop types
+							</Grid>
+						</Grid>
+					</Grid>
+
+					<Grid item xs={12} md={6}  lg={3} align="center" >
+						<Grid container spacing={1.5} justifyContent="center" sx={{boxShadow:"5"}}>
+							<Grid className="officer" item xs={12} sx={{fontSize:"40px", height:"150px"}}>
+							</Grid>
+							<Grid item xs={8} align="left" sx={{fontSize:"40px", color:"green"}}>{officerCount}
+							</Grid>
+							<Grid item xs={4} align="center" sx={{ color:"black"}} >
+								<EventNoteIcon sx={{ fontSize:"40px", padding:"5px"}}/>
+							</Grid>
+							<Grid item xs={12} align="left" sx={{fontWeight:"800",fontFamily:"Montserrat",fontSize:"20px", color:"rgb(105,105,105)", backgroundColor:"rgb(124,252,0,0.5)"}}>
+								Officers
 							</Grid>
 						</Grid>
 					</Grid>
