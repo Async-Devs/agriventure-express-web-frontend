@@ -129,9 +129,7 @@ function SupportRequestList(props){
 									<Grid item xs={12} >
 										{utilityServices.getTime(supportRequest.date)}
 									</Grid>
-									{/* eslint-disable-next-line react/prop-types */}
-									<Grid hidden={(supportRequest.isProducerRead && props.user.login.userType === 0) || (supportRequest.isOfficerRead && props.user.login.userType === 3)} item xs={12} >
-										{/* eslint-disable-next-line react/prop-types */}
+									<Grid hidden={supportRequest.isProducerRead} item xs={12} >
 										<Chip color="success" label="new" />
 									</Grid>
 								</Grid>
