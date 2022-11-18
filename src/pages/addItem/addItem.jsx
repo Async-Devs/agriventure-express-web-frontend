@@ -23,6 +23,7 @@ import moment from "moment";
 
 function AddItem(){
 	const [Error, setError] = useState(false);
+	// eslint-disable-next-line no-unused-vars
 	const [isSubmit, setIsSubmit] = useState(false);
 	const [isPost, setIsPost] = useState(false);
 
@@ -46,6 +47,8 @@ function AddItem(){
 	// eslint-disable-next-line no-unused-vars
 	const [imageDetails, setImageDetails] = useState(null);
 
+	const initialTime = moment();
+
 	const [cropType, setCropType] = useState("");
 	const [quantity, setQuantity] = useState("");
 	const [title, setTitle] = useState("");
@@ -53,7 +56,7 @@ function AddItem(){
 
 	const [minimumBid, setMinimumBid] = useState("");
 	const [minimumBidStep, setMinimumBidStep] = useState("");
-	const [endTime, setEndTime] = useState(moment());
+	const [endTime, setEndTime] = useState(initialTime);
 
 	const [district, setDistrict] = useState("");
 	const [city, setCity] = useState("");
@@ -66,15 +69,14 @@ function AddItem(){
 	}, [isPost]);
 
 	useEffect(()=>{
-		const isReady = validateData();
-		if(isReady){
-			setOpen(true);
-		}
-	},[isSubmit]);
+		console.log("Validate here --");
+		validateData();
+	},[title, cropType, quantity, minimumBid, minimumBidStep, district, city, images]);
 
 	const handleClickOpen = () => {
-		onDataPrep();
-		setError(false);
+		if(Error == false){
+			setOpen(true);
+		}
 	};
 
 	const handleClose = () => {
@@ -82,24 +84,24 @@ function AddItem(){
 	};
 
 	function validateData(){
-		try{
-			if(itemDetails.title === "" ||itemDetails.cropType === "" || itemDetails.quantity === ""){
-				setError("Invalid Item Details");
-				return false;
-			}else if(biddingDetails.minimumBid === "" || biddingDetails.endTime === "" ){
-				setError("Invalid Bidding Setup");
-				return false;
-			}else if(locationDetails.district === "" || locationDetails.city === "" || locationDetails.district === null || locationDetails.city === null ){
-				setError("Invalid Location Details");
-				return false;
-			}else if(imageDetails.images <=0 ){
-				setError("At least One image is required");
-				return false;
-			}
-		}catch (e){
-			setError("Empty Field");
+		if(title === "" && cropType === "" && quantity === "" && minimumBid === "" && endTime.unix() === initialTime.unix() && district === "" && city === "" && images.length <=0 ){
+			setError("Multiple Empty Fields");
 			return false;
 		}
+		else if(title === "" ||cropType === "" || quantity === ""){
+			setError("Invalid Item Details");
+			return false;
+		}else if(minimumBid === "" || endTime.unix() < initialTime.unix()+3600 ){
+			setError("Invalid Bidding Setup");
+			return false;
+		}else if(district === "" || city === "" ){
+			setError("Invalid Location Details");
+			return false;
+		}else if(images.length <=0 ){
+			setError("At least One image is required");
+			return false;
+		}
+		setError(false);
 		return true;
 	}
 
@@ -132,9 +134,9 @@ function AddItem(){
 	// 	setImageDetails(data);
 	// }
 
-	function onDataPrep(){
-		setIsSubmit(!isSubmit);
-	}
+	// function onDataPrep(){
+	// 	setIsSubmit(!isSubmit);
+	// }
 
 	function onConfim(){
 		setIsPost(!isPost);
