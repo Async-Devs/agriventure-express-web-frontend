@@ -304,7 +304,12 @@ function Visualization(){
 							<p style={{marginTop:10,marginBottom:"-20px" }}>Select a district from map to view district data</p>
 						</div>
 					</Grid>
-					<Grid item xs={10} md={7.15} textAlign={"center"}>
+					<Grid item xs={10} md={3.8} textAlign={"center"}>
+						<Paper className="map-background" sx={{boxShadow: 5}}>
+							<Map handleDistrictClick={showDistrictData} handleDistrictObject={changeDistrictObject}/>
+						</Paper>
+					</Grid>
+					<Grid item xs={10} md={6.65} textAlign={"center"}>
 						<Paper sx={{boxShadow: 5, padding:"25px"}}>
 							<div style={{overflowX:"scroll"}}>
 								<div style={{minWidth:"500px"}}>
@@ -314,12 +319,7 @@ function Visualization(){
 							</div>
 						</Paper>
 					</Grid>
-					<Grid item xs={10} md={3.8} textAlign={"center"}>
-						<Paper className="map-background" sx={{boxShadow: 5}}>
-							<Map handleDistrictClick={showDistrictData} handleDistrictObject={changeDistrictObject}/>
-						</Paper>
-					</Grid>
-					<Grid item xs={10} md={7.15} textAlign={"center"}>
+					<Grid item xs={10} md={6.65} textAlign={"center"}>
 						<Paper sx={{boxShadow: 5, padding:"25px"}}>
 							<div style={{overflowX:"scroll"}}>
 								<div style={{minWidth:"500px"}}>
