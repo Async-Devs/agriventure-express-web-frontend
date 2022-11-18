@@ -64,7 +64,7 @@ function producerItems(){
 
 	return(
 
-		<CustomTable rows = {orderArray} columns = {columns} enableCheckBox={true}/>
+		<CustomTable rows = {orderArray} columns = {columns} enableCheckBox={false}/>
 
 	);
 }

@@ -21,14 +21,26 @@ function ItemView(props){
 		getItem();
 	},[]);
 
-	const breadcrumbs = [
-		<Link to={"/buyer/marketplace"} key={1} style={{textDecoration: "none" ,color:"black"}}>
-			MARKETPLACE
-		</Link>,
-		<Typography key="3" color="primary">
-			BIDDING VIEW (ID: {itemId})
-		</Typography>,
-	];
+	let breadcrumbs = null;
+	if(props.user===0){
+		breadcrumbs = [
+			<Link to={"/producer"} key={1} style={{textDecoration: "none" ,color:"black"}}>
+				MY DASHBOARD
+			</Link>,
+			<Typography key="3" color="primary">
+				MY LISTING VIEW (ID: {itemId})
+			</Typography>,
+		];
+	}else if(props.user===1){
+		breadcrumbs = [
+			<Link to={"/buyer/marketplace"} key={1} style={{textDecoration: "none" ,color:"black"}}>
+				MARKETPLACE
+			</Link>,
+			<Typography key="3" color="primary">
+				BIDDING VIEW (ID: {itemId})
+			</Typography>,
+		];
+	}
 
 	// If No valid Item
 	if(item === "NoItem"){

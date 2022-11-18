@@ -34,6 +34,14 @@ const getCurrentUser = () => {
 	return JSON.parse(localStorage.getItem("user"));
 };
 
+const getCurrentUserName = () => {
+	const token = JSON.parse(localStorage.getItem("user"));
+	if(token === null){
+		return -1;
+	}
+	return jwt_decode(token).userName;
+};
+
 const getCurrentUserType = () => {
 	const token = JSON.parse(localStorage.getItem("user"));
 	if(token === null){
@@ -73,6 +81,7 @@ const authService = {
 	login,
 	logout,
 	getCurrentUser,
+	getCurrentUserName,
 	getCurrentUserType,
 	getCurrentUserId,
 	getCurrentUserExp,

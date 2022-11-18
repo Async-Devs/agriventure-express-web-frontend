@@ -77,6 +77,7 @@ function AddItem(){
 		setOpen(false);
 		setServerResult({error: false, text: null});
 		setPostResult(false);
+		setPostLoading(false);
 
 	};
 	const handleExit = () => {
@@ -186,7 +187,7 @@ function AddItem(){
 					(
 						<DialogContent>
 							<DialogContentText id="alert-dialog-description">
-						You are about to Add a Listing under the user {"<Add User name Here>"}
+						You are about to Add a Listing under the username: {authService.getCurrentUserName()}
 							</DialogContentText>
 							<Divider sx={{marginTop: "30px", marginBottom: "10px"}}>Listing Details</Divider>
 							<DialogContentText id="alert-dialog-description">

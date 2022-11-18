@@ -11,6 +11,13 @@ export function getAllItems(){
 	return items;
 }
 
+export function getProducerAllListingss(){
+	const items = Axios.get(`${apiEndpointProducer}/${authService.getCurrentUserId()}`,{
+		headers: { "x-auth-token": authService.getCurrentUser()}
+	});
+	return items;
+}
+
 export function getItemById(itemId){
 	const itemData = Axios.get(`${apiEndpoint}/${itemId}`);
 	return itemData;
@@ -30,9 +37,4 @@ export function producerAddListing(data){
 		}
 	);
 	return itemData;
-}
-
-export function getAllItemListingByProducerId(producerId){
-	const items = Axios.get(`${apiEndpoint}/producer/${producerId}`);
-	return items;
 }
