@@ -11,6 +11,7 @@ import Axios from "axios";
 import {Link, useParams} from "react-router-dom";
 import {Alert} from "@mui/lab";
 import authService from "../../../services/auth.service";
+import ImageUploader from "../../../components/imageUploader/ImageUploader";
 
 function EditProfileForm(){
 
@@ -34,6 +35,7 @@ function EditProfileForm(){
 	const [lastNameOrg,setLastNameOrg] = useState();
 	const [district,setDistrict] = useState();
 	const [city,setCity] = useState();
+
 
 
 	useEffect(()=> {
@@ -175,10 +177,7 @@ function EditProfileForm(){
 									src="https://scontent.fcmb2-2.fna.fbcdn.net/v/t1.6435-9/57402301_2442775932439604_5030131054145437696_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=174925&_nc_ohc=zzDTAqXehJ0AX85Z8Bx&_nc_ht=scontent.fcmb2-2.fna&oh=00_AT_PFF4lBDfe1k3PYYrNep5W-GdL0-UyIAiOyZiKSSv-iw&oe=6352AA3F"
 									sx={{ width: 150, height: 150 }}
 								/>
-								<Button variant="outlined" component="label" sx={{mt:"5px"}}>
-									Edit
-									<input hidden accept="image/*" multiple type="file" />
-								</Button>
+								<ImageUploader />
 								<Typography variant="h6">@{userName}</Typography>
 							</Grid>
 							<Grid item xs={12} sm={6} align="center">

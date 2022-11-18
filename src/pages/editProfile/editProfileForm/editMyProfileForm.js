@@ -3,7 +3,6 @@ import Container from "@mui/material/Container";
 import { Card, CardContent, CircularProgress, Grid} from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextInput from "../../../components/textInput/textInput";
 // import SelectInput from "../../../components/selectInput/selectInput";
@@ -12,6 +11,7 @@ import Axios from "axios";
 import {Link} from "react-router-dom";
 import {Alert} from "@mui/lab";
 import authService from "../../../services/auth.service";
+import ImageUploader from "../../../components/imageUploader/ImageUploader";
 
 function EditMyProfileForm(){
 
@@ -26,13 +26,16 @@ function EditMyProfileForm(){
 	const [firstName,setFirstName] = useState();
 	const [lastName,setLastName] = useState();
 	const [nic,setNic] = useState();
-	const [location,setLocation] = useState({city: ""});
 	const [addressOrg,setAddressOrg] = useState();
 	const [isLoading,setIsLoading] = useState(true);
 	const [userName,setUserName] = useState();
 	const [id,setId] = useState();
 	const [firstNameOrg,setFirstNameOrg] = useState();
 	const [lastNameOrg,setLastNameOrg] = useState();
+	const [district,setDistrict] = useState();
+	const [city,setCity] = useState();
+	const [imageURL,setImageURL] = useState();
+	const [imageURLOrg,setImageURLOrg] = useState();
 
 
 	useEffect(()=> {
@@ -56,8 +59,11 @@ function EditMyProfileForm(){
 				setAddressOrg(user.data.user.address);
 				setFirstNameOrg(user.data.user.firstName);
 				setLastNameOrg(user.data.user.lastName);
+				setImageURL(user.data.user.login.profilePicture);
+				setImageURLOrg(user.data.user.login.profilePicture);
 				if(user.data.user.login.userType === 0){
-					setLocation(user.data.user.location);
+					setDistrict(user.data.user.district.name);
+					setCity(user.data.user.city);
 				}
 			} else {
 				alert("Error occurred!");
@@ -97,7 +103,7 @@ function EditMyProfileForm(){
 	}
 
 	function validateUnchanged(){
-		return (email === emailOrg && telNo === telNoOrg && address === addressOrg && firstName === firstNameOrg && lastName === lastNameOrg);
+		return (email === emailOrg && imageURL === imageURLOrg && telNo === telNoOrg && address === addressOrg && firstName === firstNameOrg && lastName === lastNameOrg);
 	}
 
 	function handleSubmit(event){
@@ -130,6 +136,17 @@ function EditMyProfileForm(){
 						alert("Error occured!");
 					}
 				});
+
+				// eslint-disable-next-line no-undef
+				Axios.put(`${process.env.REACT_APP_API_URL}/allUsers/updateProfilePicture`,{id: authService.getCurrentUserId(), picture: imageURL},{
+					headers: {"x-auth-token": authService.getCurrentUser()}
+				}).then( async (res)=>{
+					if(!res.data.success){
+						alert("Error occured!");
+					}
+				});
+
+
 
 				userType === 0 ? window.location.assign("/producer/myProfile/") : window.location.assign("/buyer/myProfile/");
 			}
@@ -168,15 +185,7 @@ function EditMyProfileForm(){
 								<Typography variant="h5" align="center">Edit Profile</Typography>
 							</Grid>
 							<Grid item xs={12} align="center" justifyContent="center">
-								<Avatar
-									alt="Sample User"
-									src="https://scontent.fcmb2-2.fna.fbcdn.net/v/t1.6435-9/57402301_2442775932439604_5030131054145437696_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=174925&_nc_ohc=zzDTAqXehJ0AX85Z8Bx&_nc_ht=scontent.fcmb2-2.fna&oh=00_AT_PFF4lBDfe1k3PYYrNep5W-GdL0-UyIAiOyZiKSSv-iw&oe=6352AA3F"
-									sx={{ width: 150, height: 150 }}
-								/>
-								<Button variant="outlined" component="label" sx={{mt:"5px"}}>
-									Edit
-									<input hidden accept="image/*" multiple type="file" />
-								</Button>
+								<ImageUploader imageURL={imageURL} setImageURL={setImageURL} height={150} width={150} fileName={authService.getCurrentUserId()} folderName={"profilePictures"} isCircular={true} />
 								<Typography variant="h6">@{userName}</Typography>
 							</Grid>
 							<Grid item xs={12} sm={6} align="center">
@@ -191,7 +200,7 @@ function EditMyProfileForm(){
 								<Card variant="elevation" elevation={3}>
 									<CardContent>
 										<Typography variant="h6">Location</Typography>
-										<Typography variant="body2">{location.city}</Typography>
+										<Typography variant="body2">{city} - {district}</Typography>
 									</CardContent>
 								</Card>
 							</Grid>

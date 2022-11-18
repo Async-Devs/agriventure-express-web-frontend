@@ -24,7 +24,7 @@ import authService from "../../services/auth.service";
 function MyProfile(){
 
 	const [open,setOpen] = useState(false);
-	// const [username,setUsername]' = useState();
+	const [username,setUsername] = useState();
 	const [userType,setUserType] = useState();
 	const [isLoading,setIsLoading] = useState(true);
 	const [firstName,setFirstName] = useState();
@@ -37,6 +37,7 @@ function MyProfile(){
 	const [city,setCity] = useState();
 	const [id,setId] = useState();
 	const [isExsist,setIsExsist] = useState();
+	const [imageURL,setImageURL] = useState();
 
 	useEffect(() => {
 
@@ -51,6 +52,8 @@ function MyProfile(){
 				console.log(user.data);
 				setUserType(user.data.user.login.userType);
 				setId(user.data.user.login._id);
+				setUsername(user.data.user.login.userName);
+				setImageURL(user.data.user.login.profilePicture);
 				setFirstName(user.data.user.firstName);
 				setLastName(user.data.user.lastName);
 				setNic(user.data.user.nic);
@@ -122,10 +125,12 @@ function MyProfile(){
 							lastName={lastName}
 							email={email} nic={nic}
 							address={address}
+							userName={username}
 							telephoneNumber={telNum}
 							district={district}
 							city={city}
 							userType={userType}
+							image={imageURL}
 							showSecrets={true}/>
 					</Grid>
 
