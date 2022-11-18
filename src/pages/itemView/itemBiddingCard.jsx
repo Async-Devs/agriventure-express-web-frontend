@@ -18,14 +18,14 @@ import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
 
 function ItemBiddingCard(props){
-	const { endTime, bidArray, minimumBid, itemId } = props.biddingData;
+	const { endTime, bidArray, minimumBid, itemId, bidStep } = props.biddingData;
 	const [ lastBid, setLastBid ] = useState(bidArray.length>0?_.last(bidArray).bid_amount:minimumBid);
 	const [bidValue, setBidValue] = useState(lastBid);
 	const [ error, setError ] = useState(false);
 	const [open, setOpen] = React.useState(false);
 
 	const handleClickOpen = () => {
-		if (bidValue<=lastBid){
+		if (bidValue<=lastBid+bidStep){
 			setError(true);
 			return;
 		}
@@ -49,7 +49,6 @@ function ItemBiddingCard(props){
 	}
 
 	const handleSubmit=async ()=>{
-
 		setLastBid(bidValue);
 		const dataObject = { itemId: itemId, userId: 0, bidValue: bidValue };
 		await setBidForItem(itemId, dataObject);
@@ -83,7 +82,7 @@ function ItemBiddingCard(props){
 			</Dialog>
 		);
 	};
-
+	console.log(props.user);
 	return(
 		<Grid item container direction={"column"} justifyContent={"flex-end"} alignItems={"stretch"} spacing={2} >
 			<Grid item container justifyContent={"left"} mt={2}>
@@ -137,36 +136,41 @@ function ItemBiddingCard(props){
 					</Typography>
 				</Grid>
 			</Grid>
-			<Grid item container justifyContent={"left"} mt={2}>
-				<Grid item xs={5}>
-					<Typography variant={"h6"} fontWeight={"bold"}>
-								Place your Bid
-					</Typography>
-				</Grid>
-				<Grid item xs={1}>
-					<Typography variant={"h6"} fontWeight={"bold"}>
-								:
-					</Typography>
-				</Grid>
-				<Grid item xs={6}>
-					<FormControl fullWidth>
-						<TextField
-							type={"number"}
-							helperText={"Enter Bid amount greater than last bid"}
-							error={error}
-							name="bidValue"
-							label="Bid Value"
-							onChange={handleBidChange}
-							value={bidValue}
-						/>
-					</FormControl>
-				</Grid>
-			</Grid>
-			<Grid item container justifyContent={"center"} mt={2}>
-				<Grid item xs={12}>
-					<Button variant={"contained"} color={"warning"} onClick={handleClickOpen}>Place Bid</Button>
-				</Grid>
-			</Grid>
+			{props.user==1?
+				(<Grid item container>
+					<Grid item container justifyContent={"left"} mt={2}>
+						<Grid item xs={5}>
+							<Typography variant={"h6"} fontWeight={"bold"}>
+							Place your Bid
+							</Typography>
+						</Grid>
+						<Grid item xs={1}>
+							<Typography variant={"h6"} fontWeight={"bold"}>
+							:
+							</Typography>
+						</Grid>
+						<Grid item xs={6}>
+							<FormControl fullWidth>
+								<TextField
+									type={"number"}
+									helperText={`Enter Bid amount greater than ${Intl.NumberFormat("si", { style: "currency", currency: "LKR" }).format(lastBid+bidStep)}`}
+									error={error}
+									name="bidValue"
+									label="Bid Value"
+									onChange={handleBidChange}
+									value={bidValue}
+								/>
+							</FormControl>
+						</Grid>
+					</Grid>
+					<Grid item container justifyContent={"center"} mt={2}>
+						<Grid item xs={12}>
+							<Button variant={"contained"} color={"warning"} onClick={handleClickOpen}>Place Bid</Button>
+						</Grid>
+					</Grid>
+				</Grid>):
+				null
+			}
 			<Grid item container justifyContent={"center"} mt={2}>
 				<Grid item xs={12}>
 					<BidTable bidderArray={bidArray} user={props.user}/>
