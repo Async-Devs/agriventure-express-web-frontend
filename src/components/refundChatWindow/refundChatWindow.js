@@ -129,6 +129,24 @@ function RefundRequestChatWindow(props){
 		);
 	}
 
+	function sendToOfficer() {
+		const form = {
+			id: props.refundRequest._id
+		};
+
+		// eslint-disable-next-line no-undef
+		Axios.put(`${process.env.REACT_APP_API_URL}/buyerUsers/sendRefundRequestToOfficer`,form,{
+			headers: {"x-auth-token": authService.getCurrentUser()}
+		}).then(async (res)=>{
+			if(!res.data.success){
+				alert("error occured!");
+			}else{
+				props.setRefresh(!props.refresh);
+				props.handleClose();
+			}
+		});
+	}
+
 	return(
 		<Grid container>
 
@@ -136,10 +154,15 @@ function RefundRequestChatWindow(props){
 			<Dialog open={props.open} onClose={props.handleClose}>
 				{/* eslint-disable-next-line react/prop-types */}
 				<DialogTitle>Refund Request - {props.refundRequest._id}</DialogTitle>
-				<DialogTitle>{JSON.stringify(utilityServices.testHelpValidity(props.refundRequest.date))}</DialogTitle>
 				<DialogContent>
 					<Grid item hidden={!showError}>
 						<Alert severity="error">{error}</Alert>
+					</Grid>
+					<Grid item hidden={!props.refundRequest.isSendToOfficer}>
+						<Alert severity="info">This refund request has forwarded to officers. They will personally contact you regarding this request</Alert>
+					</Grid>
+					<Grid item hidden={props.refundRequest.isSendToOfficer || userType !== 1}>
+						<Alert severity="info">You can forward the request to an officer for help using Ask Help button after 2 weeks</Alert>
 					</Grid>
 					<DialogContentText>
 						<List sx={{ width: "100%", maxWidth: 560, bgcolor: "background.paper" }}>
@@ -208,9 +231,9 @@ function RefundRequestChatWindow(props){
 						<Button variant="contained" sx={{m:1}} color="warning" onClick={closeRequest}>Withdraw Request</Button>
 					</div>
 
-					<div hidden={userType !== 1 || !props.refundRequest.isActive || !utilityServices.testHelpValidity(props.refundRequest.date)}>
+					<div hidden={userType !== 1 || !props.refundRequest.isActive || !utilityServices.testHelpValidity(props.refundRequest.date) || props.refundRequest.isSendToOfficer}>
 						{/* eslint-disable-next-line react/prop-types */}
-						<Button variant="contained" sx={{m:1}} color="warning" onClick={closeRequest}>Help</Button>
+						<Button variant="contained" sx={{m:1}} color="warning" onClick={sendToOfficer}>Ask Help</Button>
 					</div>
 
 				</DialogActions>

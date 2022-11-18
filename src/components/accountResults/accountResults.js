@@ -46,6 +46,7 @@ function AccountResults(props) {
 		{ field: "email", headerName: "Email address", width: 150 },
 		{ field: "nic", headerName: "NIC", width: 150 },
 		{ field: "district", headerName: "District", width: 150 },
+		{ field: "officerType", headerName: "Type", width: 150 },
 		{ field: "Is Active",
 			headerName: "Is Active",
 			sortable: false,

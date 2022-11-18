@@ -1,4 +1,7 @@
 const getTime = (time) => {
+	if(time === undefined){
+		return undefined;
+	}
 	let year = parseInt(time.substring(0,4));
 	let month = parseInt(time.substring(5,7));
 	let day = parseInt(time.substring(8,10));

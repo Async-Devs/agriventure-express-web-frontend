@@ -1,271 +1,95 @@
 import React, {useState} from "react";
 import {
-	Dialog, DialogActions, DialogContent, DialogContentText,
-	DialogTitle,
+	Chip,
 	Divider,
 	Grid,
 	List,
 	ListItem,
 	ListItemAvatar,
 	ListItemButton,
-	ListItemText, TextField
+	ListItemText,
 } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
+import PropTypes from "prop-types";
+import utilityServices from "../../services/utilityServices";
+import ChatBody from "./chatBody";
 
-function RefundRequestList(props){
+function ChatList(props){
 
-	const [activeRequest,setActiveRequest] = useState();
+	const [activeRequest,setActiveRequest] = useState({_id:"", producerId: {_id:""}, buyerId: {_id:""}, messages: [{senderId:""}], orderId: {_id: ""}});
 	const [open,setOpen] = useState(false);
-	const [reply,setReply] = useState();
-	const [newValue,setNewValue] = useState();
 
 	function onClickRequest(event){
-		setActiveRequest(event.target.id);
+		//todo: open status
+		setActiveRequest(props.requests.filter(request => request._id === event.target.id)[0]);
 		setOpen(true);
 
 	}
 
-	function handleChange(event){
-		if(event.target.name === "reply"){
-			setReply(event.target.value);
-		}else if(event.target.name === "newValue"){
-			setNewValue(event.target.value);
-		}
-	}
 
 	function handleClose(){
-		setActiveRequest(undefined);
-		setReply(undefined);
-		setNewValue(undefined);
+		setActiveRequest({_id:"", producerId: {_id:""}, buyerId: {_id:""},  messages: [{senderId:""}], orderId: {_id: ""}});
 		setOpen(false);
 	}
 
-	//todo:
-	function handleSendReply(){
-		alert(newValue);
-		setActiveRequest(undefined);
-		setReply(undefined);
-		setNewValue(undefined);
-		setOpen(false);
-	}
 
-	function closeRequest(){
-		//todo: implement
-		alert("Close request");
-	}
+	function renderRequest(request){
+		return(
+			<Grid>
+				<ListItem alignItems="flex-start">
+					<ListItemAvatar>
+						<Avatar alt={props.mode === 0 ? request.producerId.userName:request.buyerId.userName } src="https://scontent.fcmb2-2.fna.fbcdn.net/v/t1.6435-9/57402301_2442775932439604_5030131054145437696_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=174925&_nc_ohc=zzDTAqXehJ0AX85Z8Bx&_nc_ht=scontent.fcmb2-2.fna&oh=00_AT_PFF4lBDfe1k3PYYrNep5W-GdL0-UyIAiOyZiKSSv-iw&oe=6352AA3F" />
+					</ListItemAvatar>
+					<ListItemText
+						primary={props.mode === 0 ? request.producerId.userName:request.buyerId.userName }
+						secondary={
+							<React.Fragment>
+								<Grid container>
+									<Grid item xs={12}>
+										<Typography
+											sx={{ display: "inline" }}
+											component="span"
+											variant="body2"
+											color="text.primary"
+										>
+											{props.mode === 0 ? request.subject: "Refund Value: Rs. " + request.refundValue}
+										</Typography>
+									</Grid>
+									<Grid item xs={12} >
+										{utilityServices.getTime(request.date)}
+									</Grid>
+									<Grid hidden={request.isOfficerRead} item xs={12} >
+										<Chip color="success" label="unhandled" />
+									</Grid>
+								</Grid>
+							</React.Fragment>
+						}
+					/>
+					<Grid item xs={12} >
+						<ListItemButton maxWidth={200} id={request._id} name={request._id} onClick={onClickRequest} dense>
+							open
+						</ListItemButton>
+					</Grid>
+				</ListItem>
 
+				<Divider variant="inset" component="li" />
+			</Grid>
+
+		);
+	}
 
 	return (
 		<Grid container>
 
 			<Grid item xs={12}>
-				<Dialog open={open} onClose={handleClose}>
-					<DialogTitle>Refund Request - {activeRequest}</DialogTitle>
-					<DialogContent>
-						<DialogContentText>
-							<List sx={{ width: "100%", maxWidth: 560, bgcolor: "background.paper" }}>
-								<ListItem alignItems="flex-start">
-									<ListItemAvatar>
-										<Avatar alt="Remy Sharp" src="https://scontent.fcmb2-2.fna.fbcdn.net/v/t1.6435-9/57402301_2442775932439604_5030131054145437696_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=174925&_nc_ohc=zzDTAqXehJ0AX85Z8Bx&_nc_ht=scontent.fcmb2-2.fna&oh=00_AT_PFF4lBDfe1k3PYYrNep5W-GdL0-UyIAiOyZiKSSv-iw&oe=6352AA3F" />
-									</ListItemAvatar>
-									<ListItemText
-										primary="05/09/2022"
-										secondary={
-											<React.Fragment>
-												<Typography
-													sx={{ display: "inline" }}
-													component="span"
-													variant="body2"
-													color="text.primary"
-												>Achira Dias <br/>
-												</Typography>
-												{"Sample Chat Message.blaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
-												<br/>
-											</React.Fragment>
-										}
-									/>
-								</ListItem>
-								<Divider variant="inset" component="li" />
-								<ListItem alignItems="flex-start">
-									<ListItemAvatar>
-										<Avatar alt="Nipun Pramuditha" src="https://scontent.fcmb1-2.fna.fbcdn.net/v/t39.30808-6/305652696_2017821475071738_1772119493642692274_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=VyggVEEtIPYAX_i6OtN&_nc_oc=AQkFP1RgAfzw6BF30IuXIxnfQEjYUTXbIowJPQKssFlx5icdRFPM4yerIo3ucjJ3kM7RN77MV89GzK6Rt-nwf7Z3&_nc_ht=scontent.fcmb1-2.fna&oh=00_AT9EbQR5mHbaMF2qvPB1lvXgh_ZfGjHse90t0m6fnMTQyw&oe=6334D685" />
-									</ListItemAvatar>
-									<ListItemText
-										primary="12/09/2022"
-										secondary={
-											<React.Fragment>
-												<Typography
-													sx={{ display: "inline" }}
-													component="span"
-													variant="body2"
-													color="text.primary"
-												>Nipun <br/>
-												</Typography>
-												{"Sample Chat Message.blaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
-												<br/>
-											</React.Fragment>
-										}
-									/>
-								</ListItem>
-							</List>
-						</DialogContentText>
-						{/* eslint-disable-next-line react/prop-types */}
-						<div hidden={props.mode === "3"}>
-							<TextField
-								autoFocus
-								margin="dense"
-								id="reply"
-								name="reply"
-								onChange={handleChange}
-								value={reply}
-								label="Reply"
-								type="text"
-								fullWidth
-								variant="standard"
-								multiline
-							/>
-						</div>
-						{/* eslint-disable-next-line react/prop-types */}
-						<div hidden={props.mode !== "2"}	>
-							<TextField
-								autoFocus
-								margin="dense"
-								id="newValue"
-								onChange={handleChange}
-								value={newValue}
-								name="newValue"
-								label="Suggesting Refund Value"
-								type="number"
-								fullWidth
-								variant="standard"
-							/>
-						</div>
-					</DialogContent>
-					<DialogActions>
-						<Button variant="contained" sx={{m:1}} color="primary" onClick={handleClose}>Cancel</Button>
-						{/* eslint-disable-next-line react/prop-types */}
-						<div hidden={props.mode === "3"}>
-							<Button variant="contained" sx={{m:1}} color="primary" onClick={handleSendReply}>Send Your Reply</Button>
-						</div>
-						{/* eslint-disable-next-line react/prop-types */}
-						<div hidden={props.mode === "3" || props.userType !== 3}>
-							<Button variant="contained" sx={{m:1}} color="warning" onClick={closeRequest}>Close Request</Button>
-						</div>
-
-					</DialogActions>
-				</Dialog>
+				<ChatBody refresh={props.refresh} setRefresh={props.setRefresh} open={open} handleClose={handleClose} request={activeRequest} mode={props.mode}/>
 			</Grid>
 
 			<Grid item xs={12}>
 				<List sx={{ width: "100%", bgcolor: "background.paper" }}>
 
-					<ListItem alignItems="flex-start">
-						<ListItemAvatar>
-							<Avatar alt="Remy Sharp" src="https://scontent.fcmb2-2.fna.fbcdn.net/v/t1.6435-9/57402301_2442775932439604_5030131054145437696_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=174925&_nc_ohc=zzDTAqXehJ0AX85Z8Bx&_nc_ht=scontent.fcmb2-2.fna&oh=00_AT_PFF4lBDfe1k3PYYrNep5W-GdL0-UyIAiOyZiKSSv-iw&oe=6352AA3F" />
-						</ListItemAvatar>
-						<ListItemText
-							primary="Order ID: #001475686"
-							secondary={
-								<React.Fragment>
-									<Grid container>
-										<Grid item xs={12} sm={6}>
-											<Typography
-												sx={{ display: "inline" }}
-												component="span"
-												variant="body2"
-												color="text.primary"
-											>
-												Achira Dias
-											</Typography>
-										</Grid>
-										<Grid item xs={12} >
-											{"Refund Value: Rs. 1775"}
-										</Grid>
-										<Grid item xs={12}>
-											{"Refund Deadline: 23/10/2022"}
-										</Grid>
-									</Grid>
-								</React.Fragment>
-							}
-						/>
-						<ListItemButton id={"#00007"} name={"#00007"} onClick={onClickRequest} dense>
-							Open
-						</ListItemButton>
-					</ListItem>
-
-					<Divider variant="inset" component="li" />
-
-					<ListItem alignItems="flex-start">
-						<ListItemAvatar>
-							<Avatar alt="Remy Sharp" src="https://scontent.fcmb2-2.fna.fbcdn.net/v/t1.6435-9/57402301_2442775932439604_5030131054145437696_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=174925&_nc_ohc=zzDTAqXehJ0AX85Z8Bx&_nc_ht=scontent.fcmb2-2.fna&oh=00_AT_PFF4lBDfe1k3PYYrNep5W-GdL0-UyIAiOyZiKSSv-iw&oe=6352AA3F" />
-						</ListItemAvatar>
-						<ListItemText
-							primary="Order ID: #001434356"
-							secondary={
-								<React.Fragment>
-									<Grid container>
-										<Grid item xs={12} sm={6}>
-											<Typography
-												sx={{ display: "inline" }}
-												component="span"
-												variant="body2"
-												color="text.primary"
-											>
-												Ransika Costa
-											</Typography>
-										</Grid>
-										<Grid item xs={12}>
-											{"Refund Value: Rs. 2115"}
-										</Grid>
-										<Grid item xs={12}>
-											{"Refund Deadline: 23/10/2022"}
-										</Grid>
-									</Grid>
-								</React.Fragment>
-							}
-						/>
-						<ListItemButton id={"#00001"} name={"#00001"} onClick={onClickRequest}>
-							Open
-						</ListItemButton>
-					</ListItem>
-
-					<Divider variant="inset" component="li" />
-
-					<ListItem alignItems="flex-start">
-						<ListItemAvatar>
-							<Avatar alt="Remy Sharp" src="https://scontent.fcmb2-2.fna.fbcdn.net/v/t1.6435-9/57402301_2442775932439604_5030131054145437696_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=174925&_nc_ohc=zzDTAqXehJ0AX85Z8Bx&_nc_ht=scontent.fcmb2-2.fna&oh=00_AT_PFF4lBDfe1k3PYYrNep5W-GdL0-UyIAiOyZiKSSv-iw&oe=6352AA3F" />
-						</ListItemAvatar>
-						<ListItemText
-							primary="Order ID: #001434356"
-							secondary={
-								<React.Fragment>
-									<Grid container>
-										<Grid item xs={12} sm={6}>
-											<Typography
-												sx={{ display: "inline" }}
-												component="span"
-												variant="body2"
-												color="text.primary"
-											>
-												Nipun Pramuditha
-											</Typography>
-										</Grid>
-										<Grid item xs={12}>
-											{"Refund Value: Rs. 1000"}
-										</Grid>
-										<Grid item xs={12}>
-											{"Refund Deadline: 23/10/2022"}
-										</Grid>
-									</Grid>
-								</React.Fragment>
-							}
-						/>
-						<ListItemButton id={"#00017"} name={"#00017"} onClick={onClickRequest}>
-							Open
-						</ListItemButton>
-					</ListItem>
+					{props.requests.map((request)=>renderRequest(request))}
 
 				</List>
 			</Grid>
@@ -274,4 +98,13 @@ function RefundRequestList(props){
 	);
 }
 
-export default RefundRequestList;
+ChatList.propTypes = {
+	requests: PropTypes.object,
+	process: PropTypes.any,
+	handleClose: PropTypes.func,
+	setRefresh: PropTypes.func,
+	refresh: PropTypes.bool,
+	mode: PropTypes.number
+};
+
+export default ChatList;
