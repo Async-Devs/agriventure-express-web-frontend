@@ -6,7 +6,7 @@ import ItemBiddingCard from "./itemBiddingCard";
 import NotFound from "../notFound";
 import {getItemById} from "../../services/itemServices";
 import PropTypes from "prop-types";
-import socketHandler from "../../services/socketHandler";
+import socketHandler from "../../util/socketHandler";
 
 function ItemView(props){
 	const [isLoading, setLoading] = useState(true);
@@ -45,7 +45,7 @@ function ItemView(props){
 	// If No valid Item
 	if(item === "NoItem"){
 		return (
-			<Grid item align="center" height={500} xs={12}>
+			<Grid item align="center" height={1600} xs={12}>
 				<NotFound/>
 			</Grid>
 		);
@@ -53,7 +53,7 @@ function ItemView(props){
 
 	if (isLoading){
 		return (
-			<Grid item align="center" height={500} xs={12} data-testid={"Itemview"}>
+			<Grid item align="center" height={1600} xs={12} data-testid={"Itemview"}>
 				<CircularProgress />
 			</Grid>
 		);
@@ -63,7 +63,7 @@ function ItemView(props){
 		console.log(socketHandler.startSocket().connected);
 	}
 
-
+	console.log(item);
 	return(
 		<Grid container data-testid={"Itemview"} justifyContent={"center"}>
 			<Grid item container spacing={3}  maxWidth={1200} p={3}>
@@ -80,20 +80,22 @@ function ItemView(props){
 					}/>
 				</Grid>
 				<Grid item md={6} xs={12}>
-					<ItemBiddingCard biddingData={
-						{
-							name: item.name,
-							endTime: item.bid_end_time,
-							bidArray: item.bidding_array,
-							itemId: item._id,
-							minimumBid: item.minimum_bid,
-							description: item.description,
-							quantity: item.quantity,
-							location: item.location,
-							user: props.user
+					<ItemBiddingCard
+						biddingData={
+							{
+								name: item.name,
+								endTime: item.bid_end_time,
+								bidArray: item.bidding_array,
+								itemId: item._id,
+								minimumBid: item.minimum_bid,
+								description: item.description,
+								quantity: item.quantity,
+								location: item.location,
+								bidStep:item.minimum_bid_step
+							}
 						}
-
-					}/>
+						user={props.user}
+					/>
 				</Grid>
 			</Grid>
 		</Grid>
