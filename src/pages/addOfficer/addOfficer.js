@@ -47,7 +47,7 @@ function AddOfficer(){
 
 		getDistricts();
 
-		setOfficerTypes([{_id :0,name:"Agricultural"}, {_id :1,name:"Technical"}]);
+		setOfficerTypes([{_id :0,name:"Agricultural Officer"}, {_id :1,name:"Technical Officer"},{_id :3,name:"System Officer"}, {_id :4,name:"Marketplace Officer"}]);
 
 		setIsLoading(false);
 	},[]);

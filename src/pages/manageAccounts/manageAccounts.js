@@ -15,6 +15,7 @@ function ManageAccounts(){
 	const [officers,setOfficers] = useState([]);
 	const [refresh,setRefresh] = useState(false);
 	const [isLoading,setIsLoading] = useState();
+	const officerTypes = ["Agricultural","Technical","System","Marketplace"];
 
 
 	useEffect(() => {
@@ -38,7 +39,8 @@ function ManageAccounts(){
 						district: officer.district.name,
 						userName: officer.login.userName,
 						nic: officer.nic,
-						isActive: officer.login.isActive
+						isActive: officer.login.isActive,
+						officerType: officerTypes[officer.officerType]
 					};
 					officerList.push(newRow);
 				}
