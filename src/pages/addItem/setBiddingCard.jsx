@@ -95,6 +95,16 @@ function SetBiddingCard(props){
 							</Grid>
 						</Grid>
 					</Grid>
+					{
+						(props.bidEndTime.unix() < moment().unix()+7200)?
+							(<Grid item xs={12} ml={3} mr={3} mt={3}>
+								<Stack direction="row" alignItems="center" gap={1}>
+									<InfoIcon color={"info"}/>
+									<Typography textAlign={"left"} variant={"body1"}>Remaining time Should be at least 2hours</Typography>
+								</Stack>
+							</Grid>):
+							(<Grid item xs={12} ></Grid>)
+					}
 
 					<Grid item xs={12} mr={3} mt={3} ml={3}>
 						<FormControl fullWidth>
@@ -118,7 +128,7 @@ function SetBiddingCard(props){
 							(<Grid item xs={12} m={3}>
 								<Stack direction="row" alignItems="center" gap={1}>
 									<InfoIcon color={"info"}/>
-									<Typography textAlign={"center"} variant={"body1"}>Enter Minimum Bidding Price of more than 10 to add Minimum Bid Step</Typography>
+									<Typography textAlign={"left"} variant={"body1"}>Enter Minimum Bidding Price of more than 10 to add Minimum Bid Step</Typography>
 								</Stack>
 							</Grid>):
 							(<Grid item xs={12} m={3}></Grid>)
