@@ -9,10 +9,8 @@ import InfoIcon from "@mui/icons-material/Info";
 // eslint-disable-next-line no-unused-vars
 function LocationForm(props){
 	const [districtArray, setDistrictArray] = useState([]);
-	const [district, setDistrict] = useState("");
 	const [cityArray, setCityArray] = useState([]);
-	const [city, setCity] = useState("");
-	const [location, setLocation] = useState({lat: "x", lng: "x"});
+
 	const [isMapReset, setMapReset] = useState(false);
 
 	useEffect( () => {
@@ -25,44 +23,44 @@ function LocationForm(props){
 
 	useEffect( () => {
 		const currentDistrict = districtArray.filter((ele)=>{
-			return ele._id === district;
+			return ele._id === props.district;
 		});
 		try{
 			setCityArray(currentDistrict[0].cities);
-			setCity("");
+			props.setCity("");
 		}catch (e){
-			setCity("");
+			props.setCity("");
 		}
-	},[district, districtArray]);
+	},[props.district, districtArray]);
 
-	useEffect(()=>{
-		const currentDistrict = districtArray.filter((ele)=>{
-			return ele._id === district;
-		});
-
-		let districtName = null;
-		try{
-			districtName = currentDistrict[0].name;
-		}catch (e){
-			districtName = null;
-		}
-
-		const data = {
-			district:districtName,
-			city:city,
-			location:{lat:location.lat, lng:location.lng}
-		};
-		props.getValues(data);
-	},[props.onSubmit]);
+	// useEffect(()=>{
+	// 	const currentDistrict = districtArray.filter((ele)=>{
+	// 		return ele._id === props.district;
+	// 	});
+	//
+	// 	let districtName = null;
+	// 	try{
+	// 		districtName = currentDistrict[0].name;
+	// 	}catch (e){
+	// 		districtName = null;
+	// 	}
+	//
+	// 	const data = {
+	// 		district:districtName,
+	// 		city:props.city,
+	// 		location:{lat:location.lat, lng:location.lng}
+	// 	};
+	// 	props.getValues(data);
+	// },[props.onSubmit]);
 
 	const handleChangeDistrict = (event) => {
-		setDistrict(event.target.value);
+		props.setDistrict(event.target.value);
 	};
 	const handleChangeCity = (event) => {
-		setCity(event.target.value);
+		props.setCity(event.target.value);
 	};
 	const handleMapReset = ()=>{
-		setLocation({lat: "x", lng: "x"});
+		props.setLocation({lat: "x", lng: "x"});
 		setMapReset(!isMapReset);
 	};
 
@@ -95,7 +93,7 @@ function LocationForm(props){
 							<Select
 								labelId="demo-simple-select-label"
 								id="demo-simple-select"
-								value={district}
+								value={props.district}
 								label="District"
 								onChange={handleChangeDistrict}
 								MenuProps={{ PaperProps: { sx: { maxHeight: 150 } } }}
@@ -116,7 +114,7 @@ function LocationForm(props){
 							<Select
 								labelId="demo-simple-select-label"
 								id="demo-simple-select"
-								value={city}
+								value={props.city}
 								label="City"
 								onChange={handleChangeCity}
 								MenuProps={{ PaperProps: { sx: { maxHeight: 150} } }}
@@ -134,16 +132,16 @@ function LocationForm(props){
 				<Grid item xs={12} container justifyContent={"center"} mt={3} ml={2} mr={3} spacing={1}>
 					<Grid item xs={6}>
 						<FormControl fullWidth>
-							<TextField id="location-lat" label="Latitude" variant="outlined" disabled value={location.lat=="x"?"":location.lat}/>
+							<TextField id="location-lat" label="Latitude" variant="outlined" disabled value={props.location.lat=="x"?"":props.location.lat}/>
 						</FormControl>
 					</Grid>
 					<Grid item xs={6}>
 						<FormControl fullWidth>
-							<TextField id="location-lng" label="Longitude" variant="outlined" disabled value={location.lng=="x"?"":location.lng}/>
+							<TextField id="location-lng" label="Longitude" variant="outlined" disabled value={props.location.lng=="x"?"":props.location.lng}/>
 						</FormControl>
 					</Grid>
 				</Grid>
-				{location.lat=="x"?
+				{props.location.lat=="x"?
 					(<Grid item xs={12} mt={3} ml={3} mr={3}>
 						<Stack direction="row" alignItems="center" gap={1}>
 							<InfoIcon color={"info"}/>
@@ -157,7 +155,7 @@ function LocationForm(props){
 
 				<Grid item xs={12} container justifyContent={"center"} mt={3} ml={3} mr={3}>
 					<Grid item xs={12} border={1} borderColor={"#bdbdbd"} mb={3} borderRadius={"4px"} bgcolor={"lightgray"}>
-						<GoogleMap locationPointer={location} setPointer={setLocation} mapReset={isMapReset}/>
+						<GoogleMap locationPointer={props.location} setPointer={props.setLocation} mapReset={isMapReset}/>
 					</Grid>
 				</Grid>
 
@@ -168,7 +166,16 @@ function LocationForm(props){
 
 LocationForm.propTypes={
 	onSubmit: PropTypes.bool,
-	getValues: PropTypes.func
+	getValues: PropTypes.func,
+
+	setDistrict: PropTypes.func.isRequired,
+	setCity: PropTypes.func.isRequired,
+	setLocation: PropTypes.func.isRequired,
+
+	district: PropTypes.string.isRequired,
+	city: PropTypes.string.isRequired,
+	location: PropTypes.object.isRequired
+
 };
 
 export default LocationForm;

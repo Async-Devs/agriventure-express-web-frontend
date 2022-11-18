@@ -28,7 +28,7 @@ function CountdownTimer(props){
 	return(
 		<Grid>
 			<Countdown
-				date={props.endTime}
+				date={props.endTime._d}
 				intervalDelay={1000}
 				precision={3}
 				renderer={renderer}
@@ -51,7 +51,7 @@ function renderer(props){
 }
 
 CountdownTimer.propTypes = {
-	endTime: PropTypes.string
+	endTime: PropTypes.any
 };
 
 renderer.propTypes = {

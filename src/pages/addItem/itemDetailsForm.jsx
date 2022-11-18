@@ -7,10 +7,10 @@ import PropTypes from "prop-types";
 
 function ItemDetailsForm(props){
 	const [cropTypes, setCropTypes] = useState([]);
-	const [cropType, setCropType] = useState("");
-	const [quantity, setQuantity] = useState("");
-	const [title, setTitle] = useState("");
-	const [description, setdescription] = useState("");
+	// const [title, setTitle] = useState("");
+	// const [cropType, setCropType] = useState("");
+	// const [quantity, setQuantity] = useState("");
+	// const [description, setdescription] = useState("");
 
 	useEffect( () => {
 		async function fetchData() {
@@ -20,40 +20,40 @@ function ItemDetailsForm(props){
 		fetchData();
 	},[]);
 
-	useEffect(()=>{
-		const data = {
-			title:title,
-			cropType:cropType,
-			quantity:quantity,
-			description:description
-		};
-		props.getValues(data);
-	},[props.onSubmit]);
+	// useEffect(()=>{
+	// 	const data = {
+	// 		title:title,
+	// 		cropType:cropType,
+	// 		quantity:quantity,
+	// 		description:description
+	// 	};
+	// 	props.getValues(data);
+	// },[props.onSubmit]);
 
 	const handleChange = (event) => {
-		setCropType(event.target.value);
+		props.setCropType(event.target.value);
 	};
 
 	const handleTitle = (event) => {
 		const string = event.target.value;
 		if(string.length <=50){
-			setTitle(event.target.value);
+			props.setTitle(event.target.value);
 		}
 	};
 
 	const handledescription = (event) => {
 		const string = event.target.value;
 		if(string.length <=10000){
-			setdescription(event.target.value);
+			props.setDescription(event.target.value);
 		}
 	};
 
 	const handleQuantity = (event) => {
 		if(event.target.value==""){
-			setQuantity(event.target.value);
+			props.setQuantity(event.target.value);
 		}else if(event.target.value>=0 && event.target.value<=100000000) {
 			const value = Math.ceil(event.target.value);
-			setQuantity(value);
+			props.setQuantity(value);
 		}
 	};
 
@@ -82,7 +82,7 @@ function ItemDetailsForm(props){
 				<Grid item xs={12} container justifyContent={"center"} ml={3} mr={3}>
 					<Grid item xs={12}>
 						<FormControl fullWidth>
-							<TextField id="listing-title" label="Listing Title" variant="outlined" onChange={handleTitle} value={title}/>
+							<TextField id="listing-title" label="Listing Title" variant="outlined" onChange={handleTitle} value={props.title}/>
 						</FormControl>
 					</Grid>
 				</Grid>
@@ -94,7 +94,7 @@ function ItemDetailsForm(props){
 							<Select
 								labelId="demo-simple-select-label"
 								id="demo-simple-select"
-								value={cropType}
+								value={props.cropType}
 								label="Crop Type"
 								onChange={handleChange}
 								MenuProps={{ PaperProps: { sx: { maxHeight: 150 } } }}
@@ -112,7 +112,7 @@ function ItemDetailsForm(props){
 				<Grid item xs={12} container justifyContent={"center"} mt={3} ml={3} mr={3}>
 					<Grid item xs={12}>
 						<FormControl fullWidth>
-							<TextField id="quantity" label="Quantity" variant="outlined" type={"number"} onChange={handleQuantity} value={quantity}/>
+							<TextField id="quantity" label="Quantity" variant="outlined" type={"number"} onChange={handleQuantity} value={props.quantity}/>
 						</FormControl>
 					</Grid>
 				</Grid>
@@ -126,7 +126,7 @@ function ItemDetailsForm(props){
 								variant="outlined"
 								multiline
 								maxRows={6}
-								value={description}
+								value={props.description}
 								onChange={handledescription}
 							/>
 						</FormControl>
@@ -139,7 +139,17 @@ function ItemDetailsForm(props){
 
 ItemDetailsForm.propTypes={
 	onSubmit: PropTypes.bool,
-	getValues: PropTypes.func
+	getValues: PropTypes.func,
+
+	title:PropTypes.string.isRequired,
+	cropType:PropTypes.string.isRequired,
+	quantity:PropTypes.any.isRequired,
+	description:PropTypes.string.isRequired,
+
+	setTitle:PropTypes.func.isRequired,
+	setCropType:PropTypes.func.isRequired,
+	setQuantity:PropTypes.func.isRequired,
+	setDescription:PropTypes.func.isRequired
 };
 
 export default ItemDetailsForm;

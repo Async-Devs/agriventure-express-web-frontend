@@ -19,6 +19,7 @@ import LocationForm from "./locationDetailForm";
 import {Link} from "react-router-dom";
 import Button from "@mui/material/Button";
 import WarningIcon from "@mui/icons-material/Warning";
+import moment from "moment";
 
 function AddItem(){
 	const [Error, setError] = useState(false);
@@ -36,10 +37,29 @@ function AddItem(){
 		}
 	);
 
+	// eslint-disable-next-line no-unused-vars
 	const [itemDetails, setItemDetails] = useState(null);
+	// eslint-disable-next-line no-unused-vars
 	const [biddingDetails, setBiddingDetails] = useState(null);
+	// eslint-disable-next-line no-unused-vars
 	const [locationDetails, setLocationDetails] = useState(null);
+	// eslint-disable-next-line no-unused-vars
 	const [imageDetails, setImageDetails] = useState(null);
+
+	const [cropType, setCropType] = useState("");
+	const [quantity, setQuantity] = useState("");
+	const [title, setTitle] = useState("");
+	const [description, setdescription] = useState("");
+
+	const [minimumBid, setMinimumBid] = useState("");
+	const [minimumBidStep, setMinimumBidStep] = useState("");
+	const [endTime, setEndTime] = useState(moment());
+
+	const [district, setDistrict] = useState("");
+	const [city, setCity] = useState("");
+	const [location, setLocation] = useState({lat: "x", lng: "x"});
+
+	const [images, setImages] = useState([]);
 
 	useEffect(()=>{
 		console.log(submissionDataBundle);
@@ -92,25 +112,25 @@ function AddItem(){
 		</Typography>,
 	];
 
-	function getItemData(data){
-		console.log(data);
-		setItemDetails(data);
-	}
+	// function getItemData(data){
+	// 	console.log(data);
+	// 	setItemDetails(data);
+	// }
 
-	function getBidData(data){
-		console.log(data);
-		setBiddingDetails(data);
-	}
+	// function getBidData(data){
+	// 	console.log(data);
+	// 	setBiddingDetails(data);
+	// }
 
-	function getLocationData(data){
-		console.log(data);
-		setLocationDetails(data);
-	}
+	// function getLocationData(data){
+	// 	console.log(data);
+	// 	setLocationDetails(data);
+	// }
 
-	function getImageData(data){
-		console.log(data);
-		setImageDetails(data);
-	}
+	// function getImageData(data){
+	// 	console.log(data);
+	// 	setImageDetails(data);
+	// }
 
 	function onDataPrep(){
 		setIsSubmit(!isSubmit);
@@ -163,22 +183,48 @@ function AddItem(){
 
 				<Grid item md={6} xs={12} minHeight={400} container>
 					<Paper elevation={4}>
-						<ItemDetailsForm onSubmit={isSubmit} getValues={getItemData}/>
+						<ItemDetailsForm
+							title={title}
+							cropType={cropType}
+							quantity={quantity}
+							description={description}
+							setTitle={setTitle}
+							setCropType={setCropType}
+							setQuantity={setQuantity}
+							setDescription={setdescription}
+						/>
 					</Paper>
 				</Grid>
 				<Grid item md={6} xs={12} minHeight={400} container>
 					<Paper elevation={4}>
-						<SetBiddingCard onSubmit={isSubmit} getValues={getBidData}/>
+						<SetBiddingCard
+							setMinimumBid={setMinimumBid}
+							setMinimumBidStep={setMinimumBidStep}
+							setBidEndTime={setEndTime}
+							minimumBid={minimumBid}
+							minimumBidStep={minimumBidStep}
+							bidEndTime={endTime}
+						/>
 					</Paper>
 				</Grid>
 				<Grid item md={6} xs={12} minHeight={400} container>
 					<Paper elevation={4}>
-						<LocationForm onSubmit={isSubmit} getValues={getLocationData}/>
+						<LocationForm
+							setDistrict={setDistrict}
+							setCity={setCity}
+							setLocation={setLocation}
+							district={district}
+							city={city}
+							location={location}
+						/>
 					</Paper>
 				</Grid>
 				<Grid item md={6} xs={12} minHeight={400} container>
 					<Paper elevation={4} sx={{width:"100%"}}>
-						<ImageForm onSubmit={isSubmit} getValues={getImageData}/>
+						<ImageForm
+							images={images}
+							setImages={setImages}
+						/>
 					</Paper>
 				</Grid>
 				<Grid item xs={12} minHeight={200} container>

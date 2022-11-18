@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import { Grid, Typography} from "@mui/material";
 import "react-image-crop/dist/ReactCrop.css";
 import FileUpload2 from "../../components/fileUpload/fileUpload2";
@@ -6,17 +6,16 @@ import PropTypes from "prop-types";
 
 // eslint-disable-next-line no-unused-vars
 function ImageForm(props){
-	const [images, setImages] = useState([]);
 
-	useEffect(()=>{
-		const data = {
-			images:images
-		};
-		props.getValues(data);
-	},[props.onSubmit]);
+	// useEffect(()=>{
+	// 	const data = {
+	// 		images:images
+	// 	};
+	// 	props.getValues(data);
+	// },[props.onSubmit]);
 
 	return(
-		<Grid container xs={12}>
+		<Grid container>
 			<Grid item container xs={12} mb={3}>
 				<Grid item container xs={12}>
 					<Grid item xs={12} container justifyContent={"center"} m={3}>
@@ -37,7 +36,7 @@ function ImageForm(props){
 						<Grid item xs={12} mt={3}  >
 							<Grid bgcolor={"lightgray"} >
 								{/*<FileUpload/>*/}
-								<FileUpload2 images={images} setImages={setImages}/>
+								<FileUpload2 images={props.images} setImages={props.setImages}/>
 							</Grid>
 						</Grid>
 					</Grid>
@@ -50,7 +49,10 @@ function ImageForm(props){
 
 ImageForm.propTypes = {
 	onSubmit: PropTypes.bool,
-	getValues: PropTypes.func
+	getValues: PropTypes.func,
+
+	images: PropTypes.array.isRequired,
+	setImages: PropTypes.func.isRequired
 };
 
 export default ImageForm;
