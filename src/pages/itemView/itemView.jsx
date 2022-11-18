@@ -60,7 +60,7 @@ function ItemView(props){
 	}
 
 	if(!isLoading){
-		console.log(socketHandler.startSocket().connected);
+		console.log("Socket ", socketHandler.startSocket());
 	}
 
 	console.log(item);
