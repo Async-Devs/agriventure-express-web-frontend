@@ -11,6 +11,7 @@ function Map(props){
 
 	function changeData(e){
 		props.handleDistrictClick(e.target);
+		props.handleDistrictObject(e.target);
 		setIsHovered(e.target.id);
 	}
 
@@ -301,7 +302,8 @@ function Map(props){
 	);
 }
 Map.propTypes = {
-	handleDistrictClick : PropTypes.func.isRequired
+	handleDistrictClick : PropTypes.func.isRequired,
+	handleDistrictObject : PropTypes.func.isRequired
 };
 export default Map;
 

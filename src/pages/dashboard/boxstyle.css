@@ -1,3 +1,8 @@
+body{
+    background: rgba(198, 255, 138, 0.06);
+
+}
+
 .farmer{
     background-image: url("farmer.jpg");
     background-size: cover;
@@ -10,7 +15,7 @@
     background-image: url("crops.jpg");
     background-size: cover;
 }
-.coverage{
-    background-image: url("map.jpg");
+.officer{
+    background-image: url("officer.jpg");
     background-size: cover;
 }
