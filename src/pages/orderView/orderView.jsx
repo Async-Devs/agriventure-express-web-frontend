@@ -11,7 +11,7 @@ import Button from "@mui/material/Button";
 import RefundRequest from "../../components/refundRequest/refundRequest";
 import {Link, useParams} from "react-router-dom";
 import SaveButton from "../../components/button/button";
-import {getOrderById, updateOrderDeliveryStatus} from "../../services/orderServices";
+import {getOrderByIdForPublicUser, updateOrderDeliveryStatus} from "../../services/orderServices";
 import authService from "../../services/auth.service";
 // import {Alert} from "@mui/lab";
 import Axios from "axios";
@@ -47,7 +47,6 @@ function OrderView(){
 
 	const handleChange = (event) => {
 		setDeliveryStatus(event.target.value);
-		console.log(event.target.value);
 	};
 
 	useEffect( () => {
@@ -82,8 +81,7 @@ function OrderView(){
 
 	useEffect(()=>{
 		async function getOrder(){
-			const data = await getOrderById(orderId);
-			console.log(data.data[0].messages);
+			const data = await getOrderByIdForPublicUser(orderId);
 			setMessages(data.data[0].messages);
 			setMessanger(data.data[0].buyer._id === authService.getCurrentUserId() ? data.data[0].producer.userName: data.data[0].buyer.userName);
 			setOrder(data.data[0]);
@@ -96,6 +94,7 @@ function OrderView(){
 	},[orderId,refresh]);
 
 	useEffect(()=>{
+		console.log(order);
 		if(order!=null){
 			setDeliveryStatus(order.delivery_status);
 		}
