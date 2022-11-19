@@ -1,20 +1,25 @@
 import React from "react";
 import {Grid, Typography} from "@mui/material";
+import {LinkedButtonRound} from "../components/button/button";
 
 function ErrorPage(){
 	return(
-		<Grid xs={12} container justifyContent={"center"} bgcolor={"lightyellow"}>
-			<Grid xs={6}>
-				<Typography variant={"h1"} color={"warning"}>
+		<Grid container justifyContent={"center"}>
+			<Grid item xs={6}>
+				<Typography variant={"h1"} color={"green"}>
 					Oops!
 				</Typography>
-				<Typography variant={"h5"} color={"warning"}>
-					404 page not found
+				<Typography variant={"h3"} color={"red"}>
+					404: page not found
 				</Typography>
-				<Typography variant={"h6"} color={"warning"}>
+				<Typography variant={"h2"} color={"warning"} >
 					Umm...Are you Lost?
 				</Typography>
-				<img height={300} src={"404.png"}/>
+				<img height={300} src={"/404.png"}/>
+				<Typography variant={"h2"} color={"warning"} >
+					I SUGGEST YOU MOVE
+				</Typography>
+				<LinkedButtonRound href={"/"} content={"GO BACK"}/>
 			</Grid>
 		</Grid>
 	);
