@@ -3,7 +3,6 @@ import Container from "@mui/material/Container";
 import { Card, CardContent, CircularProgress, Grid} from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextInput from "../../../components/textInput/textInput";
 import SaveIcon from "@mui/icons-material/Save";
@@ -35,6 +34,8 @@ function EditProfileForm(){
 	const [lastNameOrg,setLastNameOrg] = useState();
 	const [district,setDistrict] = useState();
 	const [city,setCity] = useState();
+	const [imageURL,setImageURL] = useState();
+	const [imageURLOrg,setImageURLOrg] = useState();
 
 
 
@@ -59,6 +60,8 @@ function EditProfileForm(){
 				setTelNo(user.data.user.telNum);
 				setAddress(user.data.user.address);
 				setAddressOrg(user.data.user.address);
+				setImageURL(user.data.user.login.profilePicture);
+				setImageURLOrg(user.data.user.login.profilePicture);
 				if(user.data.user.login.userType === 0){
 					setDistrict(user.data.user.district.name);
 					setCity(user.data.user.city);
@@ -101,7 +104,7 @@ function EditProfileForm(){
 
 
 	function validateUnchanged(){
-		return (email === emailOrg && telNo === telNoOrg && address === addressOrg && firstName === firstNameOrg && lastName === lastNameOrg);
+		return (email === emailOrg && imageURL === imageURLOrg && telNo === telNoOrg && address === addressOrg && firstName === firstNameOrg && lastName === lastNameOrg);
 	}
 
 	function handleSubmit(event){
@@ -135,6 +138,16 @@ function EditProfileForm(){
 						alert("Error occured!");
 					}
 				});
+
+				// eslint-disable-next-line no-undef
+				Axios.put(`${process.env.REACT_APP_API_URL}/officerUsers/updateProfilePicture`,{id: user_id, picture: imageURL},{
+					headers: {"x-auth-token": authService.getCurrentUser()}
+				}).then( async (res)=>{
+					if(!res.data.success){
+						alert("Error occured!");
+					}
+				});
+
 				window.location.assign("/officer/manageProducers/profile/"+user_id);
 			}
 		}else{
@@ -172,12 +185,7 @@ function EditProfileForm(){
 								<Typography variant="h5" align="center">Edit Profile</Typography>
 							</Grid>
 							<Grid item xs={12} align="center" justifyContent="center">
-								<Avatar
-									alt="Sample User"
-									src="https://scontent.fcmb2-2.fna.fbcdn.net/v/t1.6435-9/57402301_2442775932439604_5030131054145437696_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=174925&_nc_ohc=zzDTAqXehJ0AX85Z8Bx&_nc_ht=scontent.fcmb2-2.fna&oh=00_AT_PFF4lBDfe1k3PYYrNep5W-GdL0-UyIAiOyZiKSSv-iw&oe=6352AA3F"
-									sx={{ width: 150, height: 150 }}
-								/>
-								<ImageUploader />
+								<ImageUploader imageURL={imageURL} setImageURL={setImageURL} height={150} width={150} fileName={authService.getCurrentUserId()} folderName={"profilePictures"} isCircular={true} />
 								<Typography variant="h6">@{userName}</Typography>
 							</Grid>
 							<Grid item xs={12} sm={6} align="center">

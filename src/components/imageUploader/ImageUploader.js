@@ -13,7 +13,6 @@ function ImageUploader(props){
 	const [picture,setPicture] = useState();
 	const [url,setUrl] = useState(props.imageURL);
 	const [isChanged,setIsChanged] = useState(false);
-	// const [uploading,setUploading] = useState(false);
 	const [showProgress,setShowProgress] = useState(false);
 
 	useEffect(()=>{
@@ -106,14 +105,14 @@ function ImageUploader(props){
 }
 
 ImageUploader.propTypes ={
-	profilePhoto: PropTypes.any,
-	fileName: PropTypes.string,
-	folderName: PropTypes.string,
-	isCircular: PropTypes.bool,
-	width: PropTypes.number,
-	height: PropTypes.number,
-	setImageURL: PropTypes.func,
-	imageURL: PropTypes.string
+	fileName: PropTypes.string, //file name to save in cloud storage. if the file already exist, it will replace
+	folderName: PropTypes.string, //folder name to save in cloud storage.
+	isCircular: PropTypes.bool, //true for see circular view, false for squre view
+	width: PropTypes.number, // width of preview
+	height: PropTypes.number, //height of preview
+	imageURL: PropTypes.string, //provide a state() as this prop. after uploading the image, this state will get the value of the image url
+	setImageURL: PropTypes.func //set state method for above state
+
 };
 
 export default ImageUploader;

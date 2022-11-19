@@ -126,15 +126,18 @@ function ChatBody(props){
 	function renderMessages(message){
 
 		let sender = "Officer";
+		let profilePicture = "https://res.cloudinary.com/drh02pftv/image/upload/c_pad,b_auto:predominant,fl_preserve_transparency/v1668790540/profilePictures/default_gerxri.jpg";
 		console.log(message);
 		console.log(props.request);
 		if(props.mode === 1){
 			if(message.senderId === props.request.buyerId._id){
 				sender = props.request.buyerId.userName;
+				profilePicture = props.request.buyerId.profilePicture;
 			}
 		}
 		if(message.senderId === props.request.producerId._id){
 			sender = props.request.producerId.userName;
+			profilePicture = props.request.producerId.profilePicture;
 		}
 
 
@@ -142,7 +145,7 @@ function ChatBody(props){
 			<Grid mt={1} sx={message.sender === "officer" ? {border: 1, borderRadius: "20px", position: "relative", left: -15} : {border: 1, borderRadius: "20px", position: "relative", left: 15}}>
 				<ListItem alignItems="flex-start">
 					<ListItemAvatar>
-						<Avatar alt={sender} src="https://scontent.fcmb2-2.fna.fbcdn.net/v/t1.6435-9/57402301_2442775932439604_5030131054145437696_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=174925&_nc_ohc=zzDTAqXehJ0AX85Z8Bx&_nc_ht=scontent.fcmb2-2.fna&oh=00_AT_PFF4lBDfe1k3PYYrNep5W-GdL0-UyIAiOyZiKSSv-iw&oe=6352AA3F" />
+						<Avatar alt={sender} src={profilePicture} />
 					</ListItemAvatar>
 					<ListItemText
 						primary={utilityServices.getTime(message.date)}
@@ -181,7 +184,7 @@ function ChatBody(props){
 						<List sx={{ width: "100%", maxWidth: 560, bgcolor: "background.paper" }}>
 							<ListItem alignItems="flex-start">
 								<ListItemAvatar>
-									<Avatar alt="Remy Sharp" src="https://scontent.fcmb2-2.fna.fbcdn.net/v/t1.6435-9/57402301_2442775932439604_5030131054145437696_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=174925&_nc_ohc=zzDTAqXehJ0AX85Z8Bx&_nc_ht=scontent.fcmb2-2.fna&oh=00_AT_PFF4lBDfe1k3PYYrNep5W-GdL0-UyIAiOyZiKSSv-iw&oe=6352AA3F" />
+									<Avatar alt={props.mode === 0 ? props.request.producerId.userName : props.request.buyerId.userName} src={props.mode === 0 ? props.request.producerId.profilePicture : props.request.buyerId.profilePicture} />
 								</ListItemAvatar>
 								<ListItemText
 									primary={props.mode === 0 ? props.request.subject : "Order Id:" + props.request.orderId._id}

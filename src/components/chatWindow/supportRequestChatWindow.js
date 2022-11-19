@@ -109,7 +109,7 @@ function SupportRequestList(props){
 				<ListItem alignItems="flex-start">
 					<ListItemAvatar>
 						{/* eslint-disable-next-line react/prop-types */}
-						<Avatar alt={props.user.firstName + " " + props.user.lastName} src="https://scontent.fcmb2-2.fna.fbcdn.net/v/t1.6435-9/57402301_2442775932439604_5030131054145437696_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=174925&_nc_ohc=zzDTAqXehJ0AX85Z8Bx&_nc_ht=scontent.fcmb2-2.fna&oh=00_AT_PFF4lBDfe1k3PYYrNep5W-GdL0-UyIAiOyZiKSSv-iw&oe=6352AA3F" />
+						<Avatar alt={props.user.firstName + " " + props.user.lastName} src={props.user.login.profilePicture} />
 					</ListItemAvatar>
 					<ListItemText
 						primary={supportRequest.subject}
@@ -156,7 +156,7 @@ function SupportRequestList(props){
 			<Grid>
 				<ListItem alignItems="flex-start">
 					<ListItemAvatar>
-						<Avatar alt={sender} src="https://scontent.fcmb2-2.fna.fbcdn.net/v/t1.6435-9/57402301_2442775932439604_5030131054145437696_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=174925&_nc_ohc=zzDTAqXehJ0AX85Z8Bx&_nc_ht=scontent.fcmb2-2.fna&oh=00_AT_PFF4lBDfe1k3PYYrNep5W-GdL0-UyIAiOyZiKSSv-iw&oe=6352AA3F" />
+						<Avatar alt={sender} src={message.senderId === activeRequest.producerId._id ? activeRequest.producerId.profilePicture: "https://res.cloudinary.com/drh02pftv/image/upload/c_pad,b_auto:predominant,fl_preserve_transparency/v1668790540/profilePictures/default_gerxri.jpg"}/>
 					</ListItemAvatar>
 					<ListItemText
 						primary={utilityServices.getTime(message.date)}

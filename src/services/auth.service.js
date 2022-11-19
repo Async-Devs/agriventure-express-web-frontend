@@ -35,7 +35,7 @@ const getSocketURL = ()=>{
 
 const logout = () => {
 	localStorage.removeItem("user");
-	window.location.assign("/login");
+	window.location.assign("/auth/login");
 };
 
 const getCurrentUser = () => {
@@ -64,6 +64,14 @@ const getCurrentUserId = () => {
 		return -1;
 	}
 	return jwt_decode(token).userId;
+};
+
+const getCurrentUserDP = () => {
+	const token = JSON.parse(localStorage.getItem("user"));
+	if(token === null){
+		return "https://res.cloudinary.com/drh02pftv/image/upload/c_pad,b_auto:predominant,fl_preserve_transparency/v1668790540/profilePictures/default_gerxri.jpg";
+	}
+	return jwt_decode(token).profilePicture;
 };
 
 const getCurrentUserExp = () => {
@@ -95,7 +103,8 @@ const authService = {
 	getCurrentUserExp,
 	isAuthenticated,
 	getGoogleAPIkey,
-	getSocketURL
+	getSocketURL,
+	getCurrentUserDP
 };
 
 export default authService;
