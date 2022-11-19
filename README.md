@@ -21,6 +21,12 @@ In this project user can view agriculture data of the country, add agriculture d
 * Node JS
 * NPM
 
+## User login details:
+
+* Admin                                     * Officer                                    * Buyer                                  * Producer
+        Username:-                                   Username:-                                 Username:-                                  Username:-
+        Password:-                                   Password:-                                 Password:-                                  Password:-
+
 ## Install packages:
 
 Direct into the folder which includes package.json and execute the command "npm install"
