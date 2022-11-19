@@ -6,7 +6,6 @@ import ItemBiddingCard from "./itemBiddingCard";
 import NotFound from "../notFound";
 import {getItemById} from "../../services/itemServices";
 import PropTypes from "prop-types";
-import socketHandler from "../../util/socketHandler";
 
 function ItemView(props){
 	const [isLoading, setLoading] = useState(true);
@@ -57,10 +56,6 @@ function ItemView(props){
 				<CircularProgress />
 			</Grid>
 		);
-	}
-
-	if(!isLoading){
-		console.log("Socket ", socketHandler.startSocket());
 	}
 
 	console.log(item);
