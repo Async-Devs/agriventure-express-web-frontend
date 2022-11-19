@@ -105,7 +105,7 @@ function RefundRequestChatWindow(props){
 			<Grid>
 				<ListItem alignItems="flex-start">
 					<ListItemAvatar>
-						<Avatar alt={sender} src="https://scontent.fcmb2-2.fna.fbcdn.net/v/t1.6435-9/57402301_2442775932439604_5030131054145437696_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=174925&_nc_ohc=zzDTAqXehJ0AX85Z8Bx&_nc_ht=scontent.fcmb2-2.fna&oh=00_AT_PFF4lBDfe1k3PYYrNep5W-GdL0-UyIAiOyZiKSSv-iw&oe=6352AA3F" />
+						<Avatar alt={sender} src={message.senderId === props.refundRequest.buyerId._id ? props.refundRequest.buyerId.profilePicture: props.refundRequest.producerId.profilePicture} />
 					</ListItemAvatar>
 					<ListItemText
 						primary={utilityServices.getTime(message.date)}
@@ -168,7 +168,7 @@ function RefundRequestChatWindow(props){
 						<List sx={{ width: "100%", maxWidth: 560, bgcolor: "background.paper" }}>
 							<ListItem alignItems="flex-start">
 								<ListItemAvatar>
-									<Avatar alt="Remy Sharp" src="https://scontent.fcmb2-2.fna.fbcdn.net/v/t1.6435-9/57402301_2442775932439604_5030131054145437696_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=174925&_nc_ohc=zzDTAqXehJ0AX85Z8Bx&_nc_ht=scontent.fcmb2-2.fna&oh=00_AT_PFF4lBDfe1k3PYYrNep5W-GdL0-UyIAiOyZiKSSv-iw&oe=6352AA3F" />
+									<Avatar alt={props.refundRequest.buyerId.userName} src={props.refundRequest.buyerId.profilePicture} />
 								</ListItemAvatar>
 								<ListItemText
 									primary={"Order ID - " + props.refundRequest.orderId._id}

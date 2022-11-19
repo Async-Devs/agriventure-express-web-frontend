@@ -42,6 +42,7 @@ function Profile(){
 	const [isExsist,setIsExsist] = useState();
 	const [isActive,setIsActive] = useState();
 	const [refresh,setRefresh] = useState(false);
+	const [imageURL,setImageURL] = useState();
 
 	useEffect(() => {
 
@@ -77,6 +78,7 @@ function Profile(){
 				setEmail(user.data.user.email);
 				setTelNum(user.data.user.telNum);
 				setAddress(user.data.user.address);
+				setImageURL(user.data.user.login.profilePicture);
 				setIsActive(user.data.user.login.isActive);
 				if(user.data.user.login.userType === 0){
 					setDistrict(user.data.user.district.name);
@@ -170,6 +172,7 @@ function Profile(){
 							district={district}
 							city={city}
 							userType={userType}
+							image={imageURL}
 							showSecrets={authService.getCurrentUserType() === 2}/>
 					</Grid>
 

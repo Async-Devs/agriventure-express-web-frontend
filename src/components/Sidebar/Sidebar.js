@@ -15,19 +15,22 @@ import PhoneInTalkOutlinedIcon from "@mui/icons-material/PhoneInTalkOutlined";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import Divider from "@mui/material/Divider";
-
 import logo from "../../img/logo.png";
 import "./sidebar.module.css";
 import authService from "../../services/auth.service";
 import {useEffect, useState} from "react";
 import {CircularProgress, Grid} from "@mui/material";
+import PropTypes from "prop-types";
 
 
 
-const ResponsiveAppBar = () => {
+
+
+const ResponsiveAppBar = (props) => {
 	const [anchorElNav, setAnchorElNav] = React.useState(null);
 	const [anchorElUser, setAnchorElUser] = React.useState(null);
 	const [isLoading,setLoading] = useState(true);
+	const [userType,setUserType] = useState();
 
 	var pages = ["Dashboard"];
 	var settings = ["sign in","sign up"];
@@ -39,15 +42,13 @@ const ResponsiveAppBar = () => {
 		}
 
 		checkValidity();
+
+
+		setUserType(authService.getCurrentUserType());
+
 		setLoading(false);
-	},[]);
-
-
-
-
-
-	// eslint-disable-next-line react/prop-types
-	const userType = authService.getCurrentUserType();
+		// eslint-disable-next-line react/prop-types
+	},[props.refresh]);
 
 	if(userType === 0){
 		pages = ["Dashboard", "My Dashboard", "Orders","Help Center","Refund Requests"];
@@ -74,30 +75,35 @@ const ResponsiveAppBar = () => {
 	};
 
 	const handleCloseNavMenu = (event) => {
+		let value = event.target.name;
+		if(value === undefined){
+			value = event.target.innerHTML;
+		}
 		setAnchorElNav(null);
-		if(event.target.name === "Help Center"){
-			window.location.assign("/producer/helpCenter");
-		}else if(event.target.name === "My Dashboard"){
+		if(value === "Help Center"){
+			window.location.replace("/producer/helpCenter");
+		}else if(value === "My Dashboard"){
 			window.location.assign("/producer");
-		}else if(event.target.name === "Orders"){
+		}else if(value === "Orders"){
 			window.location.assign("/producer/orders");
-		}else if(event.target.name === "Dashboard"){
+		}else if(value === "Dashboard"){
 			window.location.assign("/");
-		}else if(event.target.name === "Marketplace"){
+		}else if(value === "Marketplace"){
 			window.location.assign("/buyer/marketplace");
-		}else if(event.target.name === "Refund Requests"){
+		}else if(value === "Refund Requests"){
 			window.location.assign("/producer/refund");
-		}else if(event.target.name === "Manage Producers"){
+		}else if(value === "Manage Producers"){
 			window.location.assign("/officer/manageProducers");
-		}else if(event.target.name === "Support Management"){
+		}else if(value === "Support Management"){
 			window.location.assign("/officer/supportManagement");
-		}else if(event.target.name === "Agri Data"){
+		}else if(value === "Agri Data"){
 			window.location.assign("/officer/agriDataManage");
-		}else if(event.target.name === "Manage Accounts"){
+		}else if(value === "Manage Accounts"){
 			window.location.assign("/admin/manageAccounts");
-		}else if(event.target.name === "My Orders"){
+		}else if(value === "My Orders"){
 			window.location.assign("/buyer/buy-menu");
 		}
+
 	};
 
 	const handleCloseUserMenu = async (event) => {
@@ -107,11 +113,13 @@ const ResponsiveAppBar = () => {
 		} else if (event.target.innerHTML === "My Profile" && userType === 1) {
 			window.location.assign("/buyer/myProfile");
 		} else if (event.target.innerHTML === "sign in") {
-			window.location.assign("/login");
+			window.location.assign("/auth/login");
 		} else if (event.target.innerHTML === "sign up") {
-			window.location.assign("/signup");
+			window.location.assign("/auth/signup");
 		} else if (event.target.innerHTML === "Logout") {
 			await authService.logout();
+			// eslint-disable-next-line react/prop-types
+			props.setRefresh(!props.refresh);
 			window.location.assign("/");
 		}
 	};
@@ -266,7 +274,7 @@ const ResponsiveAppBar = () => {
 									<Box sx={{ marginTop:{lg:"4px",md:"8px",sm:"8px",xs:"8px"}}}>
 										<Tooltip title="Open settings">
 											<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-												<Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+												<Avatar alt={authService.getCurrentUserName()} src={authService.getCurrentUserDP()} />
 											</IconButton>
 										</Tooltip>
 										<Menu
@@ -316,4 +324,9 @@ const ResponsiveAppBar = () => {
 
 	);
 };
+
+ResponsiveAppBar.PropTypes = {
+	refresh: PropTypes.bool
+};
+
 export default ResponsiveAppBar;

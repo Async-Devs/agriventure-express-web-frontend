@@ -28,7 +28,6 @@ import MyProfile from "../pages/profile/myProfile";
 import EditMyProfileForm from "../pages/editProfile/editProfileForm/editMyProfileForm";
 import EditItem from "../pages/editItem/edititem";
 import OrderCheckout from "../pages/orderCheckout/orderCheckout";
-import OfficerDashboard from "../pages/officerDashboard/officerDashboard";
 import AddOfficer from "../pages/addOfficer/addOfficer";
 import authService from "../services/auth.service";
 /*
@@ -45,21 +44,18 @@ import authService from "../services/auth.service";
 
 function AppRouter(props){
 
-	// eslint-disable-next-line no-undef
-	let type = authService.getCurrentUserType();
+	const type = authService.getCurrentUserType();
 
 	return(
 		<BrowserRouter>
 			<>
-				<Routes>
+				{/* eslint-disable-next-line react/prop-types */}
+				<Routes >
 					<Route path = "" element={<Dashboard/>} />
-					{/* eslint-disable-next-line react/prop-types */}
-					<Route path = "/login" element={<Login setUser={props.setUser}/>}/>
-					<Route path = "/signup" element={<Signup/>}/>
-					<Route path = "*" element={<ErrorPage/>}/>
 
 					{type === 0 ? (
-						<Route path = "/producer" >
+						// eslint-disable-next-line react/prop-types
+						<Route path = "/producer"   >
 							<Route index element={<ProducerDashboard />}/>
 							<Route path = "add-item" element={<AddItem/>}/>
 							<Route path = ":itemId" element={<ItemView user={type}/>} />
@@ -108,7 +104,6 @@ function AppRouter(props){
 					): type === 2 ?(
 
 						<Route path = "/officer" >
-							<Route index element={<OfficerDashboard />} />
 							<Route path="manageProducers">
 								<Route index element={<ManageProducers/>}/>
 								<Route path = "profile/:user_id">
@@ -119,7 +114,6 @@ function AppRouter(props){
 							</Route>
 
 							<Route path ="supportManagement" element={<SupportRequests/>}/>
-							<Route path ="officerDashboard" element={<OfficerDashboard/>}/>
 
 
 							<Route path = "agriDataManage">
@@ -135,6 +129,13 @@ function AppRouter(props){
 								<Route index element={<ManageAccounts/>}/>
 								<Route path ="addOfficer" element={<AddOfficer />} />
 							</Route>
+						</Route>
+					):type === -1 ?(
+						<Route path = "/auth" >
+							{/* eslint-disable-next-line react/prop-types */}
+							<Route path= "login" element={<Login setUser={props.setUser}/>}/>
+							<Route path = "signup" element={<Signup/>}/>
+							<Route path = "*" element={<ErrorPage/>}/>
 						</Route>
 					):(
 						<Route path = "*" element={<ErrorPage/>}/>
