@@ -12,14 +12,17 @@ import { Alert } from "@mui/material";
 import {Divider} from "@mui/material";
 import SelectInput from "../../components/selectInput/selectInput";
 import TextInput from "../../components/textInput/textInput";
-import {getAllDistricts, getDistrictById} from "../../services/districtServices";
-import {getCropTypes} from "../../services/croptypeServices";
+import {getAllDistricts, getDistrictById, getDistrictByName} from "../../services/districtServices";
+import {getCropByName, getCropTypes} from "../../services/croptypeServices";
 import {addData} from "../../services/agridataServices";
+import * as XLSX from "xlsx";
 
 function AgriDataEntry(){
 
 	// states
 	const [fieldDistrict,setFieldDistrict] = useState();
+	const [errcount,setErrCount] = useState(0);
+	const [fileData,setFileData] = useState([]);
 	const [districts,setDistricts] = useState([]);
 	const [fieldCity,setFieldCity] = useState();
 	const [f_City,setF_City] = useState();
@@ -29,6 +32,10 @@ function AgriDataEntry(){
 	const [year,setYear] = useState();
 	const [error,setError] = useState();
 	const [success,setSuccess] = useState();
+	const [fileerror,setFileError] = useState();
+	const [filesuccess,setFileSuccess] = useState();
+	const [fileerrhidden,setFileErrHidden] = useState(true);
+	const [filesuchidden,setFileSucHidden] = useState(true);
 	const [errhidden,setErrHidden] = useState(true);
 	const [suchidden,setSucHidden] = useState(true);
 
@@ -52,6 +59,73 @@ function AgriDataEntry(){
 	},[]);
 
 	//function
+	async function handleFile(e) {
+		setFileErrHidden(true);
+		setFileSucHidden(true);
+		setErrHidden(true);
+		setSucHidden(true);
+		setErrCount(0);
+		const file = e.target.files[0];
+		const data = await file.arrayBuffer();
+		const workbook = XLSX.read(data);
+
+		const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+		const jsondata = XLSX.utils.sheet_to_json(worksheet);
+
+		const data_list = jsondata.map((agri_data) => ({
+			year: agri_data.Year,
+			cropType: agri_data.Crop_type,
+			cropAmount: agri_data.Amount,
+			district: agri_data.District,
+			city: agri_data.City
+		}));
+
+		setFileData(data_list);
+	}
+	async function handleSubmitFile() {
+		setErrHidden(true);
+		setSucHidden(true);
+		setFileErrHidden(true);
+		setFileSucHidden(true);
+		if(fileData.length === 0){
+			setFileError("Please select a file");
+			setFileErrHidden(false);
+		}
+		else {
+			for (let i = 0; i < fileData.length; i++) {
+				const dist = await getDistrictByName(fileData[i].district);
+				const crop = await getCropByName(fileData[i].cropType);
+
+				if((dist.data[0] === undefined) || (crop.data[0] === undefined) ){
+					setErrCount(1);
+				}
+				else {
+					const district_id = dist.data[0]._id;
+					const crop_id = crop.data[0]._id;
+
+					const agriDataBody = {
+						year:(fileData[i].year).toString(),
+						cropType: crop_id,
+						district: district_id,
+						city: fileData[i].city,
+						cropAmount: fileData[i].cropAmount
+					};
+					postData(agriDataBody);
+
+				}
+
+			}
+			if(errcount !== 0){
+				setFileError("Failed to add some entries!");
+				setFileErrHidden(false);
+			}
+			else {
+				setFileSuccess("Data entries added successfully!");
+				setFileSucHidden(false);
+			}
+		}
+
+	}
 	async function onChange(event) {
 		if (event.target.name === "cropAmount") {
 			setCropAmount(event.target.value);
@@ -67,22 +141,23 @@ function AgriDataEntry(){
 		} else if (event.target.name === "fieldCity") {
 			setFieldCity(event.target.value);
 			setF_City(cityList[event.target.value].name);
-			console.log(cityList[event.target.value].name);
 		} else if (event.target.name === "cropTypes") {
 			setCroptype(event.target.value);
 		} else if (event.target.name === "year") {
 			setYear(event.target.value);
 		}
 		setErrHidden(true);
+		setSucHidden(true);
 	}
 
 	function validateNonEmpty(text){
-		return text !== undefined && text !== "";
+		return text !== "" && text !== undefined;
 	}
 
 	function validateNonEmptyArray(list){
-		return list.length !== 0;
+		return (list !== undefined);
 	}
+
 	function handleCancel(){
 		window.location.assign("/officer/agridatamanage");
 	}
@@ -92,7 +167,9 @@ function AgriDataEntry(){
 	}
 
 	function handleSubmit(){
-		if (!validateNonEmptyArray(cropTypes) || !validateNonEmptyArray(fieldDistrict) || !validateNonEmptyArray(fieldCity) || !validateNonEmpty(cropAmount) || !validateNonEmpty(year) ){
+		setErrHidden(true);
+		setSucHidden(true);
+		if ((!validateNonEmptyArray(croptype)) || (!validateNonEmptyArray(fieldDistrict)) || (!validateNonEmptyArray(fieldCity)) || (!validateNonEmpty(cropAmount)) || (!validateNonEmpty(year)) ){
 			setError("Fill all fields!");
 			setErrHidden(false);
 		}
@@ -168,6 +245,29 @@ function AgriDataEntry(){
 					<Button type="submit" sx={{m:1}} variant="contained" onClick={handleCancel}>Cancel</Button>
 					<Button type="submit" sx={{m:1}} variant="contained" onClick={handleSubmit}>Submit</Button>
 				</Grid>
+
+				<Grid item xs={12}>
+					<Typography variant="h5" m={1}>Add data from file</Typography>
+					<Divider />
+					<Grid item xs={12} hidden={fileerrhidden}>
+						<Alert severity="error" >{fileerror}</Alert>
+					</Grid>
+					<Grid item xs={12} hidden={filesuchidden}>
+						<Alert severity="success">{filesuccess}</Alert>
+					</Grid>
+					<Paper variant="elevation" elevation={3}>
+						<Grid container mt={2} spacing={2} padding={2}>
+							<Grid item xs={6} >
+								{/* eslint-disable-next-line react/prop-types */}
+								<input type="file" onChange={(e)=> handleFile(e)}/>
+							</Grid>
+							<Grid item xs={6} mt={1} align="right">
+								<Button type="submit" sx={{m:1, marginTop:-2}} variant="contained" onClick={handleSubmitFile}>Submit</Button>
+							</Grid>
+						</Grid>
+					</Paper>
+				</Grid>
+
 			</Grid>
 		</Container>
 
