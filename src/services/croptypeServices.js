@@ -16,3 +16,7 @@ export function getCropById(cropId){
 	const cropData = Axios.get(`${apiEndpoint}/${cropId}`);
 	return cropData;
 }
+export function getCropByName(cropName){
+	const cropData = Axios.get(`${apiEndpoint}/getCropByName/${cropName}`);
+	return cropData;
+}
