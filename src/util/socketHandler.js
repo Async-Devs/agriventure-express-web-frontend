@@ -7,14 +7,11 @@ async function getSocketUrl(){
 }
 
 async function startSocket(){
-	const socketUrl = await getSocketUrl(); // env Issue
-	console.log("SocketURL - ", socketUrl);
+	const socketUrl = await getSocketUrl();
 	const socket = io(socketUrl);
-	socket.on("connect", ()=>{
-		console.log("Connected", socket.id);
-	});
 	return socket;
 }
+
 const socketHandler = {
 	startSocket
 };

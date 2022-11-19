@@ -20,3 +20,11 @@ export function getDistrictById(districtId){
 	});
 	return districtData;
 }
+
+export function getDistrictByName(districtName){
+	const district = Axios.get(`${apiEndpoint}/guestUsers/getDistrictByName/${districtName}`, {
+		headers: { "x-auth-token": authService.getCurrentUser()
+		}
+	});
+	return district;
+}

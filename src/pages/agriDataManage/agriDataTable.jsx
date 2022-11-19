@@ -5,7 +5,12 @@ import CustomTable from "../../components/customTable/customTable";
 import {CircularProgress} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import {useEffect, useState} from "react";
-import {deleteData, getAgriData} from "../../services/agridataServices";
+import {getAgriData, deleteData} from "../../services/agridataServices";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogActions from "@mui/material/DialogActions";
+import Dialog from "@mui/material/Dialog";
 
 function deleteAgriData(id) {
 	deleteData(id);
@@ -13,6 +18,21 @@ function deleteAgriData(id) {
 
 function agriDataTable(){
 	//Documentation => https://mui.com/x/react-data-grid/column-definition/
+	const [open, setOpen] = React.useState(false);
+	const [id, setId] = React.useState();
+
+	function handleClickOpen(){
+		setOpen(true);
+	}
+
+	const handleClose = () => {
+		setOpen(false);
+		console.log(open);
+	};
+	const handleDelete = () => {
+		deleteAgriData(id);
+		setOpen(false);
+	};
 
 	const [agriDataList,setAgriDataList] = useState([]);
 	const [isLoading,setIsLoading] = useState(true);
@@ -26,7 +46,7 @@ function agriDataTable(){
 		getAgriDataList();
 
 		setIsLoading(false);
-	},[]);
+	},[agriDataList]);
 
 	const columns = [
 		{ field: "id", headerName: "ID", width: 150 },
@@ -42,13 +62,16 @@ function agriDataTable(){
 			align: "right",
 			headerAlign: "center",
 			renderCell: (params) => (
-				<Button onClick={()=>{deleteAgriData(params.id);}}
-					color={"primary"}
-					disableFocusRipple={true}
-					variant="outlined"
-					size="small"
-					style={{ marginLeft: 10 }}
-					tabIndex={params.hasFocus ? 0 : -1}
+				<Button onClick={()=>{
+					setId(params.id);
+					handleClickOpen();
+				}}
+				color={"primary"}
+				disableFocusRipple={true}
+				variant="outlined"
+				size="small"
+				style={{ marginLeft: 10 }}
+				tabIndex={params.hasFocus ? 0 : -1}
 				>Delete</Button>
 			)
 		}
@@ -68,6 +91,28 @@ function agriDataTable(){
 				<div>
 
 					<CustomTable rows = {agriData} columns = {columns} enableCheckBox={true}/>
+
+					<Dialog
+						open={open}
+						onClose={handleClose}
+						aria-labelledby="alert-dialog-title"
+						aria-describedby="alert-dialog-description"
+					>
+						<DialogTitle id="alert-dialog-title">
+							{"Delete this data entry?"}
+						</DialogTitle>
+						<DialogContent>
+							<DialogContentText id="alert-dialog-description">
+								Are you sure you want to delete this entry. Deleting this will remove the data entry from the database and you cannot retreive it.
+							</DialogContentText>
+						</DialogContent>
+						<DialogActions>
+							<Button onClick={handleClose}>No</Button>
+							<Button onClick={handleDelete} autoFocus>
+								Yes
+							</Button>
+						</DialogActions>
+					</Dialog>
 				</div>
 			)}
 		</div>

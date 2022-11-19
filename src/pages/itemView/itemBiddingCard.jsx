@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
 	Button,
 	Dialog,
@@ -13,9 +13,12 @@ import CountdownTimer from "../../components/countdownTimer/countdownTimer";
 import BidTable from "./bidTable";
 import _ from "lodash";
 import PropTypes from "prop-types";
-import {setBidForItem} from "../../services/itemServices";
+import {buyerSetBidForItem} from "../../services/itemServices";
 import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
+import socketHandler from "../../util/socketHandler";
+import moment from "moment";
+import authService from "../../services/auth.service";
 
 function ItemBiddingCard(props){
 	const { endTime, bidArray, minimumBid, itemId, bidStep } = props.biddingData;
@@ -24,6 +27,92 @@ function ItemBiddingCard(props){
 	const [ error, setError ] = useState(false);
 	const [open, setOpen] = React.useState(false);
 
+	const [pageSocket, setPageSocket] = useState(null);
+	const [bidEntries, setBidEntries] = useState(bidArray);
+	const [tick, setTick] = useState(0);
+	// eslint-disable-next-line no-unused-vars
+	const [pageMode, setPageMode] = useState(false); // false: normal mode, true: socket mod
+
+	// 1 s server side polling to check time
+	useEffect(()=>{
+		if(endTime){
+			const currentTimeMili = moment().unix();
+			const endTimeMili = moment(endTime).unix();
+			console.log(currentTimeMili+900> endTimeMili);
+			// Pagemode changes here
+			if(currentTimeMili+900>endTimeMili){
+				setPageMode(true);
+			}else{
+				setPageMode(false);
+			}
+		}
+	},[tick]);
+
+	//Initialize Socket
+	useEffect(()=>{
+		const fetchSocket = async ()=>{
+			const so = await socketHandler.startSocket();
+			setPageSocket(so);
+		};
+		fetchSocket();
+	},[]);
+
+	//The Tick Socket
+	useEffect(()=>{
+		if(pageSocket){
+			pageSocket.emit("tick",{
+				itemListing: itemId
+			});
+
+			//Recieve Tick
+			pageSocket.on("message", (data)=>{
+				setTick(data);
+			});
+		}
+	},[pageSocket]);
+
+	//The Bid placement socket connection
+	useEffect(()=>{
+		if(pageSocket && pageMode){
+
+			//Recieve Data
+			pageSocket.on("receive_bid_update", (data)=>{
+				console.log(data);
+				setBidEntries(data.bidData);
+			});
+
+			//Post Data
+			pageSocket.emit("join_listing", { itemListing: itemId});
+		}
+	},[pageSocket, pageMode]);
+
+
+	//Bid Submission in Socket mode
+	const socketModeBidPlacement = async ()=>{
+		const dataObject = { itemId: itemId, userId: authService.getCurrentUserId(), bidValue: bidValue };
+		await pageSocket.emit("place_bid", dataObject);
+	};
+
+	//Bid Submission in Normal mode
+	const normalModeBidPlacement = async ()=>{
+		const dataObject = { itemId: itemId, userId: authService.getCurrentUserId(), bidValue: bidValue };
+		await buyerSetBidForItem(itemId, dataObject);
+	};
+
+	// Bid Mode Decider
+	async function submitMethodDecider(){
+		let result = false;
+		if(pageMode){
+			result = await socketModeBidPlacement();
+		}else{
+			result = await  normalModeBidPlacement();
+		}
+
+		return result;
+	}
+
+
+	// Popup after Front end validation
 	const handleClickOpen = () => {
 		if (bidValue<=lastBid+bidStep){
 			setError(true);
@@ -33,10 +122,12 @@ function ItemBiddingCard(props){
 		setOpen(true);
 	};
 
+	// close pop up without submission
 	const handleClose = () => {
 		setOpen(false);
 	};
 
+	// Bid input change
 	function handleBidChange(event){
 		let newValue = event.target.value;
 		console.log(newValue);
@@ -48,10 +139,15 @@ function ItemBiddingCard(props){
 		}
 	}
 
+	// Bid submission on click confirm
 	const handleSubmit=async ()=>{
-		setLastBid(bidValue);
-		const dataObject = { itemId: itemId, userId: 0, bidValue: bidValue };
-		await setBidForItem(itemId, dataObject);
+		const res = await submitMethodDecider();
+		if (res){
+			setLastBid(bidValue);
+			console.log("SUCCESS");
+			return;
+		}
+		console.log("Error BID PLACEMENT");
 		// Add Submitted Alert Here or Error
 	};
 
@@ -70,7 +166,7 @@ function ItemBiddingCard(props){
 				</DialogTitle>
 				<DialogContent>
 					<DialogContentText id="alert-dialog-description">
-						You are about to place a bid of amount {Intl.NumberFormat("si", { style: "currency", currency: "LKR" }).format(bidValue) }. Please verify the amount before submitting. You may have to contact the seller through customer support to undo this action.
+						You are about to place a bid of amount {Intl.NumberFormat("en", { style: "currency", currency: "LKR" }).format(bidValue) }. Please verify the amount before submitting. You may have to contact the seller through customer support to undo this action.
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
@@ -82,7 +178,7 @@ function ItemBiddingCard(props){
 			</Dialog>
 		);
 	};
-	console.log(props.user);
+
 	return(
 		<Grid item container direction={"column"} justifyContent={"flex-end"} alignItems={"stretch"} spacing={2} >
 			<Grid item container justifyContent={"left"} mt={2}>
@@ -125,14 +221,14 @@ function ItemBiddingCard(props){
 			<Grid item container justifyContent={"center"} mt={2}>
 				<Grid item xs={12}>
 					<Typography variant={"h6"} color={"green"} fontWeight={"bold"}>
-								Last bid : {Intl.NumberFormat("si", { style: "currency", currency: "LKR" }).format(lastBid) }
+								Last bid : {Intl.NumberFormat("en", { style: "currency", currency: "LKR" }).format(lastBid) }
 					</Typography>
 				</Grid>
 			</Grid>
 			<Grid item  container justifyContent={"center"} mt={2}>
 				<Grid item xs={12}>
 					<Typography variant={"h7"}  fontWeight={"bold"}>
-								Starting bid : {Intl.NumberFormat("si", { style: "currency", currency: "LKR" }).format(minimumBid) }
+								Starting bid : {Intl.NumberFormat("en", { style: "currency", currency: "LKR" }).format(minimumBid) }
 					</Typography>
 				</Grid>
 			</Grid>
@@ -153,7 +249,7 @@ function ItemBiddingCard(props){
 							<FormControl fullWidth>
 								<TextField
 									type={"number"}
-									helperText={`Enter Bid amount greater than ${Intl.NumberFormat("si", { style: "currency", currency: "LKR" }).format(lastBid+bidStep)}`}
+									helperText={`Enter Bid amount greater than ${Intl.NumberFormat("en", { style: "currency", currency: "LKR" }).format(lastBid+bidStep)}`}
 									error={error}
 									name="bidValue"
 									label="Bid Value"
@@ -173,7 +269,7 @@ function ItemBiddingCard(props){
 			}
 			<Grid item container justifyContent={"center"} mt={2}>
 				<Grid item xs={12}>
-					<BidTable bidderArray={bidArray} user={props.user}/>
+					<BidTable bidderArray={bidEntries} user={props.user}/>
 				</Grid>
 			</Grid>
 			{bidConfirmPopup()}
