@@ -5,6 +5,7 @@ import authService from "./auth.service";
 const apiUrl = process.env.REACT_APP_API_URL;
 const apiEndpoint = apiUrl + "/items";
 const apiEndpointProducer = apiUrl + "/producerUsers/items";
+const apiEndpointBuyer = apiUrl + "/buyerUsers/items";
 
 export function getAllItems(){
 	const items = Axios.get(`${apiEndpoint}`);
@@ -23,8 +24,14 @@ export function getItemById(itemId){
 	return itemData;
 }
 
-export function setBidForItem(itemId, data){
-	const itemData = Axios.put(`${apiEndpoint}/set-bid/${itemId}`, {data});
+export function buyerSetBidForItem(itemId, data){
+	const itemData = Axios.put(
+		`${apiEndpointBuyer}/set-bid/${itemId}`,
+		{data},
+		{
+			headers: { "x-auth-token": authService.getCurrentUser()}
+		}
+	);
 	return itemData;
 }
 
