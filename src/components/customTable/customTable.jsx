@@ -1,6 +1,7 @@
 import * as React from "react";
 import {DataGrid, GridToolbar} from "@mui/x-data-grid";
 import PropTypes from "prop-types";
+import {Grid, Typography} from "@mui/material";
 
 /**
  * CustomTable component.
@@ -14,12 +15,33 @@ function CustomTable(props) {
 	const {rows, columns, enableSelectionOnRowClick, enableCheckBox, disableToolBar, preSortUsing} = props;
 
 	function NoRowsOverlay() {
+		if(!props.customNoRowsOverlay){
+			return(
+				<Grid item align="center"  xs={12} minHeight={1200}>
+					<Typography variant={"h5"}>
+						No Items Available
+					</Typography>
+					<img height={250} src={"https://www.creativefabrica.com/wp-content/uploads/2021/01/04/Mustard-Sad-Vegetable-Cute-Kawaii-Graphics-7557389-1.jpg"}/>
+				</Grid>
+			);
+		}
 		return(
 			props.customNoRowsOverlay
 		);
+
 	}
 
 	function NoResultsOverlay() {
+		if(!props.customNoResultsOverlay){
+			return(
+				<Grid item align="center"  xs={12} minHeight={1200}>
+					<Typography variant={"h5"}>
+						No Results
+					</Typography>
+					<img height={250} src={"https://www.creativefabrica.com/wp-content/uploads/2021/01/04/Mustard-Kiss-Vegetable-Cute-Kawaii-Graphics-7558057-1-580x387.jpg"}/>
+				</Grid>
+			);
+		}
 		return(
 			props.customNoResultsOverlay
 		);
