@@ -14,13 +14,13 @@ function App() {
 	return (
 
 		<ThemeProvider theme={theme}>
-			<div className="App" data-testid={"App"}>
-				<Grid container spacing={2}>
-					<Grid item xs={12}>
-						<Sidebar refresh={refresh} setRefresh={setRefresh}/>
+			<div className="App" >
+				<Grid container spacing={2} data-testid={"App"}>
+					<Grid item xs={12} data-testid={"Sidebar"}>
+						<Sidebar refresh={refresh} setRefresh={setRefresh} />
 					</Grid>
-					<Grid item xs={12}>
-						<AppRouter refresh={refresh} setRefresh={setRefresh}/>
+					<Grid item xs={12} data-testid={"Router"}>
+						<AppRouter refresh={refresh} setRefresh={setRefresh} />
 					</Grid>
 					<Grid item xs={12}>
 						<Footer />

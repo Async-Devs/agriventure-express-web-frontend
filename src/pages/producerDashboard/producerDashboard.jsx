@@ -7,9 +7,8 @@ import {CircularProgress, Divider} from "@mui/material";
 import ProducerItems from "./producerItems";
 import ProducerSales from "./producerSales";
 import authService from "../../services/auth.service";
-import {Link} from "react-router-dom";
-import Button from "@mui/material/Button";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import {LinkedButtonRound} from "../../components/button/button";
 
 function ProducerDashboard(){
 	// eslint-disable-next-line no-unused-vars
@@ -42,6 +41,14 @@ function ProducerDashboard(){
 		}
 	}
 
+	function renderAddItemButton(){
+		return(
+			<>
+				<AddCircleIcon /> Add New Listing
+			</>
+		);
+	}
+
 	return(
 		<Container >
 			<Grid container align={"center"}>
@@ -50,12 +57,8 @@ function ProducerDashboard(){
 					<hr />
 				</Grid>
 
-				<Grid item xs={12}>
-					<Link to={"add-item"}  style={{ textDecoration: "none" }}>
-						<Button variant="outlined" color="primary" startIcon={<AddCircleIcon />} sx={{m: "5px"}}>
-							Add New Item
-						</Button>
-					</Link>
+				<Grid item xs={12} p={2} textAlign={"right"}>
+					<LinkedButtonRound href={"add-item"} content={renderAddItemButton()}/>
 				</Grid>
 
 				<Grid item xs={12}>

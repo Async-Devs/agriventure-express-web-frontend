@@ -11,9 +11,10 @@ import AddressForm from "./addressForm";
 import PaymentForm from "./paymentForm";
 import Review from "./review";
 import {LinkedButton} from "../../components/button/button";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import WarningIcon from "@mui/icons-material/Warning";
 import {Stack} from "@mui/material";
+import PropTypes from "prop-types";
 
 const steps = ["Shipping address", "Payment details", "Review your order"];
 
@@ -76,7 +77,7 @@ function getStepContent(
 	}
 }
 
-export default function Checkout() {
+export default function Checkout(props) {
 	const [firstname, setFirstname] = useState("");
 	const [lastname, setLastname] = useState("");
 	const [addressLn1, setAddressLn1] = useState("");
@@ -90,7 +91,14 @@ export default function Checkout() {
 	const [expireDate, setExpireDate] = useState("");
 	const [cvv, setCvv] = useState("");
 
+	const [order, setOrder] = useState(null);
 
+	useEffect(()=>{
+		setOrder(props.order);
+		if(order!=null){
+			console.log(order);
+		}
+	}, [props.order]);
 
 	const [activeStep, setActiveStep] = React.useState(0);
 
@@ -181,3 +189,7 @@ export default function Checkout() {
 		</Container>
 	);
 }
+
+Checkout.propTypes = {
+	order: PropTypes.object
+};
