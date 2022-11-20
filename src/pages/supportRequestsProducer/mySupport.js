@@ -62,7 +62,7 @@ function MySupport() {
 
 
 	return (
-		<Grid container>
+		<Grid container height={1000}>
 			{isLoading ? (
 				<Grid item align="center">
 					<CircularProgress />
