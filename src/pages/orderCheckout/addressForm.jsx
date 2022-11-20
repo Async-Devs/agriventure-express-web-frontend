@@ -2,8 +2,23 @@ import * as React from "react";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
+import PropTypes from "prop-types";
+import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
+import {useEffect, useState} from "react";
+import {getAllDistricts} from "../../services/districtServices";
 
-export default function AddressForm() {
+export default function AddressForm(props) {
+	const [districtArray, setDistrictArray] = useState([]);
+	useEffect( () => {
+		async function fetchData() {
+			const {data} = await getAllDistricts();
+			setDistrictArray(data.districtList);
+		}
+		fetchData();
+	},[]);
+	const handleChangeDistrict = (event) => {
+		props.setDistrict(event.target.value);
+	};
 	return (
 		<React.Fragment>
 			<Typography variant="h6" gutterBottom>
@@ -19,6 +34,14 @@ export default function AddressForm() {
 						fullWidth
 						autoComplete="given-name"
 						variant="standard"
+						value={props.firstname}
+						onChange={(event)=>{
+							const input = event.target.value;
+							if(input.length<25){
+								props.setFirstname(event.target.value);
+							}
+						}}
+
 					/>
 				</Grid>
 				<Grid item xs={12} sm={6}>
@@ -30,6 +53,13 @@ export default function AddressForm() {
 						fullWidth
 						autoComplete="family-name"
 						variant="standard"
+						value={props.lastname}
+						onChange={(event)=>{
+							const input = event.target.value;
+							if(input.length<25){
+								props.setLastname(event.target.value);
+							}
+						}}
 					/>
 				</Grid>
 				<Grid item xs={12}>
@@ -41,6 +71,13 @@ export default function AddressForm() {
 						fullWidth
 						autoComplete="shipping address-line1"
 						variant="standard"
+						value={props.addressLn1}
+						onChange={(event)=>{
+							const input = event.target.value;
+							if(input.length<200){
+								props.setAddressLn1(event.target.value);
+							}
+						}}
 					/>
 				</Grid>
 				<Grid item xs={12}>
@@ -51,6 +88,13 @@ export default function AddressForm() {
 						fullWidth
 						autoComplete="shipping address-line2"
 						variant="standard"
+						value={props.addressLn2}
+						onChange={(event)=>{
+							const input = event.target.value;
+							if(input.length<500){
+								props.setAddressLn2(event.target.value);
+							}
+						}}
 					/>
 				</Grid>
 				<Grid item xs={12} sm={6}>
@@ -62,16 +106,34 @@ export default function AddressForm() {
 						fullWidth
 						autoComplete="shipping address-level2"
 						variant="standard"
+						value={props.city}
+						onChange={(event)=>{
+							const input = event.target.value;
+							if(input.length<40){
+								props.setCity(event.target.value);
+							}
+						}}
 					/>
 				</Grid>
 				<Grid item xs={12} sm={6}>
-					<TextField
-						id="state"
-						name="state"
-						label="State/Province/Region"
-						fullWidth
-						variant="standard"
-					/>
+					<FormControl fullWidth>
+						<InputLabel required={true} id="demo-simple-select-label">District</InputLabel>
+						<Select
+							labelId="demo-simple-select-label"
+							variant="standard"
+							id="demo-simple-select"
+							value={props.district}
+							label="District"
+							onChange={handleChangeDistrict}
+							MenuProps={{ PaperProps: { sx: { maxHeight: 150 } } }}
+						>
+							{districtArray!=[]?districtArray.map((element)=>{
+								return(
+									<MenuItem key={element.name} value={element}>{element.name}</MenuItem>
+								);
+							}):""}
+						</Select>
+					</FormControl>
 				</Grid>
 				<Grid item xs={12} sm={6} >
 					<TextField
@@ -82,9 +144,33 @@ export default function AddressForm() {
 						fullWidth
 						autoComplete="shipping postal-code"
 						variant="standard"
+						value={props.zipCode}
+						onChange={(event)=>{
+							const input = event.target.value;
+							if(input.length<6){
+								props.setZipCode(event.target.value);
+							}
+						}}
 					/>
 				</Grid>
 			</Grid>
 		</React.Fragment>
 	);
 }
+
+AddressForm.propTypes = {
+	firstname: PropTypes.string.isRequired,
+	setFirstname: PropTypes.func.isRequired,
+	lastname: PropTypes.string.isRequired,
+	setLastname: PropTypes.func.isRequired,
+	addressLn1: PropTypes.string.isRequired,
+	setAddressLn1: PropTypes.func.isRequired,
+	addressLn2: PropTypes.string,
+	setAddressLn2: PropTypes.func.isRequired,
+	city: PropTypes.string.isRequired,
+	setCity: PropTypes.func.isRequired,
+	district: PropTypes.string.isRequired,
+	setDistrict: PropTypes.func.isRequired,
+	zipCode: PropTypes.string.isRequired,
+	setZipCode: PropTypes.func.isRequired
+};
