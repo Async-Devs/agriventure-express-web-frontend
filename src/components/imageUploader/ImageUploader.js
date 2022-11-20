@@ -8,6 +8,8 @@ import UploadFileIcon from "@mui/icons-material/UploadFile";
 import Axios from "axios";
 import authService from "../../services/auth.service";
 import CardMedia from "@mui/material/CardMedia";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import EditIcon from "@mui/icons-material/Edit";
 
 function ImageUploader(props){
 	const [picture,setPicture] = useState();
@@ -68,7 +70,7 @@ function ImageUploader(props){
 				/>
 			</Grid>
 
-			<Grid item xs={12} hidden={props.isCircular} width={"100%"}>
+			<Grid item xs={12} hidden={props.isCircular}>
 				<Card>
 					<CardMedia
 						component="img"
@@ -78,17 +80,43 @@ function ImageUploader(props){
 					/>
 				</Card>
 			</Grid>
-
-			<Grid item xs={12} md={5} hidden={showProgress}>
-				<Button variant="outlined" component="label" sx={{mt:"5px"}} startIcon={<CameraAltIcon />}>
-					Edit
-					<input onChange={hanldeChange}  hidden accept="image/*" multiple type="file" />
-				</Button>
-			</Grid>
-			<Grid item xs={12} md={5} hidden={!isChanged || showProgress}>
-				<Button onClick={handleUpload} variant="outlined"  sx={{mt:"5px"}} startIcon={< UploadFileIcon/>}>
-					Update Picture
-				</Button>
+			<Grid item container justifyContent={"center"} textAlign={"center"}>
+				<Grid item xs={6} md={5} hidden={showProgress} m={1}>
+					{props.isAddItem?
+						( url?(
+							<Button
+								variant="contained"
+								component="label" sx={{mt: "5px", color: "white"}}
+								startIcon={<CloudUploadIcon/>}
+								color={"primary"}>
+							Edit
+								<input onChange={hanldeChange} hidden accept="image/*" multiple type="file"/>
+							</Button>):
+							(<Button
+								variant="contained"
+								component="label" sx={{mt: "5px", color: "white"}}
+								startIcon={<CloudUploadIcon/>}
+								color={"primary"}>
+									Upload
+								<input onChange={hanldeChange} hidden accept="image/*" multiple type="file"/>
+							</Button>)
+						):
+						(<Button variant="outlined" component="label" sx={{mt: "5px"}} startIcon={<CameraAltIcon/>}>
+						Edit
+							<input onChange={hanldeChange} hidden accept="image/*" multiple type="file"/>
+						</Button>)
+					}
+				</Grid>
+				<Grid item xs={6} md={5} hidden={!isChanged || showProgress} m={1}>
+					{props.isAddItem?
+						(<Button onClick={handleUpload} variant="contained"  sx={{mt:"5px", color:"white"}} startIcon={<EditIcon/>}>
+						Edit Picture
+						</Button>):
+						(<Button onClick={handleUpload} variant="outlined"  sx={{mt:"5px"}} startIcon={<UploadFileIcon/>}>
+						Update Picture
+						</Button>)
+					}
+				</Grid>
 			</Grid>
 
 			<Grid item xs={12} hidden={!showProgress}>
@@ -110,7 +138,8 @@ ImageUploader.propTypes ={
 	width: PropTypes.number, // width of preview
 	height: PropTypes.number, //height of preview
 	imageURL: PropTypes.string, //provide a state() as this prop. after uploading the image, this state will get the value of the image url
-	setImageURL: PropTypes.func //set state method for above state
+	setImageURL: PropTypes.func, //set state method for above state
+	isAddItem: PropTypes.bool // Component at add item
 
 };
 
