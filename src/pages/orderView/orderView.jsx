@@ -9,8 +9,9 @@ import {
 } from "@mui/material";
 import Button from "@mui/material/Button";
 import RefundRequest from "../../components/refundRequest/refundRequest";
+// eslint-disable-next-line no-unused-vars
 import {Link, useParams} from "react-router-dom";
-import SaveButton from "../../components/button/button";
+import SaveButton, {LinkedButtonRound} from "../../components/button/button";
 import {getOrderByIdForPublicUser, updateOrderDeliveryStatus} from "../../services/orderServices";
 import authService from "../../services/auth.service";
 // import {Alert} from "@mui/lab";
@@ -256,23 +257,91 @@ function OrderView(){
 		if(authService.getCurrentUserType()==0){
 			return(
 				<ButtonGroup variant="outlined" aria-label="outlined button group" item xs={4}>
-					<Button onClick={handleChatOpen}variant={"contained"}>Chat</Button>
-					<SaveButton onClick={handleClickOpenConfirmation} variant={"contained"}/>
+					<Button
+						onClick={handleChatOpen}
+						variant={"contained"}
+						color={"info"}
+						sx={
+							{
+								textDecoration: "inherit",
+								color:"white",
+								fontWeight:"bold",
+								borderRadius: "100px"
+							}
+						}
+					>Chat</Button>
+					<SaveButton
+						onClick={handleClickOpenConfirmation}
+						variant={"contained"}
+						sx={
+							{
+								textDecoration: "inherit",
+								color:"white",
+								fontWeight:"bold",
+								borderRadius: "100px"
+							}
+						}
+					/>
 				</ButtonGroup>
 			);
 		}
 		else if(authService.getCurrentUserType()==1){
 			return (
 				<ButtonGroup variant="outlined" aria-label="outlined button group" item xs={4}>
-					<Button onClick={handleChatOpen} variant={"contained"} color={"primary"}>Chat</Button>
+					<Button
+						onClick={handleChatOpen}
+						variant={"contained"}
+						color={"info"}
+						sx={
+							{
+								textDecoration: "inherit",
+								color:"white",
+								fontWeight:"bold",
+								borderRadius: "100px"
+							}}
+					>Chat</Button>
 					{refundRequest.isBuyerRead  === false? (
-						<Button onClick={onClickRefund} startIcon={<NotificationsActiveIcon />}>Refund Request</Button>
+						<Button
+							onClick={onClickRefund}
+							startIcon={<NotificationsActiveIcon />}
+							variant={"contained"}
+							sx={
+								{
+									textDecoration: "inherit",
+									color:"white",
+									fontWeight:"bold",
+									borderRadius: "100px"
+								}}
+						>Refund Request</Button>
 					):(
-						<Button onClick={onClickRefund} >Refund Request</Button>
+						<Button
+							onClick={onClickRefund}
+							variant={"contained"}
+							sx={
+								{
+									textDecoration: "inherit",
+									color:"white",
+									fontWeight:"bold",
+									borderRadius: "100px"
+								}}
+						>Refund Request</Button>
 					)}
-					<Link to={".."} style={{textDecoration: "inherit"}}>
-						<Button sx={{textDecoration: "inherit"}} >Cancel</Button>
-					</Link>
+
+					<Button
+						sx={
+							{
+								textDecoration: "inherit",
+								color:"white",
+								fontWeight:"bold",
+								borderRadius: "100px"
+							}
+						}
+						variant={"contained"}
+						onClick={()=>{
+							window.location.assign("/buyer/buy-menu");
+						}}
+					>Cancel</Button>
+
 				</ButtonGroup>
 			);
 		}
@@ -415,11 +484,28 @@ function OrderView(){
 											Payment status
 											</Typography>
 										</Grid>
-										<Grid container item xs={12} alignItems="center" justifyContent={"left"}>
-											<Typography gutterBottom variant="h6" component="div">
-												{order.payment_status}
-											</Typography>
-										</Grid>
+										{order.payment_status==="PENDING"&&authService.getCurrentUserType()==1?
+											(<Grid item xs={12} container>
+												<Grid container item xs={6} alignItems="center" justifyContent={"left"}>
+													<Typography gutterBottom variant="h6" component="div">
+														{order.payment_status}
+													</Typography>
+												</Grid>
+												<Grid container item xs={6} alignItems="center" justifyContent={"left"}>
+													<LinkedButtonRound
+														href={`/buyer/buy-menu/checkout/${orderId}`}
+														color={"warning"}
+														content={"Make Payment"}/>
+												</Grid>
+											</Grid>):
+											(<Grid item xs={12} container>
+												<Grid container item xs={6} alignItems="center" justifyContent={"left"}>
+													<Typography gutterBottom variant="h6" component="div">
+														{order.payment_status}
+													</Typography>
+												</Grid>
+											</Grid>)
+										}
 									</Grid>
 								</Grid>
 							</Box>
@@ -515,7 +601,7 @@ function OrderView(){
 								dialogTitle={renderChat("title")}
 							/>
 							{renderActions()}
-							<Grid container item xs={10} mt={5}>
+							<Grid container item xs={12} mt={5} justifyContent={"center"}>
 								{renderButtons()}
 							</Grid>
 							<RefundRequest open={open} handleSubmit={handleSubmit} handleClose={handleClose} onChange={onChange} body={refundBody} value={refundValue}/>
