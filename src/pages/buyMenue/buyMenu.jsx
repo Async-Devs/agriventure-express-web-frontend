@@ -22,7 +22,6 @@ function BuyMenu(){
 	async function getOrders(){
 		const userType = authService.getCurrentUserType();
 		const userId = authService.getCurrentUserId();
-		console.log(userType);
 		if(userType==1){
 			const {data} = await getAllOrdersForBuyer(userId);
 			setOrderArray(data);
@@ -59,7 +58,6 @@ function BuyMenu(){
 		);
 	}
 
-	console.log(orderArray);
 	return(
 		<Grid container justifyContent={"center"} p={5}>
 			<Grid item container spacing={5} p={4} xs={12} minHeight={1000}>
