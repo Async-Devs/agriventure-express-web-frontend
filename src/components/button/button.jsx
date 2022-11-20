@@ -33,7 +33,7 @@ export function LinkedButtonRound(props){
 						borderRadius: "100px"
 					}
 				}
-				color={"primary"}>
+				color={props.color?props.color:"primary"}>
 				{props.content}
 			</Button>
 		</Link>
@@ -53,7 +53,8 @@ LinkedButtonRound.propTypes = {
 	/** The href is the path that the button directs to*/
 	href: PropTypes.string.isRequired,
 	/** The content is the Button Name */
-	content: PropTypes.string
+	content: PropTypes.string,
+	color: PropTypes.string
 };
 SaveButton.propTypes = {
 	onClick: PropTypes.func,

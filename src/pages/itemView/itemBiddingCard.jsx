@@ -268,7 +268,7 @@ function ItemBiddingCard(props){
 					</Grid>
 					<Grid item container justifyContent={"center"} mt={2}>
 						<Grid item xs={12}>
-							<Button variant={"contained"} color={"warning"} onClick={handleClickOpen}>Place Bid</Button>
+							<Button variant={"contained"} color={"warning"} onClick={handleClickOpen} disabled={moment().unix()>moment(endTime).unix()}>Place Bid</Button>
 						</Grid>
 					</Grid>
 				</Grid>):

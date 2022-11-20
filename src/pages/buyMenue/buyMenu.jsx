@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {CircularProgress, Grid} from "@mui/material";
+import {CircularProgress, Grid, Typography} from "@mui/material";
 import BuyMenuTable from "./buyMenuTable";
 import {getAllOrders, getAllOrdersForBuyer, getAllOrdersForProducer} from "../../services/orderServices";
 import authService from "../../services/auth.service";
@@ -59,8 +59,13 @@ function BuyMenu(){
 	}
 
 	return(
-		<Grid container justifyContent={"center"} p={5}>
-			<Grid item container spacing={5} p={4} xs={12} minHeight={1000}>
+		<Grid container justifyContent={"center"} direction={"column"} spacing={3}>
+			<Grid item xs={12} mt={3}>
+				<Typography variant={"h3"} textAlign={"center"}>
+					MY ORDERS
+				</Typography>
+			</Grid>
+			<Grid item xs={12} minHeight={1000}>
 				{renderMain()}
 			</Grid>
 		</Grid>
