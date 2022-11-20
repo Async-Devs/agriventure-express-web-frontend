@@ -66,7 +66,7 @@ function BuyMenu(){
 					MY ORDERS
 				</Typography>
 			</Grid>
-			<Grid item xs={12} minHeight={1000}>
+			<Grid item xs={12} minHeight={1000} data-testid={"BuyMenu"}>
 				{renderMain()}
 			</Grid>
 		</Grid>
