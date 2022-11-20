@@ -14,7 +14,7 @@
 
 ## Description:
 
-In this project user can view agriculture data of the country, add agriculture data to the system. Also there is a marketplace for agriculture products where buyers can bid for crop yeilds.
+In this project user can view agriculture data of the country, add agriculture data to the system. This data adding is done by officer. These data is provided by farmers in the country. Officers can add farmers to the system. Also there is a marketplace for agriculture products. These products are added to the marketplace by producers in the system with a minimum bid value. In order to bid for these products, a user has to sign up as a buyer.
 
 ## Prerequisites:
 
