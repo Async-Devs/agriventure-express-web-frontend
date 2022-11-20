@@ -5,7 +5,7 @@ import {LinkedButtonRound} from "../../components/button/button";
 import moment from "moment";
 
 function MarketplaceCard(props){
-	const {imgSrc, itemName, minBid, quantity, itemId, city, endTime} = props;
+	const {imgSrc, itemName, minBid, quantity, itemId, city, endTime, crop} = props;
 	const currentTime = moment().unix();
 	const endTimeInUnix = moment(endTime).unix();
 	return(
@@ -33,6 +33,11 @@ function MarketplaceCard(props){
 						<Grid item xs={12} mt={1}>
 							<Typography variant={"h5"} align={"center"}>
 								{itemName}
+							</Typography>
+						</Grid>
+						<Grid item xs={12} mt={1} mb={1}>
+							<Typography variant={"body1"} align={"center"} fontWeight={"bold"}>
+								Crop Type : {crop}
 							</Typography>
 						</Grid>
 						<Grid item xs={12} mt={1} mb={1}>
@@ -79,7 +84,8 @@ MarketplaceCard.propTypes = {
 	minBid: PropTypes.number.isRequired,
 	quantity: PropTypes.number.isRequired,
 	itemId: PropTypes.string.isRequired,
-	endTime: PropTypes.any
+	endTime: PropTypes.any,
+	crop: PropTypes.string
 };
 
 export default MarketplaceCard;
