@@ -48,7 +48,7 @@ function RefundRequests() {
 				<Typography variant="h2"><b>REFUND REQUESTS</b></Typography>
 				<Typography variant="body2">Make sure to handle refund requests before the refund deadline.</Typography>
 			</Grid>
-			<Grid item xs={12} ml={2} align="center">
+			<Grid item xs={12} ml={2} align="center" height={1000}>
 				<Box sx={{ width: "100%", maxWidth:"sm", typography: "body1" }}>
 					<TabContext value={value}>
 						<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
