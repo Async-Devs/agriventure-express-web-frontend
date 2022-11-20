@@ -56,8 +56,15 @@ function ImageForm(props){
 									setIsClick(true);
 								}}
 							>
-								<Grid item>
-									<ImageUploader height={400} fileName={uuidv4()} imageURL={imageURL} setImageURL={setImageURL} folderName={"itemListings"}/>
+								<Grid item width={"100%"}>
+									<ImageUploader
+										height={400}
+										fileName={uuidv4()}
+										imageURL={imageURL}
+										setImageURL={setImageURL}
+										folderName={"itemListings"}
+										isAddItem={true}
+									/>
 								</Grid>
 							</Grid>
 						</Grid>
