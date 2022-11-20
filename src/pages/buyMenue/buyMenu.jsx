@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {CircularProgress, Grid, Typography} from "@mui/material";
 import BuyMenuTable from "./buyMenuTable";
+// eslint-disable-next-line no-unused-vars
 import {getAllOrders, getAllOrdersForBuyer, getAllOrdersForProducer} from "../../services/orderServices";
 import authService from "../../services/auth.service";
 
@@ -31,8 +32,8 @@ function BuyMenu(){
 			setOrderArray(data);
 			return;
 		}
-		const {data} = await getAllOrders();
-		setOrderArray(data);
+		// const {data} = await getAllOrders();
+		// setOrderArray(data);
 	}
 
 	function setupData(){
