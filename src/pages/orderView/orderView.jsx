@@ -315,6 +315,7 @@ function OrderView(){
 						>Refund Request</Button>
 					):(
 						<Button
+							disabled={order.payment_status==="PENDING"}
 							onClick={onClickRefund}
 							variant={"contained"}
 							sx={
