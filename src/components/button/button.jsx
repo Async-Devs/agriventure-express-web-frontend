@@ -6,7 +6,12 @@ import PropTypes from "prop-types";
 
 export default function SaveButton(props) {
 	return (
-		<Button onClick={props.onClick} variant={props.variant}>Save{" "}<SaveOutlinedIcon/></Button>
+		<Button
+			onClick={props.onClick}
+			variant={props.variant}
+			color={"warning"}
+			sx={props.sx}
+		>Save{" "}<SaveOutlinedIcon/></Button>
 	);
 }
 
@@ -33,7 +38,7 @@ export function LinkedButtonRound(props){
 						borderRadius: "100px"
 					}
 				}
-				color={"primary"}>
+				color={props.color?props.color:"primary"}>
 				{props.content}
 			</Button>
 		</Link>
@@ -53,9 +58,11 @@ LinkedButtonRound.propTypes = {
 	/** The href is the path that the button directs to*/
 	href: PropTypes.string.isRequired,
 	/** The content is the Button Name */
-	content: PropTypes.string
+	content: PropTypes.string,
+	color: PropTypes.string
 };
 SaveButton.propTypes = {
 	onClick: PropTypes.func,
-	variant: PropTypes.string
+	variant: PropTypes.string,
+	sx: PropTypes.object
 };

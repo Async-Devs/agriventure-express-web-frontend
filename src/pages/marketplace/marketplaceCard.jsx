@@ -2,9 +2,12 @@ import React from "react";
 import {Grid, Paper, Typography} from "@mui/material";
 import PropTypes from "prop-types";
 import {LinkedButtonRound} from "../../components/button/button";
+import moment from "moment";
 
 function MarketplaceCard(props){
-	const {imgSrc, itemName, minBid, quantity, itemId, city} = props;
+	const {imgSrc, itemName, minBid, quantity, itemId, city, endTime, crop} = props;
+	const currentTime = moment().unix();
+	const endTimeInUnix = moment(endTime).unix();
 	return(
 		<Grid item>
 			<Paper elevation={2} sx={{borderRadius: "10px"}}>
@@ -34,6 +37,11 @@ function MarketplaceCard(props){
 						</Grid>
 						<Grid item xs={12} mt={1} mb={1}>
 							<Typography variant={"body1"} align={"center"} fontWeight={"bold"}>
+								Crop Type : {crop}
+							</Typography>
+						</Grid>
+						<Grid item xs={12} mt={1} mb={1}>
+							<Typography variant={"body1"} align={"center"} fontWeight={"bold"}>
 								Quantity : {quantity} kg
 							</Typography>
 						</Grid>
@@ -42,14 +50,23 @@ function MarketplaceCard(props){
 								Location : {city}
 							</Typography>
 						</Grid>
-						<Grid item xs={12} mt={1}>
-							<Typography variant={"h5"} align={"center"} fontWeight={"bolder"}>
-								{Intl.NumberFormat("si", {style: "currency", currency: "LKR"}).format(minBid)}
-							</Typography>
-						</Grid>
+
+						{
+							currentTime>endTimeInUnix?
+								(<Grid item xs={12} mt={1}>
+									<Typography variant={"h5"} align={"center"} fontWeight={"bolder"}>
+								Bid Ended
+									</Typography>
+								</Grid>):
+								(<Grid item xs={12} mt={1}>
+									<Typography variant={"h5"} align={"center"} fontWeight={"bolder"}>
+										{Intl.NumberFormat("si", {style: "currency", currency: "LKR"}).format(minBid)}
+									</Typography>
+								</Grid>)
+						}
 						<Grid item xs={12} mt={2} mb={2} container justifyContent={"center"}>
 							<Grid item >
-								<LinkedButtonRound href={`${itemId}`} content={"Bid"}/>
+								<LinkedButtonRound href={`${itemId}`} content={endTimeInUnix<currentTime?"View":"Bid"} color={endTimeInUnix<currentTime?"error":null}/>
 							</Grid>
 						</Grid>
 					</Grid>
@@ -66,7 +83,9 @@ MarketplaceCard.propTypes = {
 	city: PropTypes.string.isRequired,
 	minBid: PropTypes.number.isRequired,
 	quantity: PropTypes.number.isRequired,
-	itemId: PropTypes.string.isRequired
+	itemId: PropTypes.string.isRequired,
+	endTime: PropTypes.any,
+	crop: PropTypes.string
 };
 
 export default MarketplaceCard;

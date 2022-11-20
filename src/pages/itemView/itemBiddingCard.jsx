@@ -151,7 +151,7 @@ function ItemBiddingCard(props){
 		// Add Submitted Alert Here or Error
 	};
 
-	const {name, description, location, quantity } = props.biddingData;
+	const {name, description, location, quantity, crop } = props.biddingData;
 
 	const bidConfirmPopup = ()=>{
 		return(
@@ -193,8 +193,15 @@ function ItemBiddingCard(props){
 					<Typography variant={"h6"}>
 						Description
 					</Typography>
-					<Typography variant={"body1"} align={"justify"}>
+					<Typography variant={"body1"} align={"left"} textAlign={"left"}>
 						{description}
+					</Typography>
+				</Grid>
+			</Grid>
+			<Grid item container justifyContent={"center"} mt={2}>
+				<Grid item xs={12}>
+					<Typography variant={"h6"}>
+						Crop Type: {crop}
 					</Typography>
 				</Grid>
 			</Grid>
@@ -261,7 +268,7 @@ function ItemBiddingCard(props){
 					</Grid>
 					<Grid item container justifyContent={"center"} mt={2}>
 						<Grid item xs={12}>
-							<Button variant={"contained"} color={"warning"} onClick={handleClickOpen}>Place Bid</Button>
+							<Button variant={"contained"} color={"warning"} onClick={handleClickOpen} disabled={moment().unix()>moment(endTime).unix()}>Place Bid</Button>
 						</Grid>
 					</Grid>
 				</Grid>):

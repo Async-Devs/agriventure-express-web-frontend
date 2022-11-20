@@ -3,6 +3,8 @@ import {Link} from "react-router-dom";
 import {Button, Grid, Typography} from "@mui/material";
 import CustomTable from "../../components/customTable/customTable";
 import PropTypes from "prop-types";
+import Container from "@mui/material/Container";
+import Paper from "@mui/material/Paper";
 
 function BuyMenuTable(props){
 	// eslint-disable-next-line no-unused-vars
@@ -59,13 +61,19 @@ function BuyMenuTable(props){
 	const  orderArray = data;
 
 	return(
-		<CustomTable
-			rows = {orderArray}
-			columns = {columns}
-			enableCheckBox={false}
-			customNoRowsOverlay={noRowsOverlay()}
-			customNoResultsOverlay={noResultOverlay()}
-		/>
+		<Container>
+			<Grid item>
+				<Paper>
+					<CustomTable
+						rows = {orderArray}
+						columns = {columns}
+						enableCheckBox={false}
+						customNoRowsOverlay={noRowsOverlay()}
+						customNoResultsOverlay={noResultOverlay()}
+					/>
+				</Paper>
+			</Grid>
+		</Container>
 	);
 }
 

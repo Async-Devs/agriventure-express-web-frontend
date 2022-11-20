@@ -86,7 +86,8 @@ function ItemView(props){
 								description: item.description,
 								quantity: item.quantity,
 								location: item.location,
-								bidStep:item.minimum_bid_step
+								bidStep:item.minimum_bid_step,
+								crop: item.crop
 							}
 						}
 						user={props.user}

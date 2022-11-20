@@ -11,15 +11,65 @@ import AddressForm from "./addressForm";
 import PaymentForm from "./paymentForm";
 import Review from "./review";
 import {LinkedButton} from "../../components/button/button";
+import {useEffect, useState} from "react";
+import WarningIcon from "@mui/icons-material/Warning";
+import {Stack} from "@mui/material";
+import PropTypes from "prop-types";
 
 const steps = ["Shipping address", "Payment details", "Review your order"];
 
-function getStepContent(step) {
+function getStepContent(
+	step,
+	firstname,
+	setFirstname,
+	lastname,
+	setLastname,
+	addressLn1,
+	setAddressLn1,
+	addressLn2,
+	setAddressLn2,
+	city,
+	setCity,
+	district,
+	setDistrict,
+	zipCode,
+	setZipCode,
+	nameOnCard,
+	setNameOnCard,
+	card,
+	setCard,
+	expireDate,
+	setExpireDate,
+	cvv,
+	setCvv
+) {
 	switch (step) {
 	case 0:
-		return <AddressForm />;
+		return <AddressForm
+			firstname={firstname}
+			setFirstname={setFirstname}
+			lastname={lastname}
+			setLastname={setLastname}
+			addressLn1={addressLn1}
+			setAddressLn1={setAddressLn1}
+			addressLn2={addressLn2}
+			setAddressLn2={setAddressLn2}
+			city={city} setCity={setCity}
+			district={district}
+			setDistrict={setDistrict}
+			zipCode={zipCode}
+			setZipCode={setZipCode}
+		/>;
 	case 1:
-		return <PaymentForm />;
+		return <PaymentForm
+			nameOnCard={nameOnCard}
+			setNameOnCard={setNameOnCard}
+			card={card} setCard={setCard}
+			expireDate={expireDate}
+			setExpireDate={setExpireDate}
+			cvv={cvv}
+			setCvv={setCvv}
+		/>;
 	case 2:
 		return <Review />;
 	default:
@@ -27,7 +77,29 @@ function getStepContent(step) {
 	}
 }
 
-export default function Checkout() {
+export default function Checkout(props) {
+	const [firstname, setFirstname] = useState("");
+	const [lastname, setLastname] = useState("");
+	const [addressLn1, setAddressLn1] = useState("");
+	const [addressLn2, setAddressLn2] = useState("");
+	const [city, setCity] = useState("");
+	const [district, setDistrict] = useState("");
+	const [zipCode, setZipCode] = useState("");
+
+	const [nameOnCard, setNameOnCard] = useState("");
+	const [card, setCard] = useState("");
+	const [expireDate, setExpireDate] = useState("");
+	const [cvv, setCvv] = useState("");
+
+	const [order, setOrder] = useState(null);
+
+	useEffect(()=>{
+		setOrder(props.order);
+		if(order!=null){
+			console.log(order);
+		}
+	}, [props.order]);
+
 	const [activeStep, setActiveStep] = React.useState(0);
 
 	const handleNext = () => {
@@ -54,6 +126,10 @@ export default function Checkout() {
 				<React.Fragment>
 					{activeStep === steps.length ? (
 						<React.Fragment>
+							<Stack direction="row" alignItems="center" gap={1}>
+								<WarningIcon color={"warning"}/>
+								<Typography textAlign={"left"} variant={"body1"}>Remaining time Should be at least 2hours</Typography>
+							</Stack>
 							<Typography variant="h5" gutterBottom>
 									Thank you for your order.
 							</Typography>
@@ -66,7 +142,31 @@ export default function Checkout() {
 						</React.Fragment>
 					) : (
 						<React.Fragment>
-							{getStepContent(activeStep)}
+							{getStepContent(
+								activeStep,
+								firstname,
+								setFirstname,
+								lastname,
+								setLastname,
+								addressLn1,
+								setAddressLn1,
+								addressLn2,
+								setAddressLn2,
+								city,
+								setCity,
+								district,
+								setDistrict,
+								zipCode,
+								setZipCode,
+								nameOnCard,
+								setNameOnCard,
+								card,
+								setCard,
+								expireDate,
+								setExpireDate,
+								cvv,
+								setCvv
+							)}
 							<Box sx={{ display: "flex", justifyContent: "flex-end" }}>
 								{activeStep !== 0 && (
 									<Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
@@ -89,3 +189,7 @@ export default function Checkout() {
 		</Container>
 	);
 }
+
+Checkout.propTypes = {
+	order: PropTypes.object
+};

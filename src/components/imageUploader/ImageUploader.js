@@ -59,7 +59,7 @@ function ImageUploader(props){
 
 
 	return(
-		<Grid container xs={12} spacing={2} justifyContent="center">
+		<Grid container xs={12} justifyContent="center">
 			<Grid item xs={12} hidden={!props.isCircular}>
 				<Avatar
 					alt="Sample User"
@@ -68,14 +68,13 @@ function ImageUploader(props){
 				/>
 			</Grid>
 
-			<Grid item xs={12} hidden={props.isCircular}>
-				<Card >
+			<Grid item xs={12} hidden={props.isCircular} width={"100%"}>
+				<Card>
 					<CardMedia
 						component="img"
 						height={props.height}
 						width={props.width}
 						image={url}
-						alt="green iguana"
 					/>
 				</Card>
 			</Grid>
@@ -107,7 +106,7 @@ function ImageUploader(props){
 ImageUploader.propTypes ={
 	fileName: PropTypes.string, //file name to save in cloud storage. if the file already exist, it will replace
 	folderName: PropTypes.string, //folder name to save in cloud storage.
-	isCircular: PropTypes.bool, //true for see circular view, false for squre view
+	isCircular: PropTypes.bool, //true for see circular view, false for square view
 	width: PropTypes.number, // width of preview
 	height: PropTypes.number, //height of preview
 	imageURL: PropTypes.string, //provide a state() as this prop. after uploading the image, this state will get the value of the image url
