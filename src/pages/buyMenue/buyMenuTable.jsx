@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import {Button, Grid, Typography} from "@mui/material";
 import CustomTable from "../../components/customTable/customTable";
 import PropTypes from "prop-types";
+import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 
 function BuyMenuTable(props){
@@ -60,15 +61,19 @@ function BuyMenuTable(props){
 	const  orderArray = data;
 
 	return(
-		<Paper sx={{width:"100%"}}>
-			<CustomTable
-				rows = {orderArray}
-				columns = {columns}
-				enableCheckBox={false}
-				customNoRowsOverlay={noRowsOverlay()}
-				customNoResultsOverlay={noResultOverlay()}
-			/>
-		</Paper>
+		<Container>
+			<Grid item>
+				<Paper>
+					<CustomTable
+						rows = {orderArray}
+						columns = {columns}
+						enableCheckBox={false}
+						customNoRowsOverlay={noRowsOverlay()}
+						customNoResultsOverlay={noResultOverlay()}
+					/>
+				</Paper>
+			</Grid>
+		</Container>
 	);
 }
 

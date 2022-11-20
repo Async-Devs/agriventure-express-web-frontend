@@ -1,12 +1,22 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { Grid, Typography} from "@mui/material";
 import "react-image-crop/dist/ReactCrop.css";
-import FileUpload2 from "../../components/fileUpload/fileUpload2";
 import PropTypes from "prop-types";
+import ImageUploader from "../../components/imageUploader/ImageUploader";
+import { v4 as uuidv4 } from "uuid";
 
 function ImageForm(props){
 	const [isHover, setIsHover] = useState(false);
 	const [isClick, setIsClick] = useState(false);
+
+	const [imageURL, setImageURL] = useState("");
+
+	useEffect(()=>{
+		const imageData = {
+			src: imageURL
+		};
+		props.setImages([imageData]);
+	}, [imageURL]);
 
 	return(
 		<Grid container>
@@ -29,6 +39,8 @@ function ImageForm(props){
 						</Grid>
 						<Grid item xs={12} mt={3}  >
 							<Grid
+								container
+								justifyContent={"center"}
 								bgcolor={"lightgray"}
 								border={isClick?2:1}
 								borderRadius={"4px"}
@@ -44,8 +56,9 @@ function ImageForm(props){
 									setIsClick(true);
 								}}
 							>
-								{/*<FileUpload/>*/}
-								<FileUpload2 images={props.images} setImages={props.setImages}/>
+								<Grid item>
+									<ImageUploader height={400} fileName={uuidv4()} imageURL={imageURL} setImageURL={setImageURL} folderName={"itemListings"}/>
+								</Grid>
 							</Grid>
 						</Grid>
 					</Grid>

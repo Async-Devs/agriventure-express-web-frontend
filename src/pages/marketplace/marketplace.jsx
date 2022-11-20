@@ -298,6 +298,8 @@ function Marketplace(){
 								minBid={+p.minimum_bid}
 								quantity={p.quantity}
 								city={p.location.city}
+								endTime={p.bid_end_time}
+								crop={p.crop}
 							/>
 						</Grid>
 					);
