@@ -2,9 +2,8 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import {Grid} from "@mui/material";
+import {Grid, Tabs} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import ChatWindow from "../../components/chatWindow/chatWindow";
 import {useEffect} from "react";
@@ -95,7 +94,7 @@ function SupportRequests() {
 				<Box sx={{ width: "100%", typography: "body1" }}>
 					<TabContext value={value}>
 						<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-							<TabList onChange={handleChange} aria-label="lab API tabs example">
+							<Tabs variant="scrollable" scrollButtons="auto" onChange={handleChange} aria-label="lab API tabs example">
 								<Tab label="Support Requests" value="1" />
 								<Tab label="Old Support Requests" value="2" />
 								{myType === 0 ? (
@@ -106,7 +105,7 @@ function SupportRequests() {
 									<Tab  label="Old Refund Requests" value="4" />):
 									(<></>)
 								}
-							</TabList>
+							</Tabs>
 						</Box>
 						<TabPanel value="1"><ChatWindow refresh={refresh} setRefresh={setRefresh} requests={supportRequestList} mode={0} /></TabPanel>
 						<TabPanel value="2"><ChatWindow refresh={refresh} setRefresh={setRefresh} requests={oldSupportRequestList} mode={0}/></TabPanel>
