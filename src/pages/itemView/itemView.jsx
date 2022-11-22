@@ -10,6 +10,7 @@ import PropTypes from "prop-types";
 function ItemView(props){
 	const [isLoading, setLoading] = useState(true);
 	const [item, setItem] = useState();
+	const [isRefresh, setIsRefresh] = useState(false);
 	const itemId = useParams().itemId;
 	useEffect(()=>{
 		async function getItem(){
@@ -18,7 +19,12 @@ function ItemView(props){
 			setLoading(false);
 		}
 		getItem();
-	},[]);
+	},[isRefresh]);
+
+	const refreshPageDetails = ()=>{
+		setIsRefresh(!isRefresh);
+		window.location.reload();
+	};
 
 	let breadcrumbs = null;
 	if(props.user===0){
@@ -76,6 +82,7 @@ function ItemView(props){
 				</Grid>
 				<Grid item md={6} xs={12}>
 					<ItemBiddingCard
+						refreshPageDetails={refreshPageDetails}
 						biddingData={
 							{
 								name: item.name,

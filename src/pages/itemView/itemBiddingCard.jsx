@@ -22,12 +22,14 @@ import authService from "../../services/auth.service";
 
 function ItemBiddingCard(props){
 	const { endTime, bidArray, minimumBid, itemId, bidStep } = props.biddingData;
+	// eslint-disable-next-line no-unused-vars
 	const [ lastBid, setLastBid ] = useState(bidArray.length>0?_.last(bidArray).bid_amount:minimumBid);
 	const [bidValue, setBidValue] = useState(lastBid);
 	const [ error, setError ] = useState(false);
 	const [open, setOpen] = React.useState(false);
 
 	const [pageSocket, setPageSocket] = useState(null);
+	// eslint-disable-next-line no-unused-vars
 	const [bidEntries, setBidEntries] = useState(bidArray);
 	const [tick, setTick] = useState(0);
 	// eslint-disable-next-line no-unused-vars
@@ -38,7 +40,7 @@ function ItemBiddingCard(props){
 		if(endTime){
 			const currentTimeMili = moment().unix();
 			const endTimeMili = moment(endTime).unix();
-			console.log(currentTimeMili+900> endTimeMili);
+			console.log(pageMode);
 			// Pagemode changes here
 			if(currentTimeMili+900>endTimeMili){
 				setPageMode(true);
@@ -77,8 +79,13 @@ function ItemBiddingCard(props){
 
 			//Recieve Data
 			pageSocket.on("receive_bid_update", (data)=>{
-				console.log(data);
-				setBidEntries(data.bidData);
+				console.log("SocketREcied - ", data);
+				if(data.error == true){
+					setError(true);
+				}else {
+					setBidEntries(data.res_array);
+					setLastBid(data.res_array[data.res_array.length-1].bid_amount);
+				}
 			});
 
 			//Post Data
@@ -90,13 +97,16 @@ function ItemBiddingCard(props){
 	//Bid Submission in Socket mode
 	const socketModeBidPlacement = async ()=>{
 		const dataObject = { itemId: itemId, userId: authService.getCurrentUserId(), bidValue: bidValue };
-		await pageSocket.emit("place_bid", dataObject);
+		const result = await pageSocket.emit("place_bid", dataObject);
+		console.log("button submission soc mode ", result);
+		return result;
 	};
 
 	//Bid Submission in Normal mode
 	const normalModeBidPlacement = async ()=>{
 		const dataObject = { itemId: itemId, userId: authService.getCurrentUserId(), bidValue: bidValue };
-		await buyerSetBidForItem(itemId, dataObject);
+		const result = await buyerSetBidForItem(itemId, dataObject);
+		return result.data;
 	};
 
 	// Bid Mode Decider
@@ -142,12 +152,15 @@ function ItemBiddingCard(props){
 	// Bid submission on click confirm
 	const handleSubmit=async ()=>{
 		const res = await submitMethodDecider();
-		if (res){
-			setLastBid(bidValue);
-			console.log("SUCCESS");
-			return;
+		console.log("Click response" , res);
+		if(res.error==true){
+			console.log("Error Occured");
+			//Handle error here
+		}else {
+			setOpen(false);
 		}
-		console.log("Error BID PLACEMENT");
+		//Handle change here
+		props.refreshPageDetails();
 		// Add Submitted Alert Here or Error
 	};
 
@@ -220,9 +233,14 @@ function ItemBiddingCard(props){
 				</Grid>
 			</Grid>
 			<Divider sx={{marginLeft:"15px", marginTop:"30px"}}>Bidding Details</Divider>
-			<Grid item container justifyContent={"center"} >
+			<Grid item container justifyContent={"center"} textAlign={"center"}>
 				<Grid item xs={12}>
 					<CountdownTimer endTime={endTime}/>
+				</Grid>
+				<Grid item xs={12}>
+					<Typography variant={"h6"}>
+					(End date-time {moment(endTime).format("yyyy/MM/DD HH:mm:ss")}h )
+					</Typography>
 				</Grid>
 			</Grid>
 			<Grid item container justifyContent={"center"} mt={2}>
@@ -285,6 +303,7 @@ function ItemBiddingCard(props){
 }
 
 ItemBiddingCard.propTypes = {
+	refreshPageDetails: PropTypes.func.isRequired,
 	biddingData: PropTypes.object.isRequired,
 	user: PropTypes.number.isRequired
 };
