@@ -13,7 +13,7 @@ import Video from "./video";
 import Visualize from "./visualization";
 import {getNoOfBuyers, getNoOfOfficers, getNoOfProducers} from "../../services/noOfUsers";
 import {getNoOfCropTypes} from "../../services/croptypeServices";
-
+import Tooltip from "../../components/tooltip/tooltip";
 
 function Dashboard(){
 
@@ -48,6 +48,9 @@ function Dashboard(){
 		<div>
 			<div className="carousel">
 				<Video/>
+			</div>
+			<div style={{display:"flex",justifyContent:"right", marginRight:"40px"}}>
+				<Tooltip/>
 			</div>
 			<div>
 				<Grid container spacing={15} justifyContent="center" padding={5} >
