@@ -4,7 +4,7 @@ import {LinkedButtonRound} from "../components/button/button";
 
 function ErrorPage(){
 	return(
-		<Grid container justifyContent={"center"}>
+		<Grid container justifyContent={"center"} textAlign={"center"} height={1000}>
 			<Grid item xs={6}>
 				<Typography variant={"h1"} color={"green"}>
 					Oops!
