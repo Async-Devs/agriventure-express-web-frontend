@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {CircularProgress, Grid, Typography} from "@mui/material";
 import BuyMenuTable from "./buyMenuTable";
 // eslint-disable-next-line no-unused-vars
-import {getAllOrders, getAllOrdersForBuyer, getAllOrdersForProducer} from "../../services/orderServices";
+import { getAllOrdersForBuyer, getAllOrdersForProducer} from "../../services/orderServices";
 import authService from "../../services/auth.service";
 
 function BuyMenu(){
@@ -21,8 +21,9 @@ function BuyMenu(){
 	},[orderArray]);
 
 	async function getOrders(){
-		const userType = authService.getCurrentUserType();
-		const userId = authService.getCurrentUserId();
+		const userType = await authService.getCurrentUserType();
+		const userId = await authService.getCurrentUserId();
+		console.log(userType,userId);
 		if(userType==1){
 			const {data} = await getAllOrdersForBuyer(userId);
 			setOrderArray(data);
