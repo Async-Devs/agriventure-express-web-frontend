@@ -46,6 +46,7 @@
     "react-images-uploading": "^3.1.7",
     "react-lazy-load-image-component": "^1.5.5",
     "react-material-ui-carousel": "^3.4.2",
+    "react-modal-hover": "^1.1.13",
     "react-multiple-image-input": "^1.0.0",
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.4.0",

@@ -1,7 +1,7 @@
 import React from "react";
 import Grid from "@mui/material/Grid";
 import "./video.css";
-import Back from "./agri.mp4";
+import Back from "./optimized.mp4";
 
 function Video(){
 
@@ -16,7 +16,7 @@ function Video(){
 
 		<div className="carousel">
 			<Grid container>
-				<Grid item xs={12} sx={{maxHeight:"100vh"}}>
+				<Grid item xs={12} sx={{marginTop:"2.4px"}}>
 					<video  id="videoBG" muted={true} loop={true} autoPlay={true}>
 						<source src= { Back } type="video/mp4" />
 					</video>

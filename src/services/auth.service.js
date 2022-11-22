@@ -17,6 +17,16 @@ const login = (userName,password) =>{
 	});
 };
 
+const forgetPassword = (userName) =>{
+	const formBody = {
+		userName: userName
+	};
+	// eslint-disable-next-line no-undef
+	return axios.post(`${process.env.REACT_APP_API_URL}/auth/forgetPassword`,formBody).then((res) =>{
+		return res.data;
+	});
+};
+
 const getGoogleAPIkey = ()=>{
 	// eslint-disable-next-line no-undef
 	const key = Axios.get(`${process.env.REACT_APP_API_URL}/producerUsers/google-API-key`,{
@@ -104,7 +114,8 @@ const authService = {
 	isAuthenticated,
 	getGoogleAPIkey,
 	getSocketURL,
-	getCurrentUserDP
+	getCurrentUserDP,
+	forgetPassword
 };
 
 export default authService;
