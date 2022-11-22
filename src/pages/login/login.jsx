@@ -11,6 +11,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Copyright from "../../components/copyright/copyright";
 import authService from "../../services/auth.service";
+import ForgetPassword from "./forgetPassword";
 
 
 function Login() {
@@ -19,6 +20,8 @@ function Login() {
 	const [password,setPassword] = useState();
 	const [error,setError] = useState();
 	const [hiddenError,setHiddenError] = useState(true);
+
+
 
 	function validateNonEmpty(text){
 		return text !== undefined && text !== "";
@@ -31,7 +34,7 @@ function Login() {
 			try{
 				const res = await authService.login(username, password);
 				if(res.success === false){
-					setError("Login Fail! check your username and password!");
+					setError(res.msg);
 					setHiddenError(false);
 					return;
 				}
@@ -131,12 +134,10 @@ function Login() {
 						</Button>
 						<Grid container>
 							<Grid item xs hidden={true}>
-								<Link href="#" variant="body2">
-										Forgot password?
-								</Link>
+								<ForgetPassword />
 							</Grid>
-							<Grid item hidden={true}>
-								<Link href="#" variant="body2">
+							<Grid item>
+								<Link href="/auth/signup" variant="body2">
 									{"Don't have an account? Sign Up"}
 								</Link>
 							</Grid>
