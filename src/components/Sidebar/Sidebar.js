@@ -58,7 +58,7 @@ const ResponsiveAppBar = (props) => {
 		settings = ["My Profile","Logout"];
 	}else if(userType === 2){
 		pages = ["Dashboard", "Manage Producers", "Support Management","Agri Data"];
-		settings = ["Logout"];
+		settings = ["My Profile","Logout"];
 	}else if(userType === 3){
 		pages = ["Dashboard", "Manage Accounts"];
 		settings = ["Logout"];
@@ -112,6 +112,8 @@ const ResponsiveAppBar = (props) => {
 			window.location.assign("/producer/myProfile");
 		} else if (event.target.innerHTML === "My Profile" && userType === 1) {
 			window.location.assign("/buyer/myProfile");
+		}  else if (event.target.innerHTML === "My Profile" && userType === 2) {
+			window.location.assign("/officer/myProfile");
 		} else if (event.target.innerHTML === "sign in") {
 			window.location.assign("/auth/login");
 		} else if (event.target.innerHTML === "sign up") {
