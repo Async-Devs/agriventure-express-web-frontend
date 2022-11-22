@@ -32,8 +32,6 @@ function BuyMenu(){
 			setOrderArray(data);
 			return;
 		}
-		// const {data} = await getAllOrders();
-		// setOrderArray(data);
 	}
 
 	function setupData(){
