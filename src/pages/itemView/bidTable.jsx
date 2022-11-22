@@ -1,11 +1,19 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import CustomTable from "../../components/customTable/customTable";
 import {Grid, Typography} from "@mui/material";
 import PropTypes from "prop-types";
 import Paper from "@mui/material/Paper";
+import authService from "../../services/auth.service";
+import moment from "moment";
 
 function BidTable(props){
-	const bidderArray  = props.bidderArray;
+	const initialBidArr = props.bidderArray;
+	const [bidderArray, setBidArray] = useState(initialBidArr);
+	useEffect(()=>{
+		if(initialBidArr.length!=0){
+			setBidArray(initialBidArr);
+		}
+	},[initialBidArr]);
 	const columns = [
 		{ field: "bidTime", headerName: "Timestamp", width: 200 },
 		{ field: "bidderName", headerName: "Bidder", width: 200 },
@@ -15,8 +23,12 @@ function BidTable(props){
 	const rows = bidderArray.map((item)=>{
 		return {
 			"id": item._id,
-			"bidTime": item.time_stamp,
-			"bidderName": item.bidder_name,
+			"bidTime": moment(item.time_stamp).format("yyyy/MM/DD HH:mm:ss Z"),
+			"bidderName": (authService.getCurrentUserType()==3||
+				authService.getCurrentUserType()==4)||
+			authService.getCurrentUserId()==item.bidder._id?
+				item.bidder.userName+" (You)":
+				"*Buyer Identity Protected",
 			"bidAmount": item.bid_amount
 		};
 	});

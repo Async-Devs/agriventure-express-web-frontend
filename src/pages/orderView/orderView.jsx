@@ -95,7 +95,6 @@ function OrderView(){
 	},[orderId,refresh]);
 
 	useEffect(()=>{
-		console.log(order);
 		if(order!=null){
 			setDeliveryStatus(order.delivery_status);
 		}else {
@@ -186,6 +185,7 @@ function OrderView(){
 		updateOrderDeliveryStatus(order._id, deliveryStatus);
 		setOpenConfimation(false);
 		setPageChange(!isPageChange);
+		window.location.reload();
 	}
 
 	const handleClickOpenConfirmation = () => {

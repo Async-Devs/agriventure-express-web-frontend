@@ -143,6 +143,7 @@ function AppRouter(props){
 					):(
 						<Route path = "*" element={<ErrorPage/>}/>
 					)}
+					<Route path = "*" element={<ErrorPage/>}/>
 				</Routes>
 			</>
 		</BrowserRouter>
