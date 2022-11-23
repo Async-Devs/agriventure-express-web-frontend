@@ -13,8 +13,8 @@ function BuyMenuTable(props){
 	const columns = [
 		{ field: "id", headerName: "Order ID", width: 250 },
 		{ field: "payment", headerName: "Payment", width: 150 },
-		{ field: "paymentStatus", headerName: "Payment Status", width: 150 },
-		{ field: "deliveryStatus", headerName: "Delivery Status", width: 150, sortable: false },
+		{ field: "paymentStatus", headerName: "Payment Status", width: 250 },
+		{ field: "deliveryStatus", headerName: "Delivery Status", width: 250, sortable: false },
 		{ field: "view",
 			headerName: "View",
 			sortable: false,

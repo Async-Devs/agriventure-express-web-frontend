@@ -16,8 +16,9 @@ function producerItems(){
 		{ field: "fieldCity", headerName: "City", width: 150 },
 		{ field: "quantity", headerName: "Quantity", width: 100 },
 		{ field: "minBid", headerName: "Minimum bid", width: 150},
+		{ field: "status", headerName: "Status", width: 150},
 		{ field: "edit",
-			headerName: "",
+			headerName: "View",
 			sortable: false,
 			filterable: false,
 			align: "right",
@@ -35,25 +36,6 @@ function producerItems(){
 				</Link>
 			)
 		}
-		// { field: "Delete",
-		// 	headerName: "",
-		// 	sortable: false,
-		// 	filterable: false,
-		// 	align: "right",
-		// 	headerAlign: "center",
-		// 	renderCell: (params) => (
-		// 		<Link to={`${params.id}`} style={{ textDecoration: "none" }}>
-		// 			<Button
-		// 				color={"primary"}
-		// 				disableFocusRipple={true}
-		// 				variant="outlined"
-		// 				size="small"
-		// 				style={{ marginLeft: 10 }}
-		// 				tabIndex={params.hasFocus ? 0 : -1}
-		// 			>Delete</Button>
-		// 		</Link>
-		// 	)
-		// }
 
 	];
 
@@ -69,7 +51,7 @@ function producerItems(){
 
 
 	const itemList = items.map((itemData) => {
-		return {id:itemData._id, cropName:itemData.name, fieldLocation:itemData.location.district, fieldCity:itemData.location.city, quantity:itemData.quantity, minBid:itemData.minimum_bid};});
+		return {id:itemData._id, cropName:itemData.name, fieldLocation:itemData.location.district, fieldCity:itemData.location.city, quantity:itemData.quantity, minBid:itemData.minimum_bid, status:itemData.state};});
 
 	return(
 
