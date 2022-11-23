@@ -53,7 +53,7 @@ function MarketPlaceFilters(props){
 		"Corn",
 		"Leaks",
 		"Eggplant",
-		"potato",
+		"Potato",
 		"Pumpkin",
 		"Tomato",
 		"Watermelon",
