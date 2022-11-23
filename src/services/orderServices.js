@@ -43,3 +43,13 @@ export function updateOrderDeliveryStatus(orderId, status){
 	return orders;
 }
 
+export function updateOrderPayment(data){
+	const orders = Axios.put(
+		`${apiEndpointBuyer}/update/payment`,
+		{data},
+		{
+			headers: { "x-auth-token": authService.getCurrentUser()}
+		});
+	return orders;
+}
+
