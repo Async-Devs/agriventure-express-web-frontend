@@ -273,7 +273,7 @@ function AddItem(){
 				}
 
 				<Grid item md={6} xs={12} minHeight={400} container>
-					<Paper elevation={4}>
+					<Paper elevation={4} data-testid={"itemDetailsForm"}>
 						<ItemDetailsForm
 							title={title}
 							cropType={cropType}
@@ -287,7 +287,7 @@ function AddItem(){
 					</Paper>
 				</Grid>
 				<Grid item md={6} xs={12} minHeight={400} container>
-					<Paper elevation={4}>
+					<Paper elevation={4} data-testid={"biddingSetupForm"}>
 						<SetBiddingCard
 							setMinimumBid={setMinimumBid}
 							setMinimumBidStep={setMinimumBidStep}
@@ -298,7 +298,7 @@ function AddItem(){
 						/>
 					</Paper>
 				</Grid>
-				<Grid item md={6} xs={12} minHeight={400} container>
+				<Grid item md={6} xs={12} minHeight={400} container  data-testid={"locationForm"}>
 					<Paper elevation={4}>
 						<LocationForm
 							setDistrict={setDistrict}
@@ -310,8 +310,8 @@ function AddItem(){
 						/>
 					</Paper>
 				</Grid>
-				<Grid item md={6} xs={12} minHeight={400} container>
-					<Paper elevation={4} sx={{width:"100%"}}>
+				<Grid item md={6} xs={12} minHeight={400} container data-testid={"imageForm"}>
+					<Paper elevation={4} sx={{width:"100%"}} >
 						<ImageForm
 							images={images}
 							setImages={setImages}
@@ -323,7 +323,7 @@ function AddItem(){
 						<Grid container>
 							<Grid item container xs={12} mb={3}>
 								<Grid item container xs={12}>
-									<Grid item xs={12} container justifyContent={"center"} m={3}>
+									<Grid item xs={12} container justifyContent={"center"} m={3} data-testid={"actionCard"}>
 										<Grid item xs={12}>
 											<Typography variant={"h5"} align={"left"}>
 												Actions

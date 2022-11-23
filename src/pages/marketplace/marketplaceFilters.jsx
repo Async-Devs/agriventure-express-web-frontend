@@ -41,7 +41,29 @@ function MarketPlaceFilters(props){
 		"Ratnapura",
 		"Trincomalee",
 		"Vavuniya"];
-	const crops = ["Carrots", "Beet", "Leaks", "potato", "Pumpkin"];
+	const crops = [
+		"Carrot",
+		"Ginger",
+		"Garlic",
+		"Onions",
+		"Pineapple",
+		"Beans",
+		"Peas",
+		"Beet",
+		"Corn",
+		"Leaks",
+		"Eggplant",
+		"potato",
+		"Pumpkin",
+		"Tomato",
+		"Watermelon",
+		"Papaya",
+		"Radish",
+		"Mango",
+		"Cabbage",
+		"Avacado",
+		"Banana",
+		"Rice"];
 	let cropsSet = new Set(crops);
 	let districtSet = new Set(districts);
 
