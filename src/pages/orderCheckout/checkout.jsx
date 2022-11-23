@@ -12,10 +12,10 @@ import PaymentForm from "./paymentForm";
 import Review from "./review";
 import {LinkedButton} from "../../components/button/button";
 import {useEffect, useState} from "react";
-import WarningIcon from "@mui/icons-material/Warning";
 import {Stack} from "@mui/material";
 import PropTypes from "prop-types";
 import {updateOrderPayment} from "../../services/orderServices";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 const steps = ["Shipping address", "Payment details", "Review your order"];
 
@@ -144,7 +144,7 @@ export default function Checkout(props) {
 		if(result.error){
 			alert(result.text);
 		}else {
-			window.location.assign("/buyer/buy-menu");
+			handleNext();
 		}
 	};
 
@@ -165,12 +165,9 @@ export default function Checkout(props) {
 					{activeStep === steps.length ? (
 						<React.Fragment>
 							<Stack direction="row" alignItems="center" gap={1}>
-								<WarningIcon color={"warning"}/>
-								<Typography textAlign={"left"} variant={"body1"}>Remaining time Should be at least 2hours</Typography>
+								<CheckCircleIcon color={"success"}/>
+								<Typography textAlign={"left"} variant={"h5"}>Payment Successful</Typography>
 							</Stack>
-							<Typography variant="h5" gutterBottom>
-									Payment Successful.
-							</Typography>
 							<Typography variant="subtitle1">
 									Payment for order number {order._id} is Received. We have emailed your order
 									confirmation, and will send you an update when your order has
