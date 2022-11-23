@@ -3,9 +3,10 @@ import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
+// eslint-disable-next-line no-unused-vars
 import {CircularProgress, Divider} from "@mui/material";
 import ProducerItems from "./producerItems";
-import ProducerSales from "./producerSales";
+// import ProducerSales from "./producerSales";
 import authService from "../../services/auth.service";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {LinkedButtonRound} from "../../components/button/button";
@@ -53,7 +54,7 @@ function ProducerDashboard(){
 		<Container >
 			<Grid container align={"center"}>
 				<Grid item xs={12}>
-					<Typography variant="h2"><span style={{color: "green"}}>My Crops</span></Typography>
+					<Typography variant="h2"><span style={{color: "green"}}>My Listings</span></Typography>
 					<hr />
 				</Grid>
 
@@ -61,17 +62,17 @@ function ProducerDashboard(){
 					<LinkedButtonRound href={"add-item"} content={renderAddItemButton()}/>
 				</Grid>
 
-				<Grid item xs={12}>
+				<Grid item xs={12} height={1000}>
 					{renderMyListing()}
 				</Grid>
 
-				<Grid item xs={12}>
-					<Typography variant="h5" m={1}>Crop sales</Typography>
-					<Divider />
-					<Paper>
-						<ProducerSales/>
-					</Paper>
-				</Grid>
+				{/*<Grid item xs={12}>*/}
+				{/*	<Typography variant="h5" m={1}>Crop sales</Typography>*/}
+				{/*	<Divider />*/}
+				{/*	<Paper>*/}
+				{/*		/!*<ProducerSales/>*!/*/}
+				{/*	</Paper>*/}
+				{/*</Grid>*/}
 			</Grid>
 		</Container>
 	);
