@@ -141,7 +141,7 @@ function Marketplace(){
 		const data = dataArray;
 		const filteredData = data.filter(
 			(ele)=>{
-				if(range.has(ele.name)){
+				if(range.has(ele.crop)){
 					return ele;
 				}
 				return;
