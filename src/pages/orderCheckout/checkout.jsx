@@ -143,9 +143,9 @@ export default function Checkout(props) {
 		console.log(result);
 		if(result.error){
 			alert(result.text);
+		}else {
+			window.location.assign("/buyer/buy-menu");
 		}
-
-		window.location.assign("/buyer/buy-menu");
 	};
 
 	return (
