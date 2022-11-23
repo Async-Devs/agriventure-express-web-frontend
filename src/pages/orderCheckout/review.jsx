@@ -4,71 +4,87 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Grid from "@mui/material/Grid";
+import PropTypes from "prop-types";
 
-const products = [
-	{
-		name: "Crop Name Here",
-		desc: "Crop description",
-		price: "LKR 50,000",
-	},
-	{ name: "Shipping Estimate", desc: "", price: "LKR 5000" },
-];
-
-const addresses = ["Address 1", "Address 2", "City", "50000"];
-const payments = [
-	{ name: "Card type", detail: "Visa" },
-	{ name: "Card holder", detail: "Mr John Smith" },
-	{ name: "Card number", detail: "xxxx-xxxx-xxxx-1234" },
-	{ name: "Expiry date", detail: "04/2024" },
-];
-
-export default function Review() {
-	return (
-		<React.Fragment>
-			<Typography variant="h6" gutterBottom>
+export default function Review(props) {
+	const {order, addressDetails, paymentDetails} = props;
+	const shippingEstimate = 1.5*360*order.item.quantity;
+	console.log(order,addressDetails,paymentDetails);
+	if(!order||!addressDetails||!paymentDetails){
+		return ;
+	}else{
+		return (
+			<React.Fragment>
+				<Typography variant="h6" gutterBottom>
 				Order summary
-			</Typography>
-			<List disablePadding>
-				{products.map((product) => (
-					<ListItem key={product.name} sx={{ py: 1, px: 0 }}>
-						<ListItemText primary={product.name} secondary={product.desc} />
-						<Typography variant="body2">{product.price}</Typography>
-					</ListItem>
-				))}
+				</Typography>
+				<List disablePadding>
+					{
+						<ListItem key={order} sx={{ py: 1, px: 0 }}>
+							<ListItemText primary={order.item.name} secondary={order.item.crop} />
+							<Typography variant="body2">{Intl.NumberFormat(
+								"en"
+							).
+								format(order.order_price)}</Typography>
+						</ListItem>
+					}
+					{
+						<ListItem key={order} sx={{ py: 1, px: 0 }}>
+							<ListItemText primary={"Shipping Estimate"} secondary={""} />
+							<Typography variant="body2">{Intl.NumberFormat(
+								"en"
+							).
+								format(shippingEstimate)}</Typography>
+						</ListItem>
+					}
 
-				<ListItem sx={{ py: 1, px: 0 }}>
-					<ListItemText primary="Total" />
-					<Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-						LKR 55,000
-					</Typography>
-				</ListItem>
-			</List>
-			<Grid container spacing={2}>
-				<Grid item xs={12} sm={6}>
-					<Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
+					<ListItem sx={{ py: 1, px: 0 }}>
+						<ListItemText primary="Total" />
+						<Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
+							{Intl.NumberFormat(
+								"en",
+								{
+									style: "currency",
+									currency: "LKR" }
+							).
+								format(shippingEstimate+order.order_price)}
+						</Typography>
+					</ListItem>
+				</List>
+				<Grid container spacing={2}>
+					<Grid item xs={12} sm={6}>
+						<Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
 						Shipping
-					</Typography>
-					<Typography gutterBottom>John Smith</Typography>
-					<Typography gutterBottom>{addresses.join(", ")}</Typography>
-				</Grid>
-				<Grid item container direction="column" xs={12} sm={6}>
-					<Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
+						</Typography>
+						<Typography gutterBottom>{order.buyer.userName}</Typography>
+						<Typography gutterBottom>{addressDetails.join(", ")}</Typography>
+					</Grid>
+					<Grid item container direction="column" xs={12} sm={6}>
+						<Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
 						Payment details
-					</Typography>
-					<Grid container>
-						{payments.map((payment) => (
-							<React.Fragment key={payment.name}>
-								<Grid item xs={6}>
-									<Typography gutterBottom>{payment.name}</Typography>
-								</Grid>
-								<Grid item xs={6}>
-									<Typography gutterBottom>{payment.detail}</Typography>
-								</Grid>
-							</React.Fragment>
-						))}
+						</Typography>
+						<Grid container>
+							{paymentDetails.map((payment) => (
+								<React.Fragment key={payment.name}>
+									<Grid item xs={6}>
+										<Typography gutterBottom>{payment.name}</Typography>
+									</Grid>
+									<Grid item xs={6}>
+										<Typography gutterBottom>{payment.detail}</Typography>
+									</Grid>
+								</React.Fragment>
+							))}
+						</Grid>
 					</Grid>
 				</Grid>
-			</Grid>
-		</React.Fragment>
-	);
+			</React.Fragment>
+		);
+
+	}
 }
+
+Review.propTypes = {
+	order: PropTypes.object.isRequired,
+	addressDetails: PropTypes.object.isRequired,
+	paymentDetails: PropTypes.object.isRequired
+};

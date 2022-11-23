@@ -7,16 +7,15 @@ import {getProducerAllListingss} from "../../services/itemServices";
 
 
 function producerItems(){
-	//Documentation => https://mui.com/x/react-data-grid/column-definition/
 	const [items, setItems] = useState([]);
 
 	const columns = [
-		{ field: "id", headerName: "Crop ID", width: 150 },
+		{ field: "id", headerName: "Crop ID", width: 250 },
 		{ field: "cropName", headerName: "Crop name", width: 150 },
 		{ field: "fieldLocation", headerName: "District", width: 150 },
 		{ field: "fieldCity", headerName: "City", width: 150 },
 		{ field: "quantity", headerName: "Quantity", width: 100 },
-		{ field: "minBid", headerName: "Minimum bid", width: 100},
+		{ field: "minBid", headerName: "Minimum bid", width: 150},
 		{ field: "edit",
 			headerName: "",
 			sortable: false,

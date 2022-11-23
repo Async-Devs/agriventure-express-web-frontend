@@ -15,6 +15,7 @@ import {useEffect, useState} from "react";
 import WarningIcon from "@mui/icons-material/Warning";
 import {Stack} from "@mui/material";
 import PropTypes from "prop-types";
+import {updateOrderPayment} from "../../services/orderServices";
 
 const steps = ["Shipping address", "Payment details", "Review your order"];
 
@@ -41,7 +42,8 @@ function getStepContent(
 	expireDate,
 	setExpireDate,
 	cvv,
-	setCvv
+	setCvv,
+	order
 ) {
 	switch (step) {
 	case 0:
@@ -71,7 +73,14 @@ function getStepContent(
 			setCvv={setCvv}
 		/>;
 	case 2:
-		return <Review />;
+		return <Review
+			order={order[0]}
+			addressDetails={[addressLn1, addressLn2, city, zipCode]}
+			paymentDetails={[
+				{ name: "Card type", detail: "Visa" },
+				{ name: "Card holder", detail: nameOnCard },
+				{ name: "Card number", detail: `xxxx-xxxx-xxxx-${card.slice(-4)}` },
+				{ name: "Expiry date", detail: expireDate }]}/>;
 	default:
 		throw new Error("Unknown step");
 	}
@@ -92,6 +101,8 @@ export default function Checkout(props) {
 	const [cvv, setCvv] = useState("");
 
 	const [order, setOrder] = useState(null);
+	// eslint-disable-next-line no-unused-vars
+	const [isSubmitLoading, setSubmitLoading] = useState(false);
 
 	useEffect(()=>{
 		setOrder(props.order);
@@ -108,6 +119,33 @@ export default function Checkout(props) {
 
 	const handleBack = () => {
 		setActiveStep(activeStep - 1);
+	};
+
+	const handleSubmit = async () =>{
+		await setSubmitLoading(true);
+		const addressDetails = [addressLn1, addressLn2];
+		const data = {
+			order_delivery_address: addressDetails.join(", "),
+			order_delivery_city: city,
+			order_delivery_zipcode: zipCode
+		};
+		const result = await updateOrderPayment(
+			{
+				orderId: order[0]._id,
+				orderUpdate:data,
+				paymentDetails:{
+					c_name:nameOnCard,
+					c_no: card,
+					c_exp: expireDate,
+					c_ccv: cvv
+				}});
+		await setSubmitLoading(false);
+		console.log(result);
+		if(result.error){
+			alert(result.text);
+		}
+
+		window.location.assign("/buyer/buy-menu");
 	};
 
 	return (
@@ -131,10 +169,10 @@ export default function Checkout(props) {
 								<Typography textAlign={"left"} variant={"body1"}>Remaining time Should be at least 2hours</Typography>
 							</Stack>
 							<Typography variant="h5" gutterBottom>
-									Thank you for your order.
+									Payment Successful.
 							</Typography>
 							<Typography variant="subtitle1">
-									Your order number is #2001539. We have emailed your order
+									Payment for order number {order._id} is Received. We have emailed your order
 									confirmation, and will send you an update when your order has
 									shipped.
 							</Typography>
@@ -165,7 +203,8 @@ export default function Checkout(props) {
 								expireDate,
 								setExpireDate,
 								cvv,
-								setCvv
+								setCvv,
+								order
 							)}
 							<Box sx={{ display: "flex", justifyContent: "flex-end" }}>
 								{activeStep !== 0 && (
@@ -176,7 +215,7 @@ export default function Checkout(props) {
 
 								<Button
 									variant="contained"
-									onClick={handleNext}
+									onClick={activeStep === steps.length - 1 ? handleSubmit : handleNext}
 									sx={{ mt: 3, ml: 1 }}
 								>
 									{activeStep === steps.length - 1 ? "Place order" : "Next"}

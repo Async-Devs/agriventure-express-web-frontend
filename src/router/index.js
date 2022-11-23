@@ -120,7 +120,10 @@ function AppRouter(props){
 								<Route index element={<AgriDataManage/>}/>
 								<Route path = "agridataentry" element={<AgriDataEntry/>}/>
 							</Route>
-							<Route path ="orderView" element={<OrderView/>}/>
+							<Route path = "myProfile">
+								<Route index element={<MyProfile/>}/>
+								<Route exact path = "edit" element={<EditMyProfileForm/>}/>
+							</Route>
 						</Route>
 
 					):type === 3 ?(
@@ -140,6 +143,7 @@ function AppRouter(props){
 					):(
 						<Route path = "*" element={<ErrorPage/>}/>
 					)}
+					<Route path = "*" element={<ErrorPage/>}/>
 				</Routes>
 			</>
 		</BrowserRouter>

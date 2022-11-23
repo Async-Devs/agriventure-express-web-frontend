@@ -15,7 +15,7 @@ import PropTypes from "prop-types";
 
 function ProfileView(props){
 
-
+	const userType = ["Producer","Buyer","Officer"];
 	return(
 		<Container>
 			<Grid container spacing={2}>
@@ -33,7 +33,7 @@ function ProfileView(props){
 								{/* eslint-disable-next-line react/prop-types */}
 								<Typography mt={2}>{props.userName}</Typography>
 								{/* eslint-disable-next-line react/prop-types */}
-								<Typography mt={2}>{props.userType === 0 ? "Producer" : "Buyer"}</Typography>
+								<Typography mt={2}>{userType[props.userType]}</Typography>
 							</Paper>
 						</Grid>
 					</Paper>
@@ -110,36 +110,41 @@ function ProfileView(props){
 							</ListItem>
 
 							<Divider variant="inset" component="li" />
-							<ListItem alignItems="flex-start">
-								<ListItemAvatar>
-									<PhoneRoundedIcon />
-								</ListItemAvatar>
-								<ListItemText
-									primary="Telephone Number"
-									secondary={
-										<React.Fragment>
-											{/* eslint-disable-next-line react/prop-types */}
-											{props.telephoneNumber}
-										</React.Fragment>
-									}
-								/>
-							</ListItem>
+							<div hidden={props.userType === 2}>
+								<ListItem alignItems="flex-start">
+									<ListItemAvatar>
+										<PhoneRoundedIcon />
+									</ListItemAvatar>
+									<ListItemText
+										primary="Telephone Number"
+										secondary={
+											<React.Fragment>
+												{/* eslint-disable-next-line react/prop-types */}
+												{props.telephoneNumber}
+											</React.Fragment>
+										}
+									/>
+								</ListItem>
+								<Divider variant="inset" component="li" />
+							</div>
 
-							<Divider variant="inset" component="li" />
-							<ListItem alignItems="flex-start">
-								<ListItemAvatar>
-									<HomeRoundedIcon />
-								</ListItemAvatar>
-								<ListItemText
-									primary="Postal Address"
-									secondary={
-										<React.Fragment>
-											{/* eslint-disable-next-line react/prop-types */}
-											{props.address}
-										</React.Fragment>
-									}
-								/>
-							</ListItem>
+							<div hidden={props.userType === 2}>
+								<ListItem alignItems="flex-start">
+									<ListItemAvatar>
+										<HomeRoundedIcon />
+									</ListItemAvatar>
+									<ListItemText
+										primary="Postal Address"
+										secondary={
+											<React.Fragment>
+												{/* eslint-disable-next-line react/prop-types */}
+												{props.address}
+											</React.Fragment>
+										}
+									/>
+								</ListItem>
+							</div>
+
 
 							{/* eslint-disable-next-line react/prop-types */}
 							<div hidden={props.userType === 1}>
@@ -163,7 +168,7 @@ function ProfileView(props){
 
 
 							{/* eslint-disable-next-line react/prop-types */}
-							<div hidden={props.userType === 1}>
+							<div hidden={!(props.userType === 0)}>
 								<Divider variant="inset" component="li" />
 								{/* eslint-disable-next-line react/prop-types */}
 								<ListItem alignItems="flex-start">
@@ -195,7 +200,8 @@ function ProfileView(props){
 
 ProfileView.propTypes = {
 	showSecrets: PropTypes.bool,
-	image: PropTypes.string
+	image: PropTypes.string,
+	userType: PropTypes.number
 };
 
 export default ProfileView;

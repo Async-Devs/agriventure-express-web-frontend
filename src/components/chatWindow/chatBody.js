@@ -127,8 +127,6 @@ function ChatBody(props){
 
 		let sender = "Officer";
 		let profilePicture = "https://res.cloudinary.com/drh02pftv/image/upload/c_pad,b_auto:predominant,fl_preserve_transparency/v1668790540/profilePictures/default_gerxri.jpg";
-		console.log(message);
-		console.log(props.request);
 		if(props.mode === 1){
 			if(message.senderId === props.request.buyerId._id){
 				sender = props.request.buyerId.userName;
