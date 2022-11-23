@@ -13,6 +13,7 @@ import ProfileView from "./profileView/profileView";
 import Container from "@mui/material/Container";
 import {Alert} from "@mui/lab";
 import authService from "../../services/auth.service";
+import EditPassword from "../../components/editPassword/editPassword";
 // eslint-disable-next-line no-undef
 
 function MyProfile(){
@@ -35,13 +36,13 @@ function MyProfile(){
 
 		async function getUser() {
 			// eslint-disable-next-line no-undef
-			const user = await Axios.get(`${process.env.REACT_APP_API_URL}/publicUsers/myProfile/`,
+			const user = await Axios.get(`${process.env.REACT_APP_API_URL}/allUsers/myProfile/`,
 				{
 					headers: { "x-auth-token": authService.getCurrentUser()
 					}
 				});
 			if (user.data.success) {
-				console.log(user.data);
+				console.log(user.data.user);
 				setUserType(user.data.user.login.userType);
 				setUsername(user.data.user.login.userName);
 				setImageURL(user.data.user.login.profilePicture);
@@ -51,8 +52,10 @@ function MyProfile(){
 				setEmail(user.data.user.email);
 				setTelNum(user.data.user.telNum);
 				setAddress(user.data.user.address);
-				if(user.data.user.login.userType === 0){
+				if(user.data.user.login.userType === 0 ||user.data.user.login.userType === 2 ){
 					setDistrict(user.data.user.district.name);
+				}
+				if(user.data.user.login.userType === 0){
 					setCity(user.data.user.city);
 				}
 				setIsExsist(true);
@@ -105,6 +108,8 @@ function MyProfile(){
 									Edit
 								</Button>
 							</Link>
+
+							<EditPassword />
 						</Paper>
 					</Grid>
 

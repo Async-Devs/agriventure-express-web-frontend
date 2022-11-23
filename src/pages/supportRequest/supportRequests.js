@@ -58,7 +58,7 @@ function SupportRequests() {
 		getSupportRequests();
 
 		async function getRefundRequests() {
-			if(myType === 0){
+			if(myType === 3){
 				// eslint-disable-next-line no-undef
 				const refundRequests = await Axios.get(`${process.env.REACT_APP_API_URL}/officerUsers/getRefundRequests`,{
 					headers: { "x-auth-token": authService.getCurrentUser()
@@ -97,11 +97,11 @@ function SupportRequests() {
 							<Tabs variant="scrollable" scrollButtons="auto" onChange={handleChange} aria-label="lab API tabs example">
 								<Tab label="Support Requests" value="1" />
 								<Tab label="Old Support Requests" value="2" />
-								{myType === 0 ? (
+								{myType === 3? (
 									<Tab  label="Refund Requests" value="3" />):
 									(<></>)
 								}
-								{myType === 0 ? (
+								{myType === 3 ? (
 									<Tab  label="Old Refund Requests" value="4" />):
 									(<></>)
 								}
