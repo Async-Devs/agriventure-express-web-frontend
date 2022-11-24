@@ -109,8 +109,8 @@ function ImageUploader(props){
 				</Grid>
 				<Grid item xs={6} md={5} hidden={!isChanged || showProgress} m={1}>
 					{props.isAddItem?
-						(<Button onClick={handleUpload} variant="contained"  sx={{mt:"5px", color:"white"}} startIcon={<EditIcon/>}>
-						Edit Picture
+						(<Button onClick={handleUpload} variant="contained"  sx={{mt:"5px", color:"white"}} startIcon={<UploadFileIcon/>}>
+						Update Picture
 						</Button>):
 						(<Button onClick={handleUpload} variant="outlined"  sx={{mt:"5px"}} startIcon={<UploadFileIcon/>}>
 						Update Picture
